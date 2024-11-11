@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    background: rebeccapurple;
+    font-family: Barlow, sans-serif;
+    color: white;
+}
