@@ -2,8 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'Besley';
+    src: url('/fonts/Besley-VariableFont_wght.ttf') format('truetype');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'Batuphat';
+    src: url('fonts/Batuphat Script.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'BatuphatExtrude';
+    src: url('fonts/Batuphat Script Extrude.otf') format('opentype');
+}
+
 * {
-    background: rebeccapurple;
-    font-family: Barlow, sans-serif;
-    color: white;
+    @apply font-besley;
+    background: rgb(245,239,228);
+    background: radial-gradient(circle, rgba(245,239,228,1) 0%, rgba(236,223,204,1) 100%);
 }

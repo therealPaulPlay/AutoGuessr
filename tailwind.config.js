@@ -1,9 +1,27 @@
 /** @type {import('tailwindcss').Config} */
-export default {
-  content: [],
+module.exports = {
+  content: [
+    './src/**/*.{html,js,svelte,ts}',
+  ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        besley: ['Besley', 'sans-serif'],
+        batuphat: ['Batuphat', 'Besley', 'sans-serif'],
+        batuphatExtrude: ['BatuphatExtrude', 'Besley', 'sans-serif']
+      },
+      colors: {
+        orange: '#e76531',
+        orangeDark: '#a8542b',
+        green: '#67b865',
+        greenDark: '#4f844e',
+        white: '#fcfaee',
+        black: '#222222',
+        tanLight: '#f5efe4',
+        tanMedium: '#ecdfcc',
+        tanDark: '#cc9d82'
+      }
+    },
   },
   plugins: [],
-}
-
+};
