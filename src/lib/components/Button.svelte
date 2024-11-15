@@ -3,13 +3,13 @@
     let {
         color,
         bgcolor,
-        imageSize,
         buttonWidth,
         buttonHeight,
         shadowHeight,
         execFunction,
-        svg,
+        children
     } = $props();
+
 
     let button = $state();
 
@@ -44,8 +44,9 @@
         ontouchcancel={shiftButtonUp}
         onclick={execFunction}
         >
-        <img src={svg} alt="Back arrow" style:width={imageSize} />
+        {@render children?.()}
     </button>
+    <!-- Shadow/Depth -->
     <div
         class="rounded-lg absolute w-full"
         style:background-color={bgcolor}
