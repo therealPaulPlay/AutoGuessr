@@ -16,6 +16,7 @@
                 buttonHeight=12rem
                 buttonWidth=20rem
                 shadowHeight=0.5rem
+                execFunction={() => location.href = "/auto-cards"}
                 svg="assets/svg/play.svg"
             />
             </div>

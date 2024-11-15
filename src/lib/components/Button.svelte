@@ -7,6 +7,7 @@
         buttonWidth,
         buttonHeight,
         shadowHeight,
+        execFunction,
         svg,
     } = $props();
 
@@ -41,6 +42,7 @@
         ontouchstart={pressButtonDown}
         ontouchend={shiftButtonUp}
         ontouchcancel={shiftButtonUp}
+        onclick={execFunction}
         >
         <img src={svg} alt="Back arrow" style:width={imageSize} />
     </button>
