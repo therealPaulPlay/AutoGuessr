@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+    --default-button: rgb(231, 101, 49);
+    --default-button-dark: rgb(168, 84, 43);
+}
+
 @font-face {
     font-family: 'Besley';
     src: url('/fonts/Besley-VariableFont_wght.ttf') format('truetype');

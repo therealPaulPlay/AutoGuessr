@@ -10,11 +10,12 @@
         <div class="w-1/3 p-8">
             <div class="m-24">
                 <Button 
-                color="orange" 
-                bgcolor="orangeDark" 
-                w="10" 
-                h="10" 
-                m="24" 
+                color="var(--default-button)" 
+                bgcolor="var(--default-button-dark)" 
+                imageSize=3rem
+                buttonHeight=12rem
+                buttonWidth=20rem
+                shadowHeight=0.5rem
                 svg="assets/svg/play.svg"
             />
             </div>

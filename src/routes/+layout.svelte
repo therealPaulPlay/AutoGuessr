@@ -6,14 +6,14 @@
 </script>
 
 <main>
-    <div class="flex flex-row justify-between p-8 items-center">
+    <nav class="flex flex-row justify-between p-8 items-center">
         <div>
             <button class="w-10 h-10">
                 <img src="assets/svg/point arrow.svg" alt="Back arrow"/>
             </button>
         </div>
         <!-- Right side -->
-        <div class="flex flex-row items-center">
+        <div class="flex flex-row relative">
             <!-- Username/level -->
             <div class="mx-3 flex items-center bg-white p-3 rounded-lg">
                 <button class="flex flex-col items-center justify-center mr-4 ml-2">
@@ -26,15 +26,14 @@
             </div>
             <div class="flex flex-row items-center">
                 <Button 
-                    color="orange" 
-                    bgcolor="orangeDark" 
-                    w="6" 
-                    h="6" 
-                    m="3.5" 
+                    color="var(--default-button)" 
+                    bgcolor="var(--default-button-dark)" 
+                    imageSize=1.5rem
+                    shadowHeight=0.3rem
                     svg="assets/svg/settings.svg"
                 />
             </div>
         </div>
-    </div>
+    </nav>
     {@render children?.()}
 </main>
