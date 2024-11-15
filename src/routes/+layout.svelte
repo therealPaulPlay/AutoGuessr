@@ -9,7 +9,7 @@
     <nav class="flex flex-row justify-between p-8 items-center">
         <div>
             <button class="w-10 h-10">
-                <img src="assets/svg/point arrow.svg" alt="Back arrow"/>
+                <img src="assets/svg/point arrow.svg" alt="Settings"/>
             </button>
         </div>
         <!-- Right side -->
@@ -28,10 +28,13 @@
                 <Button 
                     color="var(--default-button)" 
                     bgcolor="var(--default-button-dark)" 
-                    imageSize=1.5rem
                     shadowHeight=0.3rem
-                    svg="assets/svg/settings.svg"
-                />
+                    buttonHeight=3.25rem
+                    buttonWidth=3.25rem
+                    execFunction={() => console.log("Button pressed")}
+                >
+                <img src="/assets/svg/settings.svg" alt="settings" style:width="1.5rem" />
+                </Button>
             </div>
         </div>
     </nav>

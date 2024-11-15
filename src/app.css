@@ -5,6 +5,8 @@
 :root {
     --default-button: rgb(231, 101, 49);
     --default-button-dark: rgb(168, 84, 43);
+    --green-button: rgb(103, 184, 101);
+    --green-button-dark: rgb(79, 132, 78);
 }
 
 @font-face {
