@@ -1,5 +1,6 @@
 <script>
     import "../app.css";
+    import { page } from "$app/stores";
     import Button from '../lib/components/Button.svelte';
 
     let { children } = $props();
@@ -8,9 +9,11 @@
 <main>
     <nav class="flex flex-row justify-between p-8 items-center">
         <div>
+            {#if $page.url.pathname != "/"}
             <button class="w-10 h-10">
                 <img src="assets/svg/point arrow.svg" alt="Settings"/>
             </button>
+            {/if}
         </div>
         <!-- Right side -->
         <div class="flex flex-row relative">
@@ -31,7 +34,7 @@
                     shadowHeight=0.3rem
                     buttonHeight=3.25rem
                     buttonWidth=3.25rem
-                    execFunction={() => console.log("Button pressed")}
+                    execFunction={() => console.log("Settings button pressed")}
                 >
                 <img src="/assets/svg/settings.svg" alt="settings" style:width="1.5rem" />
                 </Button>

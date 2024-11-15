@@ -16,7 +16,7 @@
                 buttonHeight=10rem
                 buttonWidth=20rem
                 shadowHeight=0.5rem
-                execFunction={() => console.log("Button pressed")}
+                execFunction={() => location.href = "/auto-cards"}
                 svg="assets/svg/play.svg"
                 >
                     <img src="/assets/svg/play.svg" alt="play button" style:width="3rem" />
@@ -30,7 +30,7 @@
                 buttonHeight=4rem
                 buttonWidth=20rem
                 shadowHeight=0.5rem
-                execFunction={() => console.log("Button pressed")}
+                execFunction={() => console.log("AutoCards button pressed")}
                 >
                     <div class="flex flex-row items-center justify-between w-full px-2">
                         <span class="text-white font-bold text-4xl">AutoCards</span>
