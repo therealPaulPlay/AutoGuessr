@@ -4,13 +4,14 @@
     import Button from '../lib/components/Button.svelte';
 
     let { children } = $props();
+
 </script>
 
 <main>
     <nav class="flex flex-row justify-between p-8 items-center">
         <div>
             {#if $page.url.pathname != "/"}
-            <button class="w-10 h-10">
+            <button class="w-10 h-10" onclick={() => location.href = "/"}>
                 <img src="assets/svg/point arrow.svg" alt="Settings"/>
             </button>
             {/if}
