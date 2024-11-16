@@ -1,5 +1,7 @@
 <script>
     import Button from '../lib/components/Button.svelte';
+    import Tab from '../lib/components/Tab.svelte';
+    
 </script>
 
 <main class="flex flex-col w-full mt-5">
@@ -8,15 +10,27 @@
     </div>
     <div class="flex flex-row justify-start p-8 mt-5">
         <div class="flex flex-col">
+            <!-- Difficulties -->
+            <div class="flex flex-row max-w-64 ">
+                <Tab color="var(--green-button)">
+                    <span class="text-2xl font-medium">Beginner</span>
+                </Tab>
+                <Tab color="var(--default-button)">
+                    <span class="text-2xl font-medium">Advanced</span>
+                </Tab>
+                <Tab color="rgb(52, 49, 49)">
+                    <span class="text-2xl font-medium">Expert</span>
+                </Tab>
+            </div>
             <div>
                 <Button 
                 color="var(--default-button)" 
                 bgcolor="var(--default-button-dark)" 
                 imageSize=4rem
                 buttonHeight=10rem
-                buttonWidth=20rem
+                buttonWidth=21rem
                 shadowHeight=0.5rem
-                execFunction={() => location.href = "/auto-cards"}
+                execFunction={() => location.href = "/game"}
                 svg="assets/svg/play.svg"
                 >
                     <img src="/assets/svg/play.svg" alt="play button" style:width="3rem" />
@@ -28,9 +42,9 @@
                 bgcolor="var(--green-button-dark)" 
                 imageSize=3rem
                 buttonHeight=4rem
-                buttonWidth=20rem
+                buttonWidth=21rem
                 shadowHeight=0.5rem
-                execFunction={() => console.log("AutoCards button pressed")}
+                execFunction={() => location.href = "/auto-cards"}
                 >
                     <div class="flex flex-row items-center justify-between w-full px-2">
                         <span class="text-white font-bold text-4xl">AutoCards</span>
