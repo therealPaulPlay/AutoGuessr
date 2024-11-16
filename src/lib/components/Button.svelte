@@ -34,7 +34,7 @@
     style:width={buttonWidth}
     style:height={buttonHeight}>
     <button
-        class="rounded-lg z-10 ease-out duration-300 px-3 w-full flex items-center justify-center"
+        class="rounded-lg z-10 ease-out duration-150 px-3 w-full flex items-center justify-center"
         bind:this={button}
         onpointerup={shiftButtonUp}
         onpointerdown={pressButtonDown}
