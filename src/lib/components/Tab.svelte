@@ -1,6 +1,7 @@
 <script>
     let {
         color,
+        onHover=true,
         children
     } = $props();
 
@@ -27,10 +28,10 @@
         onclick={() => console.log("clicked")}
         class="px-3 pt-1 pb-4 rounded-t-lg translate-y-2 w-full truncate text-white m-0" 
         style:background-color={color}
-        onmouseover={active}
-        onfocus={active}
-        onmouseleave={inactive}
-        onfocusout={inactive}
+        onmouseover={onHover ? active : null}
+        onfocus={onHover ? active : null}
+        onmouseleave={onHover ? inactive : null}
+        onfocusout={onHover ? inactive : null}
         >
         {@render children?.()}
     </button>
