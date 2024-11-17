@@ -37,20 +37,20 @@
     <!-- Main game content -->
     <div class="flex justify-center w-full">
         <!-- main window -->
-        <div class="bg-tanLight border-white border-8 rounded-2xl w-4/5 p-12">
-            <div class="flex flex-row w-1/3 gap-4">
-                <Tab color="var(--default-button)" onHover={false}>
-                    <span class="text-2xl font-medium">Images</span>
+        <div class="rounded-2xl w-4/5 px-12">
+            <div class="flex flex-row w-1/2 gap-1 ml-4">
+                <Tab color="var(--white)" onHover={false} shadow={false}>
+                    <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
-                <Tab color="var(--default-button)" onHover={false}>
-                    <span class="text-2xl font-medium">Desc.</span>
+                <Tab color="var(--default-shadow)" onHover={false} shadow={false}>
+                    <span class="text-xl font-medium text-black">Description</span>
                 </Tab>
             </div>
-            <div class="flex flex-row gap-4 drop-shadow-[0_0.5rem_0_rgba(231,_101,_49,_0.15)]">
+            <div class="flex flex-row gap-4 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                 <div class="w-2/3">
                     <Carousel />
                 </div>
-                <div class="w-1/3 flex flex-col justify-between pr-10">
+                <div class="w-1/3 flex flex-col justify-between">
                     {#each stats as stat}
                         <Stat icon={stat.icon} text={stat.text} />
                     {/each}
@@ -59,7 +59,7 @@
         </div>
     </div>
     <!-- Guessing part -->
-    <div class="mt-10 p-3 pb-4 rounded-t-xl bg-orange/10">
+    <div class="mt-10 p-2.5 pb-3.5 rounded-t-2xl bg-orange/10">
         <div class="flex flex-row">
             <PriceSlider min="0" max="10" />
             <div class="ml-2">
