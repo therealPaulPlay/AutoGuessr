@@ -9,9 +9,9 @@
         <img class="w-[60vw] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)]" src="assets/svg/logo.svg" alt="Logo"/>
     </div>
     <div class="flex flex-row justify-start p-8 mt-5">
-        <div class="flex flex-col">
+        <div class="flex flex-col overflow-clip">
             <!-- Difficulties -->
-            <div class="flex flex-row max-w-64 ">
+            <div class="flex flex-row max-w-64 ml-2">
                 <Tab color="var(--green-button)">
                     <span class="text-2xl font-medium">Beginner</span>
                 </Tab>
