@@ -7,6 +7,9 @@
     --default-button-dark: rgb(168, 84, 43);
     --green-button: rgb(103, 184, 101);
     --green-button-dark: rgb(79, 132, 78);
+    --white: rgb(252, 250, 238);
+    --black: rgb(34, 34, 34);
+    --default-shadow: rgb(237, 209, 182);
 }
 
 @font-face {

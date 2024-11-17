@@ -7,10 +7,10 @@
 
 </script>
 
-<div class="flex flex-row items-center bg-white rounded-2xl py-3 px-5 w-full drop-shadow-[0_0.5rem_0_rgba(231,_101,_49,_0.15)]">
+<div class="flex flex-row items-center bg-white rounded-2xl py-3 px-5 w-full">
     <img src="{icon}" alt="Stat icon" class="w-8 h-8"/>
     <div class="flex ml-10 mr-5">
-        <span class="text-2xl font-medium">{text}</span>
+        <span class="text-2xl font-medium text-orange">{text}</span>
         {#if children}
             {@html children}
         {/if}

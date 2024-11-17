@@ -21,8 +21,8 @@
     }
 </script>
 
-<div class="flex w-full h-[60vh] relative overflow-clip">
-    <img src={images[currentIndex]} alt="Carousel" class="rounded-2xl h-full w-full object-cover"/>
+<div class="flex w-full h-[60vh] relative overflow-clip rounded-2xl border-white border-8">
+    <img src={images[currentIndex]} alt="Carousel" class=" h-full w-full object-cover"/>
     <div class="absolute w-full h-full overflow-hidden flex justify-between items-center gap-4 p-4">
         <button onclick={prev}>
             <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
