@@ -2,6 +2,7 @@
     let {
         color,
         onHover=true,
+        shadow=true,
         children
     } = $props();
 
@@ -22,12 +23,13 @@
 
 <div 
     class="ease-in-out duration-300" 
-    style="width:{size}"
+    style={onHover ? `width: ${size}` : null}
     >
     <button 
         onclick={() => console.log("clicked")}
         class="px-3 pt-1 pb-4 rounded-t-lg translate-y-2 w-full truncate text-white m-0" 
         style:background-color={color}
+        style:box-shadow={shadow ? "0 -0.75rem 0 0 rgba(0,0,0,0.25) inset;" : null}
         onmouseover={onHover ? active : null}
         onfocus={onHover ? active : null}
         onmouseleave={onHover ? inactive : null}
@@ -36,9 +38,3 @@
         {@render children?.()}
     </button>
 </div>
-
-<style>
-    button {
-        box-shadow: 0 -0.75rem 0 0 rgba(0,0,0,0.25) inset;
-    }
-</style>
