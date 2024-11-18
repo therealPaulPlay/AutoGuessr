@@ -3,6 +3,7 @@
         color,
         onHover=true,
         shadow=true,
+        execFunction,
         children
     } = $props();
 
@@ -26,7 +27,7 @@
     style={onHover ? `width: ${size}` : null}
     >
     <button 
-        onclick={() => console.log("clicked")}
+        onclick={execFunction}
         class="px-3 pt-1 pb-4 rounded-t-lg translate-y-2 w-full truncate text-white m-0" 
         style:background-color={color}
         style:box-shadow={shadow ? "0 -0.75rem 0 0 rgba(0,0,0,0.25) inset;" : null}
