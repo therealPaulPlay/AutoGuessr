@@ -5,6 +5,18 @@
     import PriceSlider from "../../lib/components/PriceSlider.svelte";
     import Button from "../../lib/components/Button.svelte";
 
+    let images = [
+        "/assets/img/example/img1.jpeg",
+        "/assets/img/example/img2.jpeg",
+        "/assets/img/example/img3.jpeg",
+        "/assets/img/example/img4.jpeg",
+        "/assets/img/example/img5.jpeg",
+        "/assets/img/example/img6.jpeg",
+        "/assets/img/example/img7.jpeg",
+        "/assets/img/example/img8.jpeg",
+        "/assets/img/example/img9.png",
+    ];
+
     let stats = [
         {
             icon: "/assets/svg/horsepower.svg",
@@ -31,6 +43,23 @@
             text: "Gasoline",
         },
     ];
+
+    let description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc";
+
+    let imageTab = $state(true);
+    let descriptionFlag = $state(false);
+
+    function displayImages() {
+        console.log("Images");
+        imageTab = true;
+        descriptionFlag = false;
+    }
+
+    function displayDescription() {
+        console.log("Description");
+        imageTab = false;
+        descriptionFlag = true;
+    }
 </script>
 
 <main class="flex flex-col items-center">
@@ -39,16 +68,16 @@
         <!-- main window -->
         <div class="rounded-2xl w-4/5 px-12">
             <div class="flex flex-row w-1/2 gap-1 ml-4">
-                <Tab color="var(--white)" onHover={false} shadow={false}>
+                <Tab color={imageTab ? "var(--white)" : "var(--default-shadow)"} onHover={false} shadow={false} execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
-                <Tab color="var(--default-shadow)" onHover={false} shadow={false}>
+                <Tab color={imageTab ? "var(--default-shadow)" : "var(--white)"} onHover={false} shadow={false} execFunction={displayDescription}>
                     <span class="text-xl font-medium text-black">Description</span>
                 </Tab>
             </div>
             <div class="flex flex-row gap-4 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                 <div class="w-2/3">
-                    <Carousel />
+                    <Carousel {images} {description} {descriptionFlag}/>
                 </div>
                 <div class="w-1/3 flex flex-col justify-between">
                     {#each stats as stat}
