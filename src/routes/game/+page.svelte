@@ -59,7 +59,7 @@
         </div>
     </div>
     <!-- Guessing part -->
-    <div class="mt-10 p-2.5 pb-3.5 rounded-t-2xl bg-orange/10">
+    <div class="mt-10 p-2.5 rounded-t-2xl" style:background-color="var(--default-shadow)">
         <div class="flex flex-row">
             <PriceSlider min="0" max="10" />
             <div class="ml-2">

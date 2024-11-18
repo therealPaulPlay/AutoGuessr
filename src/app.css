@@ -10,6 +10,9 @@
     --white: rgb(252, 250, 238);
     --black: rgb(34, 34, 34);
     --default-shadow: rgb(237, 209, 182);
+    --default-shadow-dark: rgb(220, 187, 154);
+    --white-shadow: #bab3a8;
+    --tan-dark: rgb(204, 157, 130);
 }
 
 @font-face {
