@@ -18,7 +18,7 @@
         <input type="range" step="1" min={sliderMin} max={sliderMax} bind:value={guess} onchange={onGuessChange} class="slider" />
     </div>
     <div class="flex items-center justify-center bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-32">
-        ${guess.toLocaleString()}
+        <input type="number" bind:value={guess} class="w-full h-full bg-transparent text-center" />
     </div>
 </div>
 
@@ -51,4 +51,15 @@
         background: url('/assets/svg/slider.svg') no-repeat;
         cursor: pointer;
     }
+
+    /*  TODO:   Make the input arrows disappear on Chrome too. 
+                Figure out why chrome shows slider thinner. 
+                Make input outline disappear. 
+    */
+
+    input[type=number] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
 </style>
