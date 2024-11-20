@@ -14,9 +14,20 @@
     --white-shadow: #bab3a8;
     --tan-dark: rgb(204, 157, 130);
 
-    --extrude-mystical: rgb(127, 34, 84);
     --mystical: rgb(179, 50, 119);
+    --extrude-mystical: rgb(147, 32, 93);
+    
+    --legendary: rgb(0, 128, 128);
     --extrude-legendary: rgb(4, 111, 113);
+
+    --epic: rgb(255, 180, 29);
+    --extrude-epic: rgb(169, 120, 22);
+
+    --rare: rgb(143, 209, 79);
+    --extrude-rare: rgb(69, 114, 33);
+
+    --common: rgb(183, 183, 183);
+    --extrude-common: rgb(100, 100, 100);
     /* TODO: Add the rest of the extrude colors */
 }
 

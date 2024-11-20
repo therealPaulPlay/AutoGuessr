@@ -10,8 +10,6 @@
         image="",
         children
     } = $props();
-
-    console.log(rarity);
 </script>
 
 <div class=" h-full relative">
@@ -37,8 +35,35 @@
     .mystical p {
         color: var(--mystical);
     }
-
     .mystical-extrude {
         color: var(--extrude-mystical);
+    }
+
+    .legendary p {
+        color: var(--legendary);
+    }
+    .legendary-extrude {
+        color: var(--extrude-legendary);
+    }
+
+    .epic p {
+        color: var(--epic);
+    }
+    .epic-extrude {
+        color: var(--extrude-epic);
+    }
+
+    .rare p {
+        color: var(--rare);
+    }
+    .rare-extrude {
+        color: var(--extrude-rare);
+    }
+
+    .common p {
+        color: var(--common);
+    }
+    .common-extrude {
+        color: var(--extrude-common);
     }
 </style>
