@@ -13,23 +13,13 @@
     } = $props();
 
     let w = $state();
-    let titleSize = $state();
-    let statSize = $state();
-    let statPadding = $state();
-    let rowGap = $state();
-    let colGap = $state();
-    let statMargin = $state();
-
-    // use onMount to get the width of the card
-    onMount(() => {
-        titleSize = 0.1 * w;
-        statSize = 0.038 * w;
-        rowGap = 0.02 * w;
-        colGap = 0.2 * w;
-        statPadding = 0.1 * w;
-        statMargin = 0.049 * w;
-    });
-    
+    let titleSize = $derived(0.1 * w)
+    let statSize = $derived(0.038 * w);
+    let statPadding = $derived(0.1 * w);
+    let rowGap = $derived(0.07 * w);
+    let colGap = $derived(0.2 * w);
+    let statMargin = $derived(0.04 * w);
+    let innerStatPadding = $derived(0.02 * w);
 
 </script>
 
@@ -41,11 +31,11 @@
             <h1 class="{rarity}-extrude absolute z-10 font-bold font-batuphatExtrude" style="font-size: {titleSize}px">{name}</h1>
         </div>
         <div class="h-1/5 w-4/6 {rarity} grid grid-cols-2 items-center" 
-            style="margin-top: {statMargin}px; padding-left: {statPadding}px; gap: {rowGap}px {colGap}px">
-            <p class="font-bold" style="font-size: {statSize}px">{HP} HP</p>
-            <p class="font-bold" style="font-size: {statSize}px">${price.toLocaleString()}</p>
-            <p class="font-bold" style="font-size: {statSize}px">{etype}</p>
-            <p class="font-bold" style="font-size: {statSize}px">{date}</p>
+            style="margin-top: {statMargin}px; padding-left: {statPadding}px; gap: {rowGap}px {colGap}px; padding-top: {innerStatPadding}px; padding-bottom: {innerStatPadding}px">
+            <p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">{HP} HP</p>
+            <p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">${price.toLocaleString()}</p>
+            <p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">{etype}</p>
+            <p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">{date}</p>
         </div>
         <div class="h-2/5">
             <img src="{image}" alt="Car" class="w-full h-full"/>
