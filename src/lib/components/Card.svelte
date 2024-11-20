@@ -1,4 +1,5 @@
 <script>
+    import {onMount} from "svelte";
 
     let {
         name="N/A",
@@ -10,20 +11,41 @@
         image="",
         children
     } = $props();
+
+    let w = $state();
+    let titleSize = $state();
+    let statSize = $state();
+    let statPadding = $state();
+    let rowGap = $state();
+    let colGap = $state();
+    let statMargin = $state();
+
+    // use onMount to get the width of the card
+    onMount(() => {
+        titleSize = 0.1 * w;
+        statSize = 0.038 * w;
+        rowGap = 0.02 * w;
+        colGap = 0.2 * w;
+        statPadding = 0.1 * w;
+        statMargin = 0.049 * w;
+    });
+    
+
 </script>
 
-<div class=" h-full relative">
+<div class=" h-full relative" bind:clientWidth={w}>
     <img src="/assets/svg/{rarity}_front.svg" alt="Card" class="w-full h-full"/>
     <div class="absolute top-0 left-0 w-full h-full flex flex-col justify-between items-center">
-        <div class="h-2/5 flex items-center realtive">
-            <h1 class="z-20 text-white text-4xl font-bold font-batuphat">{name}</h1>
-            <h1 class="{rarity}-extrude absolute z-10 text-4xl font-bold font-batuphatExtrude">{name}</h1>
+        <div class="title-size h-2/5 flex items-center realtive">
+            <h1 class="z-20 text-white font-bold font-batuphat" style="font-size: {titleSize}px">{name}</h1>
+            <h1 class="{rarity}-extrude absolute z-10 font-bold font-batuphatExtrude" style="font-size: {titleSize}px">{name}</h1>
         </div>
-        <div class="h-1/5 w-4/6 mt-4 pl-8 gap-y-3 gap-x-20 {rarity} grid grid-cols-2 gap-x-16 items-center">
-            <p class="text-sm font-bold">{HP} HP</p>
-            <p class="text-sm font-bold">${price.toLocaleString()}</p>
-            <p class="mb-[0.1rem] text-sm font-bold">{etype}</p>
-            <p class="mb-[0.1rem] text-sm font-bold">{date}</p>
+        <div class="h-1/5 w-4/6 {rarity} grid grid-cols-2 items-center" 
+            style="margin-top: {statMargin}px; padding-left: {statPadding}px; gap: {rowGap}px {colGap}px">
+            <p class="font-bold" style="font-size: {statSize}px">{HP} HP</p>
+            <p class="font-bold" style="font-size: {statSize}px">${price.toLocaleString()}</p>
+            <p class="font-bold" style="font-size: {statSize}px">{etype}</p>
+            <p class="font-bold" style="font-size: {statSize}px">{date}</p>
         </div>
         <div class="h-2/5">
             <img src="{image}" alt="Car" class="w-full h-full"/>
@@ -32,6 +54,10 @@
 </div>
 
 <style>
+    .title-size h1 {
+        font-size: calc(1rem + 1vw);
+    }
+
     .mystical p {
         color: var(--mystical);
     }
