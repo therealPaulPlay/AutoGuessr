@@ -104,8 +104,6 @@
     let rightStart = $derived(selectedCard + 1);
     let end = $derived(selectedCard + amountVisible);
 
-    console.log(selectedCard, (selectedCard - amountVisible > 0), leftEnd, rightStart, end);
-
 </script>
 
 <main class="flex justify-center items-baseline h-[70vh] gap-5">
@@ -115,13 +113,17 @@
         {/each}
     </div>
     <div class="h-full relative">
-        <Card {...cards[selectedCard]}/>
-            <button onclick={() => selectedCard--} class="z-20">
+        <div class="h-full">
+            <Card {...cards[selectedCard]}/>
+        </div>
+        <div class="absolute w-full h-4/6 top-0 flex justify-between ">
+            <button onclick={() => selectedCard--} class="-translate-x-14">
                 <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
             </button>
-            <button onclick={() => selectedCard++} class="z-20">
+            <button onclick={() => selectedCard++} class="translate-x-14">
                 <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]"/>
             </button>
+        </div>
     </div>
     <div class="h-1/2 flex gap-2">
         {#each cards.slice(rightStart, end + 1) as card}
