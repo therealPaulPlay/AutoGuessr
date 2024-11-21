@@ -95,39 +95,63 @@
     }
 ]
 
+
     // THESE ARE INDEX VALUES
-    let selectedCard = $state(1);
+    let selectedCard = $state(7);
     let amountVisible = 3;
     
-    let cardsVisible = $derived(selectedCard - amountVisible > 0 ? selectedCard - amountVisible : 0);
+    let leftStart = $derived.by(() => {
+        let leftStart = selectedCard - amountVisible;
+        console.log("Left Start CAL: ", leftStart);
+        if (leftStart < 0) {
+            leftStart = 0;
+        }
+
+        if (cards.length - selectedCard < amountVisible + 1) {
+            leftStart = leftStart - (4 - (cards.length - selectedCard));
+            console.log("cards.length - selectedCard: ", cards.length - selectedCard);
+        }
+
+        return leftStart;
+    });
     let leftEnd = $derived(selectedCard - 1);
     let rightStart = $derived(selectedCard + 1);
-    let end = $derived(selectedCard + amountVisible);
+    let rightEnd = $derived(selectedCard < 3 ? (3 - selectedCard) + selectedCard + amountVisible : selectedCard + amountVisible);
+
+    console.log("Selected Card: ", selectedCard);
+    console.log("Left Start: ", leftStart);
+    console.log("Left End: ", leftEnd);
+    console.log("Right Start: ", rightStart);
+    console.log("End: ", rightEnd);
 
 </script>
 
 <main class="flex justify-center items-baseline h-[70vh] gap-5">
     <div class="h-1/2 flex gap-2">
-        {#each cards.slice(cardsVisible, leftEnd + 1) as card}
-            <Card {...card}/>
-        {/each}
+        {#if selectedCard != 0}
+            {#each cards.slice(leftStart, leftEnd + 1) as card}
+                <Card {...card}/>
+            {/each}
+        {/if}
     </div>
     <div class="h-full relative">
         <div class="h-full">
             <Card {...cards[selectedCard]}/>
         </div>
         <div class="absolute w-full h-4/6 top-0 flex justify-between ">
-            <button onclick={() => selectedCard--} class="-translate-x-14">
+            <button onclick={() => selectedCard--} class="-translate-x-14" style:visibility="{selectedCard == 0 ? `hidden` : `visible`}">
                 <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
             </button>
             <button onclick={() => selectedCard++} class="translate-x-14">
-                <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]"/>
+                <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]" style:visibility="{selectedCard == cards.length-1 ? `hidden` : `visible`}"/>
             </button>
         </div>
     </div>
     <div class="h-1/2 flex gap-2">
-        {#each cards.slice(rightStart, end + 1) as card}
-            <Card {...card}/>
-        {/each}
+        {#if selectedCard != cards.length - 1}
+            {#each cards.slice(rightStart, rightEnd + 1) as card}
+                <Card {...card}/>
+            {/each}
+        {/if}
     </div>
 </main>
