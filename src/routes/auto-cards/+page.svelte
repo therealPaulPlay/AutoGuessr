@@ -97,7 +97,7 @@
 
 
     // THESE ARE INDEX VALUES
-    let selectedCard = $state(7);
+    let selectedCard = $state(0);
     let amountVisible = 3;
     
     let leftStart = $derived.by(() => {
@@ -117,12 +117,6 @@
     let leftEnd = $derived(selectedCard - 1);
     let rightStart = $derived(selectedCard + 1);
     let rightEnd = $derived(selectedCard < 3 ? (3 - selectedCard) + selectedCard + amountVisible : selectedCard + amountVisible);
-
-    console.log("Selected Card: ", selectedCard);
-    console.log("Left Start: ", leftStart);
-    console.log("Left End: ", leftEnd);
-    console.log("Right Start: ", rightStart);
-    console.log("End: ", rightEnd);
 
 </script>
 
