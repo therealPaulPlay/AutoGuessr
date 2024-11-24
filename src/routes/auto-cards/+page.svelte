@@ -100,6 +100,8 @@
     // THESE ARE INDEX VALUES
     let selectedCard = $state(0);
 
+    let scaleFactor = 1;
+
     function incrementSelectedCard() {
         selectedCard >= cards.length - 1 ? selectedCard = cards.length - 1 : selectedCard++;
     }
@@ -154,10 +156,10 @@
         </button>
     </div>
     <div class="overflow-x-scroll relative h-full content-end px-[40rem]" style="scrollbar-width: none;">
-        <div class="flex flex-row">
+        <div class="flex flex-row items-end">
             {#each cards as card, i}
-                <div class="min-w-40 transition duration-1000 ease-in-out mx-1" id="card_{i}">
-                    <Card {...card}/>
+                <div class="{selectedCard == i ? "min-w-80" : "min-w-40"} transition-all duration-200 ease-in-out mx-1 origin-bottom" id="card_{i}">
+                    <Card {...card} scaleFactor={selectedCard == i ? 2 : 1} />
                 </div>
             {/each}
         </div>

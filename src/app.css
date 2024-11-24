@@ -61,7 +61,5 @@ body, html {
 }
 
 .centered-card {
-    transform: scale(2); /* Adjust the scale value as needed */
-    margin-left: 5rem;
-    margin-right: 5rem;
+    transform: all 250ms ease;
 }
