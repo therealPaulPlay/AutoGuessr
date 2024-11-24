@@ -4,7 +4,7 @@
 
     let cards = [
     {
-        "name": "Epic Card",
+        "name": "1",
         "HP": 400,
         "price": 45000,
         "etype": "V10",
@@ -13,7 +13,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Legendary Card",
+        "name": "2",
         "HP": 500,
         "price": 50000,
         "etype": "V12",
@@ -22,7 +22,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Rare Card",
+        "name": "3",
         "HP": 350,
         "price": 40000,
         "etype": "V8",
@@ -31,7 +31,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Mystical Card",
+        "name": "4",
         "HP": 300,
         "price": 37500,
         "etype": "V8",
@@ -40,7 +40,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Shadow Card",
+        "name": "5",
         "HP": 320,
         "price": 36000,
         "etype": "V8 Turbo",
@@ -49,7 +49,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Flame Card",
+        "name": "6",
         "HP": 450,
         "price": 47000,
         "etype": "V10 Turbo",
@@ -58,7 +58,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Common Card",
+        "name": "7",
         "HP": 200,
         "price": 25000,
         "etype": "V6",
@@ -67,7 +67,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Crystal Card",
+        "name": "8",
         "HP": 310,
         "price": 34000,
         "etype": "V8",
@@ -76,7 +76,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Titan Card",
+        "name": "9",
         "HP": 600,
         "price": 55000,
         "etype": "V12",
@@ -85,7 +85,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "Obsidian Card",
+        "name": "10",
         "HP": 380,
         "price": 42000,
         "etype": "V8",
@@ -93,59 +93,73 @@
         "rarity": "epic",
         "image": "/assets/img/example/cardcar.png"
     }
-]
+];
+
 
 
     // THESE ARE INDEX VALUES
     let selectedCard = $state(0);
-    let amountVisible = 3;
-    
-    let leftStart = $derived.by(() => {
-        let leftStart = selectedCard - amountVisible;
-        console.log("Left Start CAL: ", leftStart);
-        if (leftStart < 0) {
-            leftStart = 0;
-        }
 
-        if (cards.length - selectedCard < amountVisible + 1) {
-            leftStart = leftStart - (4 - (cards.length - selectedCard));
-            console.log("cards.length - selectedCard: ", cards.length - selectedCard);
-        }
+    function incrementSelectedCard() {
+        selectedCard >= cards.length - 1 ? selectedCard = cards.length - 1 : selectedCard++;
+    }
 
-        return leftStart;
+    function decrementSelectedCard() {
+        selectedCard <= 0 ? selectedCard = 0 : selectedCard--;
+    }
+
+    function scrollRight() {
+        incrementSelectedCard();
+        centerCard();
+        console.log(selectedCard);
+    }
+
+    function scrollLeft() {
+        decrementSelectedCard();
+        centerCard();
+        console.log(selectedCard);
+    }
+
+    function centerCard() {
+        const card = document.getElementById(`card_${selectedCard}`);
+        card.classList.add('centered-card');
+        cards.forEach((c, i) => {
+            if (i !== selectedCard) {
+                document.getElementById(`card_${i}`).classList.remove('centered-card');
+            }
+        });
+
+        const container = document.querySelector('.overflow-x-scroll');
+        const containerWidth = container.clientWidth;
+        const cardWidth = card.clientWidth;
+        const cardOffsetLeft = card.offsetLeft;
+        const scrollPosition = cardOffsetLeft - (containerWidth / 2) + (cardWidth / 2);
+        container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+    }
+
+    onMount(() => {
+        centerCard();
     });
-    let leftEnd = $derived(selectedCard - 1);
-    let rightStart = $derived(selectedCard + 1);
-    let rightEnd = $derived(selectedCard < 3 ? (3 - selectedCard) + selectedCard + amountVisible : selectedCard + amountVisible);
-
 </script>
 
-<main class="flex justify-center items-baseline h-[70vh] gap-5">
-    <div class="h-1/2 flex gap-2">
-        {#if selectedCard != 0}
-            {#each cards.slice(leftStart, leftEnd + 1) as card}
-                <Card {...card}/>
-            {/each}
-        {/if}
+<main class="flex h-[80vh] gap-5 items-center">
+    <div class="absolute w-full h-4/6 top-0 flex justify-center gap-96 z-20">
+        <!-- left -->
+        <button onclick={scrollLeft} class="" style:visibility="visible">
+            <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
+        </button>
+        <!-- right -->
+        <button onclick={scrollRight} class="">
+            <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]" style:visibility="visible"/>
+        </button>
     </div>
-    <div class="h-full relative">
-        <div class="h-full">
-            <Card {...cards[selectedCard]}/>
-        </div>
-        <div class="absolute w-full h-4/6 top-0 flex justify-between ">
-            <button onclick={() => selectedCard--} class="-translate-x-14" style:visibility="{selectedCard == 0 ? `hidden` : `visible`}">
-                <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
-            </button>
-            <button onclick={() => selectedCard++} class="translate-x-14">
-                <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]" style:visibility="{selectedCard == cards.length-1 ? `hidden` : `visible`}"/>
-            </button>
-        </div>
-    </div>
-    <div class="h-1/2 flex gap-2">
-        {#if selectedCard != cards.length - 1}
-            {#each cards.slice(rightStart, rightEnd + 1) as card}
-                <Card {...card}/>
+    <div class="overflow-x-scroll relative h-full content-end px-[40rem]" style="scrollbar-width: none;">
+        <div class="flex flex-row">
+            {#each cards as card, i}
+                <div class="min-w-40 transition duration-1000 ease-in-out mx-1" id="card_{i}">
+                    <Card {...card}/>
+                </div>
             {/each}
-        {/if}
+        </div>
     </div>
 </main>

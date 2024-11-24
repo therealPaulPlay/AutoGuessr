@@ -2,6 +2,7 @@
     import {onMount} from "svelte";
 
     let {
+        big=false,
         name="N/A",
         HP=0,
         price=0,
