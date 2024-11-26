@@ -1,10 +1,12 @@
 <script>
     import { onMount } from "svelte";
+    import { tweened } from 'svelte/motion';
+	import { cubicOut } from 'svelte/easing';
     import Card from "../../lib/components/Card.svelte";
 
     let cards = [
     {
-        "name": "1",
+        "name": "TestName 1",
         "HP": 400,
         "price": 45000,
         "etype": "V10",
@@ -93,14 +95,12 @@
         "rarity": "epic",
         "image": "/assets/img/example/cardcar.png"
     }
-];
+    ];
 
 
 
     // THESE ARE INDEX VALUES
     let selectedCard = $state(0);
-
-    let scaleFactor = 1;
 
     function incrementSelectedCard() {
         selectedCard >= cards.length - 1 ? selectedCard = cards.length - 1 : selectedCard++;
@@ -113,23 +113,32 @@
     function scrollRight() {
         incrementSelectedCard();
         centerCard();
-        console.log(selectedCard);
     }
 
     function scrollLeft() {
         decrementSelectedCard();
         centerCard();
-        console.log(selectedCard);
     }
+
+    let windowWidth = $state();
+    let windowHeight = $state();
+
+    let minCardWidth = $derived(0.2 * windowHeight);
+    let midCardWidth = $derived(0.3 * windowHeight);
+    let maxCardWidth = $derived(0.5 * windowHeight);
 
     function centerCard() {
         const card = document.getElementById(`card_${selectedCard}`);
-        card.classList.add('centered-card');
         cards.forEach((c, i) => {
-            if (i !== selectedCard) {
-                document.getElementById(`card_${i}`).classList.remove('centered-card');
+            if (i === selectedCard - 1 || i === selectedCard + 1) {
+                document.getElementById(`card_${i}`).style.minWidth = `${midCardWidth}px`;
+            }
+            else if (i !== selectedCard ) {
+                document.getElementById(`card_${i}`).style.minWidth = `${minCardWidth}px`;
             }
         });
+
+        card.style.minWidth = `${maxCardWidth}px`;
 
         const container = document.querySelector('.overflow-x-scroll');
         const containerWidth = container.clientWidth;
@@ -137,14 +146,25 @@
         const cardOffsetLeft = card.offsetLeft;
         const scrollPosition = cardOffsetLeft - (containerWidth / 2) + (cardWidth / 2);
         container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+
+        // 208px -> 320px
+        const cardSize = tweened(208, {
+		duration: 400,
+		easing: cubicOut
+	    });
+
     }
 
     onMount(() => {
         centerCard();
+        let lastCard = document.getElementById(`card_${cards.length - 1}`);
+        lastCard.style.marginRight = `${0.4 * windowWidth}px`;
     });
 </script>
 
-<main class="flex h-[80vh] gap-5 items-center">
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight}/>
+
+<main class="flex h-[80vh] gap-5 items-center relative">
     <div class="absolute w-full h-4/6 top-0 flex justify-center gap-96 z-20">
         <!-- left -->
         <button onclick={scrollLeft} class="" style:visibility="visible">
@@ -155,12 +175,12 @@
             <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]" style:visibility="visible"/>
         </button>
     </div>
-    <div class="overflow-x-scroll relative h-full content-end px-[40rem]" style="scrollbar-width: none;">
-        <div class="flex flex-row items-end">
+    <div class="overflow-x-scroll w-full relative h-full content-end px-[40rem]" style="scrollbar-width: none;">
+        <div class="grid grid-flow-col w-fit justify-items-stretch items-end">
             {#each cards as card, i}
-                <div class="{selectedCard == i ? "min-w-80" : "min-w-40"} transition-all duration-200 ease-in-out mx-1 origin-bottom" id="card_{i}">
-                    <Card {...card} scaleFactor={selectedCard == i ? 2 : 1} />
-                </div>
+            <div class="min-w-52 mx-1" id="card_{i}">
+                <Card {...card}/>
+            </div>
             {/each}
         </div>
     </div>
