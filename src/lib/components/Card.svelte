@@ -27,7 +27,7 @@
     let imgPadding = $derived(0.1 * w);
 </script>
 
-<div class="h-full relative" bind:clientWidth={w} bind:clientHeight={h}>
+<div class="w-full relative" bind:clientWidth={w} bind:clientHeight={h}>
     <img
         src="/assets/svg/{rarity}_front.svg"
         alt="Card"
