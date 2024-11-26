@@ -3,7 +3,6 @@
     import { derived } from "svelte/store";
 
     let {
-        big = false,
         name = "N/A",
         HP = 0,
         price = 0,
@@ -11,29 +10,31 @@
         date = "N/A",
         rarity = "common",
         image = "",
-        scaleFactor = 1,
-        children,
     } = $props();
 
-    let clientWidth = $state();
-    let w = $derived(clientWidth * scaleFactor);
+    // let componentWidth = $state();
+    // let w = $derived(componentWidth * scaleFactor);
+    let w = $state();
+    let h = $state();
     let titleSize = $derived(0.1 * w);
+    let titleTop = $derived(0.15 * h);
     let statSize = $derived(0.038 * w);
     let statPadding = $derived(0.1 * w);
-    let rowGap = $derived(0.07 * w);
+    let rowGap = $derived(0.064 * h);
     let colGap = $derived(0.2 * w);
-    let statMargin = $derived(0.04 * w);
-    let innerStatPadding = $derived(0.02 * w);
+    let statTop = $derived(0.433 * h);
+    let imgBottom = $derived(0.05 * h);
+    let imgPadding = $derived(0.1 * w);
 </script>
 
-<div class="h-full relative" bind:clientWidth>
+<div class="h-full relative" bind:clientWidth={w} bind:clientHeight={h}>
     <img
         src="/assets/svg/{rarity}_front.svg"
         alt="Card"
         class="w-full h-full" />
     <div
         class="absolute top-0 left-0 w-full h-full flex flex-col justify-between items-center">
-        <div class="title-size h-2/5 flex items-center realtive">
+        <div class="title-size flex items-center absolute px-5 text-wrap" style="top: {titleTop}px">
             <h1
                 class="z-20 text-white font-bold font-batuphat"
                 style="font-size: {titleSize}px">
@@ -46,8 +47,8 @@
             </h1>
         </div>
         <div
-            class="h-1/5 w-4/6 {rarity} grid grid-cols-2 items-center"
-            style="margin-top: {statMargin}px; padding-left: {statPadding}px; gap: {rowGap}px {colGap}px; padding-top: {innerStatPadding}px; padding-bottom: {innerStatPadding}px">
+            class="w-4/6 {rarity} grid grid-cols-2 items-center absolute"
+            style="padding-left: {statPadding}px; gap: {rowGap}px {colGap}px; top:{statTop}px">
             <p
                 class="font-bold text-nowrap overflow-hidden"
                 style="font-size: {statSize}px">
@@ -69,8 +70,8 @@
                 {date}
             </p>
         </div>
-        <div class="h-2/5 p-4 mb-4">
-            <img src={image} alt="Car" class="min-h-full min-h-full" />
+        <div class="h-2/5 absolute" style="bottom: {imgBottom}px; padding: {imgPadding}px;">
+            <img src={image} alt="Car" class="min-h-full" />
         </div>
     </div>
 </div>
