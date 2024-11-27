@@ -185,4 +185,9 @@
             {/each}
         </div>
     </div>
+    <div class="absolute h-full w-full -z-10">
+        <img src="/assets/svg/gears big.svg" alt="background gear" class="fixed top-[-10rem] left-[25rem] rotate-45" style:width={0.4*windowHeight}px/>
+        <img src="/assets/svg/gears big.svg" alt="background gear" class="fixed bottom-[-10rem] left-[-10rem]" style:width={0.7*windowHeight}px/>
+        <img src="/assets/svg/gears big.svg" alt="background gear" class="fixed bottom-[-5rem] right-[-5rem] -rotate-45" style:width={0.3*windowHeight}px/>
+    </div>
 </main>
