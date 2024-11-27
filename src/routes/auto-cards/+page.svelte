@@ -15,7 +15,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "2",
+        "name": "TestName 2",
         "HP": 500,
         "price": 50000,
         "etype": "V12",
@@ -24,7 +24,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "3",
+        "name": "TestName 3",
         "HP": 350,
         "price": 40000,
         "etype": "V8",
@@ -33,7 +33,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "4",
+        "name": "TestName 4",
         "HP": 300,
         "price": 37500,
         "etype": "V8",
@@ -42,7 +42,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "5",
+        "name": "TestName 5",
         "HP": 320,
         "price": 36000,
         "etype": "V8 Turbo",
@@ -51,7 +51,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "6",
+        "name": "TestName 6",
         "HP": 450,
         "price": 47000,
         "etype": "V10 Turbo",
@@ -60,7 +60,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "7",
+        "name": "TestName 7",
         "HP": 200,
         "price": 25000,
         "etype": "V6",
@@ -69,7 +69,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "8",
+        "name": "TestName 8",
         "HP": 310,
         "price": 34000,
         "etype": "V8",
@@ -78,7 +78,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "9",
+        "name": "TestName 9",
         "HP": 600,
         "price": 55000,
         "etype": "V12",
@@ -87,7 +87,7 @@
         "image": "/assets/img/example/cardcar.png"
     },
     {
-        "name": "10",
+        "name": "TestName 10",
         "HP": 380,
         "price": 42000,
         "etype": "V8",
@@ -127,6 +127,12 @@
     let midCardWidth = $derived(0.3 * windowHeight);
     let maxCardWidth = $derived(0.5 * windowHeight);
 
+            // 208px -> 320px
+    const cardSize = tweened(208, {
+		duration: 400,
+		easing: cubicOut
+    });
+
     function centerCard() {
         const card = document.getElementById(`card_${selectedCard}`);
         cards.forEach((c, i) => {
@@ -138,7 +144,8 @@
             }
         });
 
-        card.style.minWidth = `${maxCardWidth}px`;
+        cardSize.set(maxCardWidth);
+        card.style.minWidth = $cardSize + `px`;
 
         const container = document.querySelector('.overflow-x-scroll');
         const containerWidth = container.clientWidth;
@@ -146,12 +153,6 @@
         const cardOffsetLeft = card.offsetLeft;
         const scrollPosition = cardOffsetLeft - (containerWidth / 2) + (cardWidth / 2);
         container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-
-        // 208px -> 320px
-        const cardSize = tweened(208, {
-		duration: 400,
-		easing: cubicOut
-	    });
 
     }
 
@@ -176,9 +177,9 @@
         </button>
     </div>
     <div class="overflow-x-scroll w-full relative h-full content-end px-[40rem]" style="scrollbar-width: none;">
-        <div class="grid grid-flow-col w-fit justify-items-stretch items-end">
+        <div class="grid grid-flow-col gap-1.5 w-fit justify-items-stretch items-end">
             {#each cards as card, i}
-            <div class="min-w-52 mx-1" id="card_{i}">
+            <div class="min-w-52" id="card_{i}">
                 <Card {...card}/>
             </div>
             {/each}
