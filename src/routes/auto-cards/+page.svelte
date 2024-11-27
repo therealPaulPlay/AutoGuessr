@@ -1,7 +1,5 @@
 <script>
     import { onMount } from "svelte";
-    import { tweened } from 'svelte/motion';
-	import { cubicOut } from 'svelte/easing';
     import Card from "../../lib/components/Card.svelte";
 
     let cards = [
@@ -97,8 +95,6 @@
     }
     ];
 
-
-
     // THESE ARE INDEX VALUES
     let selectedCard = $state(0);
 
@@ -127,13 +123,9 @@
     let midCardWidth = $derived(0.3 * windowHeight);
     let maxCardWidth = $derived(0.5 * windowHeight);
 
-            // 208px -> 320px
-    const cardSize = tweened(208, {
-		duration: 400,
-		easing: cubicOut
-    });
 
     function centerCard() {
+
         const card = document.getElementById(`card_${selectedCard}`);
         cards.forEach((c, i) => {
             if (i === selectedCard - 1 || i === selectedCard + 1) {
@@ -143,21 +135,29 @@
                 document.getElementById(`card_${i}`).style.minWidth = `${minCardWidth}px`;
             }
         });
+        card.style.minWidth = maxCardWidth + `px`;
 
-        cardSize.set(maxCardWidth);
-        card.style.minWidth = $cardSize + `px`;
+        // Wait for the transition to end before centering a card.
+        // Not doing this will cause the card to be centered incorrectly before the transition ends due to how sizes are calculated.
+        // TODO: Figure a way to do this without using a timeout.
+        card.addEventListener('transitionend', handleTransitionEnd, { once: true });
+    }
 
+    function handleTransitionEnd() {
+        const card = document.getElementById(`card_${selectedCard}`);
+        // Centers the container on the selected card.
         const container = document.querySelector('.overflow-x-scroll');
         const containerWidth = container.clientWidth;
-        const cardWidth = card.clientWidth;
         const cardOffsetLeft = card.offsetLeft;
+        const cardWidth = card.clientWidth;
         const scrollPosition = cardOffsetLeft - (containerWidth / 2) + (cardWidth / 2);
         container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
-
     }
 
     onMount(() => {
         centerCard();
+
+        // Set margin right for the last card so it can be centered correctly.
         let lastCard = document.getElementById(`card_${cards.length - 1}`);
         lastCard.style.marginRight = `${0.4 * windowWidth}px`;
     });
@@ -179,7 +179,7 @@
     <div class="overflow-x-scroll w-full relative h-full content-end px-[40rem]" style="scrollbar-width: none;">
         <div class="grid grid-flow-col gap-1.5 w-fit justify-items-stretch items-end">
             {#each cards as card, i}
-            <div class="min-w-52" id="card_{i}">
+            <div class="min-w-52 transition-all ease-in-out delay-150" id="card_{i}">
                 <Card {...card}/>
             </div>
             {/each}
