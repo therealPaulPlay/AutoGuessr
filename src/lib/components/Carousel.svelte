@@ -20,16 +20,22 @@
 
 <div class="flex w-full h-[60vh] relative overflow-clip rounded-2xl border-white border-8">
     {#if !descriptionFlag}
-        <img src={images[currentIndex]} alt="Carousel" class=" h-full w-full object-cover z-10"/>
+        <img src={images[currentIndex]} alt="Carousel" class="absolute h-full w-full object-cover z-10"/>
     {/if}
-    <div class="absolute w-full h-full overflow-hidden flex justify-between items-center gap-4 p-4 bg-white">
+    <div class="relative w-full h-full overflow-hidden flex justify-between items-center gap-4 p-4 bg-white">
         {#if !descriptionFlag}
-            <button onclick={prev} class="z-20">
-                <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
-            </button>
-            <button onclick={next} class="z-20">
-                <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]"/>
-            </button>
+        <div class="z-20 w-full h-full flex flex-row justify-between items-center">
+            <div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2">
+                <button onclick={prev} class="z-20">
+                    <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8"/>
+                </button>
+            </div>
+            <div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pl-2">
+                <button onclick={next} class="z-20">
+                    <img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]"/>
+                </button>
+            </div>
+        </div>
         {:else}
             <div class="w-full h-full flex overflow-auto">
                 <p class="text-black text-lg">{description}</p>
