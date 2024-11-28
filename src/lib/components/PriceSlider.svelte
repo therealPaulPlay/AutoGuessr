@@ -28,6 +28,11 @@
             e.preventDefault();
     }
 
+    function selectAllText(e) {
+        e.target.select();
+        console.log(e.target);
+    }
+
 </script>
 
 <div class="flex flex-row items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] ">
@@ -36,7 +41,7 @@
     </div>
     <div class="flex items-center justify-center bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-16 relative">
         <span class="w-full h-full bg-transparent text-center">{formatedGuess()}</span>
-        <input type="number" bind:value={guess} onchange={formatedGuess()} onkeypress={preventNonNumericalInput} class="absolute w-full h-full" style="opacity: 0%;"/>
+        <input type="number" bind:value={guess} onchange={formatedGuess()} onkeypress={preventNonNumericalInput} onclick={selectAllText} onfocus={selectAllText} class="absolute w-full h-full" style="opacity: 0;"/>
     </div>
 </div>
 
