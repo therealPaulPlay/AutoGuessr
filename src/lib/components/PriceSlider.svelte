@@ -39,7 +39,7 @@
     <div>
         <input type="range" step="1" min={sliderMin} max={sliderMax} bind:value={guess} onchange={onGuessChange} class="slider" />
     </div>
-    <div class="flex items-center justify-center bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-16 relative">
+    <div class="flex items-center justify-center bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-32 relative">
         <span class="w-full h-full bg-transparent text-center">{formatedGuess()}</span>
         <input type="number" bind:value={guess} onchange={formatedGuess()} onkeypress={preventNonNumericalInput} onclick={selectAllText} onfocus={selectAllText} class="absolute w-full h-full" style="opacity: 0;"/>
     </div>
