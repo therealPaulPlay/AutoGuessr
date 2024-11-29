@@ -1,8 +1,8 @@
 <script>
     import { onMount } from "svelte";
     let {
-        color,
-        bgcolor,
+        color="var(--default-button)",
+        bgcolor="var(--default-button-dark)",
         buttonWidth,
         buttonHeight,
         shadowHeight,
