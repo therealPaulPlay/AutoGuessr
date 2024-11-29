@@ -48,6 +48,7 @@
 
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
+    let lives = $state(2);  // 0 to 3
 
     function displayImages() {
         console.log("Images");
@@ -62,7 +63,7 @@
     }
 </script>
 
-<main class="flex flex-col items-center">
+<main class="flex flex-col items-center relative">
     <!-- Main game content -->
     <div class="flex justify-center w-full">
         <!-- main window -->
@@ -109,4 +110,8 @@
             </div>
         </div>
     </div>
+    <!-- Lives -->
+     <div class="absolute h-full w-full -z-10">
+        <img src="/assets/svg/traffic {lives}.svg" alt="lives" class="w-96 absolute bottom-0 right-28" style:width="10%" />
+     </div>
 </main>
