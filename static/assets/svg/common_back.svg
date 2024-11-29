@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 387 570">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 81.86px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8 {
+        font-family: BatuphatScript-Regular, 'Batuphat Script';
+      }
+
+      .cls-2 {
+        font-size: 24.03px;
+      }
+
+      .cls-9 {
+        opacity: .15;
+      }
+
+      .cls-9, .cls-10 {
+        fill: #b7b7b7;
+      }
+
+      .cls-11 {
+        fill: #cecece;
+      }
+
+      .cls-3 {
+        font-size: 33.11px;
+      }
+
+      .cls-12 {
+        fill: #fefef7;
+      }
+
+      .cls-13 {
+        fill: url(#New_Pattern);
+      }
+
+      .cls-14 {
+        fill: none;
+      }
+
+      .cls-15 {
+        opacity: .13;
+      }
+
+      .cls-16 {
+        fill: #e5e5e5;
+      }
+
+      .cls-4 {
+        font-size: 46px;
+      }
+
+      .cls-17 {
+        fill: #e0e0e0;
+      }
+
+      .cls-18 {
+        fill: #c4c4c4;
+      }
+
+      .cls-19 {
+        fill: #fcfaee;
+      }
+
+      .cls-20 {
+        fill: #6d6d6d;
+      }
+
+      .cls-5 {
+        font-size: 38.06px;
+      }
+
+      .cls-21 {
+        fill: #ddd;
+      }
+
+      .cls-22 {
+        fill: #efefef;
+      }
+
+      .cls-23 {
+        fill: url(#stripes_2);
+      }
+
+      .cls-24 {
+        fill: #d6d6d6;
+      }
+
+      .cls-6 {
+        font-size: 59.84px;
+      }
+
+      .cls-7 {
+        font-size: 33.12px;
+      }
+
+      .cls-8 {
+        font-size: 56.23px;
+      }
+    </style>
+    <pattern id="New_Pattern" data-name="New Pattern" x="0" y="0" width="200" height="200" patternTransform="translate(-3246.09 -1474.6) scale(.8)" patternUnits="userSpaceOnUse" viewBox="0 0 200 200">
+      <g>
+        <rect class="cls-14" width="200" height="200"/>
+        <text class="cls-1" transform="translate(92.25 291.61) rotate(-28.8)"><tspan x="0" y="0">A</tspan></text>
+        <text class="cls-6" transform="translate(241.44 131.45) rotate(-55.33)"><tspan x="0" y="0">A</tspan></text>
+        <g>
+          <text class="cls-1" transform="translate(92.25 91.61) rotate(-28.8)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-4" transform="translate(135.17 105.27) rotate(34.67)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-3" transform="translate(148.07 173.77) rotate(23.07)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-2" transform="translate(177.97 46.49) rotate(-21.65)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-6" transform="translate(41.44 131.45) rotate(-55.33)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-7" transform="translate(18.99 34.33) rotate(39.27)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-8" transform="translate(15.51 191.62)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-5" transform="translate(113.14 177.67) rotate(-70.65)"><tspan x="0" y="0">A</tspan></text>
+        </g>
+        <text class="cls-2" transform="translate(-22.03 46.49) rotate(-21.65)"><tspan x="0" y="0">A</tspan></text>
+        <g>
+          <text class="cls-3" transform="translate(148.07 -26.23) rotate(23.07)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-8" transform="translate(15.51 -8.38)"><tspan x="0" y="0">A</tspan></text>
+        </g>
+      </g>
+    </pattern>
+    <pattern id="stripes_2" data-name="stripes 2" x="0" y="0" width="200" height="200" patternTransform="translate(-3086.5 -1474.5) scale(.8)" patternUnits="userSpaceOnUse" viewBox="0 0 200 200">
+      <g>
+        <rect class="cls-14" width="200" height="200"/>
+        <g>
+          <polygon class="cls-12" points="416.61 61.17 391.51 36.06 120.39 307.17 145.5 332.28 416.61 61.17"/>
+          <polygon class="cls-12" points="465.63 110.18 440.53 85.08 169.41 356.19 194.52 381.3 465.63 110.18"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="216.61 61.17 191.51 36.06 -79.61 307.17 -54.5 332.28 216.61 61.17"/>
+          <polygon class="cls-12" points="265.63 110.18 240.53 85.08 -30.59 356.19 -5.48 381.3 265.63 110.18"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="16.61 61.17 -8.49 36.06 -279.61 307.17 -254.5 332.28 16.61 61.17"/>
+          <polygon class="cls-12" points="65.63 110.18 40.53 85.08 -230.59 356.19 -205.48 381.3 65.63 110.18"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="416.61 -138.83 391.51 -163.94 120.39 107.17 145.5 132.28 416.61 -138.83"/>
+          <polygon class="cls-12" points="465.63 -89.82 440.53 -114.92 169.41 156.19 194.52 181.3 465.63 -89.82"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="216.61 -138.83 191.51 -163.94 -79.61 107.17 -54.5 132.28 216.61 -138.83"/>
+          <polygon class="cls-12" points="265.63 -89.82 240.53 -114.92 -30.59 156.19 -5.48 181.3 265.63 -89.82"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="16.61 -138.83 -8.49 -163.94 -279.61 107.17 -254.5 132.28 16.61 -138.83"/>
+          <polygon class="cls-12" points="65.63 -89.82 40.53 -114.92 -230.59 156.19 -205.48 181.3 65.63 -89.82"/>
+        </g>
+      </g>
+    </pattern>
+  </defs>
+  <g id="Common">
+    <g id="body">
+      <g>
+        <rect class="cls-10" x="6.5" y="6.5" width="374" height="557" rx="26.5" ry="26.5"/>
+        <path class="cls-19" d="M354,13c11.05,0,20,8.95,20,20v504c0,11.05-8.95,20-20,20H33c-11.05,0-20-8.95-20-20V33c0-11.05,8.95-20,20-20h321M354,0H33C14.8,0,0,14.8,0,33v504c0,18.2,14.8,33,33,33h321c18.2,0,33-14.8,33-33V33c0-18.2-14.8-33-33-33h0Z"/>
+      </g>
+      <g class="cls-15">
+        <rect class="cls-13" x="13" y="13" width="361" height="544" rx="20" ry="20"/>
+      </g>
+    </g>
+    <g id="circle">
+      <circle class="cls-12" cx="193.5" cy="285.5" r="121.35"/>
+      <circle class="cls-9" cx="193.5" cy="285.5" r="121.35"/>
+      <circle class="cls-23" cx="193.5" cy="285.5" r="121.35"/>
+    </g>
+    <path class="cls-20" d="M271.93,294.5c0,43.32-35.11,78.43-78.43,78.43s-78.43-35.11-78.43-78.43v-10.17c0-34.44,42.32-68.26,78.43-68.26,37.3,0,78.43,33.65,78.43,69.43v9Z"/>
+    <circle class="cls-10" cx="193.5" cy="285.5" r="78.43"/>
+    <g>
+      <polygon class="cls-18" points="116.91 268.56 156.16 256.16 147.27 296.36 116.91 268.56"/>
+      <polygon class="cls-21" points="158.99 215.06 193.16 238.02 156.19 256.13 158.99 215.06"/>
+      <polygon class="cls-22" points="227.06 214.6 230.41 255.63 193.2 238.02 227.06 214.6"/>
+      <polygon class="cls-16" points="269.86 267.54 239.87 295.74 230.44 255.67 269.86 267.54"/>
+      <polygon class="cls-17" points="255.16 334 214.41 328.14 239.86 295.78 255.16 334"/>
+      <polygon class="cls-11" points="194.03 363.95 173.2 328.44 214.37 328.16 194.03 363.95"/>
+      <polygon class="cls-18" points="132.5 334.82 147.28 296.4 173.16 328.42 132.5 334.82"/>
+    </g>
+    <polygon class="cls-24" points="230.44 255.67 193.2 238.02 156.19 256.13 147.28 296.4 173.16 328.42 214.37 328.16 239.86 295.78 230.44 255.67"/>
+  </g>
+</svg>

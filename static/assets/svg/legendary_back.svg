@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 387 570">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #a9e7ff;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        font-size: 81.86px;
+      }
+
+      .cls-3, .cls-4, .cls-5, .cls-6, .cls-7, .cls-8, .cls-9, .cls-10 {
+        font-family: BatuphatScript-Regular, 'Batuphat Script';
+      }
+
+      .cls-4 {
+        font-size: 24.03px;
+      }
+
+      .cls-5 {
+        font-size: 33.11px;
+      }
+
+      .cls-11 {
+        fill: #4298ba;
+      }
+
+      .cls-12 {
+        fill: #fefef7;
+      }
+
+      .cls-13 {
+        fill: url(#New_Pattern);
+      }
+
+      .cls-14 {
+        fill: none;
+      }
+
+      .cls-15 {
+        opacity: .13;
+      }
+
+      .cls-6 {
+        font-size: 46px;
+      }
+
+      .cls-16 {
+        fill: #005d72;
+      }
+
+      .cls-17 {
+        fill: #00bae5;
+      }
+
+      .cls-18 {
+        fill: #fcfaee;
+      }
+
+      .cls-7 {
+        font-size: 38.06px;
+      }
+
+      .cls-19 {
+        fill: url(#stripes_2);
+      }
+
+      .cls-20 {
+        fill: #99e2ff;
+      }
+
+      .cls-8 {
+        font-size: 59.84px;
+      }
+
+      .cls-21 {
+        opacity: .15;
+      }
+
+      .cls-21, .cls-22 {
+        fill: #25c6f2;
+      }
+
+      .cls-9 {
+        font-size: 33.12px;
+      }
+
+      .cls-23 {
+        fill: #21afdb;
+      }
+
+      .cls-10 {
+        font-size: 56.23px;
+      }
+
+      .cls-24 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-25 {
+        fill: #24c1ff;
+      }
+
+      .cls-26 {
+        fill: #68ceff;
+      }
+
+      .cls-27 {
+        fill: #caf3ff;
+      }
+    </style>
+    <pattern id="New_Pattern" data-name="New Pattern" x="0" y="0" width="200" height="200" patternTransform="translate(-1966.09 -1474.6) scale(.8)" patternUnits="userSpaceOnUse" viewBox="0 0 200 200">
+      <g>
+        <rect class="cls-14" width="200" height="200"/>
+        <text class="cls-3" transform="translate(92.25 291.61) rotate(-28.8)"><tspan x="0" y="0">A</tspan></text>
+        <text class="cls-8" transform="translate(241.44 131.45) rotate(-55.33)"><tspan x="0" y="0">A</tspan></text>
+        <g>
+          <text class="cls-3" transform="translate(92.25 91.61) rotate(-28.8)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-6" transform="translate(135.17 105.27) rotate(34.67)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-5" transform="translate(148.07 173.77) rotate(23.07)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-4" transform="translate(177.97 46.49) rotate(-21.65)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-8" transform="translate(41.44 131.45) rotate(-55.33)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-9" transform="translate(18.99 34.33) rotate(39.27)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-10" transform="translate(15.51 191.62)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-7" transform="translate(113.14 177.67) rotate(-70.65)"><tspan x="0" y="0">A</tspan></text>
+        </g>
+        <text class="cls-4" transform="translate(-22.03 46.49) rotate(-21.65)"><tspan x="0" y="0">A</tspan></text>
+        <g>
+          <text class="cls-5" transform="translate(148.07 -26.23) rotate(23.07)"><tspan x="0" y="0">A</tspan></text>
+          <text class="cls-10" transform="translate(15.51 -8.38)"><tspan x="0" y="0">A</tspan></text>
+        </g>
+      </g>
+    </pattern>
+    <pattern id="stripes_2" data-name="stripes 2" x="0" y="0" width="200" height="200" patternTransform="translate(-1966.5 -1474.5) scale(.8)" patternUnits="userSpaceOnUse" viewBox="0 0 200 200">
+      <g>
+        <rect class="cls-14" width="200" height="200"/>
+        <g>
+          <polygon class="cls-12" points="416.61 61.17 391.51 36.06 120.39 307.17 145.5 332.28 416.61 61.17"/>
+          <polygon class="cls-12" points="465.63 110.18 440.53 85.08 169.41 356.19 194.52 381.3 465.63 110.18"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="216.61 61.17 191.51 36.06 -79.61 307.17 -54.5 332.28 216.61 61.17"/>
+          <polygon class="cls-12" points="265.63 110.18 240.53 85.08 -30.59 356.19 -5.48 381.3 265.63 110.18"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="16.61 61.17 -8.49 36.06 -279.61 307.17 -254.5 332.28 16.61 61.17"/>
+          <polygon class="cls-12" points="65.63 110.18 40.53 85.08 -230.59 356.19 -205.48 381.3 65.63 110.18"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="416.61 -138.83 391.51 -163.94 120.39 107.17 145.5 132.28 416.61 -138.83"/>
+          <polygon class="cls-12" points="465.63 -89.82 440.53 -114.92 169.41 156.19 194.52 181.3 465.63 -89.82"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="216.61 -138.83 191.51 -163.94 -79.61 107.17 -54.5 132.28 216.61 -138.83"/>
+          <polygon class="cls-12" points="265.63 -89.82 240.53 -114.92 -30.59 156.19 -5.48 181.3 265.63 -89.82"/>
+        </g>
+        <g>
+          <polygon class="cls-12" points="16.61 -138.83 -8.49 -163.94 -279.61 107.17 -254.5 132.28 16.61 -138.83"/>
+          <polygon class="cls-12" points="65.63 -89.82 40.53 -114.92 -230.59 156.19 -205.48 181.3 65.63 -89.82"/>
+        </g>
+      </g>
+    </pattern>
+    <clipPath id="clippath">
+      <path class="cls-14" d="M185.96,341.37l-61.25-70.22h137.57s-61.25,70.22-61.25,70.22c-3.99,4.57-11.09,4.57-15.07,0Z"/>
+    </clipPath>
+  </defs>
+  <g id="Legendary">
+    <g id="body">
+      <g>
+        <rect class="cls-22" x="6.5" y="6.5" width="374" height="557" rx="26.5" ry="26.5"/>
+        <path class="cls-18" d="M354,13c11.05,0,20,8.95,20,20v504c0,11.05-8.95,20-20,20H33c-11.05,0-20-8.95-20-20V33c0-11.05,8.95-20,20-20h321M354,0H33C14.8,0,0,14.8,0,33v504c0,18.2,14.8,33,33,33h321c18.2,0,33-14.8,33-33V33c0-18.2-14.8-33-33-33h0Z"/>
+      </g>
+      <g class="cls-15">
+        <rect class="cls-13" x="13" y="13" width="361" height="544" rx="20" ry="20"/>
+      </g>
+    </g>
+    <g id="circle">
+      <circle class="cls-12" cx="193.5" cy="285.5" r="121.35"/>
+      <circle class="cls-21" cx="193.5" cy="285.5" r="121.35"/>
+      <circle class="cls-19" cx="193.5" cy="285.5" r="121.35"/>
+    </g>
+    <g id="gem">
+      <g id="shadow">
+        <path class="cls-16" d="M262.29,278.43l-57.49,65.9c-5.98,6.85-16.63,6.85-22.61,0l-57.49-65.9v-7.28s20.34-9.66,20.34-9.66c.67-.32,1.4-.48,2.14-.48h92.61c.74,0,1.47.16,2.14.48l20.34,9.66v7.28Z"/>
+      </g>
+      <g class="cls-24">
+        <path class="cls-23" d="M185.96,341.37l-61.25-70.22h137.57s-61.25,70.22-61.25,70.22c-3.99,4.57-11.09,4.57-15.07,0Z"/>
+        <polygon class="cls-11" points="193.39 350.01 162.02 271.15 224.98 271.15 193.39 350.01"/>
+        <polygon class="cls-25" points="193.39 350.01 124.71 271.15 162.02 271.15 193.39 350.01"/>
+      </g>
+      <g>
+        <rect class="cls-17" x="124.71" y="258.15" width="137.57" height="13"/>
+        <polygon class="cls-17" points="262.29 258.15 124.71 258.15 146.07 240.72 240.93 240.72 262.29 258.15"/>
+        <g>
+          <polygon class="cls-26" points="162.02 258.15 162.02 271.15 124.71 271.15 162.02 258.15"/>
+          <polygon class="cls-26" points="224.98 258.15 224.98 271.15 262.29 271.15 224.98 258.15"/>
+          <polygon class="cls-20" points="262.29 258.15 262.29 271.15 224.98 258.15 262.29 258.15"/>
+          <polygon class="cls-26" points="193.5 271.15 224.98 258.15 162.02 258.15 193.5 271.15"/>
+        </g>
+        <g>
+          <polygon class="cls-26" points="162.02 258.15 146.07 240.72 193.5 240.72 162.02 258.15"/>
+          <polygon class="cls-1" points="162.02 258.15 146.07 240.72 124.71 258.15 162.02 258.15"/>
+          <polygon class="cls-27" points="224.98 258.15 240.93 240.72 262.29 258.15 224.98 258.15"/>
+          <polygon class="cls-26" points="224.98 258.15 240.93 240.72 193.5 240.72 224.98 258.15"/>
+        </g>
+      </g>
+    </g>
+    <g id="stars">
+      <path class="cls-2" d="M226.02,253.35l-.27.56c-.8,1.69-2.14,3.06-3.8,3.91l-.9.46c-.42.21-.78.54-.96.98-.15.37-.2.77-.14,1.16.09.69.59,1.27,1.23,1.55l.58.26c1.78.8,3.2,2.22,4,4l.26.58c.29.64.86,1.14,1.55,1.23.01,0,.02,0,.03,0,.93.11,1.8-.5,2.14-1.37l.13-.33c.69-1.79,2.06-3.22,3.82-3.99l.85-.37c.65-.28,1.16-.86,1.25-1.56.03-.2.03-.41,0-.61-.1-.69-.59-1.26-1.22-1.55l-.87-.4c-1.77-.82-3.17-2.29-3.88-4.1l-.09-.24c-.31-.77-1.03-1.36-1.86-1.36-.2,0-.39.02-.59.08-.56.15-1.01.59-1.26,1.11Z"/>
+    </g>
+  </g>
+</svg>
