@@ -24,14 +24,10 @@
             </div>
             <div>
                 <Button 
-                color="var(--default-button)" 
-                bgcolor="var(--default-button-dark)" 
-                imageSize=4rem
                 buttonHeight=10rem
                 buttonWidth=21rem
                 shadowHeight=0.5rem
                 execFunction={() => location.href = "/game"}
-                svg="assets/svg/play.svg"
                 >
                     <img src="/assets/svg/play.svg" alt="play button" style:width="3rem" />
                 </Button>
@@ -40,7 +36,6 @@
                 <Button 
                 color="var(--green-button)" 
                 bgcolor="var(--green-button-dark)" 
-                imageSize=3rem
                 buttonHeight=4rem
                 buttonWidth=21rem
                 shadowHeight=0.5rem
