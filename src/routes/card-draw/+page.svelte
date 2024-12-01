@@ -18,6 +18,7 @@
         "mystical",
         "rare",
     ];
+
     let minSize = 15;
 
     let windowWidth = $state();
@@ -30,26 +31,45 @@
         container.scrollTo({ left: container.scrollWidth, behavior: "smooth" });
     }
 
-    function controlSize(node) {
-        $effect(()=> {
-            let position = $state(node.getBoundingClientRect().left);
-            let width = $state(node.getBoundingClientRect().width);
+    // function controlSize(node) {
+    //     $effect(() => {
+    //         let position = node.getBoundingClientRect().left;
+    //         let width = node.getBoundingClientRect().width;
 
-            let size = $derived.by(() => {
+    //         const calculateCenter = () => {
+    //             let cardMiddle = position + width / 2;
+
+    //             let distance = Math.abs(middlePoint - cardMiddle);
+    //             let size = minSize + (1 / distance) * 1000;
+    //             console.log(size);
+    //             return size;
+    //         };
+
+    //         let size = calculateCenter();
+    //         node.style.height = `${size}rem`;
+    //     });
+    // }
+
+    function changeSize() {
+        let allCards = document.querySelectorAll(".size-change-element");
+
+        allCards.forEach((node) => {
+            let position = node.getBoundingClientRect().left;
+            let width = node.getBoundingClientRect().width;
+
+            const calculateCenter = () => {
                 let cardMiddle = position + width / 2;
-                // let a = 5;  // a>0, used to control the curve "drop off rate"
-                // let b = 1.5;  // b>0, used to control the curve "height"
 
                 let distance = Math.abs(middlePoint - cardMiddle);
-                // let size = -a * Math.pow(distance, 2) + b;
                 let size = minSize + (1 / distance) * 1000;
                 console.log(size);
                 return size;
-            });
+            };
 
+            let size = calculateCenter();
             node.style.height = `${size}rem`;
-            })
-        }
+        });
+    }
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -59,18 +79,15 @@
             <img
                 src="/assets/svg/arrow.svg"
                 alt="Arrow"
-                class="w-8 h-8 -rotate-90"
-            />
+                class="w-8 h-8 -rotate-90" />
         </div>
         <div
             class="my-5 min-h-96 flex flex-row items-center w-full overflow-x-auto overflow-y-hidden scroll-container"
-        >
+            onscroll={changeSize}>
             {#each rarities as rarity, i}
                 <div
-                    use:controlSize
-                    class="flex-shrink-0 z-10 transition-all ease-in-out delay-15"
-                    style:height="15rem"
-                >
+                    class="flex-shrink-0 z-10 transition-all ease-in-out delay-15 size-change-element"
+                    style:height="15rem">
                     <CardBack {rarity} />
                 </div>
             {/each}
@@ -79,16 +96,14 @@
             <img
                 src="/assets/svg/arrow.svg"
                 alt="Arrow"
-                class="w-8 h-8 rotate-90 scale-y-[-1]"
-            />
+                class="w-8 h-8 rotate-90 scale-y-[-1]" />
         </div>
         <div class="mt-5">
             <Button
                 buttonHeight="4rem"
                 buttonWidth="12rem"
                 shadowHeight="0.5rem"
-                execFunction={scrollToEnd}
-            >
+                execFunction={scrollToEnd}>
                 <span class="text-white font-bold text-4xl">Roll!</span>
             </Button>
         </div>
