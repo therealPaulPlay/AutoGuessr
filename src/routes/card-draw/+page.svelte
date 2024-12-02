@@ -27,6 +27,10 @@
         let cardsOnRight = 1;
         const container = document.querySelector(".scroll-container");
 
+        // 1. Scroll the container all the way to the left (the right side of the container is on the left side of the screen)
+        // 2. Move the container to the right by the half width of the screen
+        // 3. Move the container to the right by the half width of the card
+        // 4. For any addtional cards on the right, move the container to the right by the width of the card and add 8px for the gap (gap-2 in Tailwindcss)
         gsap.to(container, { x: -(container.scrollWidth - windowWidth/2 - cardWidth/2 - (cardsOnRight * (cardWidth + 8))), duration: 4, ease: "power2.inOut"});
     }
 
