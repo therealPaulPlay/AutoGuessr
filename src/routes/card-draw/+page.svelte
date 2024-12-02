@@ -4,27 +4,32 @@
     import Button from "../../lib/components/Button.svelte";
     import CardBack from "../../lib/components/CardBack.svelte";
 
-    let rarities = [
-        "common", "epic", "rare", "mystical", "legendary", 
-        "epic", "common", "legendary", "rare", "mystical", 
-        "rare", "epic", "common", "mystical", "epic", 
-        "legendary", "rare", "epic", "common", "mystical", 
-        "legendary", "common", "epic", "rare", "legendary", 
-        "rare", "common", "mystical", "epic", "legendary",
-        "common", "epic", "rare", "mystical", "legendary", 
-        "epic", "common", "legendary", "rare", "mystical", 
-        "rare", "epic", "common", "mystical", "epic", 
-        "legendary", "rare", "epic", "common", "mystical", 
-        "legendary", "common", "epic", "rare", "legendary", 
-        "rare", "common", "mystical", "epic", "legendary"
-    ];
+    let choices = ["common", "epic", "rare", "mystical", "legendary",];
+    let raritiesSize = 30;
+    let rarities = [];
+
+    for (let i = 0; i < raritiesSize; i++) {
+        let number = Math.floor(Math.random() * 100);
+        if (number < 50) {
+            rarities.push("common");
+        } else if (number < 70) {
+            rarities.push("rare");
+        } else if (number < 90) {
+            rarities.push("epic");
+        } else if (number <= 98) {
+            rarities.push("mystical");
+        } else {
+            rarities.push("legendary");
+        }
+        console.log(number);
+    }
 
     let cardWidth = $state();
     let containerWidth = $state();
     let windowWidth = $state();
 
     function scrollToEnd() {
-        let cardsOnRight = 1;
+        let cardsOnRight = 3;
         const container = document.querySelector(".scroll-container");
 
         // 1. Scroll the container all the way to the left (the right side of the container is on the left side of the screen)
@@ -47,12 +52,12 @@
         </div>
         <div
             bind:clientWidth={containerWidth}
-            class="min-h-96 flex flex-row items-center w-fit scroll-container gap-2 ">
+            class="min-h-96 flex flex-row items-center w-fit scroll-container gap-2 my-5">
             {#each rarities as rarity, i}
                 <div
                     bind:clientWidth={cardWidth}
                     class="flex-shrink-0 z-10 transition-all ease-in-out delay-300 cards"
-                    style:height="22rem"
+                    style:height="24rem"
                     id="card_{i}">
                     <CardBack {rarity} />
                 </div>
