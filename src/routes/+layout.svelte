@@ -1,7 +1,8 @@
 <script>
     import "../app.css";
     import { page } from "$app/stores";
-    import Button from "../lib/components/Button.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import { isAuthenticated } from "$lib/stores/accountStore";
 
     let { children } = $props();
 </script>
@@ -18,17 +19,27 @@
         <!-- Right side -->
         <div class="flex flex-row relative">
             <!-- Username/level -->
-            <div class="mx-3 flex items-center bg-white p-3 rounded-lg">
-                <button
-                    class="flex flex-col items-center justify-center mr-4 ml-2">
-                    <span class="text-xl z-10 text-white font-semibold"
-                        >13</span>
-                    <image
-                        class="absolute w-9 h-9"
-                        src="assets/svg/level.svg"
-                        alt="level"></image>
-                </button>
-                <div class="text-xl font-semibold">Username</div>
+            <div class="mx-3 flex items-center rounded-lg {$isAuthenticated ? "bg-white" : ""}">
+                {#if $isAuthenticated}
+                    <div class="p-3 flex items-center">
+                        <div
+                            class="flex flex-col items-center justify-center mr-4
+                    ml-2">
+                            <span class="text-xl z-10 text-white font-semibold"
+                                >13</span>
+                            <image
+                                class="absolute w-9 h-9"
+                                src="assets/svg/level.svg"
+                                alt="level"></image>
+                        </div>
+                        <div class="text-xl font-semibold">Username</div>
+                    </div>
+                {:else}
+                    <Button buttonWidth="8rem" border={true} bgcolor="var(--white)"
+                        ><span class="text-white text-xl font-medium"
+                            >Sign up</span
+                        ></Button>
+                {/if}
             </div>
             <div class="flex flex-row items-center">
                 <Button

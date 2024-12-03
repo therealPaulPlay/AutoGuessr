@@ -23,6 +23,7 @@
 
     for (let i = 0; i < raritiesSize; i++) {
         let number = Math.floor(Math.random() * 100);
+        // !TODO: Make this a switch instead
         if (number <= 50) {
             rarities.push("common");
         } else if (number <= 70) {

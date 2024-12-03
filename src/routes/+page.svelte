@@ -13,13 +13,13 @@
             <!-- Difficulties -->
             <div class="flex flex-row max-w-64 ml-2">
                 <Tab color="var(--green-button)">
-                    <span class="text-2xl font-medium">Beginner</span>
+                    <span class="text-xl font-medium">Beginner</span>
                 </Tab>
                 <Tab color="var(--default-button)">
-                    <span class="text-2xl font-medium">Advanced</span>
+                    <span class="text-xl font-medium">Advanced</span>
                 </Tab>
                 <Tab color="rgb(52, 49, 49)">
-                    <span class="text-2xl font-medium">Expert</span>
+                    <span class="text-xl font-medium">Expert</span>
                 </Tab>
             </div>
             <div>

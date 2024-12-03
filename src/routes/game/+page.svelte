@@ -44,11 +44,12 @@
         },
     ];
 
-    let description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc";
+    let description =
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc";
 
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
-    let lives = $state(2);  // 0 to 3
+    let lives = $state(2); // 0 to 3
 
     function displayImages() {
         console.log("Images");
@@ -69,16 +70,26 @@
         <!-- main window -->
         <div class="rounded-2xl w-4/5 px-12">
             <div class="flex flex-row w-1/2 gap-1 ml-4">
-                <Tab color={imageTab ? "var(--white)" : "var(--default-shadow)"} onHover={false} shadow={false} execFunction={displayImages}>
+                <Tab
+                    color={imageTab ? "var(--white)" : "var(--default-shadow)"}
+                    onHover={false}
+                    shadow={false}
+                    execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
-                <Tab color={imageTab ? "var(--default-shadow)" : "var(--white)"} onHover={false} shadow={false} execFunction={displayDescription}>
-                    <span class="text-xl font-medium text-black">Description</span>
+                <Tab
+                    color={imageTab ? "var(--default-shadow)" : "var(--white)"}
+                    onHover={false}
+                    shadow={false}
+                    execFunction={displayDescription}>
+                    <span class="text-xl font-medium text-black"
+                        >Description</span>
                 </Tab>
             </div>
-            <div class="flex flex-row gap-4 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
+            <div
+                class="flex flex-row gap-4 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                 <div class="w-2/3">
-                    <Carousel {images} {description} {descriptionFlag}/>
+                    <Carousel {images} {description} {descriptionFlag} />
                 </div>
                 <div class="w-1/3 flex flex-col justify-between">
                     {#each stats as stat}
@@ -89,29 +100,34 @@
         </div>
     </div>
     <!-- Guessing part -->
-    <div class="mt-10 p-2.5 rounded-t-2xl" style:background-color="var(--default-shadow)">
+    <div
+        class="mt-10 p-2.5 rounded-t-2xl"
+        style:background-color="var(--default-shadow)">
         <div class="flex flex-row">
             <PriceSlider min="0" max="10" />
             <div class="ml-2">
                 <Button
-                color="var(--default-button)"
-                bgcolor="var(--default-button-dark)"
-                shadowHeight="0.3rem"
-                buttonHeight="4.5rem"
-                buttonWidth="5.5rem"
-                execFunction={() => console.log("Guessed!")}
-            >
-                <img
-                    src="/assets/svg/check mark.svg"
-                    alt="guess icon"
-                    style:width="60%"
-                />
-            </Button>
+                    color="var(--default-button)"
+                    bgcolor="var(--default-button-dark)"
+                    shadowHeight="0.3rem"
+                    buttonHeight="4.5rem"
+                    buttonWidth="5.5rem"
+                    execFunction={() => console.log("Guessed!")}>
+                    <img
+                        src="/assets/svg/check mark.svg"
+                        alt="guess icon"
+                        style:width="60%" />
+                </Button>
             </div>
         </div>
     </div>
     <!-- Lives -->
-     <div class="absolute h-full w-full -z-10">
-        <img src="/assets/svg/traffic {lives}.svg" alt="lives" class="w-96 absolute bottom-0 right-28" style:width="10%" />
-     </div>
+    <!-- TODO: Make "disabled" variants darker -->
+    <div class="absolute h-full w-full -z-10">
+        <img
+            src="/assets/svg/traffic {lives}.svg"
+            alt="lives"
+            class="w-96 absolute bottom-0 right-28"
+            style:width="10%" />
+    </div>
 </main>

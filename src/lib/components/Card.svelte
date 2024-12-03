@@ -34,7 +34,9 @@
         class="w-full h-full" />
     <div
         class="absolute top-0 left-0 w-full h-full flex flex-col justify-between items-center">
-        <div class="title-size flex items-center absolute px-5 text-wrap" style="top: {titleTop}px">
+        <div
+            class="title-size flex items-center absolute px-5 text-wrap"
+            style="top: {titleTop}px">
             <h1
                 class="z-20 text-white font-bold font-batuphat"
                 style="font-size: {titleSize}px">
@@ -70,8 +72,14 @@
                 {date}
             </p>
         </div>
-        <div class="h-2/5 absolute" style="bottom: {imgBottom}px; padding: {imgPadding}px;">
-            <img src={image} alt="Car" class="min-h-full" />
+        <div
+            class="h-2/5 absolute"
+            style="bottom: {imgBottom}px; padding: {imgPadding}px;">
+            {#if image}
+                <img src={image} alt="Car" class="min-h-full" />
+            {:else}
+                <p>image loading...</p>
+            {/if}
         </div>
     </div>
 </div>
