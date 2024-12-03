@@ -4,25 +4,25 @@
     import Button from "../../lib/components/Button.svelte";
     import CardBack from "../../lib/components/CardBack.svelte";
 
-    let choices = ["common", "epic", "rare", "mystical", "legendary",];
-    let raritiesSize = 30;
+    let raritiesSize = 40;
     let rarities = [];
 
     for (let i = 0; i < raritiesSize; i++) {
         let number = Math.floor(Math.random() * 100);
-        if (number < 50) {
+        if (number <= 50) {
             rarities.push("common");
-        } else if (number < 70) {
+        } else if (number <= 70) {
             rarities.push("rare");
-        } else if (number < 90) {
+        } else if (number <= 90) {
             rarities.push("epic");
         } else if (number <= 98) {
-            rarities.push("mystical");
-        } else {
             rarities.push("legendary");
+        } else {
+            rarities.push("mystical");
         }
-        console.log(number);
     }
+
+    
 
     let cardWidth = $state();
     let containerWidth = $state();
@@ -38,6 +38,11 @@
         // 4. For any addtional cards on the right, move the container to the right by the width of the card and add 8px for the gap (gap-2 in Tailwindcss)
         gsap.to(container, { x: -(container.scrollWidth - windowWidth/2 - cardWidth/2 - (cardsOnRight * (cardWidth + 8))), duration: 4, ease: "power2.inOut"});
     }
+
+    onMount(() => {
+        const container = document.querySelector(".scroll-container");
+        gsap.to(container, { x: windowWidth/2 - cardWidth/2, duration: 0.5, ease: "power2.inOut"});
+    });
 
 </script>
 <!-- window size -->
