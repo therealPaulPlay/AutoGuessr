@@ -64,47 +64,61 @@
         showCardBack = !showCardBack;
     }
 
-    onMount(() => {
+    function initialCenterCards() {
         const container = document.querySelector(".scroll-container");
         gsap.to(container, {
             x: windowWidth / 2 - cardWidth / 2,
             duration: 0.5,
             ease: "power2.inOut",
         });
+
+        console.log("yes");
+    }
+
+    onMount(() => {
+        initialCenterCards();
     });
+
+    let resizeTimeout;
 </script>
 
 <!-- window size -->
-<svelte:window bind:innerWidth={windowWidth} />
-<main class="relative">
-    <div class="flex flex-col w-full justify-center items-center">
+<svelte:window
+    bind:innerWidth={windowWidth}
+    onresize={() => {
+        clearTimeout(resizeTimeout);
+
+        resizeTimeout = setTimeout(() => {
+            initialCenterCards();
+        }, 100);
+    }} />
+<content class="relative h-full block">
+    <div
+        class="flex flex-col w-full justify-center items-center custom-card-container-height">
         <div>
             <img
                 src="/assets/svg/arrow.svg"
                 alt="Arrow"
-                class="w-8 h-8 -rotate-90"
-            />
+                class="w-8 h-8 -rotate-90" />
         </div>
         <div
             bind:clientWidth={containerWidth}
-            class="min-h-96 flex flex-row items-center w-fit scroll-container gap-2 my-5"
-        >
+            class="min-h-96 flex flex-row items-center w-fit scroll-container gap-2 my-5">
             {#each rarities as rarity, i}
                 {#if i === cardPositionIndex}
                     <div
                         bind:clientWidth={cardWidth}
-                        class="flex-shrink-0 z-10 transition-all ease-in-out delay-300 w-fit relative [transform-style: preserve-3d]"
+                        class="flex-shrink-0 z-10 transition-all duration-700 w-fit relative [transform-style:preserve-3d]"
                         class:flip-it={showCardBack}
                         style:height="24rem"
                         style:width="{cardWidth}px"
-                        id="card_{i}"
-                    >
-                        <div class="absolute w-full h-full flip-card-front">
+                        id="card_{i}">
+                        <div
+                            class="absolute w-full h-full [backface-visibility:hidden]">
                             <CardBack {rarity} />
                         </div>
                         <div
-                            class="absolute w-full h-full flip-card-back"
-                        >
+                            class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
                             <Card {...cardInfo} />
                         </div>
                     </div>
@@ -113,8 +127,7 @@
                         bind:clientWidth={cardWidth}
                         class="flex-shrink-0 z-10 transition-all ease-in-out delay-300"
                         style:height="24rem"
-                        id="card_{i}"
-                    >
+                        id="card_{i}">
                         <CardBack {rarity} />
                     </div>
                 {/if}
@@ -124,16 +137,14 @@
             <img
                 src="/assets/svg/arrow.svg"
                 alt="Arrow"
-                class="w-8 h-8 rotate-90 scale-y-[-1]"
-            />
+                class="w-8 h-8 rotate-90 scale-y-[-1]" />
         </div>
         <div class="mt-5 flex flex-row gap-5">
             <Button
                 buttonHeight="4rem"
                 buttonWidth="12rem"
                 shadowHeight="0.5rem"
-                execFunction={scrollToEnd}
-            >
+                execFunction={scrollToEnd}>
                 <span class="text-white font-bold text-4xl">Roll!</span>
             </Button>
             {#if showRevealButton}
@@ -143,8 +154,7 @@
                     shadowHeight="0.5rem"
                     color="var(--green-button)"
                     bgcolor="var(--green-button-dark)"
-                    execFunction={revealCard}
-                >
+                    execFunction={revealCard}>
                     <span class="text-white font-bold text-4xl">Reveal!</span>
                 </Button>
             {/if}
@@ -154,30 +164,25 @@
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-52 bottom-0 rotate-12"
-        />
+            class="absolute h-52 bottom-0 rotate-12" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-36 bottom-0 left-36 rotate-45"
-        />
+            class="absolute h-36 bottom-0 left-36 rotate-45" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-36 -top-32 left-72 -rotate-12 scale-y-[-1] scale-x-[-1]"
-        />
+            class="absolute h-36 -top-32 left-72 -rotate-12 scale-y-[-1] scale-x-[-1]" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-24 -top-32 left-56 scale-y-[-1] scale-x-[-1]"
-        />
+            class="absolute h-24 -top-32 left-56 scale-y-[-1] scale-x-[-1]" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-28 bottom-0 right-8 -rotate-12"
-        />
+            class="absolute h-28 bottom-0 right-8 -rotate-12" />
     </div>
-</main>
+</content>
 
 <style>
     .scroll-container {
@@ -188,16 +193,11 @@
         display: none; /* Hide scrollbar for WebKit browsers */
     }
 
+    .custom-card-container-height {
+        height: calc(100% - 180px);
+    }
+
     .flip-it {
-        transform: rotateY(180deg);
-    }
-
-    .flip-card-back, .flip-card-front {
-        -webkit-backface-visibility: hidden; /* Safari */
-        backface-visibility: hidden;
-    }
-
-    .flip-card-back {
         transform: rotateY(180deg);
     }
 </style>
