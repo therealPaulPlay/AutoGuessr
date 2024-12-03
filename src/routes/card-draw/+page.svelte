@@ -84,6 +84,28 @@
             </Button>
         </div>
     </div>
+    <div class="absolute w-full h-full top-0 left-0 -z-50">
+        <img
+            src="/assets/svg/question mark.svg"
+            alt="Background question mark"
+            class="absolute h-52 bottom-0 rotate-12" />
+        <img
+            src="/assets/svg/question mark.svg"
+            alt="Background question mark"
+            class="absolute h-36 bottom-0 left-36 rotate-45" />
+        <img
+            src="/assets/svg/question mark.svg"
+            alt="Background question mark"
+            class="absolute h-36 -top-32 left-72 -rotate-12 scale-y-[-1] scale-x-[-1]" />
+        <img
+            src="/assets/svg/question mark.svg"
+            alt="Background question mark"
+            class="absolute h-24 -top-32 left-56 scale-y-[-1] scale-x-[-1]" />
+        <img
+            src="/assets/svg/question mark.svg"
+            alt="Background question mark"
+            class="absolute h-28 bottom-0 right-8 -rotate-12" />
+    </div>
 </main>
 
 <style>
