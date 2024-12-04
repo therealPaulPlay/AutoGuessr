@@ -34,7 +34,7 @@
     style:width={buttonWidth}
     style:height={buttonHeight}>
     <button
-        class="rounded-lg z-10 ease-out duration-150 px-3 w-full flex items-center justify-center box-border {border ? "border border-white border-4" : ""}"
+        class="rounded-lg z-10 ease-out duration-150 px-3 w-full flex items-center justify-center box-border {border ? "border-white border-4" : ""}"
         bind:this={button}
         onpointerup={shiftButtonUp}
         onpointerdown={pressButtonDown}
@@ -48,7 +48,7 @@
     </button>
     <!-- Shadow/Depth -->
     <div
-        class="rounded-lg absolute w-full box-border {border ? "border border-white border-4" : ""}"
+        class="rounded-lg absolute w-full box-border {border ? "border-white border-4" : ""}"
         style:background-color={bgcolor}
         style="height: calc(100% - {shadowHeight}"
         style:margin-top={shadowHeight}>
