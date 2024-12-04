@@ -18,17 +18,17 @@
 </script>
 
 <div
-    class="flex w-full h-[60vh] relative overflow-clip rounded-2xl border-white border-8"
+    class="flex w-full h-[60vh] relative overflow-clip rounded-2xl border-white border-8 bg-white"
 >
     {#if !descriptionFlag}
         <img
             src={images[currentIndex]}
             alt="Carousel"
-            class="absolute h-full w-full object-cover z-10"
+            class="absolute h-full w-full object-cover z-10 bg-white"
         />
     {/if}
     <div
-        class="relative w-full h-full overflow-hidden flex justify-between items-center gap-4 p-4 bg-white"
+        class="relative w-full h-full overflow-hidden flex justify-between items-center p-5 bg-white"
     >
         {#if !descriptionFlag}
             <div

@@ -87,12 +87,12 @@
                 </Tab>
             </div>
             <div
-                class="flex gap-5 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
-                <div class="w-2/3">
+                class="flex gap-5">
+                <div class="w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                     <Carousel {images} {description} {descriptionFlag} />
                 </div>
-                <div class="w-1/3 rounded-xl bg-white overflow-auto">
-                    <div class="w-full mb-auto flex flex-col justify-between h-fit gap-5 p-2">
+                <div class="w-1/3 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-xl bg-white">
+                    <div class="w-full mb-auto flex flex-col justify-between h-fit gap-2 p-2">
                         {#each stats as stat}
                             <Stat icon={stat.icon} text={stat.text} />
                         {/each}
@@ -112,7 +112,6 @@
                     <Button
                         color="var(--default-button)"
                         bgcolor="var(--default-button-dark)"
-                        shadowHeight="0.3rem"
                         buttonHeight="4.5rem"
                         buttonWidth="5.5rem"
                         execFunction={() => console.log("Guessed!")}>

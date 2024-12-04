@@ -19,7 +19,7 @@ module.exports = {
         black: '#222222',
         tanLight: 'rgb(247, 240, 224)',
         tanMedium: '#ecdfcc',
-        tanDark: '#cc9d82'
+        tanDark: 'rgb(234, 221, 205)'
       }
     },
   },
