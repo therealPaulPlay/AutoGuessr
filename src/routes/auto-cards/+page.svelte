@@ -96,13 +96,11 @@
         },
     ];
 
-    // THESE ARE INDEX VALUES
+    // These are index values
     let selectedCard = $state(0);
 
     function incrementSelectedCard() {
-        selectedCard >= cards.length - 1
-            ? (selectedCard = cards.length - 1)
-            : selectedCard++;
+        selectedCard >= cards.length - 1 || selectedCard++;
     }
 
     function decrementSelectedCard() {
@@ -170,9 +168,9 @@
 <svelte:window bind:innerWidth={$windowWidth} bind:innerHeight={windowHeight} />
 
 <main class="flex h-[80vh] gap-5 items-center relative">
-    <div class="absolute w-full h-4/6 top-0 flex justify-center gap-96 z-20">
+    <div class="absolute w-full flex justify-center gap-96 z-20 top-1/3">
         <!-- left -->
-        <button onclick={scrollLeft} class="" style:visibility="visible">
+        <button onclick={scrollLeft} style:visibility="visible">
             <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8" />
         </button>
         <!-- right -->
