@@ -16,7 +16,7 @@
 
     --mystical: rgb(179, 50, 119);
     --extrude-mystical: rgb(147, 32, 93);
-    
+
     --legendary: rgb(37, 198, 242);
     --extrude-legendary: rgb(4, 111, 113);
 
@@ -51,15 +51,60 @@
 }
 
 body {
-    background: rgb(245,239,228);
-    background: radial-gradient(circle, rgb(245,239,228) 0%, rgb(236,223,204) 100%);
+    background: rgb(245, 239, 228);
+    background: radial-gradient(circle, rgb(245, 239, 228) 0%, rgb(236, 223, 204) 100%);
 }
 
-body, html {
+body,
+html {
     overflow: hidden;
     scrollbar-width: none;
 }
 
 .centered-card {
     transform: all 250ms ease;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 0.75rem;
+    border-radius: 9999px;
+    background: var(--default-shadow);
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    border: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: url('/assets/svg/slider.svg') no-repeat;
+    transform: translateX(5px);
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    border: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: url('/assets/svg/slider.svg') no-repeat;
+    transform: translateX(5px);
+    cursor: pointer;
+}
+
+/* Removes number arrows */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
 }

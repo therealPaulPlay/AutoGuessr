@@ -59,7 +59,7 @@
             </div>
         {:else}
             <div class="w-full h-full flex flex-col overflow-auto p-5">
-                <h1 class="text-orange font-bold text-2xl text-center mb-10">
+                <h1 class="font-bold text-2xl mb-2">
                     Here is what the seller has to say:
                     <!-- Maybe we can make this dynamically change between different sentences? To make it feel fresh -->
                 </h1>

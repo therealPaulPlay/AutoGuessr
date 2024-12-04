@@ -35,7 +35,7 @@
                         <div class="text-xl font-semibold">Username</div>
                     </div>
                 {:else}
-                    <Button buttonWidth="8rem" border={true} bgcolor="var(--white)"
+                    <Button buttonWidth="8rem"
                         ><span class="text-white text-xl font-medium"
                             >Sign up</span
                         ></Button>

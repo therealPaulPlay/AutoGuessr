@@ -17,7 +17,7 @@ module.exports = {
         greenDark: '#4f844e',
         white: '#fcfaee',
         black: '#222222',
-        tanLight: '#f5efe4',
+        tanLight: 'rgb(247, 240, 224)',
         tanMedium: '#ecdfcc',
         tanDark: '#cc9d82'
       }

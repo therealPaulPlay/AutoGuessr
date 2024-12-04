@@ -7,7 +7,7 @@
 
 </script>
 
-<div class="flex flex-row items-center bg-white rounded-2xl py-3 px-5 w-full">
+<div class="flex flex-row items-center bg-tanLight rounded-lg py-3 px-5 w-full">
     <img src="{icon}" alt="Stat icon" class="w-8 h-8"/>
     <div class="flex ml-10 mr-5">
         <span class="text-2xl font-medium text-orange">{text}</span>
