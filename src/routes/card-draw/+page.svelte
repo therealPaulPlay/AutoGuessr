@@ -11,7 +11,7 @@
         price: 45000,
         etype: "V10",
         date: "2024",
-        rarity: "epic",
+        rarity: "mystical",
         image: "/assets/img/example/cardcar.png",
     };
 
@@ -23,17 +23,25 @@
 
     for (let i = 0; i < raritiesSize; i++) {
         let number = Math.floor(Math.random() * 100);
-        // !TODO: Make this a switch instead
-        if (number <= 50) {
-            rarities.push("common");
-        } else if (number <= 70) {
-            rarities.push("rare");
-        } else if (number <= 90) {
-            rarities.push("epic");
-        } else if (number <= 98) {
-            rarities.push("legendary");
-        } else {
-            rarities.push("mystical");
+        switch (true) {
+            case (i === cardPositionIndex):
+                rarities.push(cardInfo.rarity);
+                break;
+            case (number <= 50):
+                rarities.push("common");
+                break;
+            case (number <= 70):
+                rarities.push("rare");
+                break;
+            case (number <= 90):
+                rarities.push("epic");
+                break;
+            case (number <= 98):
+                rarities.push("legendary");
+                break;
+            default:
+                rarities.push("mystical");
+                break;
         }
     }
 
