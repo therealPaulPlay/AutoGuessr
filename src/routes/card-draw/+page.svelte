@@ -19,7 +19,8 @@
     let rarities = [];
     let showRevealButton = $state(true);
     let showCardBack = $state(false);
-    let cardPositionIndex = raritiesSize - 1 - 3;
+    let cardsOnRight = 3;  // For some reason 0 breaks it. Not sure why
+    let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
 
     for (let i = 0; i < raritiesSize; i++) {
         let number = Math.floor(Math.random() * 100);
@@ -50,7 +51,6 @@
     let windowWidth = $state();
 
     function scrollToEnd() {
-        let cardsOnRight = 3;
         const container = document.querySelector(".scroll-container");
 
         // 1. Scroll the container all the way to the left (the right side of the container is on the left side of the screen)
@@ -62,7 +62,7 @@
                 container.scrollWidth -
                 windowWidth / 2 -
                 cardWidth / 2 -
-                cardsOnRight * (cardWidth + 8)
+                (cardsOnRight * (cardWidth + 8))
             ),
             duration: 4,
             ease: "power2.inOut",
