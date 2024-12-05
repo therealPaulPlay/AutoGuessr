@@ -1,95 +1,74 @@
 <script>
+    let { sliderMin = 1, sliderMax = 500_000, children } = $props();
 
-    let {
-        sliderMin=1,
-        sliderMax=500_000,
-        children
-    } = $props();
-
-    const clamp = (val, min, max) => Math.min(Math.max(val, min), max)
+    const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
     let guess = $state(sliderMin);
     let restrictedGuess = $derived(clamp(guess, sliderMin, sliderMax));
 
     function onGuessChange() {
-        
+        console.log("change");
     }
 
     function formatedGuess() {
-        return '$' + restrictedGuess.toLocaleString();
+        return "$" + restrictedGuess.toLocaleString();
     }
 
     function preventNonNumericalInput(e) {
-        e = e || window;
-        var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
-        var charStr = String.fromCharCode(charCode);
-
-        if (!charStr.match(/^[0-9]+$/))
-            e.preventDefault();
+        const allowedKeys = [
+            'Backspace',
+            'Delete',
+            'ArrowLeft',
+            'ArrowRight',
+            'Tab',
+            'Home',
+            'End'
+        ];
+        
+        if (allowedKeys.includes(e.key)) return;
+        // For other keys, only allow numbers
+        if (!e.key.match(/^[0-9]$/)) e.preventDefault();
     }
 
     function selectAllText(e) {
         e.target.select();
-        console.log(e.target);
     }
 
+    let inputFocused = $state(false);
 </script>
 
-<div class="flex flex-row items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] ">
-    <div>
-        <input type="range" step="1" min={sliderMin} max={sliderMax} bind:value={guess} onchange={onGuessChange} class="slider" />
+<div
+    class="flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] grow gap-1">
+    <div class="grow grow-[2] min-w-32">
+        <input
+            type="range"
+            step="1"
+            min={sliderMin}
+            max={sliderMax}
+            bind:value={guess}
+            onchange={onGuessChange}
+            class="slider w-full" />
     </div>
-    <div class="flex items-center justify-center bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-32 relative">
-        <span class="w-full h-full bg-transparent text-center">{formatedGuess()}</span>
-        <input type="number" bind:value={guess} onchange={formatedGuess()} onkeypress={preventNonNumericalInput} onclick={selectAllText} onfocus={selectAllText} class="absolute w-full h-full" style="opacity: 0;"/>
+    <div
+        class="flex items-center justify-center relative bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-48 transition {inputFocused ? "!bg-orange" : ""}">
+        <span class="w-full h-full bg-transparent text-center custom-vertical-align {inputFocused ? "text-white" : ""} transition"
+            >{formatedGuess()}</span>
+        <input
+            type="number"
+            maxlength="8"
+            bind:value={guess}
+            onchange={formatedGuess}
+            onkeydown={preventNonNumericalInput}
+            onclick={selectAllText}
+            onfocus={() => {inputFocused = true}}
+            onfocusout={() => {inputFocused = false}}
+            class="absolute w-full h-full"
+            style="opacity: 0;" />
     </div>
 </div>
 
 <style>
-    .slider {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 100%;
-        height: 0.75rem;
-        border-radius: 9999px;;
-        background: var(--default-shadow);
-        outline: none;
+    .custom-vertical-align {
+        line-height: 35px;
     }
-
-    .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        border: 0;
-        width: 2rem;
-        height: 2rem;
-        background: url('/assets/svg/slider.svg') no-repeat;
-        cursor: pointer;
-    }
-
-    .slider::-moz-range-thumb {
-        border: 0;
-        height: 200%;
-        width: 2rem;
-        height: 2rem;
-        background: url('/assets/svg/slider.svg') no-repeat;
-        cursor: pointer;
-    }
-
-    /*  TODO:   Figure out why chrome shows slider thinner. 
-    */
-
-    /* Removes number arrows */
-    /* Chrome, Safari, Edge, Opera */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Firefox */
-    input[type=number] {
-        -moz-appearance: textfield;
-        appearance: textfield;
-    }
-
 </style>

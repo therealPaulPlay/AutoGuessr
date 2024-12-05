@@ -1,8 +1,10 @@
 <script>
     import "../app.css";
-    import { page } from "$app/stores";
     import Button from "$lib/components/Button.svelte";
+    import Popup from "$lib/components/Popup.svelte";
+    import { page } from "$app/stores";
     import { isAuthenticated } from "$lib/stores/accountStore";
+    import { settingsPopup } from "$lib/stores/uiStore";
 
     let { children } = $props();
 </script>
@@ -35,7 +37,7 @@
                         <div class="text-xl font-semibold">Username</div>
                     </div>
                 {:else}
-                    <Button buttonWidth="8rem" border={true} bgcolor="var(--white)"
+                    <Button buttonWidth="8rem"
                         ><span class="text-white text-xl font-medium"
                             >Sign up</span
                         ></Button>
@@ -48,7 +50,7 @@
                     shadowHeight="0.3rem"
                     buttonHeight="3.25rem"
                     buttonWidth="3.25rem"
-                    execFunction={() => console.log("Settings button pressed")}>
+                    execFunction={() => settingsPopup.set(true)}>
                     <img
                         src="/assets/svg/settings.svg"
                         alt="settings"
@@ -59,6 +61,15 @@
     </nav>
     {@render children?.()}
 </main>
+
+<!-- Universal Popups -->
+ {#if $settingsPopup}
+ <Popup title="Settings" closeFunction={() => {
+    settingsPopup.set(false);
+ }}>
+    <!-- Settings contents... -->
+ </Popup>
+ {/if}
 
 <style>
     main {
