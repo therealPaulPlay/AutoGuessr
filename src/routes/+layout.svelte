@@ -10,7 +10,7 @@
 </script>
 
 <main>
-    <nav class="flex flex-row justify-between p-8 items-center relative z-50">
+    <nav class="flex flex-row justify-between p-8 items-center relative z-40">
         <div>
             {#if $page.url.pathname != "/"}
                 <button class="w-10 h-10" onclick={() => (location.href = "/")}>

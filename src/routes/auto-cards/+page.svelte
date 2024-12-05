@@ -14,6 +14,9 @@
             image: "/assets/img/example/cardcar.png",
         },
         {
+            rarity: "locked",
+        },
+        {
             name: "TestName 2",
             HP: 500,
             price: 50000,
@@ -179,19 +182,31 @@
                 src="/assets/svg/arrow.svg"
                 alt="Next"
                 class="w-8 scale-x-[-1]"
-                style:visibility="visible" />
+                style:visibility="visible"
+            />
         </button>
     </div>
     <div
         class="overflow-x-scroll w-full relative h-full content-end px-[40rem]"
-        style="scrollbar-width: none;">
+        style="scrollbar-width: none;"
+    >
         <div
-            class="grid grid-flow-col gap-1.5 w-fit justify-items-stretch items-end">
+            class="grid grid-flow-col gap-1.5 w-fit justify-items-stretch items-end"
+        >
             {#each cards as card, i}
                 <div
                     class="min-w-52 transition-all ease-in-out delay-150"
-                    id="card_{i}">
-                    <Card {...card} />
+                    id="card_{i}"
+                >
+                    {#if card.rarity === "locked"}
+                        <img
+                            src="/assets/svg/locked.svg"
+                            alt="Card"
+                            class="w-full h-full"
+                        />
+                    {:else}
+                        <Card {...card} />
+                    {/if}
                 </div>
             {/each}
         </div>
@@ -201,16 +216,19 @@
             src="/assets/svg/gears big.svg"
             alt="background gear"
             class="fixed top-[-10rem] left-[25rem] rotate-45"
-            style:width="{0.4 * windowHeight}px" />
+            style:width="{0.4 * windowHeight}px"
+        />
         <img
             src="/assets/svg/gears big.svg"
             alt="background gear"
             class="fixed bottom-[-10rem] left-[-10rem]"
-            style:width="{0.7 * windowHeight}px" />
+            style:width="{0.7 * windowHeight}px"
+        />
         <img
             src="/assets/svg/gears big.svg"
             alt="background gear"
             class="fixed bottom-[-5rem] right-[-5rem] -rotate-45"
-            style:width="{0.3 * windowHeight}px"/>
+            style:width="{0.3 * windowHeight}px"
+        />
     </div>
 </main>

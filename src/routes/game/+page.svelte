@@ -66,7 +66,7 @@
 
 <content class="flex items-center relative custom-content-height">
     <!-- Main game content -->
-    <div class="flex justify-center w-full h-full items-center">
+    <div class="flex justify-center w-full h-full items-center z-50">
         <!-- main window -->
         <div class="rounded-2xl w-4/5 px-12">
             <div class="flex w-1/2 gap-2 ml-4">

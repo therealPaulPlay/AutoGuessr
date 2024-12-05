@@ -205,12 +205,12 @@
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-52 bottom-0 rotate-12"
+            class="absolute h-52 bottom-10 rotate-12"
         />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-36 bottom-0 left-36 rotate-45"
+            class="absolute h-36 bottom-10 left-36 rotate-45"
         />
         <img
             src="/assets/svg/question mark.svg"
@@ -225,7 +225,7 @@
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-28 bottom-0 right-8 -rotate-12"
+            class="absolute h-28 bottom-20 right-8 -rotate-12"
         />
     </div>
 </content>
