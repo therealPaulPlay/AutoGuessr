@@ -39,7 +39,7 @@
 
 <div
     class="flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] grow gap-1">
-    <div class="grow grow-[2]">
+    <div class="grow grow-[2] min-w-32">
         <input
             type="range"
             step="1"

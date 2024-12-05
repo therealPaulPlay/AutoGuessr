@@ -64,9 +64,9 @@
     }
 </script>
 
-<main class="flex flex-col items-center relative">
+<content class="flex items-center relative custom-content-height">
     <!-- Main game content -->
-    <div class="flex justify-center w-full">
+    <div class="flex justify-center w-full h-full items-center">
         <!-- main window -->
         <div class="rounded-2xl w-4/5 px-12">
             <div class="flex w-1/2 gap-2 ml-4">
@@ -115,6 +115,7 @@
                         buttonHeight="4.5rem"
                         buttonWidth="5.5rem"
                         execFunction={() => console.log("Guessed!")}>
+                        <!-- !TODO replace this with a checkmark icon that fits the font -->
                         <img
                             src="/assets/svg/check mark.svg"
                             alt="guess icon"
@@ -132,4 +133,10 @@
                 class="w-52 h-28" />
         </div>
     </div>
-</main>
+</content>
+
+<style>
+    .custom-content-height {
+        height: calc(100% - 350px);
+    }
+</style>

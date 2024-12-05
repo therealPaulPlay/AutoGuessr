@@ -70,7 +70,7 @@
     }
 
     .logo-animation {
-        animation: dynamicPulse 4s infinite ease-in-out;
+        animation: dynamicPulse 8s infinite ease-in-out;
     }
 
     @keyframes dynamicPulse {

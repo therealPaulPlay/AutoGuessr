@@ -28,7 +28,7 @@
         />
     {/if}
     <div
-        class="relative w-full h-full overflow-hidden flex justify-between items-center p-5 bg-white"
+        class="relative w-full h-full overflow-hidden flex justify-between items-center p-5 bg-tanLight"
     >
         {#if !descriptionFlag}
             <div
