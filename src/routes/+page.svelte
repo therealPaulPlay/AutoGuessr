@@ -1,6 +1,7 @@
 <script>
     import Button from "$lib/components/Button.svelte";
     import Tab from "$lib/components/Tab.svelte";
+    import { goto } from "$app/navigation";
 </script>
 
 <content class="flex fw-full mt-5 custom-content-size">
@@ -33,7 +34,7 @@
                     buttonHeight="10rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => (location.href = "/game")}>
+                    execFunction={() => (goto("/game"))}>
                     <img
                         src="/assets/svg/play.svg"
                         alt="play button"
@@ -48,7 +49,7 @@
                     buttonHeight="4rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => (location.href = "/auto-cards")}>
+                    execFunction={() => (goto("/auto-cards"))}>
                     <div
                         class="flex flex-row items-center justify-between w-full px-2">
                         <span class="text-white font-bold text-4xl"

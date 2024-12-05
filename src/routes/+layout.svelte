@@ -4,6 +4,7 @@
     import Popup from "$lib/components/Popup.svelte";
     import { page } from "$app/stores";
     import { isAuthenticated, username } from "$lib/stores/accountStore";
+    import { goto } from "$app/navigation";
     import {
         settingsPopup,
         signupPopup,
@@ -27,7 +28,7 @@
     <nav class="flex flex-row justify-between p-8 items-center relative z-40">
         <div>
             {#if $page.url.pathname != "/"}
-                <button class="w-10 h-10" onclick={() => (location.href = "/")}>
+                <button class="w-10 h-10" onclick={() => goto("/")}>
                     <img src="assets/svg/point arrow.svg" alt="Settings" />
                 </button>
             {/if}
