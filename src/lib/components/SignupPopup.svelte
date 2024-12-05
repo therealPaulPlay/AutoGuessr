@@ -49,7 +49,8 @@
                 signupPopup.set(false);
             }}
             title="Login and Sign up"
-            class="iframe-size rounded-lg"
+            class="iframe-size rounded-lg border-none"
+            allowtransparency="true"
             referrerpolicy="no-referrer-when-downgrade"></iframe>
     </Popup>
 {/if}
