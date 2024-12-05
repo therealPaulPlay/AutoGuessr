@@ -51,6 +51,6 @@
     }
 
     .custom-height {
-        height: calc(100% - 2.25rem);
+        height: calc(100% - 4.5rem);
     }
 </style>

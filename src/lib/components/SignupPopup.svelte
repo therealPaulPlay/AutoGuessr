@@ -43,22 +43,20 @@
         }}
         minimalPadding={true}
         tall={true}>
-        <iframe
-            src="https://openguessr.com/signup"
-            closeFunction={() => {
-                signupPopup.set(false);
-            }}
-            title="Login and Sign up"
-            class="iframe-size rounded-lg border-none"
-            allowtransparency="true"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="flex justify-center items-center w-full h-full relative gap-0">
+            <iframe
+                src="https://openguessr.com/signup"
+                closeFunction={() => {
+                    signupPopup.set(false);
+                }}
+                title="Login and Sign up"
+                class="rounded-lg border-none bg-transparent w-full h-full z-[2]"
+                allowtransparency="true"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <p class="absolute z-[0] opacity-50">loading...</p>
+        </div>
     </Popup>
 {/if}
 
 <style>
-    .iframe-size {
-        width: 100%;
-        height: calc(100% - 2rem);
-        margin-top: 1.5rem;
-    }
 </style>
