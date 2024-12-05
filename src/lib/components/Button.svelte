@@ -2,7 +2,7 @@
     let {
         color="var(--default-button)",
         bgcolor="var(--default-button-dark)",
-        buttonWidth = "3.25rem",
+        buttonWidth,
         buttonHeight = "3.25rem",
         shadowHeight = "0.3rem",
         execFunction,
@@ -25,9 +25,9 @@
 </script>
 
 <div
-    class="flex h-full relative"
+    class="flex h-full relative hover:brightness-110 transition duration-200"
     id="buttonOuterDiv"
-    style:width={buttonWidth}
+    style:width="{buttonWidth || "fit-content"}"
     style:height={buttonHeight}>
     <button
         class="rounded-lg z-10 ease-out duration-150 px-3 w-full flex items-center justify-center box-border bg-orange {border ? "border-white border-4" : ""}"
