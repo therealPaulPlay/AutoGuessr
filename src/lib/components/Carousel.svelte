@@ -15,29 +15,38 @@
     function prev() {
         currentIndex = (currentIndex - 1 + images.length) % images.length;
     }
+
+    let imageFit = $state(false);
 </script>
 
 <div
-    class="flex w-full h-[60vh] relative overflow-clip rounded-2xl border-white border-8 bg-white"
+    class="flex w-full h-[60vh] relative rounded-2xl border-white border-8 bg-white"
 >
     {#if !descriptionFlag}
+        <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+        <!-- svelte-ignore a11y_click_events_have_key_events -->
         <img
             src={images[currentIndex]}
             alt="Carousel"
-            class="absolute h-full w-full object-cover z-10 bg-white"
+            onclick={() => {
+                imageFit = !imageFit;
+            }}
+            tabindex="0"
+            role="button"
+            class="absolute h-full w-full {imageFit ? "object-contain" : "object-cover"} z-10 bg-white cursor-pointer rounded-lg"
         />
     {/if}
     <div
-        class="relative w-full h-full overflow-hidden flex justify-between items-center bg-tanLight"
+        class="relative w-full h-full overflow-hidden flex justify-between items-center bg-tanLight rounded-lg"
     >
         {#if !descriptionFlag}
             <div
-                class="z-20 w-full h-full flex flex-row justify-between items-center mx-2"
+                class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none"
             >
                 <div
-                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2"
+                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto"
                 >
-                    <button onclick={prev} class="z-20">
+                    <button onclick={prev} class="z-20 transition active:scale-90">
                         <img
                             src="/assets/svg/arrow.svg"
                             alt="Previous"
@@ -46,9 +55,9 @@
                     </button>
                 </div>
                 <div
-                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pl-2"
+                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pl-2 pointer-events-auto"
                 >
-                    <button onclick={next} class="z-20">
+                    <button onclick={next} class="z-20 transition active:scale-90">
                         <img
                             src="/assets/svg/arrow.svg"
                             alt="Next"

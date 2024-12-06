@@ -4,14 +4,15 @@
     import { goto } from "$app/navigation";
 </script>
 
+<!-- Logo -->
+ <div class="fixed mx-auto left-0 right-0 top-1/4 flex justify-center">
+    <img
+    class="w-[60vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] logo-animation"
+    src="assets/svg/logo.svg"
+    alt="Logo" />
+ </div>
+
 <content class="flex fw-full mt-5 custom-content-size">
-    <!-- Logo -->
-    <div class="flex justify-center w-full items-start logo-animation">
-        <img
-            class="w-[60vw] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] mt-[10%]"
-            src="assets/svg/logo.svg"
-            alt="Logo" />
-    </div>
     <!-- Bottom Area -->
     <div
         class="flex flex-row justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0">
@@ -34,7 +35,7 @@
                     buttonHeight="10rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => (goto("/game"))}>
+                    execFunction={() => goto("/game")}>
                     <img
                         src="/assets/svg/play.svg"
                         alt="play button"
@@ -49,7 +50,7 @@
                     buttonHeight="4rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => (goto("/auto-cards"))}>
+                    execFunction={() => goto("/auto-cards")}>
                     <div
                         class="flex flex-row items-center justify-between w-full px-2">
                         <span class="text-white font-bold text-4xl"

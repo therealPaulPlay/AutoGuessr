@@ -13,6 +13,7 @@
     --default-shadow-dark: rgb(220, 187, 154);
     --white-shadow: #bab3a8;
     --tan-dark: rgb(204, 157, 130);
+    --tan-light: rgb(247, 240, 224);
 
     --mystical: rgb(179, 50, 119);
     --extrude-mystical: rgb(147, 32, 93);
@@ -57,8 +58,8 @@ body {
 
 body,
 html {
-    overflow: hidden;
     scrollbar-width: none;
+    overscroll-behavior: none;
 }
 
 .centered-card {
@@ -83,7 +84,12 @@ html {
     height: 2.5rem;
     background: url('/assets/svg/slider.svg') no-repeat;
     transform: translateX(5px);
+    transition: scale 150ms ease;
     cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb:active {
+    scale: 0.9;
 }
 
 .slider::-moz-range-thumb {
@@ -92,7 +98,12 @@ html {
     height: 2.5rem;
     background: url('/assets/svg/slider.svg') no-repeat;
     transform: translateX(5px);
+    transition: scale 150ms ease;
     cursor: pointer;
+}
+
+.slider::-moz-range-thumb:active {
+    scale: 0.9;
 }
 
 /* Removes number arrows */

@@ -4,6 +4,7 @@
     import Stat from "$lib/components/Stat.svelte";
     import PriceSlider from "$lib/components/PriceSlider.svelte";
     import Button from "$lib/components/Button.svelte";
+    import { Check } from "lucide-svelte";
 
     let images = [
         "/assets/img/example/img1.jpeg",
@@ -66,7 +67,7 @@
 
 <content class="items-center relative overflow-visible">
     <!-- Main game content -->
-    <div class="flex w-full justify-center z-50 main-game">
+    <div class="flex w-full justify-center z-50">
         <!-- main window -->
         <div class="rounded-2xl md:w-4/5 md:px-12">
             <div class="flex w-1/2 gap-2 ml-4">
@@ -74,33 +75,27 @@
                     color={imageTab ? "var(--white)" : "var(--default-shadow)"}
                     onHover={false}
                     shadow={false}
-                    execFunction={displayImages}
-                >
+                    execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
                 <Tab
                     color={imageTab ? "var(--default-shadow)" : "var(--white)"}
                     onHover={false}
                     shadow={false}
-                    execFunction={displayDescription}
-                >
+                    execFunction={displayDescription}>
                     <span class="text-xl font-medium text-black"
-                        >Description</span
-                    >
+                        >Description</span>
                 </Tab>
             </div>
             <div class="flex flex-col w-full md:flex-row gap-5">
                 <div
-                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]"
-                >
+                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                     <Carousel {images} {description} {descriptionFlag} />
                 </div>
                 <div
-                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-xl bg-white"
-                >
+                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white">
                     <div
-                        class="w-full flex flex-col justify-between h-fit gap-2 p-2"
-                    >
+                        class="w-full flex flex-col justify-between h-fit gap-2 p-2">
                         {#each stats as stat}
                             <Stat icon={stat.icon} text={stat.text} />
                         {/each}
@@ -110,34 +105,29 @@
         </div>
     </div>
     <!-- Bottom UI -->
-    <div class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center">
+    <div
+        class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center">
         <!-- Lives -->
         <div class="lives">
             <img
                 src="/assets/svg/traffic {lives}.svg"
                 alt="lives"
-                class="w-52 h-28 flex content-end"
-            />
+                class="w-52 h-28 flex content-end" />
         </div>
         <div
             class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl"
-            style:background-color="var(--default-shadow)"
-        >
-            <div class="flex grow gap-2.5">
+            style:background-color="var(--default-shadow)">
+            <div class="flex grow gap-2.5 text-white">
                 <PriceSlider min="0" max="10" />
                 <Button
                     color="var(--default-button)"
                     bgcolor="var(--default-button-dark)"
                     buttonHeight="4.5rem"
                     buttonWidth="5.5rem"
-                    execFunction={() => console.log("Guessed!")}
-                >
-                    <!-- !TODO replace this with a checkmark icon that fits the font -->
-                    <img
-                        src="/assets/svg/check mark.svg"
-                        alt="guess icon"
-                        style:width="60%"
-                    />
+                    execFunction={() => console.log("Guessed!")}>
+                    <span class="check-align-vertical">
+                        <Check strokeWidth={5} size={35} />
+                    </span>
                 </Button>
             </div>
         </div>
@@ -146,14 +136,13 @@
 
 <style>
     @media (max-width: 768px) {
-        .main-game {
-            height: 100svh;
-            overflow: auto;
-        }
-
         .lives img {
             height: 20vw; /* adjusts the size of the image */
             transform: translateY(25%);
         }
+    }
+
+    .check-align-vertical {
+        margin-top: 3px;
     }
 </style>
