@@ -28,11 +28,11 @@
         />
     {/if}
     <div
-        class="relative w-full h-full overflow-hidden flex justify-between items-center p-5 bg-tanLight"
+        class="relative w-full h-full overflow-hidden flex justify-between items-center bg-tanLight"
     >
         {#if !descriptionFlag}
             <div
-                class="z-20 w-full h-full flex flex-row justify-between items-center"
+                class="z-20 w-full h-full flex flex-row justify-between items-center mx-2"
             >
                 <div
                     class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2"
@@ -58,12 +58,12 @@
                 </div>
             </div>
         {:else}
-            <div class="w-full h-full flex flex-col overflow-auto p-5">
-                <h1 class="font-bold text-2xl mb-2">
+            <div class="absolute h-full flex flex-col overflow-auto p-10">
+                <h1 class="font-bold text-2xl mb-7">
                     Here is what the seller has to say:
                     <!-- Maybe we can make this dynamically change between different sentences? To make it feel fresh -->
                 </h1>
-                <p class="text-black text-lg">{description}</p>
+                <p class="text-black text-lg text-justify">{description}</p>
             </div>
         {/if}
     </div>

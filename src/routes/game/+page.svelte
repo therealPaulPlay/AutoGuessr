@@ -45,7 +45,7 @@
     ];
 
     let description =
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus nec nunc";
+        "What does the buzzword 'technologies' really mean? Think virally-distributed. Quick: do you have a plan to become cross-media? We think that most co-branded splash pages use far too much Perl, and not enough OWL. Without niches, you will lack experiences. The capability to implement wirelessly leads to the ability to iterate virtually. Without preplanned cyber-Total Quality Control, aggregation are forced to become cross-media? We think that most C2C2C web-based applications use far too much Rails, and not enough PNG. Is it more important for something to be best-of-breed? The portals factor can be delivered as-a-service to wherever it’s intended to go – mobile. Our infinitely reconfigurable feature set is unmatched in the industry, but our back-end performance and non-complex use is invariably considered a remarkable achievement. It sounds wonderful, but it's 100 percent accurate! The experiences factor is 1000/60/60/24/7/365. Do you have a infinitely reconfigurable feature set is unparalleled, but our vertical, customized efficient, user-centric TQM and non-complex use is usually considered an amazing achievement. Do you have a infinitely reconfigurable scheme for coping with emerging methodologies? Is it more important for something to be customer-directed? What does the term 'dot-com' really mean? Helping marketers serve unmatched cross-phase personalized experiences at every step of the pudding is in the industry, but our C2C2C paradigms and easy configuration is usually considered an amazing achievement";
 
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
@@ -64,35 +64,43 @@
     }
 </script>
 
-<content class="flex items-center relative custom-content-height">
+<content class="items-center relative overflow-visible">
     <!-- Main game content -->
-    <div class="flex justify-center w-full h-full items-center z-50">
+    <div class="flex w-full justify-center z-50 main-game">
         <!-- main window -->
-        <div class="rounded-2xl w-4/5 px-12">
+        <div class="rounded-2xl md:w-4/5 md:px-12">
             <div class="flex w-1/2 gap-2 ml-4">
                 <Tab
                     color={imageTab ? "var(--white)" : "var(--default-shadow)"}
                     onHover={false}
                     shadow={false}
-                    execFunction={displayImages}>
+                    execFunction={displayImages}
+                >
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
                 <Tab
                     color={imageTab ? "var(--default-shadow)" : "var(--white)"}
                     onHover={false}
                     shadow={false}
-                    execFunction={displayDescription}>
+                    execFunction={displayDescription}
+                >
                     <span class="text-xl font-medium text-black"
-                        >Description</span>
+                        >Description</span
+                    >
                 </Tab>
             </div>
-            <div
-                class="flex gap-5">
-                <div class="w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
+            <div class="flex flex-col w-full md:flex-row gap-5">
+                <div
+                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]"
+                >
                     <Carousel {images} {description} {descriptionFlag} />
                 </div>
-                <div class="w-1/3 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-xl bg-white">
-                    <div class="w-full mb-auto flex flex-col justify-between h-fit gap-2 p-2">
+                <div
+                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-xl bg-white"
+                >
+                    <div
+                        class="w-full flex flex-col justify-between h-fit gap-2 p-2"
+                    >
                         {#each stats as stat}
                             <Stat icon={stat.icon} text={stat.text} />
                         {/each}
@@ -102,41 +110,50 @@
         </div>
     </div>
     <!-- Bottom UI -->
-    <div class="fixed bottom-0 margin-x-auto flex gap-10 w-full justify-center">
-        <div
-            class="p-2.5 rounded-t-2xl w-1/2 flex max-w-3xl"
-            style:background-color="var(--default-shadow)">
-            <div class="flex grow gap-1">
-                <PriceSlider min="0" max="10" />
-                <div class="ml-2">
-                    <Button
-                        color="var(--default-button)"
-                        bgcolor="var(--default-button-dark)"
-                        buttonHeight="4.5rem"
-                        buttonWidth="5.5rem"
-                        execFunction={() => console.log("Guessed!")}>
-                        <!-- !TODO replace this with a checkmark icon that fits the font -->
-                        <img
-                            src="/assets/svg/check mark.svg"
-                            alt="guess icon"
-                            style:width="60%" />
-                    </Button>
-                </div>
-            </div>
-        </div>
+    <div class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center">
         <!-- Lives -->
-        <!-- TODO: Make "disabled" variants darker AND make sure that the traffic lights themselves are centered with the buttons (so anchored to top!) -->
-        <div class="h-full -z-10">
+        <div class="lives">
             <img
                 src="/assets/svg/traffic {lives}.svg"
                 alt="lives"
-                class="w-52 h-28" />
+                class="w-52 h-28 flex content-end"
+            />
+        </div>
+        <div
+            class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl"
+            style:background-color="var(--default-shadow)"
+        >
+            <div class="flex grow gap-2.5">
+                <PriceSlider min="0" max="10" />
+                <Button
+                    color="var(--default-button)"
+                    bgcolor="var(--default-button-dark)"
+                    buttonHeight="4.5rem"
+                    buttonWidth="5.5rem"
+                    execFunction={() => console.log("Guessed!")}
+                >
+                    <!-- !TODO replace this with a checkmark icon that fits the font -->
+                    <img
+                        src="/assets/svg/check mark.svg"
+                        alt="guess icon"
+                        style:width="60%"
+                    />
+                </Button>
+            </div>
         </div>
     </div>
 </content>
 
 <style>
-    .custom-content-height {
-        height: calc(100% - 350px);
+    @media (max-width: 768px) {
+        .main-game {
+            height: 100svh;
+            overflow: auto;
+        }
+
+        .lives img {
+            height: 20vw; /* adjusts the size of the image */
+            transform: translateY(25%);
+        }
     }
 </style>

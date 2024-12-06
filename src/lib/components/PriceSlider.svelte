@@ -38,8 +38,8 @@
 </script>
 
 <div
-    class="flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] grow gap-1">
-    <div class="grow grow-[2] min-w-32">
+    class="flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] gap-2">
+    <div class="grow-[2]">
         <input
             type="range"
             step="1"
@@ -50,7 +50,7 @@
             class="slider w-full" />
     </div>
     <div
-        class="flex items-center justify-center relative bg-white text-xl p-2 px-4 rounded-md h-full ml-2 text-orange font-bold min-w-48 transition {inputFocused ? "!bg-orange" : ""}">
+        class="flex items-center justify-center relative bg-white text-xl p-2 rounded-md h-full text-orange font-bold min-w-40 transition {inputFocused ? "!bg-orange" : ""}">
         <span class="w-full h-full bg-transparent text-center custom-vertical-align {inputFocused ? "text-white" : ""} transition"
             >{formatedGuess()}</span>
         <input
