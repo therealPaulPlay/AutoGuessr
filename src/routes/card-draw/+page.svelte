@@ -118,9 +118,7 @@
     }}
 />
 <content class="relative h-full block">
-    <div
-        class="flex flex-col w-full justify-center items-center custom-card-container-height"
-    >
+    <div class="flex flex-col w-full justify-center items-center custom-card-container-height">
         <div>
             <img
                 src="/assets/svg/arrow.svg"
@@ -128,42 +126,42 @@
                 class="w-8 h-8 -rotate-90"
             />
         </div>
-        <div
-            bind:clientWidth={containerWidth}
-            class="min-h-96 flex flex-row items-center w-fit scroll-container gap-2 my-5"
-        >
-            {#each rarities as rarity, i}
-                {#if i === cardPositionIndex}
-                    <div
-                        bind:clientWidth={cardWidth}
-                        class="flex-shrink-0 z-10 transition-all duration-700 w-fit relative [transform-style:preserve-3d]"
-                        class:flip-it={showCardBack}
-                        style:height="24rem"
-                        style:width="{cardWidth}px"
-                        id="card_{i}"
-                    >
+        <div class="fade-mask w-full">
+            <div
+                bind:clientWidth={containerWidth}
+                class="flex flex-row items-center w-fit scroll-container gap-2 my-5"
+            >
+                {#each rarities as rarity, i}
+                    {#if i === cardPositionIndex}
                         <div
-                            class="absolute w-full h-full [backface-visibility:hidden]"
+                            bind:clientWidth={cardWidth}
+                            class="flex-shrink-0 z-10 transition-all duration-700 w-fit relative [transform-style:preserve-3d] h-96"
+                            class:flip-it={showCardBack}
+                            style:width="{cardWidth}px"
+                            id="card_{i}"
+                        >
+                            <div
+                                class="absolute w-full h-full [backface-visibility:hidden]"
+                            >
+                                <CardBack {rarity} />
+                            </div>
+                            <div
+                                class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]"
+                            >
+                                <Card {...cardInfo} />
+                            </div>
+                        </div>
+                    {:else}
+                        <div
+                            bind:clientWidth={cardWidth}
+                            class="flex-shrink-0 z-10 transition-all ease-in-out delay-300 h-96"
+                            id="card_{i}"
                         >
                             <CardBack {rarity} />
                         </div>
-                        <div
-                            class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]"
-                        >
-                            <Card {...cardInfo} />
-                        </div>
-                    </div>
-                {:else}
-                    <div
-                        bind:clientWidth={cardWidth}
-                        class="flex-shrink-0 z-10 transition-all ease-in-out delay-300"
-                        style:height="24rem"
-                        id="card_{i}"
-                    >
-                        <CardBack {rarity} />
-                    </div>
-                {/if}
-            {/each}
+                    {/if}
+                {/each}
+            </div>
         </div>
         <div>
             <img
@@ -245,5 +243,16 @@
 
     .flip-it {
         transform: rotateY(180deg);
+    }
+
+    @media (min-width: 768px) { /* Adjust the min-width value as needed */
+        .fade-mask {
+            mask-image: radial-gradient(
+                circle,
+                rgba(255, 255, 255, 1) 20%,
+                rgba(0, 0, 0, 0) 80%
+            );
+            mask-composite: intersect;
+        }
     }
 </style>
