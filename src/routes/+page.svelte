@@ -2,6 +2,13 @@
     import Button from "$lib/components/Button.svelte";
     import Tab from "$lib/components/Tab.svelte";
     import { goto } from "$app/navigation";
+
+    let difficulty = 0;
+
+    function setDifficulty(value) {
+        console.log(`Difficulty set to ${value} from ${difficulty}`);
+        difficulty = value;
+    }
 </script>
 
 <!-- Logo -->
@@ -19,13 +26,13 @@
         <div class="flex flex-col overflow-clip">
             <!-- Difficulties -->
             <div class="flex flex-row max-w-64 ml-2">
-                <Tab color="var(--green-button)">
+                <Tab color="var(--green-button)" selected={Boolean(difficulty == 1)} execFunction={setDifficulty(1)}>
                     <span class="text-xl font-medium">Beginner</span>
                 </Tab>
-                <Tab color="var(--default-button)">
+                <Tab color="var(--default-button)" selected={Boolean(difficulty == 2)} execFunction={setDifficulty(2)}>
                     <span class="text-xl font-medium">Advanced</span>
                 </Tab>
-                <Tab color="rgb(52, 49, 49)">
+                <Tab color="rgb(52, 49, 49)" selected={Boolean(difficulty == 3)} execFunction={setDifficulty(3)}>
                     <span class="text-xl font-medium">Expert</span>
                 </Tab>
             </div>
