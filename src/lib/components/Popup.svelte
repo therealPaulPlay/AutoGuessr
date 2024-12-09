@@ -33,8 +33,8 @@
                 <X strokeWidth={4} />
             </Button>
         </div>
-        <h1 class="mt-5 mb-10 text-3xl font-bold w-3/4 overflow-hidden text-ellipsis py-1">{title}</h1>
-        <div class="w-full custom-height overflow-y-auto">
+        <h1 class="absolute mt-5 mb-10 text-3xl font-bold w-3/4 overflow-hidden text-ellipsis py-1">{title}</h1>
+        <div class="w-full h-full pt-20">
             {@render children?.()}
         </div>
     </div>
@@ -50,7 +50,7 @@
         max-width: 800px;
     }
 
-    .custom-height {
+    /* .custom-height {
         height: calc(100% - 4.5rem);
-    }
+    } */
 </style>
