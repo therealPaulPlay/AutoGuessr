@@ -20,8 +20,8 @@
     transition:fade={{ duration: 150 }}>
     <div
         class="rounded-xl bg-white h-5/6 w-11/12 max-size relative overflow-hidden {minimalPadding
-            ? 'p-1 px-2'
-            : 'p-4 px-8'}"
+            ? 'p-2'
+            : 'p-8'}"
         style:max-height={tall ? "1150px" : small ? "300px" : ""}
         style:max-width={small ? "550px" : ""}
         transition:scale={{ start: 0.9, duration: 200, easing: cubicOut }}>
@@ -34,7 +34,7 @@
             </Button>
         </div>
         <h1 class="absolute mt-5 mb-10 text-3xl font-bold w-3/4 overflow-hidden text-ellipsis py-1">{title}</h1>
-        <div class="w-full h-full pt-20">
+        <div class="w-full h-full pt-[3.75rem]">
             {@render children?.()}
         </div>
     </div>

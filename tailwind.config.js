@@ -20,8 +20,12 @@ module.exports = {
         tanLight: 'rgb(247, 240, 224)',
         tanMedium: '#ecdfcc',
         tanDark: 'rgb(234, 221, 205)'
-      }
+      },
+      fontSize: {
+        base: '20px',
+      },
     },
   },
+  variants: {},
   plugins: [],
 };
