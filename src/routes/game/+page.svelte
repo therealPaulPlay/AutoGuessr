@@ -10,7 +10,8 @@
 
     let question = {
         answer: 35000,
-        description: "What does the buzzword 'technologies' really mean? Think virally-distributed. Quick: do you have a plan to become cross-media? We think that most co-branded splash pages use far too much Perl, and not enough OWL. Without niches, you will lack experiences. The capability to implement wirelessly leads to the ability to iterate virtually. Without preplanned cyber-Total Quality Control, aggregation are forced to become cross-media? We think that most C2C2C web-based applications use far too much Rails, and not enough PNG. Is it more important for something to be best-of-breed? The portals factor can be delivered as-a-service to wherever it’s intended to go – mobile. Our infinitely reconfigurable feature set is unmatched in the industry, but our back-end performance and non-complex use is invariably considered a remarkable achievement. It sounds wonderful, but it's 100 percent accurate! The experiences factor is 1000/60/60/24/7/365. Do you have a infinitely reconfigurable feature set is unparalleled, but our vertical, customized efficient, user-centric TQM and non-complex use is usually considered an amazing achievement. Do you have a infinitely reconfigurable scheme for coping with emerging methodologies? Is it more important for something to be customer-directed? What does the term 'dot-com' really mean? Helping marketers serve unmatched cross-phase personalized experiences at every step of the pudding is in the industry, but our C2C2C paradigms and easy configuration is usually considered an amazing achievement",
+        description:
+            "What does the buzzword 'technologies' really mean? Think virally-distributed. Quick: do you have a plan to become cross-media? We think that most co-branded splash pages use far too much Perl, and not enough OWL. Without niches, you will lack experiences. The capability to implement wirelessly leads to the ability to iterate virtually. Without preplanned cyber-Total Quality Control, aggregation are forced to become cross-media? We think that most C2C2C web-based applications use far too much Rails, and not enough PNG. Is it more important for something to be best-of-breed? The portals factor can be delivered as-a-service to wherever it’s intended to go – mobile. Our infinitely reconfigurable feature set is unmatched in the industry, but our back-end performance and non-complex use is invariably considered a remarkable achievement. It sounds wonderful, but it's 100 percent accurate! The experiences factor is 1000/60/60/24/7/365. Do you have a infinitely reconfigurable feature set is unparalleled, but our vertical, customized efficient, user-centric TQM and non-complex use is usually considered an amazing achievement. Do you have a infinitely reconfigurable scheme for coping with emerging methodologies? Is it more important for something to be customer-directed? What does the term 'dot-com' really mean? Helping marketers serve unmatched cross-phase personalized experiences at every step of the pudding is in the industry, but our C2C2C paradigms and easy configuration is usually considered an amazing achievement",
         images: [
             "/assets/img/example/img1.jpeg",
             "/assets/img/example/img2.jpeg",
@@ -47,8 +48,8 @@
                 icon: "/assets/svg/fuel.svg",
                 text: "Gasoline",
             },
-        ]
-    }
+        ],
+    };
 
     let resultPopup = $state(false);
     let nextFlag = $state(false);
@@ -73,6 +74,34 @@
         setTimeout(() => {
             nextFlag = true;
         }, 1000);
+    }
+
+    function percentageDifference() {
+        // Avoid division by zero
+        if (question.answer === 0 && guessResult === 0) {
+            return 0;
+        }
+
+        // Calculate the base as the average of absolute values
+        const base = (Math.abs(question.answer) + Math.abs(guessResult)) / 2;
+
+        // Calculate the absolute difference
+        const difference = Math.abs(question.answer - guessResult);
+
+        // Calculate percentage
+        const percentage = (difference / base) * 100;
+
+        return percentage;
+    }
+
+    function pointCalculation() {
+        let difference = percentageDifference();
+        if (difference > 100) return 0;
+
+        let maxPoints = 500;
+        let points = Math.round((100 - difference) / 100 * maxPoints);
+
+        return points;
     }
 
     let guessResult = $state(1);
@@ -107,7 +136,11 @@
                 <div
                     class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]"
                 >
-                    <Carousel images={question.images} description={question.description} {descriptionFlag} />
+                    <Carousel
+                        images={question.images}
+                        description={question.description}
+                        {descriptionFlag}
+                    />
                 </div>
                 <div
                     class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white"
@@ -179,17 +212,19 @@
                         class="text-black text-base"
                     >
                         Your guess of <span class="text-orange font-semibold"
-                            >${guessResult}</span
+                            >${guessResult.toLocaleString()}</span
                         >
                         was only
-                        <span class="text-orange font-semibold">5% off.</span>
+                        <span class="text-orange font-semibold"
+                            >{percentageDifference().toFixed(2)}% off.</span
+                        >
                     </p>
                     <p
                         transition:slide={{ delay: 500 }}
                         class="text-black text-base"
                     >
                         You get <span class="text-green font-semibold"
-                            >500 points.</span
+                            >{pointCalculation()} points.</span
                         >
                     </p>
                 {/if}
