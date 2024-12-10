@@ -5,6 +5,7 @@
     import PriceSlider from "$lib/components/PriceSlider.svelte";
     import Button from "$lib/components/Button.svelte";
     import Popup from "$lib/components/Popup.svelte";
+    import GuessDisplay from "../../lib/components/GuessDisplay.svelte";
     import { Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
 
@@ -229,10 +230,11 @@
                     </p>
                 {/if}
             </div>
-            <div>
-                <h1 class="font-bold text-black text-4xl">
-                    scrolling bar thingy here...
-                </h1>
+            <div class="bg-tanDark w-full rounded-lg h-14 mt-10">
+                <GuessDisplay
+                    answer={question.answer}
+                    guess={guessResult}
+                />
             </div>
             {#if nextFlag}
                 <div transition:fly={{ x: -50, delay: 1000 }}>
