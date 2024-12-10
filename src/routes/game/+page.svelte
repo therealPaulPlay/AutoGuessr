@@ -8,47 +8,48 @@
     import { Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
 
-    let images = [
-        "/assets/img/example/img1.jpeg",
-        "/assets/img/example/img2.jpeg",
-        "/assets/img/example/img3.jpeg",
-        "/assets/img/example/img4.jpeg",
-        "/assets/img/example/img5.jpeg",
-        "/assets/img/example/img6.jpeg",
-        "/assets/img/example/img7.jpeg",
-        "/assets/img/example/img8.jpeg",
-        "/assets/img/example/img9.png",
-    ];
+    let question = {
+        answer: 35000,
+        description: "What does the buzzword 'technologies' really mean? Think virally-distributed. Quick: do you have a plan to become cross-media? We think that most co-branded splash pages use far too much Perl, and not enough OWL. Without niches, you will lack experiences. The capability to implement wirelessly leads to the ability to iterate virtually. Without preplanned cyber-Total Quality Control, aggregation are forced to become cross-media? We think that most C2C2C web-based applications use far too much Rails, and not enough PNG. Is it more important for something to be best-of-breed? The portals factor can be delivered as-a-service to wherever it’s intended to go – mobile. Our infinitely reconfigurable feature set is unmatched in the industry, but our back-end performance and non-complex use is invariably considered a remarkable achievement. It sounds wonderful, but it's 100 percent accurate! The experiences factor is 1000/60/60/24/7/365. Do you have a infinitely reconfigurable feature set is unparalleled, but our vertical, customized efficient, user-centric TQM and non-complex use is usually considered an amazing achievement. Do you have a infinitely reconfigurable scheme for coping with emerging methodologies? Is it more important for something to be customer-directed? What does the term 'dot-com' really mean? Helping marketers serve unmatched cross-phase personalized experiences at every step of the pudding is in the industry, but our C2C2C paradigms and easy configuration is usually considered an amazing achievement",
+        images: [
+            "/assets/img/example/img1.jpeg",
+            "/assets/img/example/img2.jpeg",
+            "/assets/img/example/img3.jpeg",
+            "/assets/img/example/img4.jpeg",
+            "/assets/img/example/img5.jpeg",
+            "/assets/img/example/img6.jpeg",
+            "/assets/img/example/img7.jpeg",
+            "/assets/img/example/img8.jpeg",
+            "/assets/img/example/img9.png",
+        ],
+        stats: [
+            {
+                icon: "/assets/svg/horsepower.svg",
+                text: "Name of the car",
+            },
+            {
+                icon: "/assets/svg/horsepower.svg",
+                text: "237.0HP",
+            },
+            {
+                icon: "/assets/svg/transmission.svg",
+                text: "Automatic",
+            },
+            {
+                icon: "/assets/svg/date.svg",
+                text: "2017",
+            },
+            {
+                icon: "/assets/svg/owner.svg",
+                text: "2",
+            },
+            {
+                icon: "/assets/svg/fuel.svg",
+                text: "Gasoline",
+            },
+        ]
+    }
 
-    let stats = [
-        {
-            icon: "/assets/svg/horsepower.svg",
-            text: "Name of the car",
-        },
-        {
-            icon: "/assets/svg/horsepower.svg",
-            text: "237.0HP",
-        },
-        {
-            icon: "/assets/svg/transmission.svg",
-            text: "Automatic",
-        },
-        {
-            icon: "/assets/svg/date.svg",
-            text: "2017",
-        },
-        {
-            icon: "/assets/svg/owner.svg",
-            text: "2",
-        },
-        {
-            icon: "/assets/svg/fuel.svg",
-            text: "Gasoline",
-        },
-    ];
-
-    let description =
-        "What does the buzzword 'technologies' really mean? Think virally-distributed. Quick: do you have a plan to become cross-media? We think that most co-branded splash pages use far too much Perl, and not enough OWL. Without niches, you will lack experiences. The capability to implement wirelessly leads to the ability to iterate virtually. Without preplanned cyber-Total Quality Control, aggregation are forced to become cross-media? We think that most C2C2C web-based applications use far too much Rails, and not enough PNG. Is it more important for something to be best-of-breed? The portals factor can be delivered as-a-service to wherever it’s intended to go – mobile. Our infinitely reconfigurable feature set is unmatched in the industry, but our back-end performance and non-complex use is invariably considered a remarkable achievement. It sounds wonderful, but it's 100 percent accurate! The experiences factor is 1000/60/60/24/7/365. Do you have a infinitely reconfigurable feature set is unparalleled, but our vertical, customized efficient, user-centric TQM and non-complex use is usually considered an amazing achievement. Do you have a infinitely reconfigurable scheme for coping with emerging methodologies? Is it more important for something to be customer-directed? What does the term 'dot-com' really mean? Helping marketers serve unmatched cross-phase personalized experiences at every step of the pudding is in the industry, but our C2C2C paradigms and easy configuration is usually considered an amazing achievement";
     let resultPopup = $state(false);
     let nextFlag = $state(false);
     let imageTab = $state(true);
@@ -62,7 +63,6 @@
     }
 
     function displayDescription() {
-        console.log("Description");
         imageTab = false;
         descriptionFlag = true;
     }
@@ -107,7 +107,7 @@
                 <div
                     class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]"
                 >
-                    <Carousel {images} {description} {descriptionFlag} />
+                    <Carousel images={question.images} description={question.description} {descriptionFlag} />
                 </div>
                 <div
                     class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white"
@@ -115,7 +115,7 @@
                     <div
                         class="w-full flex flex-col justify-between h-fit gap-2 p-2"
                     >
-                        {#each stats as stat}
+                        {#each question.stats as stat}
                             <Stat icon={stat.icon} text={stat.text} />
                         {/each}
                     </div>
@@ -179,10 +179,10 @@
                         class="text-black text-base"
                     >
                         Your guess of <span class="text-orange font-semibold"
-                            >$5</span
+                            >${guessResult}</span
                         >
                         was only
-                        <span class="text-orange font-semibold">10% off.</span>
+                        <span class="text-orange font-semibold">5% off.</span>
                     </p>
                     <p
                         transition:slide={{ delay: 500 }}
