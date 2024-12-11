@@ -234,6 +234,7 @@
                 <GuessDisplay
                     answer={question.answer}
                     guess={guessResult}
+                    percentageDifference={percentageDifference().toFixed(2)}
                 />
             </div>
             {#if nextFlag}
