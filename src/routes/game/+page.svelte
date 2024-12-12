@@ -8,6 +8,20 @@
     import GuessDisplay from "../../lib/components/GuessDisplay.svelte";
     import { Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
+    import { difficulty, lives } from "$lib/stores/gameStore";
+
+    const difficultyRules = {
+        1: {
+            correctTier: [10, 20],
+        },
+        2: {
+            correctTier: [5, 10],
+        },
+        3: {
+            correctTier: [1, 5],
+            penaltyThreshold: 10, // Only applies for difficulty 3
+        },
+    };
 
     let question = {
         answer: 35000,
@@ -56,7 +70,6 @@
     let nextFlag = $state(false);
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
-    let lives = $state(2); // 0 to 3
 
     function displayImages() {
         console.log("Images");
@@ -70,6 +83,8 @@
     }
 
     function showResult() {
+        checkPlayerPerformance(percentageDifference());
+
         resultPopup = true;
 
         setTimeout(() => {
@@ -100,9 +115,44 @@
         if (difference > 100) return 0;
 
         let maxPoints = 500;
-        let points = Math.round((100 - difference) / 100 * maxPoints);
+        let points = Math.round(((100 - difference) / 100) * maxPoints);
 
         return points;
+    }
+
+    function checkPlayerPerformance(percent) {
+        const rules = difficultyRules[$difficulty];
+        if (!rules) {
+            throw new Error("Invalid difficulty level.");
+        }
+
+        const [lowerBound, upperBound] = rules.correctTier;
+
+        if (percent <= lowerBound) {
+            // Give the player an extra life if they get it within the lower bound
+            lives.update((l) => {
+                return l < 3 ? l + 1 : l;
+            });
+            return;
+        }
+
+        // Check if the player's performance is within the "correct tier"
+        if (percent >= lowerBound && percent <= upperBound) {
+            return;
+        }
+
+        // Check if the penalty logic applies (only for difficulty 3)
+        if ($difficulty === 3 && percent > rules.penaltyThreshold) {
+            lives.update((l) => {
+                return l - 2 < 0 ? 0 : l - 2;
+            });
+            return;
+        }
+
+        lives.update((l) => {
+            return l - 1 < 0 ? 0 : l - 1;
+        });
+        return;
     }
 
     let guessResult = $state(1);
@@ -164,7 +214,7 @@
         <!-- Lives -->
         <div class="lives">
             <img
-                src="/assets/svg/traffic {lives}.svg"
+                src="/assets/svg/traffic {$lives}.svg"
                 alt="lives"
                 class="w-52 h-28 flex content-end"
             />
