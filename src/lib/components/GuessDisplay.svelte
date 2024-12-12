@@ -146,16 +146,10 @@
             style:left="{guessBarPos}px"
             id="guessBar"
         ></div>
-        <div class="flex w-full h-full items-end gap-1 rounded-lg markings">
-            <!-- Scrollable content -->
+        <!-- Lines -->
+        <div class="flex w-full h-full items-end gap-3 rounded-lg markings">
             {#each { length: 10 * sectionsAmount } as _, i}
-                {#if i % 10 === 0}
-                    <div class="line big"></div>
-                {:else if i % 5 === 0}
-                    <div class="line mid"></div>
-                {:else}
-                    <div class="line small"></div>
-                {/if}
+                <div class="line"></div>
             {/each}
         </div>
     </div>
@@ -198,23 +192,12 @@
 
 <style>
     .line {
+        height: 30%;
         opacity: 0.4;
         flex-shrink: 0;
         border-radius: 9999px;
         width: 4px;
         background-color: var(--black);
-    }
-
-    .line.small {
-        height: 15%;
-    }
-
-    .line.mid {
-        height: 30%;
-    }
-
-    .line.big {
-        height: 50%;
     }
 
     .remove-scrollbar {

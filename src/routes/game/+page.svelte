@@ -194,7 +194,7 @@
 <!-- Result Popups -->
 {#if resultPopup}
     <Popup
-        title="Round results"
+        title=""
         closeFunction={() => {
             resultPopup = false;
         }}
