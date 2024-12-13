@@ -69,6 +69,7 @@
     let resultPopup = $state(false);
     let nextFlag = $state(false);
     let rewardFlag = $state(false);
+    let penaltyFlag = $state(false);
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
 
@@ -152,6 +153,7 @@
     }
 
     function addLife(amount) {
+        penaltyFlag = false;
         rewardFlag = true;
         lives.update((l) => {
             return l + amount > 3 ? 3 : l + amount;
@@ -160,6 +162,7 @@
 
     function subtractLife(amount) {
         rewardFlag = false;
+        penaltyFlag = true;
         lives.update((l) => {
             return l - amount < 0 ? 0 : l - amount;
         });
@@ -285,8 +288,13 @@
                         class="text-black text-base"
                     >
                         You get <span class="text-green font-semibold"
-                            >{pointCalculation()} points{rewardFlag ? " and +1 life!" : "."}</span
+                            >{pointCalculation()} points{rewardFlag
+                                ? " and an extra life!"
+                                : "."}</span
                         >
+                        {#if penaltyFlag}
+                            <span class="font-semibold text-red-600 underline decoration-2">You lose {$difficulty === 3 ? "2 lives." : "a life."}</span>
+                        {/if}
                     </p>
                 {/if}
             </div>
