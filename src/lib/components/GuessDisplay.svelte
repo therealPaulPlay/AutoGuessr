@@ -21,7 +21,7 @@
         const guessBand = document.querySelector(".guess-band");
         // gsap scroll to
         gsap.to(guessBand, {
-            duration: 4,
+            duration: 2,
             scrollTo: {
                 x: "#answerBar",
                 offsetX: getMarkingsVisibleWidth() / 2 - 7,

@@ -68,6 +68,7 @@
 
     let resultPopup = $state(false);
     let nextFlag = $state(false);
+    let rewardFlag = $state(false);
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
 
@@ -130,29 +131,38 @@
 
         if (percent <= lowerBound) {
             // Give the player an extra life if they get it within the lower bound
-            lives.update((l) => {
-                return l < 3 ? l + 1 : l;
-            });
+            addLife(1);
             return;
         }
 
         // Check if the player's performance is within the "correct tier"
         if (percent >= lowerBound && percent <= upperBound) {
+            rewardFlag = false;
             return;
         }
 
         // Check if the penalty logic applies (only for difficulty 3)
         if ($difficulty === 3 && percent > rules.penaltyThreshold) {
-            lives.update((l) => {
-                return l - 2 < 0 ? 0 : l - 2;
-            });
+            subtractLife(2);
             return;
         }
 
-        lives.update((l) => {
-            return l - 1 < 0 ? 0 : l - 1;
-        });
+        subtractLife(1);
         return;
+    }
+
+    function addLife(amount) {
+        rewardFlag = true;
+        lives.update((l) => {
+            return l + amount > 3 ? 3 : l + amount;
+        });
+    }
+
+    function subtractLife(amount) {
+        rewardFlag = false;
+        lives.update((l) => {
+            return l - amount < 0 ? 0 : l - amount;
+        });
     }
 
     let guessResult = $state(1);
@@ -275,7 +285,7 @@
                         class="text-black text-base"
                     >
                         You get <span class="text-green font-semibold"
-                            >{pointCalculation()} points.</span
+                            >{pointCalculation()} points{rewardFlag ? " and +1 life!" : "."}</span
                         >
                     </p>
                 {/if}
