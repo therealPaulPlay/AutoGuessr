@@ -5,6 +5,7 @@
     import { page } from "$app/stores";
     import { isAuthenticated, username } from "$lib/stores/accountStore";
     import { goto } from "$app/navigation";
+    import { base } from '$app/paths';
     import {
         settingsPopup,
         signupPopup,
@@ -29,7 +30,7 @@
     <div>
         {#if $page.url.pathname != "/"}
             <button class="w-10 h-10 transition active:scale-90" onclick={() => goto("/")}>
-                <img src="assets/svg/point arrow.svg" alt="Settings" />
+                <img src="{base}/assets/svg/point arrow.svg" alt="Back" />
             </button>
         {/if}
     </div>
