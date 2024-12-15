@@ -6,9 +6,10 @@
     import Button from "$lib/components/Button.svelte";
     import Popup from "$lib/components/Popup.svelte";
     import GuessDisplay from "../../lib/components/GuessDisplay.svelte";
+    import { goto } from "$app/navigation";
     import { Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
-    import { difficulty, lives } from "$lib/stores/gameStore";
+    import { difficulty, lives, score } from "$lib/stores/gameStore";
 
     const difficultyRules = {
         1: {
@@ -130,6 +131,10 @@
 
         const [lowerBound, upperBound] = rules.correctTier;
 
+        if ( percent <= upperBound) {
+            addScore(1);
+        }
+
         if (percent <= lowerBound) {
             // Give the player an extra life if they get it within the lower bound
             addLife(1);
@@ -166,6 +171,25 @@
         lives.update((l) => {
             return l - amount < 0 ? 0 : l - amount;
         });
+    }
+
+    function addScore(amount) {
+        score.update((c) => c + amount);
+    }
+
+    function goToNextQuestion() {
+        // Reset the variables
+        guessResult = 0; // Why is this not resetting?
+        nextFlag = false;
+        rewardFlag = false;
+        penaltyFlag = false;
+        resultPopup = false;
+
+        if ($lives === 0) {
+            // Redirect to the game over page
+            goto("/game/end");
+            return;
+        }
     }
 
     let guessResult = $state(1);
@@ -256,12 +280,7 @@
 
 <!-- Result Popups -->
 {#if resultPopup}
-    <Popup
-        title=""
-        closeFunction={() => {
-            resultPopup = false;
-        }}
-    >
+    <Popup title="" closeFunction={goToNextQuestion}>
         <div class="h-full flex flex-col justify-evenly items-center">
             <div class="flex flex-col items-center">
                 {#if nextFlag}
@@ -293,7 +312,12 @@
                                 : "."}</span
                         >
                         {#if penaltyFlag}
-                            <span class="font-semibold text-red-600 underline decoration-2">You lose {$difficulty === 3 ? "2 lives." : "a life."}</span>
+                            <span
+                                class="font-semibold text-red-600 underline decoration-2"
+                                >You lose {$difficulty === 3
+                                    ? "2 lives."
+                                    : "a life."}</span
+                            >
                         {/if}
                     </p>
                 {/if}
@@ -307,13 +331,7 @@
             </div>
             {#if nextFlag}
                 <div transition:fly={{ x: -50, delay: 1000 }}>
-                    <Button
-                        buttonWidth="8rem"
-                        execFunction={() => {
-                            nextFlag = true;
-                            resultPopup = false;
-                        }}
-                    >
+                    <Button buttonWidth="8rem" execFunction={goToNextQuestion}>
                         <span class="text-white text-xl font-medium">Next</span>
                     </Button>
                 </div>
