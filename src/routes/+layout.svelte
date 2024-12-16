@@ -84,7 +84,7 @@
         </div>
     </div>
 </nav>
-<main class="pt-32">
+<main class="custom-padding-top">
     {@render children?.()}
 </main>
 
@@ -105,6 +105,10 @@
 <style>
     main {
         height: 100dvh;
+    }
+
+    .custom-padding-top {
+        padding-top: calc(4rem + 7dvh);
     }
 
     @media (max-width: 800px) {

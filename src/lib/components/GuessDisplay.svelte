@@ -18,12 +18,11 @@
 
     function scrollToAnswer() {
         showGuessPrice = false;
-        const guessBand = document.querySelector(".guess-band");
         // gsap scroll to
         gsap.to(guessBand, {
             duration: 2,
             scrollTo: {
-                x: "#answerBar",
+                x: answerBar,
                 offsetX: getMarkingsVisibleWidth() / 2 - 7,
             },
             ease: "expo.inOut",
@@ -32,26 +31,33 @@
                 // For some reason, this is what I had to do to have it positioned correctly.
                 setTimeout(() => {
                     positionAnswerPrice();
-                }, 0);
+                }, 50);
             },
         });
     }
 
+    let guessBand = $state();
+
+    let answerBar = $state();
+    let guessBar = $state();
+
+    let answerPrice = $state();
+    let guessPrice = $state();
+
     function positionAnswerPrice() {
-        answerPos = positionPrice("answerBar", "answerPrice");
+        answerPos = positionPrice(answerBar, answerPrice);
     }
 
     function positionGuessPrice() {
-        guessPos = positionPrice("guessBar", "guessPrice");
+        guessPos = positionPrice(guessBar, guessPrice);
     }
 
-    function positionPrice(barID, priceID) {
-        const bar = document.getElementById(barID);
-        const price = document.getElementById(priceID);
+    function positionPrice(barElement, priceElement) {
+        if (typeof window === "undefined" && !barElement) return;
 
-        let barOffset = bar.getBoundingClientRect().left;
-        let priceWidth = price.getBoundingClientRect().width;
-        let barWidth = bar.getBoundingClientRect().width;
+        let barOffset = barElement.getBoundingClientRect().left;
+        let priceWidth = priceElement.getBoundingClientRect().width;
+        let barWidth = barElement.getBoundingClientRect().width;
         let mainWrapperOffset = getMainWrapperOffset();
 
         let position =
@@ -90,7 +96,6 @@
     }
 
     function getBarScrollWidth() {
-        const guessBand = document.querySelector(".guess-band");
         return guessBand.scrollWidth;
     }
 
@@ -109,8 +114,8 @@
             showGuessPrice = true;
             setTimeout(() => {
                 positionGuessPrice();
-            }, 0);
-        }, 1000);
+            }, 50);
+        }, 250);
     });
 
     onMount(() => {
@@ -123,7 +128,6 @@
     onMount(() => {
         // Starts at the end if the guess is more than the answer. (aka left of the answer)
         if (guess > answer) {
-            const guessBand = document.querySelector(".guess-band");
             guessBand.scrollTo({
                 left: guessBand.scrollWidth,
                 behavior: "auto",
@@ -134,18 +138,17 @@
 
 <div class="w-full h-full relative" id="wrapper">
     <div
-        class="relative w-full h-full overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none"
-    >
+        class="relative w-full h-full overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none" bind:this={guessBand}>
         <div
             class="absolute z-10 flex bottom-0 justify-center w-3.5 h-full bg-orange"
             style:left="{answerBarPos}px"
-            id="answerBar"
-        ></div>
+            bind:this={answerBar}>
+        </div>
         <div
             class="absolute z-10 flex bottom-0 justify-center w-3.5 h-full bg-black"
             style:left="{guessBarPos}px"
-            id="guessBar"
-        ></div>
+            bind:this={guessBar}>
+        </div>
         <!-- Lines -->
         <div class="flex w-full h-full items-end gap-3 rounded-lg markings">
             {#each { length: 10 * sectionsAmount } as _, i}
@@ -159,16 +162,14 @@
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
             style:left="{answerPos}px"
-            id="answerPrice"
-        >
+            bind:this={answerPrice}>
             <div class="text-orange font-semibold text-base">
                 ${answer.toLocaleString()}
             </div>
             <img
                 src="/assets/svg/simple arrow.svg"
                 alt="Arrow"
-                class="w-3.5 h-3.5 -rotate-90"
-            />
+                class="w-3.5 h-3.5 -rotate-90" />
         </div>
     {/if}
     {#if showGuessPrice}
@@ -176,16 +177,14 @@
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
             style:left="{guessPos}px"
-            id="guessPrice"
-        >
+            bind:this={guessPrice}>
             <div class="text-black font-semibold text-base">
                 ${guess.toLocaleString()}
             </div>
             <img
                 src="/assets/svg/simple arrow black.svg"
                 alt="Arrow"
-                class="w-3.5 h-3.5 -rotate-90"
-            />
+                class="w-3.5 h-3.5 -rotate-90" />
         </div>
     {/if}
 </div>

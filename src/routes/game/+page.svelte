@@ -7,9 +7,10 @@
     import Popup from "$lib/components/Popup.svelte";
     import GuessDisplay from "../../lib/components/GuessDisplay.svelte";
     import { goto } from "$app/navigation";
-    import { Check } from "lucide-svelte";
+    import { ArrowRightCircle, Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
     import { difficulty, lives, score } from "$lib/stores/gameStore";
+    import { onMount } from "svelte";
 
     const difficultyRules = {
         1: {
@@ -68,7 +69,6 @@
     };
 
     let resultPopup = $state(false);
-    let nextFlag = $state(false);
     let rewardFlag = $state(false);
     let penaltyFlag = $state(false);
     let imageTab = $state(true);
@@ -89,10 +89,6 @@
         checkPlayerPerformance(percentageDifference());
 
         resultPopup = true;
-
-        setTimeout(() => {
-            nextFlag = true;
-        }, 1000);
     }
 
     function percentageDifference() {
@@ -109,7 +105,6 @@
 
         // Calculate percentage
         const percentage = (difference / base) * 100;
-
         return percentage;
     }
 
@@ -131,7 +126,7 @@
 
         const [lowerBound, upperBound] = rules.correctTier;
 
-        if ( percent <= upperBound) {
+        if (percent <= upperBound) {
             addScore(1);
         }
 
@@ -179,8 +174,7 @@
 
     function goToNextQuestion() {
         // Reset the variables
-        guessResult = 0; // Why is this not resetting?
-        nextFlag = false;
+        guessResult = 1; // Why is this not resetting?
         rewardFlag = false;
         penaltyFlag = false;
         resultPopup = false;
@@ -193,6 +187,10 @@
     }
 
     let guessResult = $state(1);
+
+    onMount(() => {
+        lives.set(3);
+    });
 </script>
 
 <content class="items-center relative overflow-visible">
@@ -205,37 +203,30 @@
                     color={imageTab ? "var(--white)" : "var(--default-shadow)"}
                     tabStatic={true}
                     shadow={false}
-                    execFunction={displayImages}
-                >
+                    execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
                 <Tab
                     color={imageTab ? "var(--default-shadow)" : "var(--white)"}
                     tabStatic={true}
                     shadow={false}
-                    execFunction={displayDescription}
-                >
+                    execFunction={displayDescription}>
                     <span class="text-xl font-medium text-black"
-                        >Description</span
-                    >
+                        >Description</span>
                 </Tab>
             </div>
             <div class="flex flex-col w-full md:flex-row gap-5">
                 <div
-                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]"
-                >
+                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                     <Carousel
                         images={question.images}
                         description={question.description}
-                        {descriptionFlag}
-                    />
+                        {descriptionFlag} />
                 </div>
                 <div
-                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white"
-                >
+                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white">
                     <div
-                        class="w-full flex flex-col justify-between h-fit gap-2 p-2"
-                    >
+                        class="w-full flex flex-col justify-between h-fit gap-2 p-2">
                         {#each question.stats as stat}
                             <Stat icon={stat.icon} text={stat.text} />
                         {/each}
@@ -246,20 +237,17 @@
     </div>
     <!-- Bottom UI -->
     <div
-        class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center"
-    >
+        class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center">
         <!-- Lives -->
         <div class="lives">
             <img
                 src="/assets/svg/traffic {$lives}.svg"
                 alt="lives"
-                class="w-52 h-28 flex content-end"
-            />
+                class="w-52 h-28 flex content-end" />
         </div>
         <div
             class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl"
-            style:background-color="var(--default-shadow)"
-        >
+            style:background-color="var(--default-shadow)">
             <div class="flex grow gap-2.5 text-white">
                 <PriceSlider min="0" max="10" bind:guessValue={guessResult} />
                 <Button
@@ -267,8 +255,7 @@
                     bgcolor="var(--default-button-dark)"
                     buttonHeight="4.5rem"
                     buttonWidth="5.5rem"
-                    execFunction={showResult}
-                >
+                    execFunction={showResult}>
                     <span class="check-align-vertical">
                         <Check strokeWidth={5} size={35} />
                     </span>
@@ -283,59 +270,47 @@
     <Popup title="" closeFunction={goToNextQuestion}>
         <div class="h-full flex flex-col justify-evenly items-center">
             <div class="flex flex-col items-center">
-                {#if nextFlag}
-                    <p
-                        transition:fly={{ y: -50 }}
-                        class="font-bold text-green text-7xl mb-5"
-                    >
-                        {"Not bad!".toUpperCase()}
-                    </p>
-                    <p
-                        transition:slide={{ delay: 500 }}
-                        class="text-black text-base"
-                    >
-                        Your guess of <span class="text-orange font-semibold"
-                            >${guessResult.toLocaleString()}</span
-                        >
-                        was only
-                        <span class="text-orange font-semibold"
-                            >{percentageDifference().toFixed(2)}% off.</span
-                        >
-                    </p>
-                    <p
-                        transition:slide={{ delay: 500 }}
-                        class="text-black text-base"
-                    >
-                        You get <span class="text-green font-semibold"
-                            >{pointCalculation()} points{rewardFlag
-                                ? " and an extra life!"
-                                : "."}</span
-                        >
-                        {#if penaltyFlag}
-                            <span
-                                class="font-semibold text-red-600 underline decoration-2"
-                                >You lose {$difficulty === 3
-                                    ? "2 lives."
-                                    : "a life."}</span
-                            >
-                        {/if}
-                    </p>
-                {/if}
+                <p
+                    in:fly={{ y: -50, delay: 500 }}
+                    class="font-bold text-green text-7xl mb-5 text-center">
+                    {"Not bad!".toUpperCase()}
+                </p>
+                <p class="text-black text-base text-center" in:fly={{ y: -50, delay: 500 }}>
+                    Your guess of <span class="text-orange font-semibold"
+                        >${guessResult.toLocaleString()}</span>
+                    was only
+                    <span class="text-orange font-semibold"
+                        >{percentageDifference().toFixed(2)}% off.</span>
+                </p>
+                <p in:slide={{ delay: 250 }} class="text-black text-base text-center">
+                    You get <span class="text-green font-semibold"
+                        >{pointCalculation()} points{rewardFlag
+                            ? " and an extra life!"
+                            : "."}</span>
+                    {#if penaltyFlag}
+                        <span class="font-semibold text-red-600 decoration-2"
+                            >You lose {$difficulty === 3
+                                ? "2 lives."
+                                : "a life."}</span>
+                    {/if}
+                </p>
             </div>
             <div class="bg-tanDark w-full rounded-lg h-14 mt-10">
                 <GuessDisplay
                     answer={question.answer}
                     guess={guessResult}
-                    percentageDifference={percentageDifference().toFixed(2)}
-                />
+                    percentageDifference={percentageDifference().toFixed(2)} />
             </div>
-            {#if nextFlag}
-                <div transition:fly={{ x: -50, delay: 1000 }}>
-                    <Button buttonWidth="8rem" execFunction={goToNextQuestion}>
-                        <span class="text-white text-xl font-medium">Next</span>
-                    </Button>
-                </div>
-            {/if}
+            <div in:fly={{ x: -50, delay: 2500 }}>
+                <Button
+                    buttonWidth="12rem"
+                    buttonHeight="4rem"
+                    execFunction={goToNextQuestion}>
+                    <span
+                        class="text-white text-xl font-medium flex items-center justify-center gap-2"
+                        >Next <ArrowRightCircle strokeWidth={3} /></span>
+                </Button>
+            </div>
         </div>
     </Popup>
 {/if}

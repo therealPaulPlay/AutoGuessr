@@ -1,9 +1,18 @@
 # AutoGuessr
 A price-guessing game with cars. 
 
+## Pages
+There are currently 5 pages in the game. In this section, we will go through each one. 
+
+### Game Page
+...todo...
+
+## Tailwind
+[Tailwind 3](https://tailwindcss.com/) is being used for styling.
+
 ## SV - Svelte CLI
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+AutoGuessr was built with Svelte 5, powered by [`sv`](https://github.com/sveltejs/cli). 
 
 ## Developing
 

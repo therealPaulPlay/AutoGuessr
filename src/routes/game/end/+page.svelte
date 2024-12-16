@@ -2,20 +2,21 @@
     import Button from "$lib/components/Button.svelte";
     import { goto } from "$app/navigation";
     import { score } from "$lib/stores/gameStore";
+    import { Home } from "lucide-svelte";
 
     let previousPB = 42;
 </script>
 
 <content class="flex flex-col items-center justify-center h-full">
-    <h1 class="text-8xl font-bold text-orange mb-10">Game Over!</h1>
-    <p class="text-base mb-20">
+    <h1 class="text-8xl font-bold text-orange mb-10 text-center">Game Over!</h1>
+    <p class="text-base mb-20 custom-width">
         You were able to get <span class="text-green font-bold"
             >{$score}</span
         >
         correct guess{$score <= 1 ? "" : "es"}! Your previous personal
         best was <span class="text-orange font-bold">{previousPB}.</span>
     </p>
-    <div class="flex gap-10">
+    <div class="flex gap-5 flex-wrap justify-center items-center">
         <Button
             buttonHeight="4rem"
             buttonWidth="14rem"
@@ -30,13 +31,21 @@
         </Button>
         <Button
             buttonHeight="4rem"
-            buttonWidth="14rem"
+            buttonWidth="4rem"
             shadowHeight="0.5rem"
             execFunction={() => {
                 goto("/");
             }}
         >
-            <span class="text-white font-bold text-3xl">Home</span>
+            <span class="text-white font-bold text-3xl"><Home strokeWidth={3} size={28} /></span>
         </Button>
     </div>
 </content>
+
+<style>
+    .custom-width {
+        width: 25%;
+        min-width: 300px;
+        text-align: center;
+    }
+</style>

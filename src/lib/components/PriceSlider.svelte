@@ -2,21 +2,19 @@
     let {
         sliderMin = 1,
         sliderMax = 500_000,
-        guessValue = $bindable(null),
+        guessValue = $bindable(sliderMin),
         children,
     } = $props();
 
     const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 
-    let guess = $state(sliderMin);
-    let restrictedGuess = $derived(clamp(guess, sliderMin, sliderMax));
+    let restrictedGuess = $derived(clamp(guessValue, sliderMin, sliderMax));
+
     $effect(() => {
         guessValue = restrictedGuess;
     });
 
-    function onGuessChange() {
-        
-    }
+    function onGuessChange() {}
 
     function formatedGuess() {
         return "$" + restrictedGuess.toLocaleString();
@@ -46,33 +44,29 @@
 </script>
 
 <div
-    class="flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] gap-2"
->
+    class="flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] gap-2">
     <div class="grow-[2]">
         <input
             type="range"
             step="1"
             min={sliderMin}
             max={sliderMax}
-            bind:value={guess}
+            bind:value={guessValue}
             onchange={onGuessChange}
-            class="slider w-full"
-        />
+            class="slider w-full" />
     </div>
     <div
         class="flex items-center justify-center relative bg-white text-xl p-2 rounded-md h-full text-orange font-bold min-w-40 transition {inputFocused
             ? '!bg-orange'
-            : ''}"
-    >
+            : ''}">
         <span
             class="w-full h-full bg-transparent text-center custom-vertical-align {inputFocused
                 ? 'text-white'
-                : ''} transition">{formatedGuess()}</span
-        >
+                : ''} transition">{formatedGuess()}</span>
         <input
             type="number"
             maxlength="8"
-            bind:value={guess}
+            bind:value={guessValue}
             onchange={formatedGuess}
             onkeydown={preventNonNumericalInput}
             onclick={selectAllText}
@@ -83,8 +77,7 @@
                 inputFocused = false;
             }}
             class="absolute w-full h-full"
-            style="opacity: 0;"
-        />
+            style="opacity: 0;" />
     </div>
 </div>
 
