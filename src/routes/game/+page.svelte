@@ -267,7 +267,7 @@
 
 <!-- Result Popups -->
 {#if resultPopup}
-    <Popup title="" closeFunction={goToNextQuestion}>
+    <Popup title="" closeFunction={goToNextQuestion} showCloseButton={false}>
         <div class="h-full flex flex-col justify-evenly items-center">
             <div class="flex flex-col items-center">
                 <p
