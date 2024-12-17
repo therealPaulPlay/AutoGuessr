@@ -4,48 +4,68 @@
     import { goto } from "$app/navigation";
     import { difficulty } from "$lib/stores/gameStore";
 
-    function setDifficulty(value) {
-        console.log(`Difficulty set to ${value} from ${difficulty}`);
-        difficulty.set(value);
-    }
+    let difficultyValue = $state(1);
+
+    $effect(() => {
+        difficulty.set(difficultyValue);
+    });
 </script>
 
 <!-- Logo -->
- <div class="fixed mx-auto left-0 right-0 top-1/4 flex justify-center">
+<div class="fixed mx-auto left-0 right-0 top-1/4 flex justify-center">
     <img
-    class="w-[60vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] logo-animation"
-    src="assets/svg/logo.svg"
-    alt="Logo" />
- </div>
+        class="w-[60vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] logo-animation"
+        src="assets/svg/logo.svg"
+        alt="Logo"
+    />
+</div>
 
 <content class="flex fw-full mt-5 custom-content-size">
     <!-- Bottom Area -->
     <div
-        class="flex flex-row justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0">
+        class="flex flex-row justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0"
+    >
         <div class="flex flex-col overflow-clip">
             <!-- Difficulties -->
             <div class="flex flex-row max-w-64 ml-2">
-                <Tab color="var(--green-button)" selected={Boolean($difficulty == 1)} execFunction={setDifficulty(1)}>
+                <Tab
+                    color="rgb(68, 122, 67)"
+                    selectedColor="var(--green-button)"
+                    selected={Boolean($difficulty == 1)}
+                    execFunction={() => difficultyValue = 1}
+                >
                     <span class="text-xl font-medium">Beginner</span>
                 </Tab>
-                <Tab color="var(--default-button)" selected={Boolean($difficulty == 2)} execFunction={setDifficulty(2)}>
+                <Tab
+                    color="rgb(156, 68, 33)"
+                    selectedColor="var(--default-button)"
+                    selected={Boolean($difficulty == 2)}
+                    execFunction={() => difficultyValue = 2}
+                >
                     <span class="text-xl font-medium">Advanced</span>
                 </Tab>
-                <Tab color="rgb(52, 49, 49)" selected={Boolean($difficulty == 3)} execFunction={setDifficulty(3)}>
+                <Tab
+                    color="rgb(35, 33, 33)"
+                    selectedColor="rgb(52, 49, 49)"
+                    selected={Boolean($difficulty == 3)}
+                    execFunction={() => difficultyValue = 3}
+                >
                     <span class="text-xl font-medium">Expert</span>
                 </Tab>
             </div>
             <!-- Play Button -->
-            <div>
+            <div class="z-20">
                 <Button
                     buttonHeight="10rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => goto("/game")}>
+                    execFunction={() => goto("/game")}
+                >
                     <img
                         src="/assets/svg/play.svg"
                         alt="play button"
-                        style:width="3rem" />
+                        style:width="3rem"
+                    />
                 </Button>
             </div>
             <!-- Autocards Button -->
@@ -56,15 +76,19 @@
                     buttonHeight="4rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => goto("/auto-cards")}>
+                    execFunction={() => goto("/auto-cards")}
+                >
                     <div
-                        class="flex flex-row items-center justify-between w-full px-2">
+                        class="flex flex-row items-center justify-between w-full px-2"
+                    >
                         <span class="text-white font-bold text-4xl"
-                            >AutoCards</span>
+                            >AutoCards</span
+                        >
                         <img
                             src="/assets/svg/autocards icon.svg"
                             alt=""
-                            style:width="3rem" />
+                            style:width="3rem"
+                        />
                     </div>
                 </Button>
             </div>
