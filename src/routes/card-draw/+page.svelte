@@ -22,35 +22,89 @@
     let cardWidth = $state();
     let containerWidth = $state();
     let windowWidth = $state();
-    let raritiesSize = 40;
-    let rarities = [];
     let showRevealButton = $state(false);
     let showCardBack = $state(false);
+    let raritiesSize = 40;
     let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
     let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
+    let rarityBonusValue = 50;  // This value will be passed from the game page based on the score.
 
-    for (let i = 0; i < raritiesSize; i++) {
-        let number = Math.floor(Math.random() * 100);
-        switch (true) {
-            case i === cardPositionIndex:
+    let rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
+
+    function getRarityWithBonus(
+        bonusValue,
+        cardPositionIndex,
+        cardInfo,
+        raritiesSize,
+    ) {
+        // Cap the bonus value between 0 and 100
+        const cappedBonus = Math.min(Math.max(bonusValue, 0), 100);
+        const rarities = [];
+
+        // Base probabilities (when bonus is 0)
+        const baseProbs = {
+            common: 50,
+            rare: 20,
+            epic: 20,
+            legendary: 8,
+            mystical: 2,
+        };
+
+        // Calculate scaling factor based on bonus
+        // As bonus increases, we decrease common/rare chances and increase epic/legendary/mystical
+        const scalingFactor = cappedBonus / 100;
+
+        // Adjust probabilities based on bonus
+        const adjustedProbs = {
+            common: baseProbs.common * (1 - scalingFactor * 0.8), // Reduce commons significantly
+            rare: baseProbs.rare * (1 - scalingFactor * 0.5), // Reduce rares moderately
+            epic: baseProbs.epic * (1 + scalingFactor), // Increase epics
+            legendary: baseProbs.legendary * (1 + scalingFactor * 2), // Increase legendaries more
+            mystical: baseProbs.mystical * (1 + scalingFactor * 3), // Increase mysticals most
+        };
+
+        // Calculate cumulative thresholds
+        const thresholds = {
+            common: adjustedProbs.common,
+            rare: adjustedProbs.common + adjustedProbs.rare,
+            epic:
+                adjustedProbs.common + adjustedProbs.rare + adjustedProbs.epic,
+            legendary:
+                adjustedProbs.common +
+                adjustedProbs.rare +
+                adjustedProbs.epic +
+                adjustedProbs.legendary,
+            mystical: 100, // Remainder goes to mystical
+        };
+
+        for (let i = 0; i < raritiesSize; i++) {
+            if (i === cardPositionIndex) {
                 rarities.push(cardInfo.rarity);
-                break;
-            case number <= 50:
-                rarities.push("common");
-                break;
-            case number <= 70:
-                rarities.push("rare");
-                break;
-            case number <= 90:
-                rarities.push("epic");
-                break;
-            case number <= 98:
-                rarities.push("legendary");
-                break;
-            default:
-                rarities.push("mystical");
-                break;
+                continue;
+            }
+
+            const number = Math.floor(Math.random() * 100);
+
+            switch (true) {
+                case number < thresholds.common:
+                    rarities.push("common");
+                    break;
+                case number < thresholds.rare:
+                    rarities.push("rare");
+                    break;
+                case number < thresholds.epic:
+                    rarities.push("epic");
+                    break;
+                case number < thresholds.legendary:
+                    rarities.push("legendary");
+                    break;
+                default:
+                    rarities.push("mystical");
+                    break;
+            }
         }
+
+        return rarities;
     }
 
     function scrollToEnd() {
@@ -118,7 +172,9 @@
     }}
 />
 <content class="relative h-full block">
-    <div class="flex flex-col w-full justify-center items-center custom-card-container-height">
+    <div
+        class="flex flex-col w-full justify-center items-center custom-card-container-height"
+    >
         <div>
             <img
                 src="/assets/svg/arrow.svg"
@@ -245,7 +301,8 @@
         transform: rotateY(180deg);
     }
 
-    @media (min-width: 768px) { /* Adjust the min-width value as needed */
+    @media (min-width: 768px) {
+        /* Adjust the min-width value as needed */
         .fade-mask {
             mask-image: radial-gradient(
                 circle,
