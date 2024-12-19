@@ -73,6 +73,7 @@
     let penaltyFlag = $state(false);
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
+    score.set(0);
 
     function displayImages() {
         console.log("Images");
