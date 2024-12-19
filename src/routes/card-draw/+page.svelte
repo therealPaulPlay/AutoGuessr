@@ -8,6 +8,7 @@
     import Card from "../../lib/components/Card.svelte";
     import Flip from "gsap/dist/Flip";
     gsap.registerPlugin(Flip);
+    import { score } from "../../lib/stores/gameStore";
 
     let cardInfo = {
         name: "TestName 1",
@@ -27,7 +28,7 @@
     let raritiesSize = 40;
     let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
     let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
-    let rarityBonusValue = 50;  // This value will be passed from the game page based on the score.
+    let rarityBonusValue = Math.pow($score, 2);
 
     let rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
 
@@ -37,6 +38,7 @@
         cardInfo,
         raritiesSize,
     ) {
+        console.log($score, bonusValue);
         // Cap the bonus value between 0 and 100
         const cappedBonus = Math.min(Math.max(bonusValue, 0), 100);
         const rarities = [];
