@@ -5,7 +5,16 @@ A price-guessing game with cars.
 There are currently 5 pages in the game. In this section, we will go through each one. 
 
 ### Game Page
-...todo...
+Main gameplay page with image carousel, stats and a guessDisplay.
+
+### End page
+Game over screen with options to go home or play again. Opens the card-draw screen depending on score.
+
+### Auto-Cards page
+View unlocked cards.
+
+### Card-Draw page
+Draw a new autocard. The rarity depends on the score that was achieved in the game.
 
 ## Tailwind
 [Tailwind 3](https://tailwindcss.com/) is being used for styling.

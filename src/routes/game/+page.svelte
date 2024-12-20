@@ -255,7 +255,7 @@
                     buttonWidth="5.5rem"
                     execFunction={showResult}>
                     <span class="check-align-vertical">
-                        <Check strokeWidth={5} size={35} />
+                        <Check strokeWidth={5} size={30} />
                     </span>
                 </Button>
             </div>
