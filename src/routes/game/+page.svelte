@@ -193,6 +193,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>Game</title>
+</svelte:head>
+
 <content class="items-center relative overflow-visible">
     <!-- Main game content -->
     <div class="flex w-full justify-center z-50">

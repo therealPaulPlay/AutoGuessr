@@ -1,5 +1,5 @@
 # AutoGuessr
-A price-guessing game with cars. 
+A car-price guessing game.  
 
 ## License
 This project is licensed under the MIT License (with the Commons Clause) - see the [LICENSE](LICENSE) file for details.
@@ -17,10 +17,10 @@ Main gameplay page with image carousel, stats and a guess display.
 ### End page `/game/end`
 Game over screen with options to go home or play again. Opens the card-draw screen depending on score.
 
-### Auto-Cards page `auto-cards`
+### Auto-Cards page `/auto-cards`
 View unlocked cards.
 
-### Card-Draw page `card-draw`
+### Card-Draw page `/card-draw`
 Draw a new autocard. The rarity depends on the score that was achieved in the game.
 
 ## Tailwind

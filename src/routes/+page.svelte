@@ -20,6 +20,10 @@
     />
 </div>
 
+<svelte:head>
+    <title>AutoGuessr - Guess the car price!</title>
+</svelte:head>
+
 <content class="flex fw-full mt-5 custom-content-size">
     <!-- Bottom Area -->
     <div

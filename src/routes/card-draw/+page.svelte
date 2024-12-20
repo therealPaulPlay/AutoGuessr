@@ -106,6 +106,10 @@
     let resizeTimeout;
 </script>
 
+<svelte:head>
+    <title>Draw a Card</title>
+</svelte:head>
+
 <!-- window size -->
 <svelte:window
     bind:innerWidth={windowWidth}
