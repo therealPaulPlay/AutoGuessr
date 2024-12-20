@@ -1,6 +1,10 @@
 # AutoGuessr
 A price-guessing game with cars. 
 
+## License
+This project is licensed under the MIT License (with the Commons Clause) - see the [LICENSE](LICENSE) file for details.
+**Note**: This license permits non-commercial use only.
+
 ## Pages
 There are currently 5 pages in the game. In this section, we will go through each one. 
 
