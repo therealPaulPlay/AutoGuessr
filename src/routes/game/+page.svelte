@@ -201,14 +201,12 @@
             <div class="flex w-1/2 gap-2 ml-4">
                 <Tab
                     color={imageTab ? "var(--white)" : "var(--default-shadow)"}
-                    tabStatic={true}
                     shadow={false}
                     execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
                 <Tab
                     color={imageTab ? "var(--default-shadow)" : "var(--white)"}
-                    tabStatic={true}
                     shadow={false}
                     execFunction={displayDescription}>
                     <span class="text-xl font-medium text-black"
