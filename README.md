@@ -4,6 +4,9 @@ A price-guessing game with cars.
 ## Pages
 There are currently 5 pages in the game. In this section, we will go through each one. 
 
+### Home Page
+The main menu - this screen has the difficulty selector, autocards page button, play buton and a 3D car model.
+
 ### Game Page
 Main gameplay page with image carousel, stats and a guessDisplay.
 
@@ -25,7 +28,7 @@ AutoGuessr was built with Svelte 5, powered by [`sv`](https://github.com/sveltej
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've created a project and installed dependencies with `npm install`, start a development server:
 
 ```bash
 npm run dev
