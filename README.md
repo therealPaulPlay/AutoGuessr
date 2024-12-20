@@ -8,7 +8,7 @@ There are currently 5 pages in the game. In this section, we will go through eac
 The main menu - this screen has the difficulty selector, autocards page button, play buton and a 3D car model.
 
 ### Game Page
-Main gameplay page with image carousel, stats and a guessDisplay.
+Main gameplay page with image carousel, stats and a guess display.
 
 ### End page
 Game over screen with options to go home or play again. Opens the card-draw screen depending on score.
@@ -24,7 +24,7 @@ Draw a new autocard. The rarity depends on the score that was achieved in the ga
 
 ## SV - Svelte CLI
 
-AutoGuessr was built with Svelte 5, powered by [`sv`](https://github.com/sveltejs/cli). 
+AutoGuessr was built with [Svelte 5](https://svelte.dev/), powered by [`sv`](https://github.com/sveltejs/cli). 
 
 ## Developing
 
