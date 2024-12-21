@@ -1,5 +1,5 @@
 <script>
-    import { onMount } from "svelte";
+    import { onMount, onDestroy } from "svelte";
     import Card from "../../lib/components/Card.svelte";
     import { windowWidth } from "$lib/stores/uiStore";
 
@@ -135,14 +135,33 @@
         });
     }
 
+    // Handle mouse wheel to scroll horizontally
+    function handleWheel(event) {
+        event.preventDefault();
+
+        const scrollAmount = event.deltaY > 0 ? 1 : -1; // Down scroll = positive, Up scroll = negative
+        container.scrollBy({
+            left: scrollAmount * cardWidth,
+            behavior: "smooth", 
+        });
+    }
+
+    onDestroy(() => {
+        if (container) {
+            container.removeEventListener("wheel", handleWheel);
+        }
+    });
+
     onMount(() => {
         centerCard();
 
         // Set the margin right of the last card so that it can be scrolled to the center
         let lastCard = document.getElementById(`card_${cards.length - 1}`);
         if (lastCard) {
-            lastCard.style.marginRight = `${0.5 * $windowWidth - cardWidth/2}px`;
+            lastCard.style.marginRight = `${0.5 * $windowWidth - cardWidth / 2}px`;
         }
+
+        container.addEventListener("wheel", handleWheel);
     });
 </script>
 
