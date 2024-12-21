@@ -20,6 +20,10 @@
     />
 </div>
 
+<svelte:head>
+    <title>AutoGuessr - Guess the car price!</title>
+</svelte:head>
+
 <content class="flex fw-full mt-5 custom-content-size">
     <!-- Bottom Area -->
     <div
@@ -27,30 +31,30 @@
     >
         <div class="flex flex-col overflow-clip">
             <!-- Difficulties -->
-            <div class="flex flex-row max-w-64 ml-2">
+            <div class="flex flex-row max-w-64 ml-2 gap-1">
                 <Tab
-                    color="rgb(68, 122, 67)"
+                    color="var(--green-button-dark"
                     selectedColor="var(--green-button)"
                     selected={Boolean($difficulty == 1)}
                     execFunction={() => difficultyValue = 1}
                 >
-                    <span class="text-xl font-medium">Beginner</span>
+                    <span class="text-xl font-medium">Easy</span>
                 </Tab>
                 <Tab
-                    color="rgb(156, 68, 33)"
+                    color="var(--default-button-dark)"
                     selectedColor="var(--default-button)"
                     selected={Boolean($difficulty == 2)}
                     execFunction={() => difficultyValue = 2}
                 >
-                    <span class="text-xl font-medium">Advanced</span>
+                    <span class="text-xl font-medium">Medium</span>
                 </Tab>
                 <Tab
-                    color="rgb(35, 33, 33)"
+                    color="rgb(75, 73, 73)"
                     selectedColor="rgb(52, 49, 49)"
                     selected={Boolean($difficulty == 3)}
                     execFunction={() => difficultyValue = 3}
                 >
-                    <span class="text-xl font-medium">Expert</span>
+                    <span class="text-xl font-medium">Hard</span>
                 </Tab>
             </div>
             <!-- Play Button -->

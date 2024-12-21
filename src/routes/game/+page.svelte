@@ -194,6 +194,10 @@
     });
 </script>
 
+<svelte:head>
+    <title>Game</title>
+</svelte:head>
+
 <content class="items-center relative overflow-visible">
     <!-- Main game content -->
     <div class="flex w-full justify-center z-50">
@@ -202,14 +206,12 @@
             <div class="flex w-1/2 gap-2 ml-4">
                 <Tab
                     color={imageTab ? "var(--white)" : "var(--default-shadow)"}
-                    tabStatic={true}
                     shadow={false}
                     execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
                 <Tab
                     color={imageTab ? "var(--default-shadow)" : "var(--white)"}
-                    tabStatic={true}
                     shadow={false}
                     execFunction={displayDescription}>
                     <span class="text-xl font-medium text-black"
@@ -258,7 +260,7 @@
                     buttonWidth="5.5rem"
                     execFunction={showResult}>
                     <span class="check-align-vertical">
-                        <Check strokeWidth={5} size={35} />
+                        <Check strokeWidth={5} size={30} />
                     </span>
                 </Button>
             </div>

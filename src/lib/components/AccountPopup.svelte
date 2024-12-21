@@ -14,7 +14,7 @@
         closeFunction={() => {
             accountPopup.set(false);
         }}>
-        <p class="text-base mt-5">
+        <p class="text-base mt-20">
             You have <b>{$experience?.toLocaleString()}</b> experience.
         </p>
         <div class="flex flex-wrap gap-2 absolute text-white bottom-7 left-8">

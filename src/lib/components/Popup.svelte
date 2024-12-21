@@ -29,7 +29,7 @@
         transition:scale={{ start: 0.9, duration: 200, easing: cubicOut }}
     >
         {#if showCloseButton}
-            <div class="absolute top-2 right-2 text-white">
+            <div class="absolute top-2 right-2 text-white z-10 border border-8 border-white bg-white rounded-xl rounded-t-none rounded-r-none">
                 <Button
                     execFunction={() => {
                         closeFunction?.();

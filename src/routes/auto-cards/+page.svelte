@@ -170,6 +170,10 @@
 
 <svelte:window bind:innerWidth={$windowWidth} bind:innerHeight={windowHeight} />
 
+<svelte:head>
+    <title>AutoCards</title>
+</svelte:head>
+
 <main class="flex h-[80vh] gap-5 items-center relative">
     <div class="absolute w-full flex justify-center gap-96 z-20 top-1/3">
         <!-- left -->

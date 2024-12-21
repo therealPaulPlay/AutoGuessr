@@ -8,6 +8,10 @@
     let cardUnlockThreshold = 5;
 </script>
 
+<svelte:head>
+    <title>Game Over</title>
+</svelte:head>
+
 <content class="flex flex-col items-center justify-center h-full">
     <h1 class="text-8xl font-bold text-orange mb-10 text-center">Game Over!</h1>
     <p class="text-base mb-20 custom-width">
