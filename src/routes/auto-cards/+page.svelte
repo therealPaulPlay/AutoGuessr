@@ -99,72 +99,50 @@
         },
     ];
 
-    // These are index values
     let selectedCard = $state(0);
-
-    function incrementSelectedCard() {
-        selectedCard >= cards.length - 1 || selectedCard++;
-    }
-
-    function decrementSelectedCard() {
-        selectedCard <= 0 ? (selectedCard = 0) : selectedCard--;
-    }
-
-    function scrollRight() {
-        incrementSelectedCard();
-        centerCard();
-    }
-
-    function scrollLeft() {
-        decrementSelectedCard();
-        centerCard();
-    }
-
     let windowHeight = $state();
+    let container;
+    let cardElement = $state();
+    let cardWidth = $state(0);
 
-    let minCardWidth = $derived(0.2 * windowHeight);
-    let midCardWidth = $derived(0.3 * windowHeight);
-    let maxCardWidth = $derived(0.5 * windowHeight);
+    $effect(() => {
+        console.log("Card width", cardWidth);
+        if (cardElement) {
+            cardWidth = cardElement.clientWidth;
+        }
+    });
 
     function centerCard() {
         const card = document.getElementById(`card_${selectedCard}`);
-        cards.forEach((c, i) => {
-            if (i === selectedCard - 1 || i === selectedCard + 1) {
-                document.getElementById(`card_${i}`).style.minWidth =
-                    `${midCardWidth}px`;
-            } else if (i !== selectedCard) {
-                document.getElementById(`card_${i}`).style.minWidth =
-                    `${minCardWidth}px`;
-            }
-        });
-        card.style.minWidth = maxCardWidth + `px`;
+        if (!card) return;
 
-        // Wait for the transition to end before centering a card.
-        // Not doing this will cause the card to be centered incorrectly before the transition ends due to how sizes are calculated.
-        // TODO: Figure a way to do this without using a timeout.
-        card.addEventListener("transitionend", handleTransitionEnd, {
-            once: true,
-        });
+        handleTransitionEnd(card);
     }
 
-    function handleTransitionEnd() {
-        const card = document.getElementById(`card_${selectedCard}`);
-        // Centers the container on the selected card.
-        const container = document.querySelector(".overflow-x-scroll");
+    function handleTransitionEnd(card) {
+        if (!card || !container) return;
+
         const containerWidth = container.clientWidth;
         const cardOffsetLeft = card.offsetLeft;
         const cardWidth = card.clientWidth;
         const scrollPosition =
             cardOffsetLeft - containerWidth / 2 + cardWidth / 2;
-        container.scrollTo({ left: scrollPosition, behavior: "smooth" });
+
+        // Smoothly scroll to the position
+        container.scrollTo({
+            left: scrollPosition,
+            behavior: "smooth",
+        });
     }
 
     onMount(() => {
         centerCard();
 
-        // Set margin right for the last card so it can be centered correctly.
+        // Set the margin right of the last card so that it can be scrolled to the center
         let lastCard = document.getElementById(`card_${cards.length - 1}`);
-        lastCard.style.marginRight = `${0.4 * $windowWidth}px`;
+        if (lastCard) {
+            lastCard.style.marginRight = `${0.5 * $windowWidth - cardWidth/2}px`;
+        }
     });
 </script>
 
@@ -174,32 +152,17 @@
     <title>AutoCards</title>
 </svelte:head>
 
-<main class="flex h-[80vh] gap-5 items-center relative">
-    <div class="absolute w-full flex justify-center gap-96 z-20 top-1/3">
-        <!-- left -->
-        <button onclick={scrollLeft} style:visibility="visible">
-            <img src="/assets/svg/arrow.svg" alt="Previous" class="w-8" />
-        </button>
-        <!-- right -->
-        <button onclick={scrollRight} class="">
-            <img
-                src="/assets/svg/arrow.svg"
-                alt="Next"
-                class="w-8 scale-x-[-1]"
-                style:visibility="visible"
-            />
-        </button>
-    </div>
+<main class="flex h-[80vh] items-center relative">
     <div
-        class="overflow-x-scroll w-full relative h-full content-end px-[40rem]"
-        style="scrollbar-width: none;"
+        bind:this={container}
+        class="overflow-x-scroll overflow-y-hidden w-full relative h-full content-end overscroll-none"
+        style="scrollbar-width: none; padding-left: {0.5 * $windowWidth}px"
     >
-        <div
-            class="grid grid-flow-col gap-1.5 w-fit justify-items-stretch items-end"
-        >
+        <div class="grid grid-flow-col gap-5 w-fit items-center h-full">
             {#each cards as card, i}
                 <div
-                    class="min-w-52 transition-all ease-in-out delay-150"
+                    bind:this={cardElement}
+                    class="min-w-72 transition-all ease-in-out delay-150"
                     id="card_{i}"
                 >
                     {#if card.rarity === "locked"}
@@ -236,3 +199,10 @@
         />
     </div>
 </main>
+
+<style>
+    div[id^="card_"]:hover {
+        min-width: 21rem;
+        transition: all 150ms ease;
+    }
+</style>
