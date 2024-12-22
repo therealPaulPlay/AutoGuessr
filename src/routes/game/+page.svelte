@@ -76,7 +76,6 @@
     score.set(0);
 
     function displayImages() {
-        console.log("Images");
         imageTab = true;
         descriptionFlag = false;
     }

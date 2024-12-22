@@ -38,7 +38,6 @@
         cardInfo,
         raritiesSize,
     ) {
-        console.log($score, bonusValue);
         // Cap the bonus value between 0 and 100
         const cappedBonus = Math.min(Math.max(bonusValue, 0), 100);
         const rarities = [];

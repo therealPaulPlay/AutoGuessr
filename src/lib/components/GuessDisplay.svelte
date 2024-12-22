@@ -15,6 +15,8 @@
     let guessPos = $state(0);
     let answerBarPos = $state(0);
     let guessBarPos = $state(0);
+    let difference = percentageDifference > 90 ? 90 : percentageDifference;
+    let differenceThreshold = 2;
 
     function scrollToAnswer() {
         showGuessPrice = false;
@@ -71,22 +73,33 @@
         const markingsVisibleWidth = getMarkingsVisibleWidth();
         const barScrollWidth = getBarScrollWidth();
 
+        if (difference < differenceThreshold) {
+            guessBarPos = markingsVisibleWidth;
+            return;
+        }
+
         if (guess < answer) {
-            guessBarPos = Math.floor(
-                Math.random() * (markingsVisibleWidth / 2),
-            );
+            guessBarPos = markingsVisibleWidth * 0.25;
         } else {
-            guessBarPos =
-                barScrollWidth -
-                Math.floor(Math.random() * (markingsVisibleWidth / 2));
+            guessBarPos = barScrollWidth - markingsVisibleWidth * 0.25;
         }
     }
 
     function positionAnswerBar() {
         const scrollWidth = getBarScrollWidth();
 
-        let difference = percentageDifference > 90 ? 90 : percentageDifference;
         let offset = scrollWidth * (difference / 100);
+
+        if (offset < 300) {
+            setTimeout(() => {
+                // WE NEED A DOUBLE TIMEOUT????? WHY?????
+                if (guess < answer) {
+                    answerBarPos = guessBarPos + offset;
+                } else {
+                    answerBarPos = guessBarPos - offset;
+                }
+            }, 50);
+        }
 
         if (guess < answer) {
             answerBarPos = offset;
@@ -110,22 +123,21 @@
 
     onMount(() => {
         positionGuessBar();
-        setTimeout(() => {
-            showGuessPrice = true;
-            setTimeout(() => {
-                positionGuessPrice();
-            }, 50);
-        }, 250);
+        positionAnswerBar();
     });
 
     onMount(() => {
-        positionAnswerBar();
         setTimeout(() => {
             scrollToAnswer();
         }, 2000);
     });
 
     onMount(() => {
+        // We don't start at the end if the difference is less than the threshold.
+        if (difference < differenceThreshold) {
+            return;
+        }
+
         // Starts at the end if the guess is more than the answer. (aka left of the answer)
         if (guess > answer) {
             guessBand.scrollTo({
@@ -134,21 +146,38 @@
             });
         }
     });
+
+    onMount(() => {
+        gsap.to(guessBand, {
+            scrollTo: {
+                x: guessBar,
+                offsetX: getMarkingsVisibleWidth() / 2 - 7,
+            },
+            onComplete: () => {
+                showGuessPrice = true;
+                setTimeout(() => {
+                    positionGuessPrice();
+                }, 50);
+            },
+        });
+    });
 </script>
 
 <div class="w-full h-full relative" id="wrapper">
     <div
-        class="relative w-full h-full overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none" bind:this={guessBand}>
+        class="relative w-full h-full overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none"
+        bind:this={guessBand}
+    >
         <div
             class="absolute z-10 flex bottom-0 justify-center w-3.5 h-full bg-orange"
             style:left="{answerBarPos}px"
-            bind:this={answerBar}>
-        </div>
+            bind:this={answerBar}
+        ></div>
         <div
             class="absolute z-10 flex bottom-0 justify-center w-3.5 h-full bg-black"
             style:left="{guessBarPos}px"
-            bind:this={guessBar}>
-        </div>
+            bind:this={guessBar}
+        ></div>
         <!-- Lines -->
         <div class="flex w-full h-full items-end gap-3 rounded-lg markings">
             {#each { length: 10 * sectionsAmount } as _, i}
@@ -162,14 +191,16 @@
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
             style:left="{answerPos}px"
-            bind:this={answerPrice}>
+            bind:this={answerPrice}
+        >
             <div class="text-orange font-semibold text-base">
                 ${answer.toLocaleString()}
             </div>
             <img
                 src="/assets/svg/simple arrow.svg"
                 alt="Arrow"
-                class="w-3.5 h-3.5 -rotate-90" />
+                class="w-3.5 h-3.5 -rotate-90"
+            />
         </div>
     {/if}
     {#if showGuessPrice}
@@ -177,14 +208,16 @@
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
             style:left="{guessPos}px"
-            bind:this={guessPrice}>
+            bind:this={guessPrice}
+        >
             <div class="text-black font-semibold text-base">
                 ${guess.toLocaleString()}
             </div>
             <img
                 src="/assets/svg/simple arrow black.svg"
                 alt="Arrow"
-                class="w-3.5 h-3.5 -rotate-90" />
+                class="w-3.5 h-3.5 -rotate-90"
+            />
         </div>
     {/if}
 </div>

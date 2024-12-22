@@ -106,7 +106,6 @@
     let cardWidth = $state(0);
 
     $effect(() => {
-        console.log("Card width", cardWidth);
         if (cardElement) {
             cardWidth = cardElement.clientWidth;
         }
@@ -136,6 +135,7 @@
     }
 
     // Handle mouse wheel to scroll horizontally
+    // TODO: Add mousepad support
     function handleWheel(event) {
         event.preventDefault();
 
