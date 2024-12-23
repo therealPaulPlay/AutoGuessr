@@ -25,6 +25,12 @@
         },
     };
 
+    const messages = {
+        bad: ["Keep going!", "Stay strong!", "You got this!", "Not quite..."],
+        good: ["Nice work!", "Keep it up!", "Well done!", "Very good!"],
+        great: ["Amazing job!", "You're unstoppable!", "Keep shining!", "Just WOW!"],
+    };
+
     let question = {
         answer: 35000,
         description:
@@ -75,6 +81,7 @@
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
     let blinkingLives = $state();
+    let popupMessage = $state("Loading...");
     score.set(0);
 
     function displayImages() {
@@ -129,11 +136,13 @@
         const [lowerBound, upperBound] = rules.correctTier;
 
         if (percent <= upperBound) {
+            setPopupMessage("good");
             addScore(1);
         }
 
         if (percent <= lowerBound) {
             // Give the player an extra life if they get it within the lower bound
+            setPopupMessage("great");
             addLife(1);
             return;
         }
@@ -150,6 +159,7 @@
             return;
         }
 
+        setPopupMessage("bad");
         subtractLife(1);
         return;
     }
@@ -185,6 +195,18 @@
             // Redirect to the game over page
             goto("/game/end");
             return;
+        }
+    }
+
+    function setPopupMessage(condition) {
+        if (messages[condition]) {
+            const conditionMessages = messages[condition];
+            popupMessage =
+                conditionMessages[
+                    Math.floor(Math.random() * conditionMessages.length)
+                ];
+        } else {
+            console.log("Invalid condition provided."); // Handle unexpected conditions
         }
     }
 
@@ -267,7 +289,11 @@
         <div class="lives">
             <!-- This is one of the worst things I've wrote. Is there another way? -->
             <img
-                src="/assets/svg/traffic {blinkingFlag ? blinkingLives : $lives < 2 ? $lives+1 : $lives}.svg"
+                src="/assets/svg/traffic {blinkingFlag
+                    ? blinkingLives
+                    : $lives < 2
+                      ? $lives + 1
+                      : $lives}.svg"
                 alt="lives"
                 class="w-52 h-28 flex content-end"
             />
@@ -303,7 +329,7 @@
                     in:fly={{ y: -50, delay: 500 }}
                     class="font-bold text-green text-7xl mb-5 text-center"
                 >
-                    {"Not bad!".toUpperCase()}
+                    {popupMessage.toUpperCase()}
                 </p>
                 <p
                     class="text-black text-base text-center"
