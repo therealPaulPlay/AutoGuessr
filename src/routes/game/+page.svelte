@@ -9,26 +9,18 @@
     import { goto } from "$app/navigation";
     import { ArrowRightCircle, Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
-    import { difficulty, lives, score } from "$lib/stores/gameStore";
+    import { difficulty, lives, score, difficultyRules } from "$lib/stores/gameStore";
     import { onMount } from "svelte";
-
-    const difficultyRules = {
-        1: {
-            correctTier: [10, 20],
-        },
-        2: {
-            correctTier: [5, 10],
-        },
-        3: {
-            correctTier: [1, 5],
-            penaltyThreshold: 10, // Only applies for difficulty 3
-        },
-    };
 
     const messages = {
         bad: ["Keep going!", "Stay strong!", "You got this!", "Not quite..."],
         good: ["Nice work!", "Keep it up!", "Well done!", "Very good!"],
-        great: ["Amazing job!", "You're unstoppable!", "Keep shining!", "Just WOW!"],
+        great: [
+            "Amazing job!",
+            "You're unstoppable!",
+            "Keep shining!",
+            "Just WOW!",
+        ],
     };
 
     let question = {
@@ -77,6 +69,7 @@
     let resultPopup = $state(false);
     let rewardFlag = $state(false);
     let penaltyFlag = $state(false);
+    let extraPenaltyFlag = $state(false);
     let blinkingFlag = $state(false);
     let imageTab = $state(true);
     let descriptionFlag = $state(false);
@@ -128,7 +121,7 @@
     }
 
     function checkPlayerPerformance(percent) {
-        const rules = difficultyRules[$difficulty];
+        const rules = $difficultyRules[$difficulty];
         if (!rules) {
             throw new Error("Invalid difficulty level.");
         }
@@ -155,7 +148,8 @@
 
         // Check if the penalty logic applies (only for difficulty 3)
         if ($difficulty === 3 && percent > rules.penaltyThreshold) {
-            subtractLife(2);
+            console.log(`Percent: ${percent}`);
+            subtractLife(2, true);
             return;
         }
 
@@ -166,15 +160,17 @@
 
     function addLife(amount) {
         penaltyFlag = false;
+        extraPenaltyFlag = false;
         rewardFlag = true;
         lives.update((l) => {
             return l + amount > 3 ? 3 : l + amount;
         });
     }
 
-    function subtractLife(amount) {
+    function subtractLife(amount, extraPenalty = false) {
         rewardFlag = false;
         penaltyFlag = true;
+        extraPenaltyFlag = extraPenalty;
         lives.update((l) => {
             return l - amount < 0 ? 0 : l - amount;
         });
@@ -354,14 +350,14 @@
                     >
                     {#if penaltyFlag}
                         <span class="font-semibold text-red-600 decoration-2"
-                            >You lose {$difficulty === 3
+                            >You lose {$difficulty === 3 && extraPenaltyFlag
                                 ? "2 lives."
                                 : "a life."}</span
                         >
                     {/if}
                 </p>
             </div>
-            <div class="bg-tanDark w-full rounded-lg h-14 mt-10">
+            <div class="w-full h-14 mt-10">
                 <GuessDisplay
                     answer={question.answer}
                     guess={guessResult}
