@@ -1,4 +1,5 @@
 <script>
+    import { PUBLIC_API_URL } from "$env/static/public";
     import Carousel from "$lib/components/Carousel.svelte";
     import Tab from "$lib/components/Tab.svelte";
     import Stat from "$lib/components/Stat.svelte";
@@ -9,7 +10,12 @@
     import { goto } from "$app/navigation";
     import { ArrowRightCircle, Check } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
-    import { difficulty, lives, score, difficultyRules } from "$lib/stores/gameStore";
+    import {
+        difficulty,
+        lives,
+        score,
+        difficultyRules,
+    } from "$lib/stores/gameStore";
     import { onMount } from "svelte";
 
     const messages = {
@@ -23,48 +29,23 @@
         ],
     };
 
-    let question = {
-        answer: 35000,
-        description:
-            "What does the buzzword 'technologies' really mean? Think virally-distributed. Quick: do you have a plan to become cross-media? We think that most co-branded splash pages use far too much Perl, and not enough OWL. Without niches, you will lack experiences. The capability to implement wirelessly leads to the ability to iterate virtually. Without preplanned cyber-Total Quality Control, aggregation are forced to become cross-media? We think that most C2C2C web-based applications use far too much Rails, and not enough PNG. Is it more important for something to be best-of-breed? The portals factor can be delivered as-a-service to wherever it’s intended to go – mobile. Our infinitely reconfigurable feature set is unmatched in the industry, but our back-end performance and non-complex use is invariably considered a remarkable achievement. It sounds wonderful, but it's 100 percent accurate! The experiences factor is 1000/60/60/24/7/365. Do you have a infinitely reconfigurable feature set is unparalleled, but our vertical, customized efficient, user-centric TQM and non-complex use is usually considered an amazing achievement. Do you have a infinitely reconfigurable scheme for coping with emerging methodologies? Is it more important for something to be customer-directed? What does the term 'dot-com' really mean? Helping marketers serve unmatched cross-phase personalized experiences at every step of the pudding is in the industry, but our C2C2C paradigms and easy configuration is usually considered an amazing achievement",
-        images: [
-            "/assets/img/example/img1.jpeg",
-            "/assets/img/example/img2.jpeg",
-            "/assets/img/example/img3.jpeg",
-            "/assets/img/example/img4.jpeg",
-            "/assets/img/example/img5.jpeg",
-            "/assets/img/example/img6.jpeg",
-            "/assets/img/example/img7.jpeg",
-            "/assets/img/example/img8.jpeg",
-            "/assets/img/example/img9.png",
-        ],
-        stats: [
-            {
-                icon: "/assets/svg/horsepower.svg",
-                text: "Name of the car",
-            },
-            {
-                icon: "/assets/svg/horsepower.svg",
-                text: "237.0HP",
-            },
-            {
-                icon: "/assets/svg/transmission.svg",
-                text: "Automatic",
-            },
-            {
-                icon: "/assets/svg/date.svg",
-                text: "2017",
-            },
-            {
-                icon: "/assets/svg/owner.svg",
-                text: "2",
-            },
-            {
-                icon: "/assets/svg/fuel.svg",
-                text: "Gasoline",
-            },
-        ],
-    };
+    let question = $state({});
+    getQuestion();
+
+    async function getQuestion() {
+        const data = await getData();
+        question.answer = data.price;
+        question.description = data.description;
+        question.images = data.photos;
+        question.stats = [
+            { icon: "", text: data.name },
+            { icon: "", text: data.mileage.toLocaleString() + " mi." },
+            { icon: "/assets/svg/transmission.svg", text: data.transmission },
+            { icon: "/assets/svg/date.svg", text: data.year },
+            { icon: "/assets/svg/owner.svg", text: data.condition },
+            { icon: "/assets/svg/fuel.svg", text: data.engineType },
+        ];
+    }
 
     let resultPopup = $state(false);
     let rewardFlag = $state(false);
@@ -76,6 +57,22 @@
     let blinkingLives = $state();
     let popupMessage = $state("Loading...");
     score.set(0);
+
+    async function getData() {
+        const url = `${PUBLIC_API_URL}/car-data/standard/random`;
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+
+            const json = await response.json();
+            console.log(json);
+            return json;
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 
     function displayImages() {
         imageTab = true;
@@ -283,7 +280,7 @@
     >
         <!-- Lives -->
         <div class="lives">
-            <!-- This is one of the worst things I've wrote. Is there another way? -->
+            <!-- This is one of the worst things I've wrote. Is there another way? Also, it sometimes give an error of 404, idk why but nothing seems affected -->
             <img
                 src="/assets/svg/traffic {blinkingFlag
                     ? blinkingLives
