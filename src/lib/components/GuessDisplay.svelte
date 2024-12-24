@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import { difficulty, difficultyRules } from "$lib/stores/gameStore";
     import { gsap } from "gsap";
     import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
     import { fly } from "svelte/transition";
@@ -8,6 +9,8 @@
     let { answer, guess, percentageDifference } = $props();
 
     let sectionsAmount = 50;
+    const rules = $difficultyRules[$difficulty];
+    let [lowerBound, upperBound] = rules.correctTier;
 
     let showAnswerPrice = $state(false);
     let showGuessPrice = $state(false);
@@ -165,21 +168,36 @@
 
 <div class="w-full h-full relative" id="wrapper">
     <div
-        class="relative w-full h-full overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none"
+        class="relative w-full h-full bg-tanDark rounded-lg overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none"
         bind:this={guessBand}
     >
         <div
-            class="absolute z-10 flex bottom-0 justify-center w-3.5 h-full bg-orange"
+            class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-orange overflow-visible"
             style:left="{answerBarPos}px"
             bind:this={answerBar}
         ></div>
         <div
-            class="absolute z-10 flex bottom-0 justify-center w-3.5 h-full bg-black"
+            class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-black"
             style:left="{guessBarPos}px"
             bind:this={guessBar}
         ></div>
         <!-- Lines -->
-        <div class="flex w-full h-full items-end gap-3 rounded-lg markings">
+        <div
+            class="relative flex w-full h-full items-end gap-3 rounded-lg markings z-10"
+        >
+            {#if guessBand}
+            <!-- This is an absolute disrespect to "clean code" -->
+                <div
+                    class="absolute top-0 z-[2] bg-greenDark h-full"
+                    style:width="{getBarScrollWidth() * lowerBound / 100 * 2}px"
+                    style:left="{answerBarPos - getBarScrollWidth() * lowerBound / 100 + 5}px"
+                ></div>
+                <div
+                    class="absolute top-0 bg-green h-full"
+                    style:width="{getBarScrollWidth() * upperBound / 100 * 2}px"
+                    style:left="{answerBarPos - getBarScrollWidth() * upperBound / 100 + 5}px"
+                ></div>
+            {/if}
             {#each { length: 10 * sectionsAmount } as _, i}
                 <div class="line"></div>
             {/each}
@@ -227,8 +245,9 @@
         height: 30%;
         opacity: 0.4;
         flex-shrink: 0;
-        border-radius: 9999px;
+        border-radius: 9999px 9999px 0 0;
         width: 4px;
+        z-index: 3;
         background-color: var(--black);
     }
 
