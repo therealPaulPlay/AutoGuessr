@@ -6,11 +6,11 @@
     {#if icon}
         <img src={icon} alt="Stat icon" class="w-8 h-8" />
     {:else}
-        <div class="w-8 h-8 text-orange text-2xl font-extrabold">?</div>
+        <div class="w-8 h-8 text-orange text-2xl font-extrabold text-center">?</div>
     {/if}
 
     <div class="flex ml-10 mr-5">
-        <span class="text-2xl font-medium text-orange">{text}</span>
+        <span class="text-2xl font-medium text-orange">{text || "N/A"}</span>
         {#if children}
             {@html children}
         {/if}

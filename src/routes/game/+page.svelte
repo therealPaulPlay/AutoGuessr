@@ -30,7 +30,7 @@
     };
 
     let question = $state({});
-    getQuestion();
+    
 
     async function getQuestion() {
         const data = await getData();
@@ -219,6 +219,7 @@
     let guessResult = $state(1);
 
     onMount(() => {
+        getQuestion();
         lives.set(3);
     });
 </script>

@@ -204,6 +204,7 @@
         </div>
     </div>
 
+    <!-- Adding "&& answerBand" should fix the null error that shows in the console I think? -->
     {#if showAnswerPrice}
         <div
             transition:fly={{ y: -10, delay: 50 }}
