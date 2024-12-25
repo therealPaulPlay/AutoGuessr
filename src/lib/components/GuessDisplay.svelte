@@ -116,19 +116,28 @@
     });
 
     onMount(() => {
-        if (guess > answer) guessBand.scrollLeft = guessBand.scrollWidth;  // Starts at the end of the band if the guess is higher than the answer
-        gsap.to(guessBand, {
-            scrollTo: {
-                x: guessBar,
-                offsetX: getMarkingsVisibleWidth() / 2 - 7,
-            },
-            onComplete: () => {
-                showGuessPrice = true;
-                setTimeout(() => {
-                    positionGuessPrice();
-                }, 50);
-            },
-        });
+        if (guess > answer) guessBand.scrollLeft = guessBand.scrollWidth; // Starts at the end of the band if the guess is higher than the answer
+    });
+
+    $effect(() => {
+        // I need to figure out why I am getting this weird behaviour when a timeout and duration are not specified.
+        if (guessBar) {
+            setTimeout(() => {
+                gsap.to(guessBand, {
+                    scrollTo: {
+                        x: guessBar,
+                        offsetX: getMarkingsVisibleWidth() / 2 - 7,
+                    },
+                    onComplete: () => {
+                        showGuessPrice = true;
+                        setTimeout(() => {
+                            positionGuessPrice();
+                        }, 50);
+                    },
+                    duration: 0.01,
+                });
+            }, 50);
+        }
     });
 </script>
 
