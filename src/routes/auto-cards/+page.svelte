@@ -135,15 +135,12 @@
     }
 
     // Handle mouse wheel to scroll horizontally
-    // TODO: Add mousepad support
+    // !TODO make mobile compatible (touch)
     function handleWheel(event) {
-        event.preventDefault();
-
-        const scrollAmount = event.deltaY > 0 ? 1 : -1; // Down scroll = positive, Up scroll = negative
-        container.scrollBy({
-            left: scrollAmount * cardWidth,
-            behavior: "smooth", 
-        });
+        if (container) {
+            event.preventDefault();
+            container.scrollLeft += event.deltaY * 10;
+        }
     }
 
     onDestroy(() => {
@@ -174,22 +171,19 @@
 <main class="flex h-[80vh] items-center relative">
     <div
         bind:this={container}
-        class="overflow-x-scroll overflow-y-hidden w-full relative h-full content-end overscroll-none"
-        style="scrollbar-width: none; padding-left: {0.5 * $windowWidth}px"
-    >
+        class="overflow-x-scroll overflow-y-hidden w-full relative h-full content-end overscroll-none scroll-container"
+        style="scrollbar-width: none; padding-left: {0.5 * $windowWidth}px">
         <div class="grid grid-flow-col gap-5 w-fit items-center h-full">
             {#each cards as card, i}
                 <div
                     bind:this={cardElement}
                     class="min-w-72 transition-all ease-in-out delay-150"
-                    id="card_{i}"
-                >
+                    id="card_{i}">
                     {#if card.rarity === "locked"}
                         <img
                             src="/assets/svg/locked.svg"
                             alt="Card"
-                            class="w-full h-full"
-                        />
+                            class="w-full h-full" />
                     {:else}
                         <Card {...card} />
                     {/if}
@@ -202,26 +196,28 @@
             src="/assets/svg/gears big.svg"
             alt="background gear"
             class="fixed top-[-10rem] left-[25rem] rotate-45"
-            style:width="{0.4 * windowHeight}px"
-        />
+            style:width="{0.4 * windowHeight}px" />
         <img
             src="/assets/svg/gears big.svg"
             alt="background gear"
             class="fixed bottom-[-10rem] left-[-10rem]"
-            style:width="{0.7 * windowHeight}px"
-        />
+            style:width="{0.7 * windowHeight}px" />
         <img
             src="/assets/svg/gears big.svg"
             alt="background gear"
             class="fixed bottom-[-5rem] right-[-5rem] -rotate-45"
-            style:width="{0.3 * windowHeight}px"
-        />
+            style:width="{0.3 * windowHeight}px" />
     </div>
 </main>
 
 <style>
     div[id^="card_"]:hover {
-        min-width: 21rem;
-        transition: all 150ms ease;
+        transform: scale(1.1);
+        z-index: 90;
+        transition: transform 150ms ease;
+    }
+
+    .scroll-container {
+        scroll-behavior: smooth;
     }
 </style>
