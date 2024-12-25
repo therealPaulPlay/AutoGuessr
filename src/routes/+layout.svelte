@@ -53,7 +53,7 @@
                             ><User strokeWidth={2} /></span>
                         <image
                             class="absolute w-9 h-9"
-                            src="assets/svg/level.svg"
+                            src="/assets/svg/level.svg"
                             alt="level"></image>
                     </button>
                     <div class="text-xl font-semibold">{$username}</div>
