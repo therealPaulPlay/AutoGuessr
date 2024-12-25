@@ -38,12 +38,12 @@
         question.description = data.description;
         question.images = data.photos;
         question.stats = [
-            { icon: "", text: data.name },
-            { icon: "", text: data.mileage.toLocaleString() + " mi." },
+            { icon: "/assets/svg/car.svg", text: data.name },
+            { icon: "/assets/svg/mileage.svg", text: data.mileage.toLocaleString() + " mi." },
             { icon: "/assets/svg/transmission.svg", text: data.transmission },
             { icon: "/assets/svg/date.svg", text: data.year },
             { icon: "/assets/svg/owner.svg", text: data.condition },
-            { icon: "/assets/svg/fuel.svg", text: data.engineType },
+            { icon: "/assets/svg/engine.svg", text: data.engineType },
         ];
     }
 
@@ -178,13 +178,12 @@
     }
 
     function goToNextQuestion() {
-        // Reset the variables
-        guessResult = 1; // Why is this not resetting?
+        guessResult = 1;
         rewardFlag = false;
         penaltyFlag = false;
         resultPopup = false;
 
-        if ($lives === 0) {
+        if ($lives <= 0) {
             // Redirect to the game over page
             goto("/game/end");
             return;
