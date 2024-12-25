@@ -72,43 +72,23 @@
     }
 
     function positionGuessBar() {
-        // Positions the guess bar randomly on the left or right half depending on the guess.
-        const markingsVisibleWidth = getMarkingsVisibleWidth();
         const barScrollWidth = getBarScrollWidth();
 
-        if (difference < differenceThreshold) {
-            guessBarPos = markingsVisibleWidth;
-            return;
-        }
+        let offset = (barScrollWidth * difference) / 100;
+        if (offset >= barScrollWidth / 2) offset = barScrollWidth / 2 - 14;
 
-        if (guess < answer) {
-            guessBarPos = markingsVisibleWidth * 0.25;
+        if (guess > answer) {
+            guessBarPos = answerBarPos + offset;
         } else {
-            guessBarPos = barScrollWidth - markingsVisibleWidth * 0.25;
+            guessBarPos = answerBarPos - offset;
         }
     }
 
     function positionAnswerBar() {
         const scrollWidth = getBarScrollWidth();
 
-        let offset = scrollWidth * (difference / 100);
-
-        if (offset < 300) {
-            setTimeout(() => {
-                // WE NEED A DOUBLE TIMEOUT????? WHY?????
-                if (guess < answer) {
-                    answerBarPos = guessBarPos + offset;
-                } else {
-                    answerBarPos = guessBarPos - offset;
-                }
-            }, 50);
-        }
-
-        if (guess < answer) {
-            answerBarPos = offset;
-        } else {
-            answerBarPos = scrollWidth - offset;
-        }
+        let offset = scrollWidth / 2 - 7;
+        answerBarPos = offset;
     }
 
     function getBarScrollWidth() {
@@ -125,8 +105,8 @@
     }
 
     onMount(() => {
-        positionGuessBar();
         positionAnswerBar();
+        positionGuessBar();
     });
 
     onMount(() => {
@@ -136,21 +116,7 @@
     });
 
     onMount(() => {
-        // We don't start at the end if the difference is less than the threshold.
-        if (difference < differenceThreshold) {
-            return;
-        }
-
-        // Starts at the end if the guess is more than the answer. (aka left of the answer)
-        if (guess > answer) {
-            guessBand.scrollTo({
-                left: guessBand.scrollWidth,
-                behavior: "auto",
-            });
-        }
-    });
-
-    onMount(() => {
+        if (guess > answer) guessBand.scrollLeft = guessBand.scrollWidth;  // Starts at the end of the band if the guess is higher than the answer
         gsap.to(guessBand, {
             scrollTo: {
                 x: guessBar,
@@ -186,16 +152,22 @@
             class="relative flex w-full h-full items-end gap-3 rounded-lg markings z-10"
         >
             {#if guessBand}
-            <!-- This is an absolute disrespect to "clean code" -->
+                <!-- This is an absolute disrespect to "clean code" -->
                 <div
                     class="absolute top-0 z-[2] bg-greenDark h-full"
-                    style:width="{getBarScrollWidth() * lowerBound / 100 * 2}px"
-                    style:left="{answerBarPos - getBarScrollWidth() * lowerBound / 100 + 5}px"
+                    style:width="{((getBarScrollWidth() * lowerBound) / 100) *
+                        2}px"
+                    style:left="{answerBarPos -
+                        (getBarScrollWidth() * lowerBound) / 100 +
+                        5}px"
                 ></div>
                 <div
                     class="absolute top-0 bg-green h-full"
-                    style:width="{getBarScrollWidth() * upperBound / 100 * 2}px"
-                    style:left="{answerBarPos - getBarScrollWidth() * upperBound / 100 + 5}px"
+                    style:width="{((getBarScrollWidth() * upperBound) / 100) *
+                        2}px"
+                    style:left="{answerBarPos -
+                        (getBarScrollWidth() * upperBound) / 100 +
+                        5}px"
                 ></div>
             {/if}
             {#each { length: 10 * sectionsAmount } as _, i}
