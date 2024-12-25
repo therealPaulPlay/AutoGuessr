@@ -59,6 +59,7 @@
     let blinkingLives = $state();
     let popupMessage = $state("Loading...");
     let nextButton = $state();
+    let livesImage = $state(3);
     let submitButton;
     score.set(0);
 
@@ -164,7 +165,7 @@
         extraPenaltyFlag = false;
         rewardFlag = true;
         lives.update((l) => {
-            return l + amount > 3 ? 3 : l + amount;
+            return l + amount > 4 ? 4 : l + amount;
         });
     }
 
@@ -216,15 +217,24 @@
     }
 
     $effect(() => {
-        // Makes currentLives switch between 2 and 3 on 2 lives
+        // Makes blinkingLives switch between 1 and 2 on 2 lives
         // Using a separate variable to $lives because using it may cause issues.
         if ($lives === 2) {
             blinkingFlag = true;
             setInterval(() => {
-                blinkingLives = blinkingLives === 2 ? 3 : 2; // Toggle between 2 and 3
+                blinkingLives = blinkingLives === 1 ? 2 : 1; // Toggle between 1 and 2
             }, 1000);
         } else {
             blinkingFlag = false;
+        }
+    });
+
+    $effect(() => {
+        // Adjusts the lvies image do display the correct image
+        if ($lives < 2) {
+            livesImage = $lives;
+        } else {
+            livesImage = $lives - 1;
         }
     });
 
@@ -293,16 +303,13 @@
         class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center"
     >
         <!-- Lives -->
-        <div class="lives">
-            <!-- This is one of the worst things I've wrote. Is there another way? Also, it sometimes give an error of 404, idk why but nothing seems affected -->
+        <div class="lives relative">
             <img
                 src="/assets/svg/traffic {blinkingFlag
                     ? blinkingLives
-                    : $lives < 2
-                      ? $lives + 1
-                      : $lives}.svg"
+                    : livesImage}.svg"
                 alt="lives"
-                class="w-52 h-28 flex content-end"
+                class="w-52 h-28 flex content-end relative z-10"
             />
         </div>
         <div

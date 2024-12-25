@@ -28,11 +28,11 @@
       }
 
       .cls-7 {
-        fill: #3f3d36;
+        fill: #ffd500;
       }
     </style>
   </defs>
-  <g id="traffic_1" data-name="traffic 1">
+  <g id="traffic_2" data-name="traffic 2">
     <path class="cls-6" d="M11.61,0h149.15c6.41,0,11.61,5.2,11.61,11.61v80.98H0V11.61C0,5.2,5.2,0,11.61,0Z"/>
     <g>
       <g>
@@ -69,6 +69,7 @@
       </g>
       <circle class="cls-3" cx="86.19" cy="36.02" r="21.03"/>
       <circle class="cls-7" cx="86.19" cy="36.02" r="17.22"/>
+      <path class="cls-4" d="M95.42,26.14c2.47,2.47,3.24,5.71,1.71,7.23s-3.08-1.56-5.55-4.03c-2.47-2.47-5.21-3.03-3.69-4.56s5.05-1.11,7.53,1.36Z"/>
     </g>
     <g>
       <g>
