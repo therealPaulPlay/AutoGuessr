@@ -30,7 +30,6 @@
     };
 
     let question = $state({});
-    
 
     async function getQuestion() {
         const data = await getData();
@@ -39,7 +38,10 @@
         question.images = data.photos;
         question.stats = [
             { icon: "/assets/svg/car.svg", text: data.name },
-            { icon: "/assets/svg/mileage.svg", text: data.mileage.toLocaleString() + " mi." },
+            {
+                icon: "/assets/svg/mileage.svg",
+                text: data.mileage.toLocaleString() + " mi.",
+            },
             { icon: "/assets/svg/transmission.svg", text: data.transmission },
             { icon: "/assets/svg/date.svg", text: data.year },
             { icon: "/assets/svg/owner.svg", text: data.condition },
@@ -56,6 +58,8 @@
     let descriptionFlag = $state(false);
     let blinkingLives = $state();
     let popupMessage = $state("Loading...");
+    let nextButton = $state();
+    let submitButton;
     score.set(0);
 
     async function getData() {
@@ -202,6 +206,15 @@
         }
     }
 
+    function onkeydown(event) {
+        if (event.key === "Enter" && !resultPopup) {
+            submitButton.click();
+        }
+        if (event.key === "Enter" && resultPopup) {
+            nextButton.click();
+        }
+    }
+
     $effect(() => {
         // Makes currentLives switch between 2 and 3 on 2 lives
         // Using a separate variable to $lives because using it may cause issues.
@@ -223,6 +236,7 @@
     });
 </script>
 
+<svelte:window {onkeydown} />
 <svelte:head>
     <title>Game</title>
 </svelte:head>
@@ -298,6 +312,7 @@
             <div class="flex grow gap-2.5 text-white">
                 <PriceSlider min="0" max="10" bind:guessValue={guessResult} />
                 <Button
+                    bind:this={submitButton}
                     color="var(--default-button)"
                     bgcolor="var(--default-button-dark)"
                     buttonHeight="4.5rem"
@@ -363,6 +378,7 @@
             </div>
             <div in:fly={{ x: -50, delay: 2500 }}>
                 <Button
+                    bind:this={nextButton}
                     buttonWidth="12rem"
                     buttonHeight="4rem"
                     execFunction={goToNextQuestion}
