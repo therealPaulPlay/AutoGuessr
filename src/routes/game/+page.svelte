@@ -17,6 +17,7 @@
         difficultyRules,
         gameRounds
     } from "$lib/stores/gameStore";
+    import { baseUrl } from "$lib/stores/apiConfigStore";
     import { onMount } from "svelte";
 
     const messages = {
@@ -66,7 +67,7 @@
     score.set(0);
 
     async function getData() {
-        const url = `${PUBLIC_API_URL}/car-data/standard/random`;
+        const url = `${$baseUrl}/car-data/standard/random`;
         try {
             const response = await fetch(url);
             if (!response.ok) {
