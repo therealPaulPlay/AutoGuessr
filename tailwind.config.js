@@ -19,7 +19,9 @@ module.exports = {
         black: '#222222',
         tanLight: 'rgb(247, 240, 224)',
         tanMedium: '#ecdfcc',
-        tanDark: 'rgb(234, 221, 205)'
+        tanDark: 'rgb(234, 221, 205)',
+        defaultShadow: 'rgb(237, 209, 182)',
+        defaultShadowDark: 'rgb(220, 187, 154)',
       },
       fontSize: {
         base: '20px',
