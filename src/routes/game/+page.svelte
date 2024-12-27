@@ -15,7 +15,9 @@
         lives,
         score,
         difficultyRules,
+        gameRounds
     } from "$lib/stores/gameStore";
+    import { baseUrl } from "$lib/stores/apiConfigStore";
     import { onMount } from "svelte";
 
     const messages = {
@@ -60,11 +62,12 @@
     let popupMessage = $state("Loading...");
     let nextButton = $state();
     let livesImage = $state(3);
+    let guessResult = $state(1);
     let submitButton;
     score.set(0);
 
     async function getData() {
-        const url = `${PUBLIC_API_URL}/car-data/standard/random`;
+        const url = `${$baseUrl}/car-data/standard/random`;
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -183,6 +186,16 @@
     }
 
     function goToNextQuestion() {
+        $gameRounds.push({
+            guess: guessResult,
+            answer: question.answer,
+            difference: percentageDifference(),
+            points: pointCalculation(),
+            rewardFlag,
+            penaltyFlag,
+        })
+
+
         guessResult = 1;
         rewardFlag = false;
         penaltyFlag = false;
@@ -238,11 +251,10 @@
         }
     });
 
-    let guessResult = $state(1);
-
     onMount(() => {
         getQuestion();
         lives.set(3);
+        $gameRounds = [];
     });
 </script>
 

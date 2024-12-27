@@ -15,3 +15,4 @@ export const difficultyRules = writable({
         penaltyThreshold: 10, // Only applies for difficulty 3
     },
 });
+export const gameRounds = writable([]);
