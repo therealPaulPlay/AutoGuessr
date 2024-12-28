@@ -21,6 +21,7 @@
 
     let showAnswerPrice = $state(false);
     let showGuessPrice = $state(false);
+    let pinpointFlag = $state(false);
     let answerPos = $state(0);
     let guessPos = $state(0);
     let answerBarPos = $state(0);
@@ -50,6 +51,7 @@
     }
 
     function positionAnswerPrice() {
+        if(!answerBar) return;
         answerPos = positionPrice(answerBar, answerPrice);
     }
 
@@ -118,6 +120,7 @@
 
     onMount(() => {
         if (guess > answer) guessBand.scrollLeft = guessBand.scrollWidth; // Starts at the end of the band if the guess is higher than the answer
+        if (difference < 0.5) pinpointFlag = true;
     });
 
     $effect(() => {
@@ -150,10 +153,12 @@
         <div
             class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-orange overflow-visible"
             style:left="{answerBarPos}px"
+            class:pinpoint={pinpointFlag}
             bind:this={answerBar}
         ></div>
         <div
             class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-black"
+            class:pinpoint={pinpointFlag}
             style:left="{guessBarPos}px"
             bind:this={guessBar}
         ></div>
@@ -237,5 +242,20 @@
 
     .remove-scrollbar {
         scrollbar-width: none; /* Hide scrollbar for Firefox */
+    }
+
+    .pinpoint {
+        background: url("/assets/svg/pinpoint pattern.svg") repeat-x;
+        background-size: 400%;
+        animation: move-background 2s linear infinite;
+    }
+
+    @keyframes move-background {
+        0% {
+            background-position: 100% 0; /* Start from the right */
+        }
+        100% {
+            background-position: -100% 0; /* Move to the left */
+        }
     }
 </style>

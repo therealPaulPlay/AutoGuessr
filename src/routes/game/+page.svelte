@@ -368,13 +368,15 @@
     >
         <!-- Lives -->
         <div class="lives relative">
-            <img
-                src="/assets/svg/traffic {blinkingFlag
-                    ? blinkingLives
-                    : livesImage}.svg"
-                alt="lives"
-                class="w-52 h-28 flex content-end relative z-10"
-            />
+            {#if livesImage || blinkingFlag}
+                <img
+                    src="/assets/svg/traffic {blinkingFlag
+                        ? blinkingLives
+                        : livesImage}.svg"
+                    alt="lives"
+                    class="w-52 h-28 flex content-end relative z-10"
+                />
+            {/if}
         </div>
         <div
             class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl"
