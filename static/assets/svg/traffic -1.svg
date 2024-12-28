@@ -7,37 +7,28 @@
       }
 
       .cls-2 {
-        fill: #65e462;
-      }
-
-      .cls-3 {
-        fill: #4f844e;
-      }
-
-      .cls-4 {
         fill: #cc9d82;
       }
 
-      .cls-5 {
-        fill: #fff;
-        opacity: .37;
+      .cls-3 {
+        fill: #373f36;
       }
 
-      .cls-6 {
+      .cls-4 {
         fill: #ebd3bc;
       }
 
-      .cls-7 {
+      .cls-5 {
         fill: #3f3636;
       }
 
-      .cls-8 {
+      .cls-6 {
         fill: #3f3d36;
       }
     </style>
   </defs>
-  <g id="traffic_4" data-name="traffic 4">
-    <path class="cls-6" d="M11.61,0h149.15c6.41,0,11.61,5.2,11.61,11.61v80.98H0V11.61C0,5.2,5.2,0,11.61,0Z"/>
+  <g id="traffic_0" data-name="traffic 0">
+    <path class="cls-4" d="M11.61,0h149.15c6.41,0,11.61,5.2,11.61,11.61v80.98H0V11.61C0,5.2,5.2,0,11.61,0Z"/>
     <g>
       <g>
         <circle class="cls-1" cx="39.55" cy="39.96" r="21.03"/>
@@ -53,16 +44,9 @@
         <circle class="cls-1" cx="39.55" cy="36.38" r="21.03"/>
         <circle class="cls-1" cx="39.55" cy="36.02" r="21.03"/>
       </g>
-      <circle class="cls-4" cx="39.55" cy="36.02" r="21.03"/>
-      <circle class="cls-2" cx="39.55" cy="36.02" r="17.22"/>
+      <circle class="cls-2" cx="39.55" cy="36.02" r="21.03"/>
+      <circle class="cls-3" cx="39.55" cy="36.02" r="17.22"/>
     </g>
-    <g id="Layer_27" data-name="Layer 27">
-      <g>
-        <rect class="cls-3" x="37.33" y="24.3" width="4.43" height="23.45" rx="2.21" ry="2.21" transform="translate(3.53 75.57) rotate(-90)"/>
-        <rect class="cls-3" x="37.33" y="24.3" width="4.43" height="23.45" rx="2.21" ry="2.21"/>
-      </g>
-    </g>
-    <path class="cls-5" d="M48.77,26.14c2.47,2.47,3.24,5.71,1.71,7.23-1.52,1.52-3.08-1.56-5.55-4.03-2.47-2.47-5.21-3.03-3.69-4.56,1.52-1.52,5.05-1.11,7.53,1.36Z"/>
     <g>
       <g>
         <circle class="cls-1" cx="86.19" cy="39.96" r="21.03"/>
@@ -78,8 +62,8 @@
         <circle class="cls-1" cx="86.19" cy="36.38" r="21.03"/>
         <circle class="cls-1" cx="86.19" cy="36.02" r="21.03"/>
       </g>
-      <circle class="cls-4" cx="86.19" cy="36.02" r="21.03"/>
-      <circle class="cls-8" cx="86.19" cy="36.02" r="17.22"/>
+      <circle class="cls-2" cx="86.19" cy="36.02" r="21.03"/>
+      <circle class="cls-6" cx="86.19" cy="36.02" r="17.22"/>
     </g>
     <g>
       <g>
@@ -96,8 +80,8 @@
         <circle class="cls-1" cx="132.83" cy="36.38" r="21.03"/>
         <circle class="cls-1" cx="132.83" cy="36.02" r="21.03"/>
       </g>
-      <circle class="cls-4" cx="132.83" cy="36.02" r="21.03"/>
-      <circle class="cls-7" cx="132.83" cy="36.02" r="17.22"/>
+      <circle class="cls-2" cx="132.83" cy="36.02" r="21.03"/>
+      <circle class="cls-5" cx="132.83" cy="36.02" r="17.22"/>
     </g>
   </g>
 </svg>

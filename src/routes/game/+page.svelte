@@ -39,7 +39,6 @@
         const data = await fetchWithErrorHandling(
             `${$baseUrl}/car-data/standard/${questionId}`,
         ).then((response) => response.json());
-        console.log("Question ID in setCurrentQuestion: ", questionId);
         question.id = questionId;
         question.answer = data.price;
         question.description = data.description;
@@ -115,8 +114,6 @@
         if (availableIndex.length === 0) {
             availableIndex = randomIndex;
         }
-
-        console.log(`indexHistory: ${indexHistory}`);
 
         availableIndexArr = availableIndex;
     }
@@ -276,12 +273,12 @@
 
     // There are edge cases where things are... weird. Please fix.
     $effect(() => {
-        // Makes blinkingLives switch between 1 and 2 on 2 lives
+        // Makes blinkingLives switch between -1 and 2 on 2 lives
         // Using a separate variable to $lives because using it may cause issues.
         if ($lives === 2) {
             blinkingFlag = true;
             setInterval(() => {
-                blinkingLives = blinkingLives === 1 ? 2 : 1; // Toggle between 1 and 2
+                blinkingLives = blinkingLives === -1 ? 2 : -1; // Toggle between -1 and 2
             }, 1000);
         } else {
             blinkingFlag = false;
