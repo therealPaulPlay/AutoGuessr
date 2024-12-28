@@ -15,10 +15,12 @@
         lives,
         score,
         difficultyRules,
-        gameRounds
+        gameRounds,
     } from "$lib/stores/gameStore";
     import { baseUrl } from "$lib/stores/apiConfigStore";
+    import { fetchWithErrorHandling } from "$lib/utils/fetch";
     import { onMount } from "svelte";
+    import { get } from "svelte/store";
 
     const messages = {
         bad: ["Keep going!", "Stay strong!", "You got this!", "Not quite..."],
@@ -33,8 +35,12 @@
 
     let question = $state({});
 
-    async function getQuestion() {
-        const data = await getData();
+    async function setCurrentQuestion(questionId) {
+        const data = await fetchWithErrorHandling(
+            `${$baseUrl}/car-data/standard/${questionId}`,
+        ).then((response) => response.json());
+        console.log("Question ID in setCurrentQuestion: ", questionId);
+        question.id = questionId;
         question.answer = data.price;
         question.description = data.description;
         question.images = data.photos;
@@ -63,23 +69,56 @@
     let nextButton = $state();
     let livesImage = $state(3);
     let guessResult = $state(1);
+    let availableIndexArr = $state([]);
     let submitButton;
     score.set(0);
 
-    async function getData() {
-        const url = `${$baseUrl}/car-data/standard/random`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
+    async function getAvailableDataSize() {
+        const response = await fetchWithErrorHandling(
+            `${$baseUrl}/car-data/amount`,
+        ).then((response) => response.json());
+        return response.total;
+    }
 
-            const json = await response.json();
-            console.log(json);
-            return json;
-        } catch (error) {
-            console.error(error.message);
+    function generateIndexArray(size) {
+        return Array.from({ length: size }, (_, i) => i);
+    }
+
+    function removeCommonElements(arr1, arr2) {
+        if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+            throw new Error("Both inputs must be arrays");
         }
+        const set2 = new Set(arr2);
+        return arr1.filter((item) => !set2.has(item));
+    }
+
+    function updateAvailableIndexArr() {
+        let array = JSON.parse(localStorage.getItem("indexHistory")) || [];
+        availableIndexArr = removeCommonElements(availableIndexArr, array);
+    }
+
+    function addIndexToLocalStorage(index) {
+        let array = JSON.parse(localStorage.getItem("indexHistory")) || [];
+        array.push(index);
+        localStorage.setItem("indexHistory", JSON.stringify(array));
+    }
+
+    // TODO: make this follow the "Do one thing" principle better
+    async function getAvailableIndex() {
+        const size = await getAvailableDataSize();
+        const randomIndex = generateIndexArray(size);
+        let indexHistory =
+            JSON.parse(localStorage.getItem("indexHistory")) || [];
+        let availableIndex = removeCommonElements(randomIndex, indexHistory);
+
+        // If somehow all indexes are used, it'll just default to the random index
+        if (availableIndex.length === 0) {
+            availableIndex = randomIndex;
+        }
+
+        console.log(`indexHistory: ${indexHistory}`);
+
+        availableIndexArr = availableIndex;
     }
 
     function displayImages() {
@@ -153,7 +192,6 @@
 
         // Check if the penalty logic applies (only for difficulty 3)
         if ($difficulty === 3 && percent > rules.penaltyThreshold) {
-            console.log(`Percent: ${percent}`);
             subtractLife(2, true);
             return;
         }
@@ -187,14 +225,21 @@
 
     function goToNextQuestion() {
         $gameRounds.push({
+            id: question.id,
             guess: guessResult,
             answer: question.answer,
             difference: percentageDifference(),
             points: pointCalculation(),
             rewardFlag,
             penaltyFlag,
-        })
+        });
 
+        addIndexToLocalStorage(question.id);
+        updateAvailableIndexArr();
+
+        // This whole feature needs a lot of simplification I swear, this can't be right.
+        let newIndex = Math.floor(Math.random() * availableIndexArr.length);
+        setCurrentQuestion(availableIndexArr[newIndex]);
 
         guessResult = 1;
         rewardFlag = false;
@@ -229,6 +274,7 @@
         }
     }
 
+    // There are edge cases where things are... weird. Please fix.
     $effect(() => {
         // Makes blinkingLives switch between 1 and 2 on 2 lives
         // Using a separate variable to $lives because using it may cause issues.
@@ -251,8 +297,17 @@
         }
     });
 
-    onMount(() => {
-        getQuestion();
+    onMount(async () => {
+        await getAvailableIndex(); // Wait for availableIndex to be populated
+        if (availableIndexArr.length > 0) {
+            setCurrentQuestion(
+                availableIndexArr[
+                    Math.floor(Math.random() * availableIndexArr.length)
+                ],
+            );
+        } else {
+            console.error("availableIndexArr is empty or not initialized");
+        }
         lives.set(3);
         $gameRounds = [];
     });
