@@ -12,12 +12,20 @@
     const rules = $difficultyRules[$difficulty];
     let [lowerBound, upperBound] = rules.correctTier;
 
+    let markings = $state();
+    let guessBand = $state();
+    let answerBar = $state();
+    let guessBar = $state();
+    let answerPrice = $state();
+    let guessPrice = $state();
+
     let showAnswerPrice = $state(false);
     let showGuessPrice = $state(false);
     let answerPos = $state(0);
     let guessPos = $state(0);
     let answerBarPos = $state(0);
     let guessBarPos = $state(0);
+
     let difference = percentageDifference > 90 ? 90 : percentageDifference;
     let differenceThreshold = 2;
 
@@ -35,19 +43,11 @@
                 showAnswerPrice = true;
                 // For some reason, this is what I had to do to have it positioned correctly.
                 setTimeout(() => {
-                    positionAnswerPrice();
+                    if (answerBar) positionAnswerPrice();
                 }, 50);
             },
         });
     }
-
-    let guessBand = $state();
-
-    let answerBar = $state();
-    let guessBar = $state();
-
-    let answerPrice = $state();
-    let guessPrice = $state();
 
     function positionAnswerPrice() {
         answerPos = positionPrice(answerBar, answerPrice);
@@ -101,7 +101,8 @@
     }
 
     function getMarkingsVisibleWidth() {
-        return document.querySelector(".markings").clientWidth;
+        if (!markings) return 0;
+        return markings.clientWidth;
     }
 
     onMount(() => {
@@ -158,7 +159,8 @@
         ></div>
         <!-- Lines -->
         <div
-            class="relative flex w-full h-full items-end gap-3 rounded-lg markings z-10"
+            class="relative flex w-full h-full items-end gap-3 rounded-lg z-10"
+            bind:this={markings}
         >
             {#if guessBand}
                 <!-- This is an absolute disrespect to "clean code" -->
@@ -186,7 +188,7 @@
     </div>
 
     <!-- Adding "&& answerBand" should fix the null error that shows in the console I think? -->
-    {#if showAnswerPrice}
+    {#if showAnswerPrice && answerBar}
         <div
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
@@ -203,7 +205,7 @@
             />
         </div>
     {/if}
-    {#if showGuessPrice}
+    {#if showGuessPrice && guessBar}
         <div
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
