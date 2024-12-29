@@ -61,8 +61,8 @@
     let penaltyFlag = $state(false);
     let extraPenaltyFlag = $state(false);
     let blinkingFlag = $state(false);
-    let imageTab = $state(true);
     let descriptionFlag = $state(false);
+    let imageTab = $state(true);
     let blinkingLives = $state();
     let popupMessage = $state("Loading...");
     let nextButton = $state();
