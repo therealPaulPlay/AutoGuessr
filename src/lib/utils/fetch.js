@@ -6,7 +6,7 @@ export async function fetchWithErrorHandling(url, options) {
             // Try to parse error message from response if available
             let errorData;
             try { errorData = await response.json(); } catch { }
-            throw new Error(errorData.message || errorData.error || `Request failed with status: ${response.status}`);
+            throw new Error(errorData?.message || errorData?.error || `Request failed with status: ${response.status}`);
         }
 
         return response;
