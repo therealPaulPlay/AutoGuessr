@@ -8,6 +8,7 @@
         z,
         title,
         closeFunction,
+        color = "var(--white)",
         tall = false,
         small = false,
         minimalPadding = false,
@@ -21,15 +22,20 @@
     transition:fade={{ duration: 150 }}
 >
     <div
-        class="rounded-xl bg-white h-5/6 w-11/12 max-size relative overflow-hidden {minimalPadding
+        class="rounded-xl h-5/6 w-11/12 max-size relative overflow-hidden {minimalPadding
             ? 'p-2'
             : 'p-8'}"
         style:max-height={tall ? "1150px" : small ? "300px" : ""}
         style:max-width={small ? "550px" : ""}
+        style:background-color={color}
         transition:scale={{ start: 0.9, duration: 200, easing: cubicOut }}
     >
         {#if showCloseButton}
-            <div class="absolute top-2 right-2 text-white z-10 border-8 border-white bg-white rounded-xl rounded-t-none rounded-r-none">
+            <div
+                class="absolute top-2 right-2 text-white z-10 border-8 border-white rounded-xl rounded-t-none rounded-r-none"
+                style:background-color={color}
+                style:border-color={color}
+            >
                 <Button
                     execFunction={() => {
                         closeFunction?.();
@@ -44,8 +50,12 @@
         >
             {title}
         </h1>
-        <div class="w-full h-full"
-        style:padding-top={showCloseButton && (title == "") ? "3.5rem" : "0rem"}>
+        <div
+            class="w-full h-full"
+            style:padding-top={showCloseButton && title == ""
+                ? "3.5rem"
+                : "0rem"}
+        >
             {@render children?.()}
         </div>
     </div>

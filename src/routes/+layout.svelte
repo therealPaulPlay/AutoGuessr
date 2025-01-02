@@ -11,8 +11,10 @@
         signupPopup,
         accountPopup,
     } from "$lib/stores/uiStore";
+    import { errorPopup, errorText } from "$lib/stores/uiStore";
+    import { displayError } from "$lib/utils/displayError";
     import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
-    import { User } from "lucide-svelte";
+    import { User, TriangleAlert } from "lucide-svelte";
     import { onMount } from "svelte";
     import SignupPopup from "$lib/components/signupPopup.svelte";
     import AccountPopup from "$lib/components/AccountPopup.svelte";
@@ -166,6 +168,26 @@
                         text-xl">No</span
                     >
                 </Button>
+            </div>
+        </div>
+    </Popup>
+{/if}
+
+{#if $errorPopup}
+    <Popup
+        title="Error"
+        small={true}
+        color="var(--tan-medium)"
+        closeFunction={() => errorPopup.set(false)}
+    >
+        <div class="flex h-full items-end">
+            <div class="h-3/5 w-full bg-tanLight rounded-lg p-4">
+                <div class="mb-4">
+                    <TriangleAlert color="var(--tan-dark)" strokeWidth={2.5} />
+                </div>
+                <p class="truncate text-wrap line-clamp-3">
+                    {$errorText}
+                </p>
             </div>
         </div>
     </Popup>
