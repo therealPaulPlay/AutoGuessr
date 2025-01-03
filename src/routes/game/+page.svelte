@@ -425,7 +425,7 @@
                     >
                 </p>
                 <div
-                    in:slide={{ delay: 250 }}
+                    in:slide={{ delay: 1500 }}
                     class="text-black text-base text-center flex"
                 >
                     You get <span class="text-green font-semibold"
