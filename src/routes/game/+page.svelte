@@ -8,7 +8,7 @@
     import Popup from "$lib/components/Popup.svelte";
     import GuessDisplay from "../../lib/components/GuessDisplay.svelte";
     import { goto } from "$app/navigation";
-    import { ArrowRightCircle, Check } from "lucide-svelte";
+    import { ArrowRightCircle, Check, Heart, HeartCrack } from "lucide-svelte";
     import { fly, slide } from "svelte/transition";
     import {
         difficulty,
@@ -419,28 +419,42 @@
                     Your guess of <span class="text-orange font-semibold"
                         >${guessResult.toLocaleString()}</span
                     >
-                    was only
+                    was
                     <span class="text-orange font-semibold"
                         >{percentageDifference().toFixed(2)}% off.</span
                     >
                 </p>
-                <p
+                <div
                     in:slide={{ delay: 250 }}
-                    class="text-black text-base text-center"
+                    class="text-black text-base text-center flex"
                 >
                     You get <span class="text-green font-semibold"
-                        >{pointCalculation()} points{rewardFlag
-                            ? " and an extra life!"
-                            : "."}</span
+                        >&nbsp;{pointCalculation()} points.</span
                     >
-                    {#if penaltyFlag}
-                        <span class="font-semibold text-red-600 decoration-2"
-                            >You lose {$difficulty === 3 && extraPenaltyFlag
-                                ? "2 lives."
-                                : "a life."}</span
-                        >
+                    {#if rewardFlag || penaltyFlag}
+                        <div>
+                            {#if rewardFlag}
+                                <div
+                                    class="text-green font-bold flex items-center"
+                                >
+                                    &nbsp;+
+                                    <Heart strokeWidth={3} size={20} />
+                                </div>
+                            {/if}
+                            {#if penaltyFlag}
+                                <div
+                                    class="text-red-600 font-bold flex items-center"
+                                >
+                                    &nbsp;-
+                                    <HeartCrack strokeWidth={3} size={20} />
+                                    {#if extraPenaltyFlag}
+                                        <HeartCrack strokeWidth={3} size={20} />
+                                    {/if}
+                                </div>
+                            {/if}
+                        </div>
                     {/if}
-                </p>
+                </div>
             </div>
             <div class="w-full h-14 mt-10">
                 <GuessDisplay
