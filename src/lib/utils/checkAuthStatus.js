@@ -1,10 +1,10 @@
 import { isAuthenticated, username, experience } from "$lib/stores/accountStore";
+import { fetchWithErrorHandling } from "./fetch";
 
 async function getUser() {
     try {
-        const userId = localStorage.getItem("id") || "-1";
-        const response = await fetch(
-            `https://accounts.openguessr.com/accounts/user/${userId}`,
+        const response = await fetchWithErrorHandling(
+            `https://accounts.openguessr.com/accounts/user/${localStorage.getItem("id") || "-1"}`,
             {
                 method: "GET",
                 headers: {
@@ -14,17 +14,10 @@ async function getUser() {
             },
         );
 
-        // Check if the response is successful
-        if (response.ok) {
-            const data = await response.json();
-            return data?.user;
-        } else {
-            console.error("Fetch failed:", response.status);
-            error = response.status;
-        }
+        const data = await response.json();
+        return data?.user;
     } catch (error) {
         console.error("Error occurred while fetching the user: ", error);
-        error = error;
     }
 };
 
@@ -35,9 +28,7 @@ export async function checkAuthenticationStatus() {
     if (bearerToken && localStorage.getItem("id") && !isTokenExpired(bearerToken)) {
         // Set store data
         isAuthenticated.set(true);
-
-        // Load basic details
-        const user = await getUser();
+        const user = await getUser(); // Load user details
 
         if (user) {
             experience.set(user?.experience);

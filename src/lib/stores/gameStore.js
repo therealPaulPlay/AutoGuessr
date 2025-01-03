@@ -1,8 +1,7 @@
 import { writable } from "svelte/store";
 
+// Universal
 export const difficulty = writable(1);
-export const lives = writable(3);
-export const score = writable(0);
 export const difficultyRules = writable({
     1: {
         correctTier: [10, 20],
@@ -15,4 +14,9 @@ export const difficultyRules = writable({
         penaltyThreshold: 10, // Only applies for difficulty 3
     },
 });
+
+// Current game
 export const gameRounds = writable([]);
+export const lives = writable(3);
+export const score = writable(0);
+export const currentCarouselIndex = writable(0);

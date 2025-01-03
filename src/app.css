@@ -40,16 +40,16 @@
 
 @font-face {
     font-family: 'Batuphat';
-    src: url('fonts/Batuphat Script.otf') format('opentype');
+    src: url('/fonts/Batuphat-Script.otf') format('opentype');
 }
 
 @font-face {
     font-family: 'BatuphatExtrude';
-    src: url('fonts/Batuphat Script Extrude.otf') format('opentype');
+    src: url('/fonts/Batuphat-Script-Extrude.otf') format('opentype');
 }
 
 * {
-    @apply font-besley;
+    font-family: Besley, sans-serif;
 }
 
 body {
@@ -61,6 +61,10 @@ body,
 html {
     scrollbar-width: none;
     overscroll-behavior: none;
+}
+
+.no-scrollbar {
+    scrollbar-width: none;
 }
 
 .centered-card {

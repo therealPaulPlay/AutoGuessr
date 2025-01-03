@@ -43,7 +43,7 @@
         }}
         minimalPadding={true}
         tall={true}>
-        <div class="flex justify-center items-center w-full h-full relative gap-0">
+        <div class="flex justify-center items-center w-full relative gap-0 h-[50rem] max-h-[90dvh]">
             <iframe
                 src="https://openguessr.com/signup"
                 closeFunction={() => {

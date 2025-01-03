@@ -51,7 +51,7 @@
     }
 
     function positionAnswerPrice() {
-        if(!answerBar) return;
+        if (!answerBar) return;
         answerPos = positionPrice(answerBar, answerPrice);
     }
 
@@ -148,43 +148,42 @@
 <div class="w-full h-full relative" id="wrapper">
     <div
         class="relative w-full h-full bg-tanDark rounded-lg overflow-x-scroll overflow-y-auto guess-band remove-scrollbar pointer-events-none"
-        bind:this={guessBand}
-    >
+        bind:this={guessBand}>
+        <!-- Line indicators -->
         <div
-            class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-orange overflow-visible"
+            class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-orange overflow-visible outline outline-3 outline-white"
             style:left="{answerBarPos}px"
             class:pinpoint={pinpointFlag}
-            bind:this={answerBar}
-        ></div>
+            bind:this={answerBar}>
+        </div>
         <div
-            class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-black"
+            class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-black outline outline-3 outline-white"
             class:pinpoint={pinpointFlag}
             style:left="{guessBarPos}px"
-            bind:this={guessBar}
-        ></div>
-        <!-- Lines -->
+            bind:this={guessBar}>
+        </div>
+        <!-- Band markings -->
         <div
             class="relative flex w-full h-full items-end gap-3 rounded-lg z-10"
-            bind:this={markings}
-        >
+            bind:this={markings}>
             {#if guessBand}
                 <!-- This is an absolute disrespect to "clean code" -->
                 <div
-                    class="absolute top-0 z-[2] bg-greenDark h-full"
+                    class="absolute top-0 z-[2] bg-green h-full"
                     style:width="{((getBarScrollWidth() * lowerBound) / 100) *
                         2}px"
                     style:left="{answerBarPos -
                         (getBarScrollWidth() * lowerBound) / 100 +
-                        5}px"
-                ></div>
+                        5}px">
+                </div>
                 <div
-                    class="absolute top-0 bg-green h-full"
+                    class="absolute top-0 bg-greenDark h-full"
                     style:width="{((getBarScrollWidth() * upperBound) / 100) *
                         2}px"
                     style:left="{answerBarPos -
                         (getBarScrollWidth() * upperBound) / 100 +
-                        5}px"
-                ></div>
+                        5}px">
+                </div>
             {/if}
             {#each { length: 10 * sectionsAmount } as _, i}
                 <div class="line"></div>
@@ -198,16 +197,14 @@
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
             style:left="{answerPos}px"
-            bind:this={answerPrice}
-        >
+            bind:this={answerPrice}>
             <div class="text-orange font-semibold text-base">
                 ${answer.toLocaleString()}
             </div>
             <img
                 src="/assets/svg/simple arrow.svg"
                 alt="Arrow"
-                class="w-3.5 h-3.5 -rotate-90"
-            />
+                class="w-3.5 h-3.5 -rotate-90" />
         </div>
     {/if}
     {#if showGuessPrice && guessBar}
@@ -215,16 +212,14 @@
             transition:fly={{ y: -10, delay: 50 }}
             class="absolute flex items-center flex-col -top-12"
             style:left="{guessPos}px"
-            bind:this={guessPrice}
-        >
+            bind:this={guessPrice}>
             <div class="text-black font-semibold text-base">
                 ${guess.toLocaleString()}
             </div>
             <img
                 src="/assets/svg/simple arrow black.svg"
                 alt="Arrow"
-                class="w-3.5 h-3.5 -rotate-90"
-            />
+                class="w-3.5 h-3.5 -rotate-90" />
         </div>
     {/if}
 </div>

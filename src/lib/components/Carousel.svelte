@@ -1,6 +1,8 @@
 <script>
+    import { formatSellerDescription } from "$lib/utils/formatDescription";
     import { onMount } from "svelte";
     import { fade } from "svelte/transition";
+    import { currentCarouselIndex } from "$lib/stores/gameStore";
 
     let {
         images = [],
@@ -12,14 +14,13 @@
     let imgElement = $state();
     let zoomResult = $state();
     let showZoom = $state(false);
-    let currentIndex = $state(0);
 
     function next() {
-        currentIndex = (currentIndex + 1) % images.length;
+        $currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
     }
 
     function prev() {
-        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        $currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
     }
 
     function imageZoom() {
@@ -43,12 +44,6 @@
             /* Calculate the percentage position of the cursor on the image */
             var xPercent = (pos.x / img.width) * 100;
             var yPercent = (pos.y / img.height) * 100;
-
-            if (xPercent > 50) {
-                result.style.left = "0";
-            } else {
-                result.style.left = "";
-            }
 
             /* Set the background position of the zoomResult */
             result.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
@@ -76,14 +71,13 @@
 </script>
 
 <div
-    class="flex w-full h-[60vh] relative rounded-2xl border-white border-8 bg-white"
->
+    class="flex w-full h-[60vh] relative rounded-2xl border-white border-8 bg-white">
     {#if !descriptionFlag}
         <!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <img
-            src={images[currentIndex]}
-            alt="Loading images..."
+            src={images[$currentCarouselIndex]}
+            alt="Car images for game"
             bind:this={imgElement}
             onclick={() => {
                 imageFit = !imageFit;
@@ -98,49 +92,44 @@
             role="button"
             class="absolute h-full w-full {imageFit
                 ? 'object-contain'
-                : 'object-cover'} z-10 bg-white cursor-crosshair rounded-lg"
-        />
+                : 'object-cover'} z-10 cursor-crosshair rounded-lg" />
+        <p
+            class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 text-center text-wrap flex flex-wrap justify-center items-center bg-white z-[9]">
+            Loading...
+        </p>
         {#if showZoom}
             <div
                 transition:fade={{ duration: 150 }}
                 bind:this={zoomResult}
-                class="absolute m-5 w-32 h-32 z-10 rounded-lg right-0"
-            ></div>
+                class="absolute m-5 w-32 h-32 z-10 rounded-lg right-0">
+            </div>
         {/if}
     {/if}
     <div
-        class="relative w-full h-full overflow-hidden flex justify-between items-center bg-tanLight rounded-lg"
-    >
+        class="relative w-full h-full overflow-hidden flex justify-between items-center bg-tanLight rounded-lg">
         {#if !descriptionFlag}
             <div
-                class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none"
-            >
+                class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
                 <div
-                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto"
-                >
+                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
                     <button
                         onclick={prev}
-                        class="z-20 transition active:scale-90"
-                    >
+                        class="z-20 transition active:scale-90">
                         <img
                             src="/assets/svg/arrow.svg"
                             alt="Previous"
-                            class="w-8"
-                        />
+                            class="w-8" />
                     </button>
                 </div>
                 <div
-                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pl-2 pointer-events-auto"
-                >
+                    class="realtive w-16 h-16 flex justify-center bg-white rounded-full pl-2 pointer-events-auto">
                     <button
                         onclick={next}
-                        class="z-20 transition active:scale-90"
-                    >
+                        class="z-20 transition active:scale-90">
                         <img
                             src="/assets/svg/arrow.svg"
                             alt="Next"
-                            class="w-8 scale-x-[-1]"
-                        />
+                            class="w-8 scale-x-[-1]" />
                     </button>
                 </div>
             </div>
@@ -151,7 +140,7 @@
                     <!-- Maybe we can make this dynamically change between different sentences? To make it feel fresh -->
                 </h1>
                 <p class="text-black text-lg text-justify">
-                    {description}
+                    {@html formatSellerDescription(description)}
                 </p>
             </div>
         {/if}

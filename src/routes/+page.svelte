@@ -15,7 +15,7 @@
 <div class="fixed mx-auto left-0 right-0 top-1/4 flex justify-center">
     <img
         class="w-[60vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] logo-animation"
-        src="assets/svg/logo.svg"
+        src="/assets/svg/logo.svg"
         alt="Logo"
     />
 </div>

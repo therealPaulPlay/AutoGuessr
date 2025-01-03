@@ -1,5 +1,4 @@
 <script>
-    import { PUBLIC_API_URL } from "$env/static/public";
     import Carousel from "$lib/components/Carousel.svelte";
     import Tab from "$lib/components/Tab.svelte";
     import Stat from "$lib/components/Stat.svelte";
@@ -16,6 +15,7 @@
         score,
         difficultyRules,
         gameRounds,
+        currentCarouselIndex,
     } from "$lib/stores/gameStore";
     import { baseUrl } from "$lib/stores/apiConfigStore";
     import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -35,6 +35,11 @@
 
     let question = $state({});
 
+    function milesToKilometers(miles) {
+        const conversionFactor = 1.60934;
+        return miles * conversionFactor;
+    }
+
     async function setCurrentQuestion(questionId) {
         const data = await fetchWithErrorHandling(
             `${$baseUrl}/car-data/standard/${questionId}`,
@@ -47,7 +52,13 @@
             { icon: "/assets/svg/car.svg", text: data.name },
             {
                 icon: "/assets/svg/mileage.svg",
-                text: data.mileage.toLocaleString() + " mi.",
+                text:
+                    (data?.mileage || 0).toLocaleString() +
+                    " mi. / " +
+                    Math.round(
+                        milesToKilometers(data?.mileage || 0),
+                    ).toLocaleString() +
+                    " km.",
             },
             { icon: "/assets/svg/transmission.svg", text: data.transmission },
             { icon: "/assets/svg/date.svg", text: data.year },
@@ -234,14 +245,16 @@
         addIndexToLocalStorage(question.id);
         updateAvailableIndexArr();
 
-        // This whole feature needs a lot of simplification I swear, this can't be right.
+        // !TODO This whole feature needs a lot of simplification I swear, this can't be right.
         let newIndex = Math.floor(Math.random() * availableIndexArr.length);
         setCurrentQuestion(availableIndexArr[newIndex]);
 
+        // Resets
         guessResult = 1;
         rewardFlag = false;
         penaltyFlag = false;
         resultPopup = false;
+        $currentCarouselIndex = 0;
 
         if ($lives <= 0) {
             // Redirect to the game over page
@@ -319,41 +332,34 @@
     <!-- Main game content -->
     <div class="flex w-full justify-center z-50">
         <!-- main window -->
-        <div class="rounded-2xl md:w-4/5 md:px-12">
+        <div class="rounded-2xl md:w-4/5 md:px-12 mx-2">
             <div class="flex w-1/2 gap-2 ml-4">
                 <Tab
                     color={imageTab ? "var(--white)" : "var(--default-shadow)"}
                     shadow={false}
-                    execFunction={displayImages}
-                >
+                    execFunction={displayImages}>
                     <span class="text-xl font-medium text-black">Images</span>
                 </Tab>
                 <Tab
                     color={imageTab ? "var(--default-shadow)" : "var(--white)"}
                     shadow={false}
-                    execFunction={displayDescription}
-                >
+                    execFunction={displayDescription}>
                     <span class="text-xl font-medium text-black"
-                        >Description</span
-                    >
+                        >Description</span>
                 </Tab>
             </div>
             <div class="flex flex-col w-full md:flex-row gap-5">
                 <div
-                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]"
-                >
+                    class="md:w-2/3 drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
                     <Carousel
                         images={question.images}
                         description={question.description}
-                        {descriptionFlag}
-                    />
+                        {descriptionFlag} />
                 </div>
                 <div
-                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white"
-                >
+                    class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white">
                     <div
-                        class="w-full flex flex-col justify-between h-fit gap-2 p-2"
-                    >
+                        class="w-full flex flex-col justify-between h-fit gap-2 p-2">
                         {#each question.stats as stat}
                             <Stat icon={stat.icon} text={stat.text} />
                         {/each}
@@ -364,24 +370,21 @@
     </div>
     <!-- Bottom UI -->
     <div
-        class="fixed bottom-0 margin-x-auto flex flex-row-reverse flex-wrap w-full md:gap-10 md:justify-center"
-    >
+        class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start">
         <!-- Lives -->
-        <div class="lives relative">
+        <div class="lives relative z-[5]">
             {#if livesImage || blinkingFlag}
                 <img
                     src="/assets/svg/traffic {blinkingFlag
                         ? blinkingLives
                         : livesImage}.svg"
                     alt="lives"
-                    class="w-52 h-28 flex content-end relative z-10"
-                />
+                    class="w-52 h-28 flex content-end" />
             {/if}
         </div>
         <div
-            class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl"
-            style:background-color="var(--default-shadow)"
-        >
+            class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]"
+            style:background-color="var(--default-shadow)">
             <div class="flex grow gap-2.5 text-white">
                 <PriceSlider min="0" max="10" bind:guessValue={guessResult} />
                 <Button
@@ -390,8 +393,7 @@
                     bgcolor="var(--default-button-dark)"
                     buttonHeight="4.5rem"
                     buttonWidth="5.5rem"
-                    execFunction={showResult}
-                >
+                    execFunction={showResult}>
                     <span class="check-align-vertical">
                         <Check strokeWidth={5} size={30} />
                     </span>
@@ -401,50 +403,42 @@
     </div>
 </content>
 
-<!-- Result Popups -->
+<!-- Result Popups TODO: Make component -->
 {#if resultPopup}
     <Popup title="" closeFunction={goToNextQuestion} showCloseButton={false}>
         <div class="h-full flex flex-col justify-evenly items-center">
             <div class="flex flex-col items-center">
                 <p
                     in:fly={{ y: -50, delay: 500 }}
-                    class="font-bold text-green text-7xl mb-5 text-center"
-                >
-                    {popupMessage.toUpperCase()}
+                    class="font-bold text-green text-7xl mb-5 text-center">
+                    {popupMessage}
                 </p>
                 <p
                     class="text-black text-base text-center"
-                    in:fly={{ y: -50, delay: 500 }}
-                >
+                    in:fly={{ y: -50, delay: 500 }}>
                     Your guess of <span class="text-orange font-semibold"
-                        >${guessResult.toLocaleString()}</span
-                    >
+                        >${guessResult.toLocaleString()}</span>
                     was
                     <span class="text-orange font-semibold"
-                        >{percentageDifference().toFixed(2)}% off.</span
-                    >
+                        >{percentageDifference().toFixed(2)}% off.</span>
                 </p>
                 <div
                     in:slide={{ delay: 1500 }}
-                    class="text-black text-base text-center flex"
-                >
+                    class="text-black text-base text-center flex">
                     You get <span class="text-green font-semibold"
-                        >&nbsp;{pointCalculation()} points.</span
-                    >
+                        >&nbsp;{pointCalculation()} points.</span>
                     {#if rewardFlag || penaltyFlag}
                         <div>
                             {#if rewardFlag}
                                 <div
-                                    class="text-green font-bold flex items-center"
-                                >
+                                    class="text-green font-bold flex items-center">
                                     &nbsp;+
                                     <Heart strokeWidth={3} size={20} />
                                 </div>
                             {/if}
                             {#if penaltyFlag}
                                 <div
-                                    class="text-red-600 font-bold flex items-center"
-                                >
+                                    class="text-red-600 font-bold flex items-center">
                                     &nbsp;-
                                     <HeartCrack strokeWidth={3} size={20} />
                                     {#if extraPenaltyFlag}
@@ -456,24 +450,21 @@
                     {/if}
                 </div>
             </div>
-            <div class="w-full h-14 mt-10">
+            <div class="w-full h-14 mt-14">
                 <GuessDisplay
                     answer={question.answer}
                     guess={guessResult}
-                    percentageDifference={percentageDifference().toFixed(2)}
-                />
+                    percentageDifference={percentageDifference().toFixed(2)} />
             </div>
-            <div in:fly={{ x: -50, delay: 2500 }}>
+            <div in:fly={{ x: -50, delay: 2500 }} class="mt-10">
                 <Button
                     bind:this={nextButton}
                     buttonWidth="12rem"
                     buttonHeight="4rem"
-                    execFunction={goToNextQuestion}
-                >
+                    execFunction={goToNextQuestion}>
                     <span
                         class="text-white text-xl font-medium flex items-center justify-center gap-2"
-                        >Next <ArrowRightCircle strokeWidth={3} /></span
-                    >
+                        >Next <ArrowRightCircle strokeWidth={3} /></span>
                 </Button>
             </div>
         </div>
