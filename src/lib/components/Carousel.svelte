@@ -1,10 +1,10 @@
 <script>
     import { onMount } from "svelte";
-    import { fade } from 'svelte/transition';
+    import { fade } from "svelte/transition";
 
     let {
         images = [],
-        description = null,
+        description = "No desciption was provided.",
         descriptionFlag = false,
         children,
     } = $props();
@@ -44,7 +44,7 @@
             var xPercent = (pos.x / img.width) * 100;
             var yPercent = (pos.y / img.height) * 100;
 
-            if(xPercent > 50) {
+            if (xPercent > 50) {
                 result.style.left = "0";
             } else {
                 result.style.left = "";
@@ -150,18 +150,13 @@
                     Here is what the seller has to say:
                     <!-- Maybe we can make this dynamically change between different sentences? To make it feel fresh -->
                 </h1>
-                <p class="text-black text-lg text-justify">{description}</p>
+                <p class="text-black text-lg text-justify">
+                    {description}
+                </p>
             </div>
         {/if}
     </div>
 </div>
 
 <style>
-    .img-zoom-lens {
-        position: absolute;
-        border: 1px solid #d4d4d4;
-        /*set the size of the lens:*/
-        width: 100px;
-        height: 100px;
-    }
 </style>
