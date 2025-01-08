@@ -20,14 +20,15 @@
     }
 
     function prev() {
-        $currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
+        $currentCarouselIndex =
+            ($currentCarouselIndex - 1 + images.length) % images.length;
     }
 
     function imageZoom() {
         var img = imgElement;
         var result = zoomResult;
 
-        /* Set the zoomResult's background to show the image */
+        // Set the zoomResult's background to show the image
         result.style.backgroundImage = `url(${img.src})`;
         result.style.backgroundSize =
             img.width * 2 + "px " + img.height * 2 + "px";
@@ -135,10 +136,7 @@
             </div>
         {:else}
             <div class="absolute h-full flex flex-col overflow-auto p-10">
-                <h1 class="font-bold text-2xl mb-7">
-                    Here is what the seller has to say:
-                    <!-- Maybe we can make this dynamically change between different sentences? To make it feel fresh -->
-                </h1>
+                <h1 class="font-bold text-2xl mb-7">Seller's description:</h1>
                 <p class="text-black text-lg text-justify">
                     {@html formatSellerDescription(description)}
                 </p>
@@ -146,6 +144,3 @@
         {/if}
     </div>
 </div>
-
-<style>
-</style>

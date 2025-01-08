@@ -16,19 +16,17 @@
     <img
         class="w-[60vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] logo-animation"
         src="/assets/svg/logo.svg"
-        alt="Logo"
-    />
+        alt="Logo" />
 </div>
 
 <svelte:head>
-    <title>AutoGuessr - Guess the car price!</title>
+    <title>AutoGuessr - Guess the car's price!</title>
 </svelte:head>
 
 <content class="flex fw-full mt-5 custom-content-size">
     <!-- Bottom Area -->
     <div
-        class="flex flex-row justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0"
-    >
+        class="flex flex-row justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0">
         <div class="flex flex-col overflow-clip">
             <!-- Difficulties -->
             <div class="flex flex-row max-w-64 ml-2 gap-1">
@@ -36,24 +34,21 @@
                     color="var(--green-button-dark"
                     selectedColor="var(--green-button)"
                     selected={Boolean($difficulty == 1)}
-                    execFunction={() => difficultyValue = 1}
-                >
+                    execFunction={() => (difficultyValue = 1)}>
                     <span class="text-xl font-medium">Easy</span>
                 </Tab>
                 <Tab
                     color="var(--default-button-dark)"
                     selectedColor="var(--default-button)"
                     selected={Boolean($difficulty == 2)}
-                    execFunction={() => difficultyValue = 2}
-                >
+                    execFunction={() => (difficultyValue = 2)}>
                     <span class="text-xl font-medium">Medium</span>
                 </Tab>
                 <Tab
                     color="rgb(75, 73, 73)"
                     selectedColor="rgb(52, 49, 49)"
                     selected={Boolean($difficulty == 3)}
-                    execFunction={() => difficultyValue = 3}
-                >
+                    execFunction={() => (difficultyValue = 3)}>
                     <span class="text-xl font-medium">Hard</span>
                 </Tab>
             </div>
@@ -63,13 +58,11 @@
                     buttonHeight="10rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => goto("/game")}
-                >
+                    execFunction={() => goto("/game")}>
                     <img
                         src="/assets/svg/play.svg"
                         alt="play button"
-                        style:width="3rem"
-                    />
+                        style:width="3rem" />
                 </Button>
             </div>
             <!-- Autocards Button -->
@@ -80,19 +73,15 @@
                     buttonHeight="4rem"
                     buttonWidth="21rem"
                     shadowHeight="0.5rem"
-                    execFunction={() => goto("/auto-cards")}
-                >
+                    execFunction={() => goto("/auto-cards")}>
                     <div
-                        class="flex flex-row items-center justify-between w-full px-2"
-                    >
+                        class="flex flex-row items-center justify-between w-full px-2">
                         <span class="text-white font-bold text-4xl"
-                            >AutoCards</span
-                        >
+                            >AutoCards</span>
                         <img
                             src="/assets/svg/autocards icon.svg"
                             alt=""
-                            style:width="3rem"
-                        />
+                            style:width="3rem" />
                     </div>
                 </Button>
             </div>

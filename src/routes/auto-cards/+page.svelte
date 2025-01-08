@@ -1,6 +1,6 @@
 <script>
     import { onMount, onDestroy } from "svelte";
-    import Card from "../../lib/components/Card.svelte";
+    import Card from "$lib/components/Card.svelte";
     import { windowWidth } from "$lib/stores/uiStore";
 
     let cards = [

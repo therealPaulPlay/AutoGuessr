@@ -324,6 +324,7 @@
 </script>
 
 <svelte:window {onkeydown} />
+
 <svelte:head>
     <title>Game</title>
 </svelte:head>

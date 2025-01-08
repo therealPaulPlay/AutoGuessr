@@ -64,8 +64,4 @@
         max-height: 750px;
         max-width: 800px;
     }
-
-    /* .custom-height {
-        height: calc(100% - 4.5rem);
-    } */
 </style>

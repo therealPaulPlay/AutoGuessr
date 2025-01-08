@@ -7,8 +7,6 @@
         execFunction,
         children,
     } = $props();
-
-    // TODO: Make tab darker when not selected.
 </script>
 
 <div class="ease-in-out duration-300 transition active:scale-90" class:high-z-index={selected}>

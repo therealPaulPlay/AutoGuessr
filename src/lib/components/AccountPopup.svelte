@@ -21,7 +21,13 @@
             <Button
                 buttonWidth="6rem"
                 execFunction={() => {
-                    window.open("https://openguessr.com", "_blank").focus();
+                    window
+                        .open(
+                            "https://openguessr.com?profile-id=" +
+                                localStorage.getItem("id"),
+                            "_blank",
+                        )
+                        .focus();
                 }}>Manage</Button>
             <Button
                 buttonWidth="3.5rem"

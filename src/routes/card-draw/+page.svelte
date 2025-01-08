@@ -3,12 +3,12 @@
     import { tick } from "svelte";
     import { fade } from "svelte/transition";
     import { gsap } from "gsap";
-    import Button from "../../lib/components/Button.svelte";
-    import CardBack from "../../lib/components/CardBack.svelte";
-    import Card from "../../lib/components/Card.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import CardBack from "$lib/components/CardBack.svelte";
+    import Card from "$lib/components/Card.svelte";
     import Flip from "gsap/dist/Flip";
     gsap.registerPlugin(Flip);
-    import { score } from "../../lib/stores/gameStore";
+    import { score } from "$lib/stores/gameStore";
 
     let cardInfo = {
         name: "TestName 1",
@@ -30,7 +30,12 @@
     let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
     let rarityBonusValue = Math.pow($score, 2);
 
-    let rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
+    let rarities = getRarityWithBonus(
+        rarityBonusValue,
+        cardPositionIndex,
+        cardInfo,
+        raritiesSize,
+    );
 
     function getRarityWithBonus(
         bonusValue,
@@ -174,24 +179,20 @@
         resizeTimeout = setTimeout(() => {
             initialCenterCards();
         }, 100);
-    }}
-/>
+    }} />
 <content class="relative h-full block">
     <div
-        class="flex flex-col w-full justify-center items-center custom-card-container-height"
-    >
+        class="flex flex-col w-full justify-center items-center custom-card-container-height">
         <div>
             <img
                 src="/assets/svg/arrow.svg"
                 alt="Arrow"
-                class="w-8 h-8 -rotate-90"
-            />
+                class="w-8 h-8 -rotate-90" />
         </div>
         <div class="fade-mask w-full">
             <div
                 bind:clientWidth={containerWidth}
-                class="flex flex-row items-center w-fit scroll-container gap-2 my-5"
-            >
+                class="flex flex-row items-center w-fit scroll-container gap-2 my-5">
                 {#each rarities as rarity, i}
                     {#if i === cardPositionIndex}
                         <div
@@ -199,16 +200,13 @@
                             class="flex-shrink-0 z-10 transition-all duration-700 w-fit relative [transform-style:preserve-3d] h-96"
                             class:flip-it={showCardBack}
                             style:width="{cardWidth}px"
-                            id="card_{i}"
-                        >
+                            id="card_{i}">
                             <div
-                                class="absolute w-full h-full [backface-visibility:hidden]"
-                            >
+                                class="absolute w-full h-full [backface-visibility:hidden]">
                                 <CardBack {rarity} />
                             </div>
                             <div
-                                class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]"
-                            >
+                                class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
                                 <Card {...cardInfo} />
                             </div>
                         </div>
@@ -216,8 +214,7 @@
                         <div
                             bind:clientWidth={cardWidth}
                             class="flex-shrink-0 z-10 transition-all ease-in-out delay-300 h-96"
-                            id="card_{i}"
-                        >
+                            id="card_{i}">
                             <CardBack {rarity} />
                         </div>
                     {/if}
@@ -228,8 +225,7 @@
             <img
                 src="/assets/svg/arrow.svg"
                 alt="Arrow"
-                class="w-8 h-8 rotate-90 scale-y-[-1]"
-            />
+                class="w-8 h-8 rotate-90 scale-y-[-1]" />
         </div>
         <div class="mt-5 flex flex-row gap-5 btn">
             <div class="min-w-[12rem]">
@@ -237,8 +233,7 @@
                     buttonHeight="4rem"
                     buttonWidth="12rem"
                     shadowHeight="0.5rem"
-                    execFunction={scrollToEnd}
-                >
+                    execFunction={scrollToEnd}>
                     <span class="text-white font-bold text-4xl">Roll!</span>
                 </Button>
             </div>
@@ -250,11 +245,9 @@
                         shadowHeight="0.5rem"
                         color="var(--green-button)"
                         bgcolor="var(--green-button-dark)"
-                        execFunction={revealCard}
-                    >
+                        execFunction={revealCard}>
                         <span class="text-white font-bold text-4xl"
-                            >Reveal!</span
-                        >
+                            >Reveal!</span>
                     </Button>
                 </div>
             {/if}
@@ -264,38 +257,29 @@
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-52 bottom-10 rotate-12"
-        />
+            class="absolute h-52 bottom-10 rotate-12" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-36 bottom-10 left-36 rotate-45"
-        />
+            class="absolute h-36 bottom-10 left-36 rotate-45" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-36 -top-32 left-72 -rotate-12 scale-y-[-1] scale-x-[-1]"
-        />
+            class="absolute h-36 -top-32 left-72 -rotate-12 scale-y-[-1] scale-x-[-1]" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-24 -top-32 left-56 scale-y-[-1] scale-x-[-1]"
-        />
+            class="absolute h-24 -top-32 left-56 scale-y-[-1] scale-x-[-1]" />
         <img
             src="/assets/svg/question mark.svg"
             alt="Background question mark"
-            class="absolute h-28 bottom-20 right-8 -rotate-12"
-        />
+            class="absolute h-28 bottom-20 right-8 -rotate-12" />
     </div>
 </content>
 
 <style>
     .scroll-container {
         scrollbar-width: none; /* Hide scrollbar for Firefox */
-    }
-
-    .scroll-container::-webkit-scrollbar {
-        display: none; /* Hide scrollbar for WebKit browsers */
     }
 
     .custom-card-container-height {
@@ -307,7 +291,6 @@
     }
 
     @media (min-width: 768px) {
-        /* Adjust the min-width value as needed */
         .fade-mask {
             mask-image: radial-gradient(
                 circle,
