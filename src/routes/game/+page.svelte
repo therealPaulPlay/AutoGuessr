@@ -21,6 +21,7 @@
     import { fetchWithErrorHandling } from "$lib/utils/fetch";
     import { onMount } from "svelte";
     import { get } from "svelte/store";
+    import { displayError } from "$lib/utils/displayError";
 
     const messages = {
         bad: ["Keep going!", "Stay strong!", "You got this!", "Not quite..."],
@@ -41,30 +42,39 @@
     }
 
     async function setCurrentQuestion(questionId) {
-        const data = await fetchWithErrorHandling(
-            `${$baseUrl}/car-data/standard/${questionId}`,
-        ).then((response) => response.json());
-        question.id = questionId;
-        question.answer = data.price;
-        question.description = data.description;
-        question.images = data.photos;
-        question.stats = [
-            { icon: "/assets/svg/car.svg", text: data.name },
-            {
-                icon: "/assets/svg/mileage.svg",
-                text:
-                    (data?.mileage || 0).toLocaleString() +
-                    " mi. / " +
-                    Math.round(
-                        milesToKilometers(data?.mileage || 0),
-                    ).toLocaleString() +
-                    " km.",
-            },
-            { icon: "/assets/svg/transmission.svg", text: data.transmission },
-            { icon: "/assets/svg/date.svg", text: data.year },
-            { icon: "/assets/svg/owner.svg", text: data.condition },
-            { icon: "/assets/svg/engine.svg", text: data.engineType },
-        ];
+        try {
+            const data = await fetchWithErrorHandling(
+                `${$baseUrl}/car-data/standard/${questionId}`,
+            ).then((response) => response.json());
+
+            question.id = questionId;
+            question.answer = data.price;
+            question.description = data.description;
+            question.images = data.photos;
+            question.stats = [
+                { icon: "/assets/svg/car.svg", text: data.name },
+                {
+                    icon: "/assets/svg/mileage.svg",
+                    text:
+                        (data?.mileage || 0).toLocaleString() +
+                        " mi. / " +
+                        Math.round(
+                            milesToKilometers(data?.mileage || 0),
+                        ).toLocaleString() +
+                        " km.",
+                },
+                {
+                    icon: "/assets/svg/transmission.svg",
+                    text: data.transmission,
+                },
+                { icon: "/assets/svg/date.svg", text: data.year },
+                { icon: "/assets/svg/owner.svg", text: data.condition },
+                { icon: "/assets/svg/engine.svg", text: data.engineType },
+            ];
+        } catch (error) {
+            console.error("Error occured retrieving car data:", error);
+            displayError("Error occured retrieving car data: " + error);
+        }
     }
 
     let resultPopup = $state(false);
@@ -84,10 +94,22 @@
     score.set(0);
 
     async function getAvailableDataSize() {
-        const response = await fetchWithErrorHandling(
-            `${$baseUrl}/car-data/amount`,
-        ).then((response) => response.json());
-        return response.total;
+        try {
+            const response = await fetchWithErrorHandling(
+                `${$baseUrl}/car-data/amount`,
+            );
+            const data = await response.json();
+            return response?.total;
+        } catch (error) {
+            console.error(
+                "Error occured getting the available car dataset size:",
+                error,
+            );
+            displayError(
+                "Error occured getting the available car dataset size: " +
+                    error,
+            );
+        }
     }
 
     function generateIndexArray(size) {
