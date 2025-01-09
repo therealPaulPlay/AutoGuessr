@@ -19,7 +19,7 @@
         buttonHeight="4rem"
         color="var(--green-button)"
         bgcolor="var(--green-button-dark)"
-        execFunction={() => goto("/")}>
+        onclick={() => goto("/")}>
         <span
             class="text-white text-xl font-medium flex items-center justify-center gap-2">
             <div class="scale-x-[-1]">

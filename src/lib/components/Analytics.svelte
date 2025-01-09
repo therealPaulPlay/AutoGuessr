@@ -3,6 +3,7 @@
   import { page } from "$app/stores";
   import { AlertCircle } from "lucide-svelte";
   import Button from "./Button.svelte";
+  import { slide } from "svelte/transition";
 
   let showBanner = $state(false);
   let cookieConsent = false;
@@ -77,16 +78,20 @@
 </svelte:head>
 
 {#if showBanner}
-  <div role="alert" class="alert fixed w-fit m-4 bottom-0 bg-base-100 right-0 z-50 shadow-lg">
-    <AlertCircle className="stroke-info h-6 w-6 shrink-0" />
-    <span
-      >This website uses cookies according to its <a href="https://openguessr.com/legal" class="text-secondary"
-        >privacy policy</a
-      >.</span
-    >
-    <div class="flex flex-wrap gap-2">
-      <Button onclick={handleDeny}>Only essentia</Button>
-      <Button onclick={handleAccept}>Accept</Button>
+  <div
+    role="alert"
+    class="fixed w-fit m-4 bottom-0 bg-tanDark right-0 z-50 p-4 rounded-lg flex flex-col gap-3 max-w-96"
+    transition:slide
+  >
+    <div class="flex flex-wrap gap-2 bg-tanLight p-2 rounded-md">
+      <span class="text-wrap"
+        >This website uses cookies according to its <a href="/privacy" class="underline">privacy policy</a>.</span
+      >
+    </div>
+
+    <div class="flex flex-wrap gap-3">
+      <Button onclick={handleAccept} color="var(--green-button)" bgcolor="var(--green-button-dark)">Accept</Button>
+      <Button onclick={handleDeny}>Only essential</Button>
     </div>
   </div>
 {/if}

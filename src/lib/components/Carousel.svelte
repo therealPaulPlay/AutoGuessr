@@ -78,7 +78,7 @@
         <!-- svelte-ignore a11y_click_events_have_key_events -->
         <img
             src={images[$currentCarouselIndex]}
-            alt="Car images for game"
+            alt=" "
             bind:this={imgElement}
             onclick={() => {
                 imageFit = !imageFit;

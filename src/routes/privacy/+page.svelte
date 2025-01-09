@@ -47,12 +47,13 @@
     <p>
       Our partners (e.g. Google or Stripe) collect details of which version of web browser you used and information on
       how you use the site using page tagging techniques. If you provide your consent, we use Google Analytics and our
-      own cookies to collect information about how you use AutoGuessr. For a better experience, while using our Service,
-      we may require you to provide us with certain personally identifiable information such as a username. If you
-      create an account we will also store account-specific information such as your level or experience. By creating an
-      account you accept that we may share non-sensitive information (like your username, email address, experience or
-      other associated data) with other users.
-      <br /> <br />
+      own cookies to collect information about how you use AutoGuessr. You can opt out of personalized tracking using
+      the cookie banner displayed on our website. For a better experience, while using our Service, we may require you
+      to provide us with certain personally identifiable information such as a username. If you create an account we
+      will also store account-specific information such as your level or experience. By creating an account you accept
+      that we may share non-sensitive information (like your username, email address, experience or other associated
+      data) with other users.
+      <br /><br />
       Google Analytics processes information about:
       <br />
       - the pages you visit on AutoGuessr
@@ -62,7 +63,7 @@
       - how you got to the site
       <br />
       - what you click on while you're visiting the site
-      <br /> <br />
+      <br /><br />
       We make sure you cannot be directly identified by Google Analytics data. We do this by using Google Analytics' IP address
       anonymisation feature. We will not combine analytics information with other data sets in a way that would directly
       identify who you are.
@@ -71,14 +72,14 @@
       prevent cheaters) and email address that you have provided as well as other account related details that you provide
       at your own choice. Additionally, we save game-related information such as, but not limited to, your account level.
       <br /><br />
-      If you purchase any item in the game/on the site, the data you provide might be stored and processed using stripe.
-      Please refer to stripe's
+      If you purchase any item in the game/on the site, the data you provide might be stored and processed using Stripe.
+      Please refer to Stripe's
       <a href="https://stripe.com/privacy" target="_blank" class="underline">privacy policy</a> for more information.
     </p>
     <br />
     <h2 class="font-bold text-xl">How we use your data</h2>
     <p>
-      The data we collect using Google Analytics is transferred and stored with Google where we analyse it with Google
+      The data we collect using Google Analytics is transferred and stored with Google where we analyze it with Google
       Analytics software (Google Analytics 4). We also use your data, such as your username, in our multiplayer
       experiences and may share that with other players.
     </p>
@@ -86,20 +87,21 @@
     <h2 class="font-bold text-xl">Why we collect data</h2>
     <p>
       We use the information we collect through the explained means to see how you use AutoGuessr and to see how well
-      the site performs on your device. We also strive to improve our website by analysing issues. Furthermore, we use
+      the site performs on your device. We also strive to improve our website by analyzing issues. Furthermore, we use
       your data to enrich multiplayer functionalities.
     </p>
-    <br /> <br />
+    <br /><br />
     <h2 class="font-bold text-xl">How long we keep your data</h2>
     <p>
       We will only retain your personal data for as long as it is needed for the purposes set out in this document or
-      for as long as the law requires us to.
+      for as long as the law requires us to. If you delete your account via the profile menu, we will remove your data
+      within 30 days or less.
     </p>
     <br /><br />
     <h2 class="font-bold text-xl">How we keep your data secure</h2>
     <p>
       We are committed to doing all that we can to keep your data secure. We set up systems and processes to prevent
-      unauthorised access to or disclosure of the data we collect about you. For example, we protect your data using
+      unauthorized access to or disclosure of the data we collect about you. For example, we protect your data using
       varying levels of encryption. All third parties that process personal data for AutoGuessr are required to keep
       that data secure. We also only store a hash of your password if you sign up.
     </p>

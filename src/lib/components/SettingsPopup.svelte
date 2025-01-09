@@ -42,7 +42,7 @@
                     <Button
                         color="var(--default-button)"
                         bgcolor="var(--default-button-dark)"
-                        execFunction={() => {
+                        onclick={() => {
                             // Toggle on/off fullscreen
                             if (document.fullscreenElement) {
                                 document.exitFullscreen();

@@ -233,7 +233,7 @@
                     buttonHeight="4rem"
                     buttonWidth="12rem"
                     shadowHeight="0.5rem"
-                    execFunction={scrollToEnd}>
+                    onclick={scrollToEnd}>
                     <span class="text-white font-bold text-4xl">Roll!</span>
                 </Button>
             </div>
@@ -245,7 +245,7 @@
                         shadowHeight="0.5rem"
                         color="var(--green-button)"
                         bgcolor="var(--green-button-dark)"
-                        execFunction={revealCard}>
+                        onclick={revealCard}>
                         <span class="text-white font-bold text-4xl"
                             >Reveal!</span>
                     </Button>

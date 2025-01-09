@@ -4,7 +4,7 @@
         selectedColor = color,
         shadow = true,
         selected = false,
-        execFunction,
+        onclick,
         children,
     } = $props();
 </script>
@@ -12,7 +12,7 @@
 <div class="ease-in-out duration-300 transition active:scale-90" class:high-z-index={selected}>
     <button
         class:selected-outline={selected}
-        onclick={execFunction}
+        onclick={onclick}
         class="px-3 pt-1 pb-4 rounded-t-lg translate-y-2 w-full truncate text-white m-0 transition"
         style:background-color={selected ? selectedColor : color}
         style:box-shadow={shadow

@@ -34,7 +34,7 @@
                 style:background-color={color}
                 style:border-color={color}>
                 <Button
-                    execFunction={() => {
+                    onclick={() => {
                         closeFunction?.();
                     }}>
                     <X strokeWidth={4} />

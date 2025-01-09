@@ -65,7 +65,7 @@
                 shadowHeight="0.5rem"
                 color="var(--green-button)"
                 bgcolor="var(--green-button-dark)"
-                execFunction={() => {
+                onclick={() => {
                     goto("/game");
                 }}>
                 <span class="text-white font-bold text-3xl">Play again</span>
@@ -77,7 +77,7 @@
                     shadowHeight="0.5rem"
                     color="rgb(70, 60, 65)"
                     bgcolor="var(--black)"
-                    execFunction={() => {
+                    onclick={() => {
                         goto("/card-draw");
                     }}>
                     <span class="text-white font-bold text-3xl"
@@ -88,7 +88,7 @@
                 buttonHeight="4rem"
                 buttonWidth="4rem"
                 shadowHeight="0.5rem"
-                execFunction={() => {
+                onclick={() => {
                     goto("/");
                 }}>
                 <span class="text-white font-bold text-3xl"

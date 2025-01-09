@@ -22,7 +22,7 @@
                     buttonWidth="7rem"
                     color="var(--default-button)"
                     bgcolor="var(--default-button-dark)"
-                    execFunction={() => {
+                    onclick={() => {
                         goto("/");
                         $leavePopup = false;
                     }}>
@@ -36,7 +36,7 @@
                     buttonWidth="7rem"
                     color="var(--green-button)"
                     bgcolor="var(--green-button-dark)"
-                    execFunction={() => ($leavePopup = false)}>
+                    onclick={() => ($leavePopup = false)}>
                     <span
                         class="text-white
                         font-bold

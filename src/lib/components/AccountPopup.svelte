@@ -20,7 +20,7 @@
         <div class="flex flex-wrap gap-2 text-white mt-4">
             <Button
                 buttonWidth="6rem"
-                execFunction={() => {
+                onclick={() => {
                     window
                         .open(
                             "https://openguessr.com?profile-id=" +
@@ -31,7 +31,7 @@
                 }}>Manage</Button>
             <Button
                 buttonWidth="3.5rem"
-                execFunction={() => {
+                onclick={() => {
                     signOut();
                     accountPopup.set(false);
                 }}>
