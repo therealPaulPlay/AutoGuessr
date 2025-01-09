@@ -92,10 +92,7 @@
 </main>
 
 <!-- Universal Popups -->
-{#if $settingsPopup}
-  <SettingsPopup />
-{/if}
-
+<SettingsPopup />
 <LeavePopup />
 
 {#if $errorPopup}

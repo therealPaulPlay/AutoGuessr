@@ -85,7 +85,7 @@
   >
     <div class="flex flex-wrap gap-2 bg-tanLight p-2 rounded-md">
       <span class="text-wrap"
-        >This website uses cookies according to its <a href="/privacy" class="underline">privacy policy</a>.</span
+        >This website uses cookies according to its <a href="/legal" class="underline">privacy policy</a>.</span
       >
     </div>
 
