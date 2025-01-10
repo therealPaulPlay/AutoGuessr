@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 172.62 83.29">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e83838;
+      }
+
+      .cls-2 {
+        fill: #be8465;
+      }
+
+      .cls-3 {
+        fill: #cc9d82;
+      }
+
+      .cls-4 {
+        fill: #fff;
+        opacity: .37;
+      }
+
+      .cls-5 {
+        fill: #373f36;
+      }
+
+      .cls-6 {
+        fill: #ebd3bc;
+      }
+
+      .cls-7 {
+        fill: #3f3d36;
+      }
+    </style>
+  </defs>
+  <g id="traffic_pill_1" data-name="traffic pill 1">
+    <g>
+      <rect class="cls-6" x="0" y="0" width="172.62" height="83.29" rx="41.65" ry="41.65"/>
+      <g>
+        <g>
+          <g>
+            <circle class="cls-2" cx="39.67" cy="43.61" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="43.26" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="42.9" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="42.54" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="42.18" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="41.83" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="41.47" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="41.11" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="40.75" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="40.39" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="40.04" r="21.03"/>
+            <circle class="cls-2" cx="39.67" cy="39.68" r="21.03"/>
+          </g>
+          <circle class="cls-3" cx="39.67" cy="39.68" r="21.03"/>
+          <circle class="cls-5" cx="39.67" cy="39.68" r="17.22"/>
+        </g>
+        <g>
+          <g>
+            <circle class="cls-2" cx="86.31" cy="43.61" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="43.26" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="42.9" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="42.54" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="42.18" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="41.83" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="41.47" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="41.11" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="40.75" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="40.39" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="40.04" r="21.03"/>
+            <circle class="cls-2" cx="86.31" cy="39.68" r="21.03"/>
+          </g>
+          <circle class="cls-3" cx="86.31" cy="39.68" r="21.03"/>
+          <circle class="cls-7" cx="86.31" cy="39.68" r="17.22"/>
+        </g>
+        <g>
+          <g>
+            <circle class="cls-2" cx="132.95" cy="43.61" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="43.26" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="42.9" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="42.54" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="42.18" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="41.83" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="41.47" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="41.11" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="40.75" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="40.39" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="40.04" r="21.03"/>
+            <circle class="cls-2" cx="132.95" cy="39.68" r="21.03"/>
+          </g>
+          <circle class="cls-3" cx="132.95" cy="39.68" r="21.03"/>
+          <circle class="cls-1" cx="132.95" cy="39.68" r="17.22"/>
+          <path class="cls-4" d="M142.18,29.8c2.47,2.47,3.24,5.71,1.71,7.23s-3.08-1.56-5.55-4.03c-2.47-2.47-5.21-3.03-3.69-4.56s5.05-1.11,7.53,1.36Z"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
