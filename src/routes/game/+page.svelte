@@ -35,6 +35,8 @@
         response.json(),
       );
 
+      console.log(data);
+
       question.id = questionId;
       question.answer = data.price;
       question.description = data.description;
@@ -54,9 +56,10 @@
           icon: "/assets/svg/transmission.svg",
           text: data.transmission,
         },
+        { icon: "/assets/svg/bodyType.svg", text: data.bodyType },
+        { icon: "/assets/svg/engine.svg", text: data.engineType },
         { icon: "/assets/svg/date.svg", text: data.year },
         { icon: "/assets/svg/owner.svg", text: data.condition },
-        { icon: "/assets/svg/engine.svg", text: data.engineType },
       ];
     } catch (error) {
       console.error("Error occured retrieving car data:", error);

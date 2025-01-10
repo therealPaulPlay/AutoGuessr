@@ -1,5 +1,5 @@
 <script>
-    let { icon, text, children } = $props();
+    let { icon, text = "N/A", children } = $props();
 </script>
 
 <div class="flex flex-row items-center bg-tanLight rounded-lg py-3 px-5 w-full">
