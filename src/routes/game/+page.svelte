@@ -39,6 +39,7 @@
       question.answer = data.price;
       question.description = data.description;
       question.images = data.photos;
+      question.coordinates = data.coordinates;
       question.stats = [
         { icon: "/assets/svg/car.svg", text: data.name },
         {
@@ -82,8 +83,8 @@
   async function getAvailableDataSize() {
     try {
       const response = await fetchWithErrorHandling(`${$baseUrl}/car-data/amount`);
-      const data = await response.json();
-      return response?.total;
+      const data = await response.json();  // Why are we double awaiting?
+      return data?.total;
     } catch (error) {
       console.error("Error occured getting the available car dataset size:", error);
       displayError("Error occured getting the available car dataset size: " + error);
@@ -340,7 +341,7 @@
       </div>
       <div class="flex flex-col w-full md:flex-row gap-5">
         <div class="md:w-2/3 w-full drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
-          <Carousel images={question.images} description={question.description} {descriptionFlag} />
+          <Carousel images={question.images} description={question.description} {descriptionFlag} coordinates={question.coordinates} />
         </div>
         <div
           class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white"
