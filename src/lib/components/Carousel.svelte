@@ -5,13 +5,7 @@
 	import { currentCarouselIndex } from "$lib/stores/gameStore";
 	import MapDisplay from "./MapDisplay.svelte";
 
-	let {
-		images = [],
-		description = "No desciption was provided.",
-		descriptionFlag = false,
-		coordinates,
-		children,
-	} = $props();
+	let { images = [], description = "No desciption was provided.", descriptionFlag = false, children } = $props();
 
 	let imgElement = $state();
 	let zoomResult = $state();
@@ -123,12 +117,18 @@
 			<div class="h-full w-full flex flex-col overflow-auto p-10">
 				<h1 class="font-bold text-2xl mb-7">Seller's description:</h1>
 				<p class="text-black text-lg text-justify">
-					{@html formatSellerDescription(description)}
+					{@html formatSellerDescription(description.text)}
 				</p>
-				{#if coordinates}
+				{#if description.vendorURL}
+					<!-- TODO: Probably needs formatting to remove redundant URL stuff -->
+					<a href={description.vendorURL} target="_blank" rel="noopener noreferrer" class="text-lg underline mb-5">
+						Visit the vendor's website
+					</a>
+				{/if}
+				{#if description.coordinates}
 					<div class="rounded-lg overflow-clip">
-                        <MapDisplay {coordinates} />
-                    </div>
+						<MapDisplay coordinates={description.coordinates} />
+					</div>
 				{/if}
 			</div>
 		{/if}

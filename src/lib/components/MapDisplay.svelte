@@ -14,8 +14,8 @@
 			zoom: 9.5,
 			container: "map",
 			attributionControl: false,
-            minZoom: 1,
-            maxZoom: 12,
+			minZoom: 1,
+			maxZoom: 12,
 		});
 
 		map.on("load", () => {
@@ -37,8 +37,8 @@
 					"circle-radius": 20,
 					"circle-color": "#e76531",
 					"circle-opacity": 0.3,
-                    'circle-stroke-width': 2, 
-                    'circle-stroke-color': '#e76531'
+					"circle-stroke-width": 2,
+					"circle-stroke-color": "#e76531",
 				},
 			});
 		});
