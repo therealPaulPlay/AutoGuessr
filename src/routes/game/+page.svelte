@@ -360,15 +360,15 @@
 		class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start"
 	>
 		<!-- Lives -->
-		<div class="lives relative z-[5]">
-			{#if livesImage || blinkingFlag}
+		{#if livesImage || blinkingFlag}
+			<div class="lives relative z-[5]">
 				<img
 					src="/assets/svg/traffic {blinkingFlag ? blinkingLives : livesImage}.svg"
 					alt="lives"
 					class="w-52 h-28 flex content-end"
 				/>
-			{/if}
-		</div>
+			</div>
+		{/if}
 		<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]" style:background-color="var(--default-shadow)">
 			<div class="flex grow gap-2.5 text-white">
 				<PriceSlider min="0" max="10" bind:guessValue={guessResult} />
