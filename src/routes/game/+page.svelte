@@ -75,6 +75,7 @@
 	let descriptionFlag = $state(false);
 	let imageTab = $state(true);
 	let blinkingLives = $state();
+	let blinkingLivesPopup = $state();
 	let popupMessage = $state("Loading...");
 	let nextButton = $state();
 	let livesImage = $state(3);
@@ -391,6 +392,11 @@
 <!-- Result Popups TODO: Make component -->
 {#if resultPopup}
 	<Popup title="" closeFunction={goToNextQuestion} showCloseButton={false}>
+		{#if penaltyFlag || rewardFlag}
+			<div in:fly|global={{ y: 50, delay: 1000 }} class="lives absolute z-[-1] right-0 -top-28">
+				<img src="/assets/svg/traffic {blinkingFlag ? blinkingLives : livesImage}.svg" alt="lives" class="h-24 flex content-end" />
+			</div>
+		{/if}
 		<div class="h-full flex flex-col justify-evenly items-center">
 			<div class="flex flex-col items-center">
 				<p in:fly={{ y: -50, delay: 500 }} class="font-bold text-green text-7xl mb-5 text-center">
