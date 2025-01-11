@@ -394,7 +394,11 @@
 	<Popup title="" closeFunction={goToNextQuestion} showCloseButton={false}>
 		{#if penaltyFlag || rewardFlag}
 			<div in:fly|global={{ y: 50, delay: 1000 }} class="lives absolute z-[-1] right-0 -top-28">
-				<img src="/assets/svg/traffic {blinkingFlag ? blinkingLives : livesImage}.svg" alt="lives" class="h-24 flex content-end" />
+				<img
+					src="/assets/svg/traffic {blinkingFlag ? blinkingLives : livesImage}.svg"
+					alt="lives"
+					class="h-24 flex content-end"
+				/>
 			</div>
 		{/if}
 		<div class="h-full flex flex-col justify-evenly items-center">
@@ -409,25 +413,6 @@
 				</p>
 				<div in:slide={{ delay: 1500 }} class="text-black text-base text-center flex">
 					You get <span class="text-green font-semibold">&nbsp;{pointCalculation()} points.</span>
-					{#if rewardFlag || penaltyFlag}
-						<div>
-							{#if rewardFlag}
-								<div class="text-green font-bold flex items-center">
-									&nbsp;+
-									<Heart strokeWidth={3} size={20} />
-								</div>
-							{/if}
-							{#if penaltyFlag}
-								<div class="text-red-600 font-bold flex items-center">
-									&nbsp;-
-									<HeartCrack strokeWidth={3} size={20} />
-									{#if extraPenaltyFlag}
-										<HeartCrack strokeWidth={3} size={20} />
-									{/if}
-								</div>
-							{/if}
-						</div>
-					{/if}
 				</div>
 			</div>
 			<div class="w-full h-14 mt-14">
