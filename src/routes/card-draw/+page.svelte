@@ -118,8 +118,8 @@
 			.then(() => {
 				removeRollButton = true;
 				setTimeout(() => {
-                    showRevealButton = true;
-                }, 150);
+					showRevealButton = true;
+				}, 150);
 			});
 	}
 
@@ -185,6 +185,7 @@
 						<div
 							bind:clientWidth={cardWidth}
 							class="flex-shrink-0 z-10 transition-all ease-in-out delay-300 h-96"
+							class:dim={showCardBack}
 							id="card_{i}"
 						>
 							<CardBack {rarity} />
@@ -196,7 +197,14 @@
 		<div>
 			<img src="/assets/svg/arrow.svg" alt="Arrow" class="w-8 h-8 rotate-90 scale-y-[-1]" />
 		</div>
-        <!-- Minimum height should be the same as the button height to avoid "snapping" artifacts -->
+		{#if showCardBack}
+			<div
+				class="absolute w-full h-full overflow-clip rays"
+				in:fade={{duration: 300, delay: 500}}
+                out:fade={{duration: 150}}
+			></div>
+		{/if}
+		<!-- Minimum height should be the same as the button height to avoid "snapping" artifacts -->
 		<div class="mt-5 flex flex-row gap-5 min-h-16">
 			{#if !removeRollButton}
 				<div class="min-w-[12rem]" out:fly={{ y: 50, duration: 150 }}>
@@ -256,7 +264,38 @@
     } */
 
 	.flip-it {
-		transform: rotateY(180deg);
+		transform: rotateY(180deg) scale(1.1);
+		z-index: 100;
+	}
+
+	.dim {
+		filter: brightness(0.5) opacity(0.5);
+		z-index: -20;
+	}
+
+    /* TODO: Make it more visible on mobile phones */
+	.rays {
+		z-index: -10;
+		scale: 1.7;
+		pointer-events: none;
+		background: url("/assets/svg/rays.svg") no-repeat center;
+		translate: 0 -2.5rem;
+		animation: rotate 8s linear infinite;
+		opacity: 0.6;
+
+		mask-image: radial-gradient(circle, rgba(255, 255, 255, 1) 10%, rgba(0, 0, 0, 0) 30%);
+		mask-composite: intersect;
+		-webkit-mask-image: radial-gradient(circle, rgba(255, 255, 255, 1) 10%, rgba(0, 0, 0, 0) 30%);
+		-webkit-mask-composite: intersect;
+	}
+
+	@keyframes rotate {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
 	}
 
 	@media (min-width: 768px) {

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <polygon class="cls-1" points="500 500 477.72 0 522.28 0 500 500"/>
+    <polygon class="cls-1" points="500 500 288.08 46.59 329.24 29.53 500 500"/>
+    <polygon class="cls-1" points="500 500 130.69 162.2 162.2 130.69 500 500"/>
+    <polygon class="cls-1" points="500 500 29.53 329.24 46.59 288.08 500 500"/>
+    <polygon class="cls-1" points="500 500 0 522.28 0 477.72 500 500"/>
+    <polygon class="cls-1" points="500 500 46.59 711.92 29.53 670.76 500 500"/>
+    <polygon class="cls-1" points="500 500 162.2 869.31 130.69 837.8 500 500"/>
+    <polygon class="cls-1" points="500 500 329.24 970.47 288.08 953.41 500 500"/>
+    <polygon class="cls-1" points="500 500 522.28 1000 477.72 1000 500 500"/>
+    <polygon class="cls-1" points="500 500 711.92 953.41 670.76 970.47 500 500"/>
+    <polygon class="cls-1" points="500 500 869.31 837.8 837.8 869.31 500 500"/>
+    <polygon class="cls-1" points="500 500 970.47 670.76 953.41 711.92 500 500"/>
+    <polygon class="cls-1" points="500 500 1000 477.72 1000 522.28 500 500"/>
+    <polygon class="cls-1" points="500 500 953.41 288.08 970.47 329.24 500 500"/>
+    <polygon class="cls-1" points="500 500 837.8 130.69 869.31 162.2 500 500"/>
+    <polygon class="cls-1" points="500 500 670.76 29.53 711.92 46.59 500 500"/>
+  </g>
+</svg>
