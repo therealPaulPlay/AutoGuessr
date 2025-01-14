@@ -1,5 +1,5 @@
 {
-    "singleAttributePerLine": false,
-    "printWidth": 120,
-    "useTabs": true
-  }
+  "singleAttributePerLine": false,
+  "printWidth": 120,
+  "useTabs": true
+}

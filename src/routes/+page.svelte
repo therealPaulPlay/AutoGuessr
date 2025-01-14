@@ -4,9 +4,9 @@
 	import Popup from "$lib/components/Popup.svelte";
 	import { goto } from "$app/navigation";
 	import { difficulty, difficultyRules } from "$lib/stores/gameStore";
+	import { howToPlayPopup } from "$lib/stores/uiStore";
 
 	let difficultyValue = $state(1);
-	let explanationPopup = $state(false);
 
 	$effect(() => {
 		difficulty.set(difficultyValue);
@@ -69,9 +69,9 @@
 					alt="info"
 					title="Game explanation"
 					onclick={() => {
-						explanationPopup = true;
+						$howToPlayPopup = true;
 					}}
-					class="absolute z-10 right-2 top-2 w-9 cursor-pointer rounded-lg ease-out duration-150 hover:bg-white hover:bg-opacity-20 p-1"
+					class="absolute z-10 right-2 top-2 w-10 cursor-pointer rounded-lg ease-out duration-150 bg-orangeDark hover:bg-orangeDark/50 p-2"
 				/>
 			</div>
 			<!-- Autocards Button -->
@@ -93,71 +93,6 @@
 		</div>
 	</div>
 </content>
-
-<!-- Explanation Popup -->
-{#if explanationPopup}
-	<Popup title="" tall={true} closeFunction={() => (explanationPopup = false)}>
-		<div class="w-full text-green flex justify-center text-5xl font-bold -mt-12 mb-12">How to play:</div>
-		<div class="h-full">
-			<h1 class="text-3xl font-bold mb-4">Guess the price!</h1>
-			<p class="text-base">
-				You will be shown a car and you have to guess the price of the car. The closer you are to the actual price, the
-				more points you will get.
-			</p>
-			<h1 class="text-3xl font-bold mb-4 mt-8">Difficulties:</h1>
-			<p class="text-base">
-				<span class="text-greenDark font-semibold">Safe range</span> is the range where you will get points and not lose
-				any lives. However, if you manage to land in
-				<span class="text-green font-semibold">Reward range,</span> you will get an extra life!
-			</p>
-			<div class="flex items-center gap-4 overflow-hidden mt-2">
-				<div class="basis-1/4">
-					<Tab color="var(--green-button)" selected={false} onclick={() => {}}>
-						<span class="text-xl font-medium">Easy</span>
-					</Tab>
-				</div>
-				<div class="flex w-full justify-evenly">
-					<p class="text-base">
-						Safe range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[1].correctTier[1]}%</span>
-					</p>
-					<p class="text-base">
-						Reward range: <span class="text-green font-semibold">0% — {$difficultyRules[1].correctTier[0]}%</span>
-					</p>
-				</div>
-			</div>
-			<div class="flex items-center gap-4 overflow-hidden">
-				<div class="basis-1/4">
-					<Tab color="var(--default-button)" selected={false} onclick={() => {}}>
-						<span class="text-xl font-medium">Medium</span>
-					</Tab>
-				</div>
-				<div class="flex w-full justify-evenly">
-					<p class="text-base">
-						Safe range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[2].correctTier[1]}%</span>
-					</p>
-					<p class="text-base">
-						Reward range: <span class="text-green font-semibold">0% — {$difficultyRules[2].correctTier[0]}%</span>
-					</p>
-				</div>
-			</div>
-			<div class="flex items-center gap-4 overflow-hidden">
-				<div class="basis-1/4">
-					<Tab color="rgb(75, 73, 73)" selected={false} onclick={() => {}}>
-						<span class="text-xl font-medium">Hard</span>
-					</Tab>
-				</div>
-				<div class="flex w-full justify-evenly">
-					<p class="text-base">
-						Safe range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[3].correctTier[1]}%</span>
-					</p>
-					<p class="text-base">
-						Reward range: <span class="text-green font-semibold">0% — {$difficultyRules[3].correctTier[0]}%</span>
-					</p>
-				</div>
-			</div>
-		</div>
-	</Popup>
-{/if}
 
 <style>
 	.logo-animation {

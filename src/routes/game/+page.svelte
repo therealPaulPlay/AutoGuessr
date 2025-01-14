@@ -17,9 +17,9 @@
 	import { displayError } from "$lib/utils/displayError";
 
 	const messages = {
-		bad: ["Keep going!", "Stay strong!", "You got this!", "Not quite..."],
+		bad: ["Uh oh...", "Stay strong!", "That's not it!", "Not quite..."],
 		good: ["Nice work!", "Keep it up!", "Well done!", "Very good!"],
-		great: ["Amazing job!", "You're unstoppable!", "Keep shining!", "Just WOW!"],
+		great: ["Amazing job!", "You're unstoppable!", "Keep shining!", "Just wow!"],
 	};
 
 	let question = $state({});
@@ -84,16 +84,16 @@
 	let submitButton;
 	score.set(0);
 
-  async function getAvailableDataSize() {
-    try {
-      const response = await fetchWithErrorHandling(`${$baseUrl}/car-data/amount`);
-      const data = await response.json();
-      return data.total;
-    } catch (error) {
-      console.error("Error occured getting the available car dataset size:", error);
-      displayError("Error occured getting the available car dataset size: " + error);
-    }
-  }
+	async function getAvailableDataSize() {
+		try {
+			const response = await fetchWithErrorHandling(`${$baseUrl}/car-data/amount`);
+			const data = await response.json();
+			return data.total;
+		} catch (error) {
+			console.error("Error occured getting the available car dataset size:", error);
+			displayError("Error occured getting the available car dataset size: " + error);
+		}
+	}
 
 	function removeCommonElements(arr1, arr2) {
 		if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
@@ -114,17 +114,17 @@
 		localStorage.setItem("indexHistory", JSON.stringify(array));
 	}
 
-  // TODO: make this follow the "Do one thing" principle better
-  async function getAvailableIndex() {
-    const size = await getAvailableDataSize();
-    const randomIndex = Array.from({ length: size }, (_, i) => i);
-    let indexHistory = JSON.parse(localStorage.getItem("indexHistory")) || [];
-    let availableIndex = removeCommonElements(randomIndex, indexHistory);
+	// TODO: make this follow the "Do one thing" principle better
+	async function getAvailableIndex() {
+		const size = await getAvailableDataSize();
+		const randomIndex = Array.from({ length: size }, (_, i) => i);
+		let indexHistory = JSON.parse(localStorage.getItem("indexHistory")) || [];
+		let availableIndex = removeCommonElements(randomIndex, indexHistory);
 
-    // If somehow all indexes are used, it'll just default to the random index
-    if (availableIndex.length === 0) availableIndex = randomIndex;
-    availableIndexArr = availableIndex;
-  }
+		// If somehow all indexes are used, it'll just default to the random index
+		if (availableIndex.length === 0) availableIndex = randomIndex;
+		availableIndexArr = availableIndex;
+	}
 
 	function displayImages() {
 		imageTab = true;
@@ -142,9 +142,9 @@
 		resultPopup = true;
 	}
 
-  function percentageDifference() {
-    // Avoid division by zero
-    if (question.answer === 0 && guessResult === 0) return 0;
+	function percentageDifference() {
+		// Avoid division by zero
+		if (question.answer === 0 && guessResult === 0) return 0;
 
 		// Calculate the base as the average of absolute values
 		const base = (Math.abs(question.answer) + Math.abs(guessResult)) / 2;
@@ -161,10 +161,10 @@
 		let difference = percentageDifference();
 		if (difference > 100) return 0;
 
-    let maxPoints = 500;
-    let points = Math.round(((100 - difference) / 100) * maxPoints);
-    return points;
-  }
+		let maxPoints = 500;
+		let points = Math.round(((100 - difference) / 100) * maxPoints);
+		return points;
+	}
 
 	function checkPlayerPerformance(percent) {
 		const rules = $difficultyRules[$difficulty];
@@ -257,14 +257,14 @@
 		}
 	}
 
-  function setPopupMessage(condition) {
-    if (messages[condition]) {
-      const conditionMessages = messages[condition];
-      popupMessage = conditionMessages[Math.floor(Math.random() * conditionMessages.length)];
-    } else {
-      console.log("Invalid condition provided."); // Handle unexpected conditions
-    }
-  }
+	function setPopupMessage(condition) {
+		if (messages[condition]) {
+			const conditionMessages = messages[condition];
+			popupMessage = conditionMessages[Math.floor(Math.random() * conditionMessages.length)];
+		} else {
+			console.log("Invalid condition provided."); // Handle unexpected conditions
+		}
+	}
 
 	// There are edge cases where things are... weird. Please fix.
 	$effect(() => {
@@ -302,78 +302,74 @@
 </script>
 
 <svelte:window
-  onkeydown={() => {
-    if (event.key === "Enter" && !resultPopup) submitButton.click();
-    if (event.key === "Enter" && resultPopup) nextButton.click();
-  }}
+	onkeydown={() => {
+		if (event.key === "Enter" && !resultPopup) submitButton.click();
+		if (event.key === "Enter" && resultPopup) nextButton.click();
+	}}
 />
 
 <svelte:head>
 	<title>Game</title>
 </svelte:head>
 
-<content class="items-center relative overflow-visible">
-	<!-- Main game content -->
-	<div class="flex w-full justify-center z-50">
-		<!-- main window -->
-		<div class="rounded-2xl w-full md:w-4/6 mx-2">
-			<div class="flex w-1/2 gap-2 ml-4">
-				<Tab color={imageTab ? "var(--white)" : "var(--default-shadow)"} shadow={false} onclick={displayImages}>
-					<span class="text-xl font-medium text-black">Images</span>
-				</Tab>
-				<Tab color={imageTab ? "var(--default-shadow)" : "var(--white)"} shadow={false} onclick={displayDescription}>
-					<span class="text-xl font-medium text-black">About</span>
-				</Tab>
-			</div>
-			<div class="flex flex-col w-full md:flex-row gap-5">
-				<div class="md:w-2/3 w-full drop-shadow-[0_0.5rem_0_var(--default-shadow)]">
-					<Carousel images={question.images} description={question.description} {descriptionFlag} />
-				</div>
-				<div
-					class="md:w-1/3 md:mb-0 mb-96 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white"
-				>
-					<div class="w-full flex flex-col justify-between h-fit gap-2 p-2">
-						{#each question.stats as stat}
-							<Stat icon={stat.icon} text={stat.text} />
-						{/each}
-					</div>
-				</div>
-			</div>
+<content class="flex w-full justify-center z-50">
+	<!-- main view with car images and stats -->
+	<div class="rounded-2xl w-full md:w-4/6 mx-2 max-md:mb-52">
+		<div class="flex w-1/2 gap-2 ml-4">
+			<Tab color={imageTab ? "var(--white)" : "var(--default-shadow)"} shadow={false} onclick={displayImages}>
+				<span class="text-xl font-medium text-black">Images</span>
+			</Tab>
+			<Tab color={imageTab ? "var(--default-shadow)" : "var(--white)"} shadow={false} onclick={displayDescription}>
+				<span class="text-xl font-medium text-black">About</span>
+			</Tab>
 		</div>
-	</div>
-	<!-- Bottom UI -->
-	<div
-		class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start"
-	>
-		<!-- Lives -->
-		{#if livesImage || blinkingFlag}
-			<div class="lives relative z-[5]">
-				<img
-					src="/assets/svg/traffic {blinkingFlag ? blinkingLives : livesImage}.svg"
-					alt="lives"
-					class="w-52 h-28 flex content-end"
-				/>
+		<div class="flex flex-col w-full md:flex-row gap-5 min-h-[60dvh] md:max-h-[60dvh]">
+			<div class="md:w-2/3 w-full drop-shadow-[0_0.5rem_0_var(--default-shadow)] basis-4/6">
+				<Carousel images={question.images} description={question.description} {descriptionFlag} />
 			</div>
-		{/if}
-		<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]" style:background-color="var(--default-shadow)">
-			<div class="flex grow gap-2.5 text-white">
-				<PriceSlider min="0" max="10" bind:guessValue={guessResult} />
-				<Button
-					bind:this={submitButton}
-					color="var(--default-button)"
-					bgcolor="var(--default-button-dark)"
-					buttonHeight="4.5rem"
-					buttonWidth="5.5rem"
-					onclick={showResult}
-				>
-					<span class="check-align-vertical">
-						<Check strokeWidth={5} size={30} />
-					</span>
-				</Button>
+			<div class="basis-2/6 min-w-64 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white">
+				<div class="w-full flex flex-col h-full gap-2 p-2 overflow-auto">
+					{#each question.stats as stat}
+						<Stat icon={stat.icon} text={stat.text} />
+					{/each}
+				</div>
 			</div>
 		</div>
 	</div>
 </content>
+
+<!-- Bottom UI -->
+<div
+	class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start"
+>
+	<!-- Lives -->
+	{#if livesImage || blinkingFlag}
+		<div class="lives relative z-[5]">
+			<img
+				src="/assets/svg/traffic {blinkingFlag ? blinkingLives : livesImage}.svg"
+				alt="lives"
+				class="w-52 h-28 flex content-end"
+			/>
+		</div>
+	{/if}
+	<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]" style:background-color="var(--default-shadow)">
+		<div class="flex grow gap-2.5 text-white">
+			<PriceSlider min="0" max="10" bind:guessValue={guessResult} />
+			<Button
+				bind:this={submitButton}
+				color="var(--default-button)"
+				bgcolor="var(--default-button-dark)"
+				buttonHeight="4.5rem"
+				buttonWidth="5.5rem"
+				onclick={showResult}
+			>
+				<span class="check-align-vertical">
+					<Check strokeWidth={5} size={30} />
+				</span>
+			</Button>
+		</div>
+	</div>
+</div>
 
 <!-- Result Popups TODO: Make component -->
 {#if resultPopup}

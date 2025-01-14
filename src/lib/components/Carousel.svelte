@@ -65,7 +65,7 @@
 	});
 </script>
 
-<div class="flex w-full h-[60vh] relative rounded-2xl border-white border-8 bg-white">
+<div class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden">
 	{#if !descriptionFlag}
 		<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 		<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -99,7 +99,7 @@
 			></div>
 		{/if}
 	{/if}
-	<div class="relative w-full h-full overflow-hidden flex justify-between items-center bg-tanLight rounded-lg">
+	<div class="relative w-full h-full flex justify-between items-center bg-tanLight rounded-lg min-h-96">
 		{#if !descriptionFlag}
 			<div class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
 				<div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
@@ -115,7 +115,6 @@
 			</div>
 		{:else}
 			<div class="h-full w-full flex flex-col overflow-auto p-10">
-				<h1 class="font-bold text-2xl mb-7">Seller's description:</h1>
 				<p class="text-black text-lg text-justify">
 					{@html formatSellerDescription(description.text)}
 				</p>

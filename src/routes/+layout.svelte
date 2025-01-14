@@ -1,115 +1,102 @@
 <script>
-  import "../app.css";
-  import Button from "$lib/components/Button.svelte";
-  import Popup from "$lib/components/Popup.svelte";
-  import { page } from "$app/stores";
-  import { isAuthenticated, username } from "$lib/stores/accountStore";
-  import { goto } from "$app/navigation";
-  import { base } from "$app/paths";
-  import { settingsPopup, signupPopup, accountPopup, leavePopup } from "$lib/stores/uiStore";
-  import { errorPopup, errorText } from "$lib/stores/uiStore";
-  import { displayError } from "$lib/utils/displayError";
-  import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
-  import { User, TriangleAlert, Scan } from "lucide-svelte";
-  import { onMount } from "svelte";
-  import SignupPopup from "$lib/components/signupPopup.svelte";
-  import AccountPopup from "$lib/components/AccountPopup.svelte";
-  import PriceSlider from "$lib/components/PriceSlider.svelte";
-  import Toggle from "$lib/components/Toggle.svelte";
-  import SettingsPopup from "$lib/components/SettingsPopup.svelte";
-  import LeavePopup from "$lib/components/LeavePopup.svelte";
-  import { scale } from "svelte/transition";
-  import Analytics from "$lib/components/Analytics.svelte";
+	import "../app.css";
+	import Button from "$lib/components/Button.svelte";
+	import Popup from "$lib/components/Popup.svelte";
+	import { page } from "$app/stores";
+	import { isAuthenticated, username } from "$lib/stores/accountStore";
+	import { goto } from "$app/navigation";
+	import { base } from "$app/paths";
+	import { settingsPopup, signupPopup, accountPopup, leavePopup } from "$lib/stores/uiStore";
+	import { displayError } from "$lib/utils/displayError";
+	import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
+	import { User, TriangleAlert, Scan } from "lucide-svelte";
+	import { onMount } from "svelte";
+	import SignupPopup from "$lib/components/signupPopup.svelte";
+	import AccountPopup from "$lib/components/AccountPopup.svelte";
+	import PriceSlider from "$lib/components/PriceSlider.svelte";
+	import Toggle from "$lib/components/Toggle.svelte";
+	import SettingsPopup from "$lib/components/SettingsPopup.svelte";
+	import LeavePopup from "$lib/components/LeavePopup.svelte";
+	import { scale } from "svelte/transition";
+	import Analytics from "$lib/components/Analytics.svelte";
+	import HowToPlayPopup from "$lib/components/HowToPlayPopup.svelte";
+	import ErrorPopup from "$lib/components/ErrorPopup.svelte";
 
-  let { children } = $props();
+	let { children } = $props();
 
-  function HandleBackButton() {
-    const leavePopupUrls = ["/game"]; // URLs to have confirmation before leaving
-    if (leavePopupUrls.includes($page.url.pathname)) {
-      $leavePopup = true;
-    } else {
-      goto("/");
-    }
-  }
+	function HandleBackButton() {
+		const leavePopupUrls = ["/game"]; // URLs to have confirmation before leaving
+		if (leavePopupUrls.includes($page.url.pathname)) {
+			$leavePopup = true;
+		} else {
+			goto("/");
+		}
+	}
 
-  // Authenticate
-  onMount(() => {
-    checkAuthenticationStatus();
-  });
+	// Authenticate
+	onMount(() => {
+		checkAuthenticationStatus();
+	});
 </script>
 
-<nav class="fixed left-0 right-0 flex flex-row justify-between p-4 items-center z-40 transition max-sm:bg-white">
-  <div>
-    {#if $page.url.pathname != "/"}
-      <button class="w-10 h-10 transition active:scale-90" onclick={HandleBackButton}>
-        <img src="{base}/assets/svg/point arrow.svg" alt="Back" />
-      </button>
-    {/if}
-  </div>
-  <!-- Right side -->
-  <div class="flex flex-row relative">
-    <!-- Username/level -->
-    <div class="mx-3 flex items-center rounded-lg transition {$isAuthenticated ? 'bg-white' : ''}">
-      {#if $isAuthenticated}
-        <div class="p-3 flex items-center" in:scale>
-          <button
-            class="flex items-center justify-center mr-4 transition hover:opacity-75
+<nav class="fixed left-0 right-0 flex flex-row justify-between p-4 items-center z-20 transition max-sm:bg-white">
+	<div>
+		{#if $page.url.pathname != "/"}
+			<button class="w-10 h-10 transition active:scale-90" onclick={HandleBackButton}>
+				<img src="{base}/assets/svg/point arrow.svg" alt="Back" />
+			</button>
+		{/if}
+	</div>
+	<!-- Right side -->
+	<div class="flex flex-row relative">
+		<!-- Username/level -->
+		<div class="mx-3 flex items-center rounded-lg transition {$isAuthenticated ? 'bg-white' : ''}">
+			{#if $isAuthenticated}
+				<div class="p-3 flex items-center" in:scale>
+					<button
+						class="flex items-center justify-center mr-4 transition hover:opacity-75
                 ml-2"
-            onclick={() => {
-              accountPopup.set(true);
-            }}
-          >
-            <span class="text-xl z-10 text-white font-semibold"><User strokeWidth={2} /></span>
-            <image class="absolute w-9 h-9" src="/assets/svg/level.svg" alt="level"></image>
-          </button>
-          <div class="text-xl font-semibold">{$username}</div>
-        </div>
-      {:else}
-        <Button
-          buttonWidth="8rem"
-          onclick={() => {
-            signupPopup.set(true);
-          }}><span class="text-white text-xl font-medium">Sign up</span></Button
-        >
-      {/if}
-    </div>
-    <div class="flex flex-row items-center">
-      <Button
-        color="var(--default-button)"
-        bgcolor="var(--default-button-dark)"
-        shadowHeight="0.3rem"
-        buttonHeight="3.25rem"
-        buttonWidth="3.25rem"
-        onclick={() => settingsPopup.set(true)}
-      >
-        <img src="/assets/svg/settings.svg" alt="settings" style:width="1.5rem" />
-      </Button>
-    </div>
-  </div>
+						onclick={() => {
+							accountPopup.set(true);
+						}}
+					>
+						<span class="text-xl z-10 text-white font-semibold"><User strokeWidth={2} /></span>
+						<image class="absolute w-9 h-9" src="/assets/svg/level.svg" alt="level"></image>
+					</button>
+					<div class="text-xl font-semibold">{$username}</div>
+				</div>
+			{:else}
+				<Button
+					buttonWidth="8rem"
+					onclick={() => {
+						signupPopup.set(true);
+					}}><span class="text-white text-xl font-medium">Sign up</span></Button
+				>
+			{/if}
+		</div>
+		<div class="flex flex-row items-center">
+			<Button
+				color="var(--default-button)"
+				bgcolor="var(--default-button-dark)"
+				shadowHeight="0.3rem"
+				buttonHeight="3.25rem"
+				buttonWidth="3.25rem"
+				onclick={() => settingsPopup.set(true)}
+			>
+				<img src="/assets/svg/settings.svg" alt="settings" style:width="1.5rem" />
+			</Button>
+		</div>
+	</div>
 </nav>
 <main class="pt-[calc(4rem+7dvh)] fixed top-0 bottom-0 right-0 left-0 bg-tanLight overflow-hidden overflow-y-auto">
-  {@render children?.()}
+	{@render children?.()}
 </main>
 
 <!-- Universal Popups -->
 <SettingsPopup />
 <LeavePopup />
-
-{#if $errorPopup}
-  <Popup title="Error" small={true} color="var(--tan-medium)" closeFunction={() => errorPopup.set(false)}>
-    <div class="flex h-full items-end">
-      <div class="h-3/5 w-full bg-tanLight rounded-lg p-4">
-        <div class="mb-4">
-          <TriangleAlert color="var(--tan-dark)" strokeWidth={2.5} />
-        </div>
-        <p class="truncate text-wrap line-clamp-3">
-          {$errorText}
-        </p>
-      </div>
-    </div>
-  </Popup>
-{/if}
-
+<HowToPlayPopup />
+<ErrorPopup />
 <SignupPopup />
 <AccountPopup />
 <Analytics />
