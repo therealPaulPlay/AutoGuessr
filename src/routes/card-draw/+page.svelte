@@ -159,7 +159,7 @@
 	}}
 />
 <content class="relative h-full block">
-	<div class="flex flex-col w-full h-full justify-center items-center custom-card-container-height">
+	<div class="flex flex-col w-full h-full justify-center items-center overflow-hidden">
 		<div>
 			<img src="/assets/svg/arrow.svg" alt="Arrow" class="w-8 h-8 -rotate-90" />
 		</div>
@@ -199,7 +199,7 @@
 		</div>
 		{#if showCardBack}
 			<div
-				class="absolute w-full h-full overflow-clip rays"
+				class="fixed w-full h-full rays"
 				in:fade={{duration: 300, delay: 500}}
                 out:fade={{duration: 150}}
 			></div>
@@ -258,10 +258,6 @@
 	.scroll-container {
 		scrollbar-width: none; /* Hide scrollbar for Firefox */
 	}
-
-	/* .custom-card-container-height {
-        height: calc(100% - 180px);
-    } */
 
 	.flip-it {
 		transform: rotateY(180deg) scale(1.1);

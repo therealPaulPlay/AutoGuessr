@@ -16,8 +16,8 @@
 			</p>
 			<h1 class="text-3xl font-bold mb-4 mt-8">Difficulties</h1>
 			<p class="text-base">
-				The <span class="text-greenDark font-semibold">Safe range</span> is the range where you will get points and not
-				lose any lives. However, if you manage to land in the
+				If your guess is in the <span class="text-greenDark font-semibold">Safe range</span>, you will get points and
+				not lose any lives. However, if you manage to land in the
 				<span class="text-green font-semibold">Reward range,</span> you will get an extra life!
 			</p>
 			<div class="flex items-center gap-4 overflow-hidden mt-2 flex-wrap">

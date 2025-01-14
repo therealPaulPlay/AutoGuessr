@@ -66,41 +66,9 @@
 </script>
 
 <div class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden">
-	{#if !descriptionFlag}
-		<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<img
-			src={images[$currentCarouselIndex]}
-			alt=" "
-			bind:this={imgElement}
-			onclick={() => {
-				imageFit = !imageFit;
-			}}
-			onmouseover={() => {
-				showZoom = true;
-			}}
-			onfocus={() => {
-				showZoom = true;
-			}}
-			tabindex="0"
-			role="button"
-			class="absolute h-full w-full {imageFit ? 'object-contain' : 'object-cover'} z-10 cursor-crosshair rounded-lg"
-		/>
-		<p
-			class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 text-center text-wrap flex flex-wrap justify-center items-center bg-white z-[9]"
-		>
-			Loading...
-		</p>
-		{#if showZoom}
-			<div
-				transition:fade={{ duration: 150 }}
-				bind:this={zoomResult}
-				class="absolute m-5 w-32 h-32 z-10 rounded-lg right-0"
-			></div>
-		{/if}
-	{/if}
-	<div class="relative w-full h-full flex justify-between items-center bg-tanLight rounded-lg min-h-96">
+	<div class="relative w-full h-full flex items-center bg-tanLight rounded-lg min-h-96">
 		{#if !descriptionFlag}
+			<!-- Image previous and next controls -->
 			<div class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
 				<div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
 					<button onclick={prev} class="z-20 transition active:scale-90">
@@ -113,19 +81,65 @@
 					</button>
 				</div>
 			</div>
+			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
+			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<img
+				src={images[$currentCarouselIndex]}
+				alt=" "
+				bind:this={imgElement}
+				onclick={() => {
+					imageFit = !imageFit;
+				}}
+				onmouseover={() => {
+					showZoom = true;
+				}}
+				onfocus={() => {
+					showZoom = true;
+				}}
+				tabindex="0"
+				role="button"
+				class="absolute h-full w-full {imageFit ? 'object-contain' : 'object-cover'} z-10 cursor-crosshair rounded-lg"
+			/>
+			<p
+				class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 text-center text-wrap flex flex-wrap justify-center items-center bg-white z-[9]"
+			>
+				Loading...
+			</p>
+			{#if showZoom}
+				<div
+					transition:fade={{ duration: 150 }}
+					bind:this={zoomResult}
+					class="absolute m-5 w-32 h-32 z-10 rounded-lg top-0 right-0"
+				></div>
+			{/if}
 		{:else}
-			<div class="h-full w-full flex flex-col overflow-auto p-10">
+			<div class="h-full w-full overflow-auto p-5">
 				<p class="text-black text-lg text-justify">
 					{@html formatSellerDescription(description.text)}
 				</p>
-				{#if description.vendorURL}
-					<!-- TODO: Probably needs formatting to remove redundant URL stuff -->
-					<a href={description.vendorURL} target="_blank" rel="noopener noreferrer" class="text-lg underline mb-5">
+				{#if description.vendorURL && description.vendorURL !== "N/A"}
+					<a
+						href={(() => {
+							try {
+								const url = new URL(description.vendorURL);
+								url.search = ""; // Clear existing query parameters
+								url.searchParams.set("utm_source", "autoguessr");
+								url.searchParams.set("utm_medium", "referral");
+								return url.toString();
+							} catch (error) {
+								console.warn("Error constructing vendor URL:", error);
+							}
+						})()}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-lg underline"
+					>
 						Visit the vendor's website
 					</a>
 				{/if}
+
 				{#if description.coordinates}
-					<div class="rounded-lg overflow-clip">
+					<div class="rounded-lg overflow-clip mt-5">
 						<MapDisplay coordinates={description.coordinates} />
 					</div>
 				{/if}

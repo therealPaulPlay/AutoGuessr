@@ -329,6 +329,7 @@
 	<!-- main view with car images and stats -->
 	<div class="rounded-2xl w-full md:w-4/6 mx-2 max-md:mb-52">
 		<div class="flex w-1/2 gap-2 ml-4">
+			<!-- Images and About tabs -->
 			<Tab color={imageTab ? "var(--white)" : "var(--default-shadow)"} shadow={false} onclick={displayImages}>
 				<span class="text-xl font-medium text-black">Images</span>
 			</Tab>

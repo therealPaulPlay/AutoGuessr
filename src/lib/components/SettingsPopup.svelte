@@ -20,7 +20,7 @@
 				<div class="flex items-center gap-10 justify-between">
 					<label for="volume-slider" class="text-base font-semibold">Volume</label>
 					<div class="w-1/2">
-						<input type="range" id="volume-slider" min="0" max="100" value="50" step="10" class="slider" />
+						<input type="range" id="volume-slider" min="0" max="100" value="50" class="slider" />
 					</div>
 				</div>
 				<div class="flex items-center gap-10 justify-between">
