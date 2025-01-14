@@ -21,7 +21,7 @@
     style:z-index={z}
     transition:fade={{ duration: 150 }}>
     <div
-        class="rounded-xl w-11/12 max-size relative overflow-hidden {minimalPadding
+        class="rounded-xl w-11/12 max-size relative {minimalPadding
             ? 'p-2'
             : 'p-8'}"
         style:max-height={tall ? "1150px" : small ? "400px" : ""}

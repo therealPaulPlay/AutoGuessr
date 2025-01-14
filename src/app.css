@@ -102,8 +102,20 @@ html {
     width: 2.5rem;
     height: 2.5rem;
     background: url('/assets/svg/slider.svg') no-repeat;
-    transform: translateX(5px);
+    filter: drop-shadow(0 0.1rem 0 var(--default-button-dark)) drop-shadow(0 0.2rem 0 var(--default-button-dark));
     transition: scale 150ms ease;
+    transform: translateY(-0.1rem);
+    cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb {
+    border: 1;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: url('/assets/svg/slider.svg') no-repeat;
+    filter: drop-shadow(0 0.1rem 0 var(--default-button-dark)) drop-shadow(0 0.2rem 0 var(--default-button-dark));
+    transition: scale 150ms ease;
+    transform: translateY(-0.1rem);
     cursor: pointer;
 }
 

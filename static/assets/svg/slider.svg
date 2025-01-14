@@ -1,29 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.5 87.5">
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 78.5 78.5">
   <defs>
     <style>
       .cls-1 {
         fill: #e76531;
       }
-
-      .cls-2 {
-        fill: #a8542b;
-      }
     </style>
   </defs>
   <g id="slider">
-    <g>
-      <circle class="cls-2" cx="39.25" cy="48.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="47.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="46.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="45.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="44.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="43.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="42.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="41.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="40.25" r="39.25"/>
-      <circle class="cls-2" cx="39.25" cy="39.25" r="39.25"/>
-    </g>
     <circle class="cls-1" cx="39.25" cy="39.25" r="39.25"/>
   </g>
 </svg>
