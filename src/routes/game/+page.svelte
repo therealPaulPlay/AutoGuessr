@@ -82,6 +82,9 @@
 	let guessResult = $state(1);
 	let availableIndexArr = $state([]);
 	let submitButton;
+	const range = $derived.by(() => {
+		return getValueRange(question.answer);
+	});
 	score.set(0);
 
 	async function getAvailableDataSize() {
@@ -266,6 +269,16 @@
 		}
 	}
 
+	function getValueRange(value) {
+		if (value <= 100000) {
+			return { min: 0, max: 100000 };
+		} else if (value <= 500000) {
+			return { min: 100000, max: 500000 };
+		} else {
+			return { min: 500000, max: 5000000 };
+		}
+	}
+
 	// There are edge cases where things are... weird. Please fix.
 	$effect(() => {
 		// Makes blinkingLives switch between -1 and 2 on 2 lives
@@ -354,7 +367,7 @@
 	{/if}
 	<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]" style:background-color="var(--default-shadow)">
 		<div class="flex grow gap-2.5 text-white">
-			<PriceSlider min="0" max="10" bind:guessValue={guessResult} />
+			<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={guessResult} />
 			<Button
 				bind:this={submitButton}
 				color="var(--default-button)"
