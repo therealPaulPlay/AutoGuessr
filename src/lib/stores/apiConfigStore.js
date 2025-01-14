@@ -1,4 +1,4 @@
 import { readable } from "svelte/store";
 
 // API Config
-export const baseUrl = readable("http://localhost:3011");
+export const baseUrl = readable("https://cars.autoguessr.com");

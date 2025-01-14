@@ -83,15 +83,11 @@
     try {
       const response = await fetchWithErrorHandling(`${$baseUrl}/car-data/amount`);
       const data = await response.json();
-      return response?.total;
+      return data.total;
     } catch (error) {
       console.error("Error occured getting the available car dataset size:", error);
       displayError("Error occured getting the available car dataset size: " + error);
     }
-  }
-
-  function generateIndexArray(size) {
-    return Array.from({ length: size }, (_, i) => i);
   }
 
   function removeCommonElements(arr1, arr2) {
@@ -116,15 +112,12 @@
   // TODO: make this follow the "Do one thing" principle better
   async function getAvailableIndex() {
     const size = await getAvailableDataSize();
-    const randomIndex = generateIndexArray(size);
+    const randomIndex = Array.from({ length: size }, (_, i) => i);
     let indexHistory = JSON.parse(localStorage.getItem("indexHistory")) || [];
     let availableIndex = removeCommonElements(randomIndex, indexHistory);
 
     // If somehow all indexes are used, it'll just default to the random index
-    if (availableIndex.length === 0) {
-      availableIndex = randomIndex;
-    }
-
+    if (availableIndex.length === 0) availableIndex = randomIndex;
     availableIndexArr = availableIndex;
   }
 
@@ -146,9 +139,7 @@
 
   function percentageDifference() {
     // Avoid division by zero
-    if (question.answer === 0 && guessResult === 0) {
-      return 0;
-    }
+    if (question.answer === 0 && guessResult === 0) return 0;
 
     // Calculate the base as the average of absolute values
     const base = (Math.abs(question.answer) + Math.abs(guessResult)) / 2;
@@ -167,7 +158,6 @@
 
     let maxPoints = 500;
     let points = Math.round(((100 - difference) / 100) * maxPoints);
-
     return points;
   }
 
@@ -271,15 +261,6 @@
     }
   }
 
-  function onkeydown(event) {
-    if (event.key === "Enter" && !resultPopup) {
-      submitButton.click();
-    }
-    if (event.key === "Enter" && resultPopup) {
-      nextButton.click();
-    }
-  }
-
   // There are edge cases where things are... weird. Please fix.
   $effect(() => {
     // Makes blinkingLives switch between -1 and 2 on 2 lives
@@ -315,7 +296,12 @@
   });
 </script>
 
-<svelte:window {onkeydown} />
+<svelte:window
+  onkeydown={() => {
+    if (event.key === "Enter" && !resultPopup) submitButton.click();
+    if (event.key === "Enter" && resultPopup) nextButton.click();
+  }}
+/>
 
 <svelte:head>
   <title>Game</title>
@@ -330,11 +316,7 @@
         <Tab color={imageTab ? "var(--white)" : "var(--default-shadow)"} shadow={false} onclick={displayImages}>
           <span class="text-xl font-medium text-black">Images</span>
         </Tab>
-        <Tab
-          color={imageTab ? "var(--default-shadow)" : "var(--white)"}
-          shadow={false}
-          onclick={displayDescription}
-        >
+        <Tab color={imageTab ? "var(--default-shadow)" : "var(--white)"} shadow={false} onclick={displayDescription}>
           <span class="text-xl font-medium text-black">About</span>
         </Tab>
       </div>
