@@ -7,7 +7,7 @@
 	import Popup from "$lib/components/Popup.svelte";
 	import GuessDisplay from "../../lib/components/GuessDisplay.svelte";
 	import { goto } from "$app/navigation";
-	import { ArrowRightCircle, Check, Heart, HeartCrack } from "lucide-svelte";
+	import { ArrowRightCircle, Check, Heart, HeartCrack, Info } from "lucide-svelte";
 	import { fly, slide } from "svelte/transition";
 	import { difficulty, lives, score, difficultyRules, gameRounds, currentCarouselIndex } from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
@@ -346,6 +346,11 @@
 					{#each question.stats as stat}
 						<Stat icon={stat.icon} text={stat.text} />
 					{/each}
+					<div class="flex flex-row items-center justify-center rounded-lg py-3 px-5 w-full mt-auto">
+						<p class="text-lg text-defaultShadowDark">
+							Data provided by <a class="underline text-orange" target="_blank" href="https://auto.dev">Auto.dev</a>
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
