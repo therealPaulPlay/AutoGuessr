@@ -36,10 +36,9 @@
 		popupMessage,
 	} from "$lib/stores/resultPopupStore";
 
+	// Carousel controls
 	let descriptionFlag = $state(false);
 	let imageTab = $state(true);
-	let submitButton;
-	score.set(0);
 
 	const range = $derived.by(() => {
 		return getValueRange($question.answer);
@@ -159,18 +158,22 @@
 
 	onMount(async () => {
 		await getAvailableIndex(); // Wait for availableIndex to be populated
-		if (get(availableIndexArray).length == 0) {
-			return console.error("Error availableIndexArr is empty or not initialized.");
-		}
-		setCurrentQuestion(get(availableIndexArray)[Math.floor(Math.random() * get(availableIndexArray).length)]);
+		if (get(availableIndexArray).length == 0) return console.error("Error availableIndexArray is empty.");
+		setCurrentQuestion($availableIndexArray[Math.floor(Math.random() * get(availableIndexArray).length)]);
+
+		// Resets
 		lives.set(3);
+		score.set(0);
 		$gameRounds = [];
 	});
 </script>
 
 <svelte:window
 	onkeydown={() => {
-		if (event.key === "Enter" && !$resultPopup) submitButton.click();
+		if (event.key === "Enter" && !$resultPopup) {
+			checkPlayerPerformance(percentageDifference());
+			resultPopup.set(true);
+		}
 	}}
 />
 
@@ -242,7 +245,6 @@
 		<div class="flex grow gap-2.5 text-white">
 			<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={$guessResult} />
 			<Button
-				bind:this={submitButton}
 				color="var(--default-button)"
 				bgcolor="var(--default-button-dark)"
 				buttonHeight="4.5rem"
