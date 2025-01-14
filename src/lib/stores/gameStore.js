@@ -19,4 +19,9 @@ export const difficultyRules = writable({
 export const gameRounds = writable([]);
 export const lives = writable(3);
 export const score = writable(0);
+export const question = writable({});
+export const guessResult = writable(0);
+export const availableIndexArray = writable([]);
+
+// Carousel
 export const currentCarouselIndex = writable(0);

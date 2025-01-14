@@ -21,6 +21,7 @@
 	import Analytics from "$lib/components/Analytics.svelte";
 	import HowToPlayPopup from "$lib/components/HowToPlayPopup.svelte";
 	import ErrorPopup from "$lib/components/ErrorPopup.svelte";
+	import ResultPopup from "$lib/components/ResultPopup.svelte";
 
 	let { children } = $props();
 
@@ -88,6 +89,7 @@
 		</div>
 	</div>
 </nav>
+
 <main class="pt-[calc(4rem+7dvh)] fixed top-0 bottom-0 right-0 left-0 bg-tanLight overflow-hidden overflow-y-auto">
 	{@render children?.()}
 </main>
@@ -100,3 +102,4 @@
 <SignupPopup />
 <AccountPopup />
 <Analytics />
+<ResultPopup />

@@ -12,7 +12,6 @@
 	<title>Game Over</title>
 </svelte:head>
 
-<!-- TODO: fix layout issue when there is a long table -->
 <content class="flex items-center justify-center h-full overflow-y-visible">
 	<div class="-mt-12 flex justify-center items-center flex-col">
 		<h1 class="text-8xl font-bold text-orange mb-6 text-center">Game Over!</h1>
@@ -22,7 +21,7 @@
 			<span class="text-orange font-bold">{previousPB}.</span>
 		</p>
 		<div
-			class="w-4/5 mb-10 bg-white rounded-lg overflow-hidden overflow-x-auto drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar"
+			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
 		>
 			<table class="table-auto w-full h-full">
 				<thead class="bg-orange text-white border-b-2 border-white">
