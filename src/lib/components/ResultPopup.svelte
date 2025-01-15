@@ -8,6 +8,22 @@
 	import { penaltyFlag, rewardFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import { guessResult, question } from "$lib/stores/gameStore";
 	import { percentageDifference, goToNextQuestion, pointCalculation } from "$lib/utils/gameFunctions";
+	import { onMount } from "svelte";
+
+	let showNext = $state(false);
+
+	let showNextTimeout;
+
+	resultPopup.subscribe((value) => {
+		if (value) {
+			clearTimeout(showNextTimeout);
+			showNextTimeout = setTimeout(() => {
+				showNext = true;
+			}, 2500);
+		} else {
+			showNext = false;
+		}
+	});
 </script>
 
 {#if $resultPopup}
@@ -39,7 +55,7 @@
 				/>
 			</div>
 			<div in:fly={{ x: -50, delay: 2500 }} class="mt-10">
-				<Button buttonWidth="12rem" buttonHeight="4rem" onclick={goToNextQuestion}>
+				<Button buttonWidth="12rem" buttonHeight="4rem" onclick={goToNextQuestion} interactive={showNext}>
 					<span class="text-white text-xl font-medium flex items-center justify-center gap-2"
 						>Next <ArrowRightCircle strokeWidth={3} /></span
 					>
