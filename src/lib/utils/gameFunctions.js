@@ -128,8 +128,8 @@ export function pointCalculation(addXP = false) {
         points = Math.round(((100 - difference) / 100) * MAX_POINTS);
     }
 
-    // Add experience if authenticated + addXP
-    if (addXP == true && get(isAuthenticated)) addExperience(points)
+    // Add experience if authenticated + addXP + points !== 0
+    if (addXP == true && get(isAuthenticated) && points) addExperience(points)
 
     return points;
 }

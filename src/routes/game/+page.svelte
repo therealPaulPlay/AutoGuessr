@@ -110,25 +110,27 @@
 	// Live (Traffic light) image + blinking state
 	$effect(() => {
 		$blinkingFlag = $lives == 3; // If set to the second life (blinking green), make it blink
-		clearInterval(blinkInterval);
 
 		if ($blinkingFlag) {
+			clearInterval(blinkInterval);
 			blinkInterval = setInterval(() => {
 				$livesImage = $livesImage == 3 ? 0 : 3; // Toggle between on and off
 			}, 1000);
 		} else {
+			clearInterval(blinkInterval);
 			$livesImage = $lives;
 		}
 	});
 
 	onMount(async () => {
-		$totalCarAmount = await getTotalCarDataAmount();
-		goToNextQuestion(false); // Don't save last question to history (false)
-
 		// Resets
 		lives.set(4);
 		score.set(0);
 		$gameRounds = [];
+		clearInterval(blinkInterval);
+
+		$totalCarAmount = await getTotalCarDataAmount();
+		goToNextQuestion(false); // Don't save last question to history (false)
 	});
 </script>
 
