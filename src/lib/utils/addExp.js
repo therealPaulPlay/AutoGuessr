@@ -10,7 +10,7 @@ export async function addExperience(addAmount) {
         return;
     }
 
-    if (get(isAuthenticated)) {
+    if (!get(isAuthenticated)) {
         console.warn("Aborting experience add - user not authenticated.")
         return;
     }

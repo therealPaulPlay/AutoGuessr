@@ -76,12 +76,6 @@
 			return;
 		}
 
-		// Check if the penalty logic applies (only for difficulty 3)
-		if ($difficulty === 3 && percent > rules.penaltyThreshold) {
-			subtractLife(2);
-			return;
-		}
-
 		setPopupMessage("bad");
 		subtractLife(1);
 		return;

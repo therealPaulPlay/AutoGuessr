@@ -28,7 +28,7 @@
 					<span class="text-orange font-semibold">{percentageDifference().toFixed(2)}% off.</span>
 				</p>
 				<div in:slide={{ delay: 1500 }} class="text-black text-base text-center flex">
-					You get <span class="text-green font-semibold">&nbsp;{pointCalculation()} points.</span>
+					You get <span class="text-green font-semibold">&nbsp;{pointCalculation(true)} experience.</span>
 				</div>
 			</div>
 			<div class="w-full h-14 mt-14">

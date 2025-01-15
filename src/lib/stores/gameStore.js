@@ -11,7 +11,6 @@ export const difficultyRules = writable({
     },
     3: {
         correctTier: [1, 5],
-        penaltyThreshold: 10, // Only applies for difficulty 3
     },
 });
 

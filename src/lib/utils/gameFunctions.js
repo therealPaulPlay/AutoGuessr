@@ -7,6 +7,8 @@ import { displayError } from "$lib/utils/displayError";
 import { milesToKilometers } from "$lib/utils/milesToKm";
 import { baseUrl } from "$lib/stores/apiConfigStore";
 import { goto } from "$app/navigation";
+import { addExperience } from "./addExp";
+import { isAuthenticated } from "$lib/stores/accountStore";
 
 export async function setCurrentQuestion(questionId) {
     try {
@@ -115,10 +117,21 @@ export function percentageDifference() {
 
 const MAX_POINTS = 500;
 
-export function pointCalculation() {
+// Calculate points and optionally add them as XP
+export function pointCalculation(addXP = false) {
+    let points;
     let difference = percentageDifference();
-    if (difference > 100) return 0;
-    return Math.round(((100 - difference) / 100) * MAX_POINTS);
+
+    if (difference > 100) {
+        points = 0;
+    } else {
+        points = Math.round(((100 - difference) / 100) * MAX_POINTS);
+    }
+
+    // Add experience if authenticated + addXP
+    if (addXP == true && get(isAuthenticated)) addExperience(points)
+
+    return points;
 }
 
 export async function getTotalCarDataAmount() {
