@@ -5,11 +5,16 @@
 	import { goto } from "$app/navigation";
 	import { difficulty, difficultyRules } from "$lib/stores/gameStore";
 	import { howToPlayPopup } from "$lib/stores/uiStore";
+	import { onMount } from "svelte";
 
-	let difficultyValue = $state(1);
+	function setDifficulty(difficultyLevel) {
+		localStorage.setItem("difficulty", difficultyLevel);
+		difficulty.set(difficultyLevel);
+	}
 
-	$effect(() => {
-		difficulty.set(difficultyValue);
+	onMount(() => {
+		const loadedDifficulty = localStorage.getItem("difficulty");
+		if (loadedDifficulty) difficulty.set(Number(loadedDifficulty));
 	});
 </script>
 
@@ -36,7 +41,7 @@
 					color="var(--green-button-dark"
 					selectedColor="var(--green-button)"
 					selected={Boolean($difficulty == 1)}
-					onclick={() => (difficultyValue = 1)}
+					onclick={() => setDifficulty(1)}
 				>
 					<span class="text-xl font-medium">Easy</span>
 				</Tab>
@@ -44,7 +49,7 @@
 					color="var(--default-button-dark)"
 					selectedColor="var(--default-button)"
 					selected={Boolean($difficulty == 2)}
-					onclick={() => (difficultyValue = 2)}
+					onclick={() => setDifficulty(2)}
 				>
 					<span class="text-xl font-medium">Medium</span>
 				</Tab>
@@ -52,7 +57,7 @@
 					color="rgb(75, 73, 73)"
 					selectedColor="rgb(52, 49, 49)"
 					selected={Boolean($difficulty == 3)}
-					onclick={() => (difficultyValue = 3)}
+					onclick={() => setDifficulty(3)}
 				>
 					<span class="text-xl font-medium">Hard</span>
 				</Tab>
