@@ -17,11 +17,13 @@ export const difficultyRules = writable({
 
 // Current game
 export const gameRounds = writable([]);
-export const lives = writable(3);
+export const lives = writable(4);
 export const score = writable(0);
 export const question = writable({});
 export const guessResult = writable(0);
-export const availableIndexArray = writable([]);
 
 // Carousel
 export const currentCarouselIndex = writable(0);
+
+// Car Data
+export const totalCarAmount = writable(0);

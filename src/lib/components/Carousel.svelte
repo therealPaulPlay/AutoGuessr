@@ -33,14 +33,13 @@
 		});
 
 		function updateZoom(e) {
-			/* Get the cursor's position relative to the image */
-			var pos = getCursorPos(e);
+			var pos = getCursorPos(e); // Get the cursor's position relative to the image
 
-			/* Calculate the percentage position of the cursor on the image */
+			// Calculate the percentage position of the cursor on the image
 			var xPercent = (pos.x / img.width) * 100;
 			var yPercent = (pos.y / img.height) * 100;
 
-			/* Set the background position of the zoomResult */
+			// Set the background position of the zoomResult
 			result.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
 		}
 

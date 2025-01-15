@@ -5,14 +5,7 @@
 	import { ArrowRightCircle } from "lucide-svelte";
 	import { fly, slide } from "svelte/transition";
 	import { resultPopup } from "$lib/stores/uiStore";
-	import {
-		penaltyFlag,
-		rewardFlag,
-		blinkingFlag,
-		blinkingLives,
-		livesImage,
-		popupMessage,
-	} from "$lib/stores/resultPopupStore";
+	import { penaltyFlag, rewardFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import { guessResult, question } from "$lib/stores/gameStore";
 	import { percentageDifference, goToNextQuestion, pointCalculation } from "$lib/utils/gameFunctions";
 </script>
@@ -21,11 +14,7 @@
 	<Popup title="" closeFunction={goToNextQuestion} showCloseButton={false}>
 		{#if $penaltyFlag || $rewardFlag}
 			<div in:fly|global={{ y: 50, delay: 1000 }} class="lives absolute z-[-1] right-0 -top-28">
-				<img
-					src="/assets/svg/traffic {$blinkingFlag ? $blinkingLives : $livesImage}.svg"
-					alt="lives"
-					class="h-24 flex content-end"
-				/>
+				<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="h-24 flex content-end" />
 			</div>
 		{/if}
 		<div class="h-full flex flex-col justify-evenly items-center">

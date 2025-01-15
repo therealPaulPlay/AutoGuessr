@@ -18,7 +18,7 @@
 		currentCarouselIndex,
 		question,
 		guessResult,
-		availableIndexArray,
+		totalCarAmount,
 	} from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
 	import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -26,43 +26,31 @@
 	import { get } from "svelte/store";
 	import { displayError } from "$lib/utils/displayError";
 	import { resultPopup } from "$lib/stores/uiStore";
-	import { percentageDifference, removeCommonElements, setCurrentQuestion } from "$lib/utils/gameFunctions";
-	import {
-		rewardFlag,
-		penaltyFlag,
-		blinkingFlag,
-		blinkingLives,
-		livesImage,
-		popupMessage,
-	} from "$lib/stores/resultPopupStore";
+	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
+	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 
 	// Carousel controls
 	let descriptionFlag = $state(false);
 	let imageTab = $state(true);
 
-	const range = $derived.by(() => {
-		return getValueRange($question.answer);
-	});
-
-	async function getAvailableDataSize() {
-		try {
-			const response = await fetchWithErrorHandling(`${$baseUrl}/car-data/amount`);
-			const data = await response.json();
-			return data.total;
-		} catch (error) {
-			console.error("Error occured getting the available car dataset size:", error);
-			displayError("Error occured getting the available car dataset size: " + error);
-		}
+	function addLife(amount) {
+		$penaltyFlag = false;
+		$rewardFlag = true;
+		lives.update((value) => {
+			return Math.min(value + amount, 5);
+		});
 	}
 
-	async function getAvailableIndex() {
-		const size = await getAvailableDataSize();
-		const randomIndex = Array.from({ length: size }, (_, i) => i);
-		let indexHistory = JSON.parse(localStorage.getItem("indexHistory")) || [];
-		let availableIndex = removeCommonElements(randomIndex, indexHistory);
+	function subtractLife(amount) {
+		$rewardFlag = false;
+		$penaltyFlag = true;
+		lives.update((value) => {
+			return Math.max(value - amount, 1);
+		});
+	}
 
-		if (availableIndex.length === 0) availableIndex = randomIndex; // If somehow all indexes are used, it'll just default to the random index
-		availableIndexArray.set(availableIndex);
+	function addScore(amount) {
+		score.update((score) => score + amount);
 	}
 
 	function checkPlayerPerformance(percent) {
@@ -99,26 +87,6 @@
 		return;
 	}
 
-	function addLife(amount) {
-		$penaltyFlag = false;
-		$rewardFlag = true;
-		lives.update((l) => {
-			return l + amount > 4 ? 4 : l + amount;
-		});
-	}
-
-	function subtractLife(amount) {
-		$rewardFlag = false;
-		$penaltyFlag = true;
-		lives.update((l) => {
-			return l - amount < 0 ? 0 : l - amount;
-		});
-	}
-
-	function addScore(amount) {
-		score.update((c) => c + amount);
-	}
-
 	const messages = {
 		bad: ["Uh oh...", "Stay strong!", "That's not it!", "Not quite..."],
 		good: ["Nice work!", "Keep it up!", "Well done!", "Very good!"],
@@ -126,10 +94,16 @@
 	};
 
 	function setPopupMessage(condition) {
-		if (!messages[condition]) return console.log("Invalid condition provided.");
+		if (!messages[condition]) return console.warn("Invalid condition provided.");
 		const conditionMessages = messages[condition];
 		$popupMessage = conditionMessages[Math.floor(Math.random() * conditionMessages.length)];
 	}
+
+	// Slider
+	let range = $state(0);
+	question.subscribe((value) => {
+		range = getValueRange(value.answer);
+	});
 
 	function getValueRange(value) {
 		if (value <= 100000) return { min: 0, max: 100000 };
@@ -137,32 +111,28 @@
 		return { min: 500000, max: 5000000 };
 	}
 
-	// There are edge cases where things are... weird. Please fix. !TODO
+	let blinkInterval;
+
+	// Live (Traffic light) image + blinking state
 	$effect(() => {
-		// Makes blinkingLives switch between -1 and 2 on 2 lives
-		// Using a separate variable to $lives because using it may cause issues.
-		if ($lives === 2) {
-			$blinkingFlag = true;
-			setInterval(() => {
-				$blinkingLives = $blinkingLives === -1 ? 2 : -1; // Toggle between -1 and 2
+		$blinkingFlag = $lives == 3; // If set to the second life (blinking green), make it blink
+		clearInterval(blinkInterval);
+
+		if ($blinkingFlag) {
+			blinkInterval = setInterval(() => {
+				$livesImage = $livesImage == 3 ? 0 : 3; // Toggle between on and off
 			}, 1000);
 		} else {
-			$blinkingFlag = false;
+			$livesImage = $lives;
 		}
 	});
 
-	$effect(() => {
-		if ($lives < 2) return ($livesImage = $lives); // Adjusts the lives image do display the correct image
-		$livesImage = $lives - 1;
-	});
-
 	onMount(async () => {
-		await getAvailableIndex(); // Wait for availableIndex to be populated
-		if (get(availableIndexArray).length == 0) return console.error("Error availableIndexArray is empty.");
-		setCurrentQuestion($availableIndexArray[Math.floor(Math.random() * get(availableIndexArray).length)]);
+		$totalCarAmount = await getTotalCarDataAmount();
+		goToNextQuestion(false); // Don't save last question to history (false)
 
 		// Resets
-		lives.set(3);
+		lives.set(4);
 		score.set(0);
 		$gameRounds = [];
 	});
@@ -232,15 +202,9 @@
 	class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start"
 >
 	<!-- Lives -->
-	{#if $livesImage || $blinkingFlag}
-		<div class="lives relative z-[5]">
-			<img
-				src="/assets/svg/traffic {$blinkingFlag ? $blinkingLives : $livesImage}.svg"
-				alt="lives"
-				class="w-52 h-28 flex content-end"
-			/>
-		</div>
-	{/if}
+	<div class="lives relative z-[5]">
+		<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="w-52 h-28 flex content-end" />
+	</div>
 	<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]" style:background-color="var(--default-shadow)">
 		<div class="flex grow gap-2.5 text-white">
 			<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={$guessResult} />
