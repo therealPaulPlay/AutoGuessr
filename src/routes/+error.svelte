@@ -3,19 +3,10 @@
 	import { ArrowRightCircle } from "lucide-svelte";
 	import { goto } from "$app/navigation";
 	import Button from "$lib/components/Button.svelte";
-
-	let blinking = $state(1);
-
-	setInterval(() => {
-		blinking = blinking === 1 ? 0 : 1;
-	}, 1000);
 </script>
 
 <div class="flex flex-col items-center h-[80dvh] justify-around">
 	<div class="">
-		<div class="w-full flex justify-center">
-			<img src="/assets/svg/traffic pill {blinking}.svg" alt="lives" class="w-52 h-28 flex content-end" />
-		</div>
 		<h1 class="text-[12rem] text-orange leading-none text-center">
 			{$page.status}
 		</h1>

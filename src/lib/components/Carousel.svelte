@@ -10,14 +10,23 @@
 	let imgElement = $state();
 	let zoomResult = $state();
 	let showZoom = $state(false);
+	let isLoading = $state(true);
 
 	function next() {
+		isLoading = true;
+		if (imgElement) imgElement.src = ""; // Clear the current image
 		$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
 	}
 
 	function prev() {
+		isLoading = true;
+		if (imgElement) imgElement.src = ""; // Clear the current image
 		$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
 	}
+
+	onMount(() => {
+		imgElement.src = "";
+	});
 
 	function imageZoom() {
 		var img = imgElement;
@@ -38,7 +47,6 @@
 			// Calculate the percentage position of the cursor on the image
 			var xPercent = (pos.x / img.width) * 100;
 			var yPercent = (pos.y / img.height) * 100;
-
 			// Set the background position of the zoomResult
 			result.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
 		}
@@ -67,7 +75,6 @@
 <div class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden">
 	<div class="relative w-full h-full flex items-center bg-tanLight rounded-lg min-h-96">
 		{#if !descriptionFlag}
-			<!-- Image previous and next controls -->
 			<div class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
 				<div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
 					<button onclick={prev} class="z-20 transition active:scale-90">
@@ -86,6 +93,7 @@
 				src={images[$currentCarouselIndex]}
 				alt=" "
 				bind:this={imgElement}
+				onload={() => isLoading = false}
 				onclick={() => {
 					imageFit = !imageFit;
 				}}
@@ -97,7 +105,7 @@
 				}}
 				tabindex="0"
 				role="button"
-				class="absolute h-full w-full {imageFit ? 'object-contain' : 'object-cover'} z-10 cursor-crosshair rounded-lg"
+				class="absolute h-full w-full {imageFit ? 'object-contain' : 'object-cover'} z-10 cursor-crosshair rounded-lg transition ease-in-out {isLoading ? "opacity-0" : ""}"
 			/>
 			<p
 				class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 text-center text-wrap flex flex-wrap justify-center items-center bg-white z-[9]"

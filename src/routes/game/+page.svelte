@@ -126,6 +126,7 @@
 		// Resets
 		lives.set(4);
 		score.set(0);
+		currentCarouselIndex.set(0);
 		$gameRounds = [];
 		clearInterval(blinkInterval);
 

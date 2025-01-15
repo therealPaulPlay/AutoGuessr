@@ -6,6 +6,7 @@
 	import { difficulty, difficultyRules } from "$lib/stores/gameStore";
 	import { howToPlayPopup } from "$lib/stores/uiStore";
 	import { onMount } from "svelte";
+	import CarModel from "$lib/components/CarModel.svelte";
 
 	function setDifficulty(difficultyLevel) {
 		localStorage.setItem("difficulty", difficultyLevel);
@@ -18,6 +19,10 @@
 	});
 </script>
 
+<svelte:head>
+	<title>AutoGuessr - Guess the car's price!</title>
+</svelte:head>
+
 <!-- Logo -->
 <div class="fixed mx-auto left-0 right-0 top-1/4 flex justify-center">
 	<img
@@ -27,9 +32,8 @@
 	/>
 </div>
 
-<svelte:head>
-	<title>AutoGuessr - Guess the car's price!</title>
-</svelte:head>
+<!-- car model -->
+<CarModel />
 
 <content class="flex w-full mt-5">
 	<!-- Bottom Area -->
