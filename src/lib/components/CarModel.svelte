@@ -20,7 +20,13 @@
 		container.appendChild(renderer.domElement);
 
 		// Lighting
-		scene.add(new THREE.AmbientLight(0xffffff, 2.8)); // Lighting intensity
+		scene.add(new THREE.AmbientLight(0xffffff, 3.25)); // Color + Lighting intensity
+
+		// Add spotlight with brightness 500, positioned to point at the car
+		// const spotlight = new THREE.SpotLight(0xffffff, 300, 100, Math.PI / 4, 0.1, 2);
+		// spotlight.position.set(10, 5, 10);
+		// spotlight.lookAt(4, -2.25, -3);
+		// scene.add(spotlight);
 
 		// Set initial camera position and view
 		camera.position.set(6, 0, 6); // Adjust camera distance to better fit the car
@@ -63,11 +69,11 @@
 		const time = clock.getElapsedTime();
 
 		if (carBody) {
-			const bodyPosY = -2.25 + Math.sin(time * 1.5) * 0.02;
+			const bodyPosY = -2.26 + Math.sin(time * 3) * 0.015;
 			carBody.position.y = bodyPosY;
 
 			if (springs) {
-				const scaleFactor = 1 + Math.sin(time * 1.5) * 0.02;
+				const scaleFactor = 1 + Math.sin(time * 3) * 0.15;
 				springs.scale.set(1 * scaleFactor, 1, 1);
 			}
 		}
