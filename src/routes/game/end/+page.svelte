@@ -21,7 +21,7 @@
 			<span class="text-orange font-bold">{previousPB}.</span>
 		</p>
 		<div
-			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
+			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
 		>
 			<table class="table-auto w-full h-full">
 				<thead class="bg-orange text-white border-b-2 border-white">
