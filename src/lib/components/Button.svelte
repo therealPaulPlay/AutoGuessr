@@ -9,6 +9,7 @@
 		onclick,
 		border = false,
 		interactive = true,
+		customClasses,
 		children,
 	} = $props();
 
@@ -34,7 +35,7 @@
 </script>
 
 <div
-	class="flex h-full relative hover:brightness-110 transition duration-200"
+	class="flex h-full relative hover:brightness-110 transition duration-200{customClasses ? ` ${customClasses}` : ''}"
 	id="buttonOuterDiv"
 	style:width={buttonWidth || "fit-content"}
 	style:height={buttonHeight}

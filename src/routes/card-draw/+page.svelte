@@ -209,7 +209,7 @@
 			{#if !removeRollButton}
 				<div class="min-w-[12rem]" out:fly={{ y: 50, duration: 150 }}>
 					<Button buttonHeight="4rem" buttonWidth="12rem" shadowHeight="0.5rem" onclick={scrollToEnd}>
-						<span class="text-white font-bold text-4xl">Roll!</span>
+						<span class="text-white font-bold text-3xl">Roll!</span>
 					</Button>
 				</div>
 			{/if}
@@ -223,7 +223,7 @@
 						bgcolor="var(--green-button-dark)"
 						onclick={revealCard}
 					>
-						<span class="text-white font-bold text-4xl">Reveal!</span>
+						<span class="text-white font-bold text-3xl">Reveal!</span>
 					</Button>
 				</div>
 			{/if}

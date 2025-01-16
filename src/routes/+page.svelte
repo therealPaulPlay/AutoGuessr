@@ -24,9 +24,9 @@
 </svelte:head>
 
 <!-- Logo -->
-<div class="fixed mx-auto left-0 right-0 top-1/4 flex justify-center">
+<div class="fixed mx-auto left-0 right-0 top-[20%] flex justify-center">
 	<img
-		class="w-[60vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(231,_101,_49,_0.15)] logo-animation"
+		class="w-[60vw] max-md:w-[80vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(237,209,182)] logo-animation"
 		src="/assets/svg/logo.svg"
 		alt="Logo"
 	/>
@@ -37,10 +37,10 @@
 
 <content class="flex w-full mt-5">
 	<!-- Bottom Area -->
-	<div class="flex flex-row justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0">
-		<div class="flex flex-col overflow-clip">
+	<div class="flex justify-start p-8 mt-5 fixed items-center bottom-0 left-0 right-0 max-md:justify-center">
+		<div class="flex flex-col overflow-clip max-w-[calc(100%-0.25rem)]">
 			<!-- Difficulties -->
-			<div class="flex flex-row max-w-64 ml-2 gap-1">
+			<div class="flex max-w-64 ml-2 gap-1">
 				<Tab
 					color="var(--green-button-dark"
 					selectedColor="var(--green-button)"
@@ -68,7 +68,13 @@
 			</div>
 			<!-- Play Button -->
 			<div class="z-20 relative">
-				<Button buttonHeight="10rem" buttonWidth="21rem" shadowHeight="0.5rem" onclick={() => goto("/game")}>
+				<Button
+					buttonHeight="10rem"
+					buttonWidth="21rem"
+					shadowHeight="0.5rem"
+					onclick={() => goto("/game")}
+					customClasses="!w-full"
+				>
 					<img src="/assets/svg/play.svg" alt="play button" style:width="3rem" />
 				</Button>
 				<!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -88,13 +94,14 @@
 				<Button
 					color="var(--green-button)"
 					bgcolor="var(--green-button-dark)"
+					customClasses="!w-full"
 					buttonHeight="4rem"
 					buttonWidth="21rem"
 					shadowHeight="0.5rem"
 					onclick={() => goto("/auto-cards")}
 				>
 					<div class="flex flex-row items-center justify-between w-full px-2">
-						<span class="text-white font-bold text-4xl">AutoCards</span>
+						<span class="text-white font-bold text-3xl mr-5">AutoCards</span>
 						<img src="/assets/svg/autocards icon.svg" alt="" style:width="3rem" />
 					</div>
 				</Button>
@@ -111,16 +118,16 @@
 	@keyframes dynamicPulse {
 		0%,
 		100% {
-			transform: scale(1) translateY(0);
+			transform: scale(1);
 		}
 		25% {
-			transform: scale(1.02) translateY(-3px); /* Slight growth and upward movement */
+			transform: scale(1.02);
 		}
 		50% {
-			transform: scale(1.01) translateY(0); /* Slight reduction and centered */
+			transform: scale(1.01);
 		}
 		75% {
-			transform: scale(1.02) translateY(3px); /* Slight growth and downward movement */
+			transform: scale(1.02);
 		}
 	}
 </style>
