@@ -16,7 +16,7 @@
                 Are you sure you want to leave the game? <span
                     class="font-semibold">Any progress will be lost.</span>
             </p>
-            <div class="flex gap-20 mt-10">
+            <div class="flex gap-16 mt-10">
                 <Button
                     buttonHeight="4rem"
                     buttonWidth="7rem"
