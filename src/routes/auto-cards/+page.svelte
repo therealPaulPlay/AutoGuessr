@@ -134,26 +134,23 @@
 	}
 
 	function handleWheel(event) {
-		if (container) {
-			event.preventDefault();
-			container.scrollLeft += event.deltaY * 10;
-		}
+		if (!container) return;
+		event.preventDefault();
+		container.scrollLeft += event.deltaY;
 	}
+
+	onMount(() => {
+		if (container) {
+			container.addEventListener("wheel", handleWheel, { passive: false });
+
+			// Set the margin right of the last card so that it can be scrolled to the center
+			let lastCard = document.getElementById(`card_${cards.length - 1}`);
+			if (lastCard) lastCard.style.marginRight = `${0.5 * $windowWidth - cardWidth / 2}px`;
+		}
+	});
 
 	onDestroy(() => {
 		if (container) container.removeEventListener("wheel", handleWheel);
-	});
-
-	onMount(() => {
-		centerCard();
-
-		// Set the margin right of the last card so that it can be scrolled to the center
-		let lastCard = document.getElementById(`card_${cards.length - 1}`);
-		if (lastCard) {
-			lastCard.style.marginRight = `${0.5 * $windowWidth - cardWidth / 2}px`;
-		}
-
-		container.addEventListener("wheel", handleWheel);
 	});
 </script>
 
@@ -166,7 +163,7 @@
 <main class="flex h-[80vh] items-center relative">
 	<div
 		bind:this={container}
-		class="overflow-x-scroll overflow-y-hidden w-full relative h-full content-end overscroll-none scroll-container"
+		class="overflow-x-scroll overflow-y-hidden w-full relative h-full content-end overscroll-none"
 		style="scrollbar-width: none; padding-left: {0.5 * $windowWidth}px"
 	>
 		<div class="grid grid-flow-col gap-5 w-fit items-center h-full">
@@ -208,9 +205,5 @@
 		transform: scale(1.1);
 		z-index: 90;
 		transition: transform 150ms ease;
-	}
-
-	.scroll-container {
-		scroll-behavior: smooth;
 	}
 </style>

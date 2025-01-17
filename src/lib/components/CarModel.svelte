@@ -18,8 +18,10 @@
 		if (window.innerWidth > 768 && window.innerWidth <= 1280) {
 			scaledSize = MIN_SIZE + (viewportSize - MIN_SIZE) * 0.5;
 		} else if (window.innerWidth <= 768) {
-		} else {
+		} else  if (window.innerWidth <= 1920) {
 			scaledSize = MIN_SIZE + (viewportSize - MIN_SIZE) * 0.9;
+		} else {
+			scaledSize = MIN_SIZE + (viewportSize - MIN_SIZE) * 1;
 		}
 
 		const size = Math.min(Math.max(scaledSize, MIN_SIZE), MAX_SIZE);
@@ -64,8 +66,8 @@
 		ground.position.y = -2.075;
 		scene.add(ground);
 
-		camera.position.set(6, 0.5, 6);
-		camera.lookAt(3.75, 0.62, -2);
+		camera.position.set(6, 0.2, 6);
+		camera.lookAt(3.75, 0.5, -2);
 
 		loadModels();
 		animate();
@@ -162,8 +164,8 @@
 
 <div
 	bind:this={container}
-	class="fixed bottom-0 max-w-screen max-h-screen bg-transparent max-md:mb-[21rem] max-xl:mb-[2rem] md:right-0 max-md:mr-2 right-1/2 translate-x-1/2 md:translate-x-0 z-[-1]"
+	class="fixed bottom-0 max-w-screen max-h-screen bg-transparent max-md:mb-[21rem] max-xl:mb-[2rem] md:right-0 max-md:mr-2 right-1/2 translate-x-1/2 md:translate-x-0 z-[0]"
 ></div>
 <div
-	class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-defaultShadowDark to-transparent z-[-2] opacity-90"
+	class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-defaultShadowDark to-transparent z-[-1] opacity-90"
 ></div>
