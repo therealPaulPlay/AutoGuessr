@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount } from "$lib/stores/gameStore";
+import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score } from "$lib/stores/gameStore";
 import { resultPopup } from "$lib/stores/uiStore";
 import { penaltyFlag, rewardFlag } from "$lib/stores/resultPopupStore";
 import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -55,6 +55,24 @@ export async function setCurrentQuestion(questionId) {
 export function goToNextQuestion(saveHistory = true) {
     if (saveHistory) addLastQuestionToHistory();
 
+    // Resets
+    guessResult.set(0);
+    rewardFlag.set(false);
+    penaltyFlag.set(false);
+    resultPopup.set(false);
+    currentCarouselIndex.set(0);
+
+    // Game over
+    if (get(lives) <= 1) {
+        if (get(score) >= 5) {
+            goto("/card-draw");
+        }
+        else {
+            goto("/game/end");
+        }
+        return;
+    }
+
     const history = JSON.parse(localStorage.getItem("indexHistory")) || [];
 
     // Ensure history isn't bigger than available car amount
@@ -70,16 +88,6 @@ export function goToNextQuestion(saveHistory = true) {
     } while (history.includes(newIndex));
 
     setCurrentQuestion(newIndex); // Fetch new car question
-
-    // Resets
-    guessResult.set(0);
-    rewardFlag.set(false);
-    penaltyFlag.set(false);
-    resultPopup.set(false);
-    currentCarouselIndex.set(0);
-
-    // Game over
-    if (get(lives) <= 1) goto("/game/end");
 }
 
 function addLastQuestionToHistory() {

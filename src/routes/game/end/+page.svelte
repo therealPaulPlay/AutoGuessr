@@ -5,7 +5,6 @@
 	import { Home } from "lucide-svelte";
 
 	let previousPB = 42;
-	let cardUnlockThreshold = 5;
 </script>
 
 <svelte:head>
@@ -21,7 +20,7 @@
 			<span class="text-orange font-bold">{previousPB}.</span>
 		</p>
 		<div
-			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
+			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
 		>
 			<table class="table-auto w-full h-full">
 				<thead class="bg-orange text-white border-b-2 border-white">
@@ -59,20 +58,6 @@
 			>
 				<span class="text-white font-bold text-3xl">Play again</span>
 			</Button>
-			{#if $score >= cardUnlockThreshold}
-				<Button
-					buttonHeight="4rem"
-					buttonWidth="18rem"
-					shadowHeight="0.5rem"
-					color="rgb(70, 60, 65)"
-					bgcolor="var(--black)"
-					onclick={() => {
-						goto("/card-draw");
-					}}
-				>
-					<span class="text-white font-bold text-3xl">Unlock a card!</span>
-				</Button>
-			{/if}
 			<Button
 				buttonHeight="4rem"
 				buttonWidth="4rem"
