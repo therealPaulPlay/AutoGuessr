@@ -56,8 +56,7 @@
 		const groundGeometry = new THREE.PlaneGeometry(50, 50);
 		const groundMaterial = new THREE.ShadowMaterial({
 			transparent: true,
-			color: "rgb(220, 187, 154)",
-			opacity: 0.5
+			color: "rgb(207, 175, 143)",
 		});
 		const ground = new THREE.Mesh(groundGeometry, groundMaterial);
 		ground.receiveShadow = true;
@@ -163,6 +162,8 @@
 
 <div
 	bind:this={container}
-	class="fixed bottom-0 max-w-screen max-h-screen bg-transparent max-md:mb-[21rem] max-lg:mb-[2rem] md:right-0 max-md:mr-2 right-1/2 translate-x-1/2 md:translate-x-0 z-[-1]"
+	class="fixed bottom-0 max-w-screen max-h-screen bg-transparent max-md:mb-[21rem] max-xl:mb-[2rem] md:right-0 max-md:mr-2 right-1/2 translate-x-1/2 md:translate-x-0 z-[-1]"
 ></div>
-<div class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-defaultShadow to-transparent z-[-2]"></div>
+<div
+	class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-defaultShadowDark to-transparent z-[-2] opacity-90"
+></div>

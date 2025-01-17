@@ -25,7 +25,7 @@
 				</div>
 				<div class="flex items-center gap-10 justify-between">
 					<label for="music" class="text-base font-semibold">Music</label>
-					<div class="w-1/2 flex">
+					<div class="w-1/2 flex h-fit items-center">
 						<Toggle />
 					</div>
 				</div>
