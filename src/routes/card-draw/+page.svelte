@@ -9,6 +9,7 @@
 	import Flip from "gsap/dist/Flip";
 	gsap.registerPlugin(Flip);
 	import { score } from "$lib/stores/gameStore";
+	import { goto } from "$app/navigation";
 
 	let cardInfo = {
 		name: "TestName 1",
@@ -24,9 +25,11 @@
 	let containerWidth = $state();
 	let windowWidth = $state();
 	let showRevealButton = $state(false);
-	let showCardBack = $state(false);
+	let disableRevealButton = $state(false);
+	let showGameEnd = $state(false);
 	let disableRollButton = $state(false);
 	let removeRollButton = $state(false);
+	let showCardBack = $state(false);
 	let raritiesSize = 40;
 	let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
@@ -125,6 +128,11 @@
 
 	function revealCard() {
 		showCardBack = !showCardBack;
+
+		setTimeout(() => {
+			showRevealButton = false;
+			showGameEnd = true;
+		}, 500);
 	}
 
 	function initialCenterCards() {
@@ -198,11 +206,7 @@
 			<img src="/assets/svg/arrow.svg" alt="Arrow" class="w-8 h-8 rotate-90 scale-y-[-1]" />
 		</div>
 		{#if showCardBack}
-			<div
-				class="fixed w-full h-full rays"
-				in:fade={{duration: 300, delay: 500}}
-                out:fade={{duration: 150}}
-			></div>
+			<div class="fixed w-full h-full rays" in:fade={{ duration: 300, delay: 500 }} out:fade={{ duration: 150 }}></div>
 		{/if}
 		<!-- Minimum height should be the same as the button height to avoid "snapping" artifacts -->
 		<div class="mt-5 flex flex-row gap-5 min-h-16">
@@ -224,6 +228,20 @@
 						onclick={revealCard}
 					>
 						<span class="text-white font-bold text-3xl">Reveal!</span>
+					</Button>
+				</div>
+			{/if}
+			{#if showGameEnd}
+				<div in:fly={{ y: 50, duration: 150 }}>
+					<Button
+						buttonHeight="4rem"
+						buttonWidth="14rem"
+						shadowHeight="0.5rem"
+						onclick={() => {
+							goto("/game/end");
+						}}
+					>
+						<span class="text-white font-bold text-3xl">Summary</span>
 					</Button>
 				</div>
 			{/if}
@@ -269,7 +287,7 @@
 		z-index: -20;
 	}
 
-    /* TODO: Make it more visible on mobile phones */
+	/* TODO: Make it more visible on mobile phones */
 	.rays {
 		z-index: -10;
 		scale: 1.7;
