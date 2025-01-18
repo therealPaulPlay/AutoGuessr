@@ -22,11 +22,13 @@
 	import HowToPlayPopup from "$lib/components/HowToPlayPopup.svelte";
 	import ErrorPopup from "$lib/components/ErrorPopup.svelte";
 	import ResultPopup from "$lib/components/ResultPopup.svelte";
+	import { Howl } from "howler";
 
 	let { children } = $props();
 
 	function HandleBackButton() {
 		const leavePopupUrls = ["/game"]; // URLs to have confirmation before leaving
+		new Howl({ src: ["/sounds/short_click.webm"] }).play();
 		if (leavePopupUrls.includes($page.url.pathname)) {
 			$leavePopup = true;
 		} else {
@@ -44,7 +46,7 @@
 	<div>
 		{#if $page.url.pathname != "/"}
 			<button class="w-10 h-10 transition active:scale-90" onclick={HandleBackButton}>
-				<img src="{base}/assets/svg/point arrow.svg" alt="Back" />
+				<img src="{base}/assets/svg/point_arrow.svg" alt="Back" />
 			</button>
 		{/if}
 	</div>

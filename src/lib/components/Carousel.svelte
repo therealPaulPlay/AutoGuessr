@@ -4,6 +4,7 @@
 	import { fade } from "svelte/transition";
 	import { currentCarouselIndex } from "$lib/stores/gameStore";
 	import MapDisplay from "./MapDisplay.svelte";
+	import { Howl } from "howler";
 
 	let { images = [], description = "No desciption was provided.", descriptionFlag = false, children } = $props();
 
@@ -16,12 +17,14 @@
 		isLoading = true;
 		if (imgElement) imgElement.src = ""; // Clear the current image
 		$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
+		new Howl({ src: ["/sounds/short_click.webm"] }).play();
 	}
 
 	function prev() {
 		isLoading = true;
 		if (imgElement) imgElement.src = ""; // Clear the current image
 		$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
+		new Howl({ src: ["/sounds/short_click.webm"] }).play();
 	}
 
 	onMount(() => {
@@ -93,7 +96,7 @@
 				src={images[$currentCarouselIndex]}
 				alt=" "
 				bind:this={imgElement}
-				onload={() => isLoading = false}
+				onload={() => (isLoading = false)}
 				onclick={() => {
 					imageFit = !imageFit;
 				}}
@@ -105,7 +108,9 @@
 				}}
 				tabindex="0"
 				role="button"
-				class="absolute h-full w-full {imageFit ? 'object-contain' : 'object-cover'} z-10 cursor-crosshair rounded-lg transition ease-in-out {isLoading ? "opacity-0" : ""}"
+				class="absolute h-full w-full {imageFit
+					? 'object-contain'
+					: 'object-cover'} z-10 cursor-crosshair rounded-lg transition ease-in-out {isLoading ? 'opacity-0' : ''}"
 			/>
 			<p
 				class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 text-center text-wrap flex flex-wrap justify-center items-center bg-white z-[9]"

@@ -13,7 +13,7 @@
 
 <content class="flex items-center justify-center h-full overflow-y-visible">
 	<div class="-mt-12 flex justify-center items-center flex-col">
-		<h1 class="text-8xl font-bold text-orange mb-6 text-center">Game Over!</h1>
+		<h1 class="text-8xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">Game Over!</h1>
 		<p class="text-base mb-16 text-center w-4/5">
 			You were able to get <span class="text-green font-bold">{$score}</span>
 			correct guess{$score <= 1 ? "" : "es"}! Your previous personal best was

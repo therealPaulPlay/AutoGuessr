@@ -1,4 +1,6 @@
 <script>
+	import { Howl } from "howler";
+
 	let {
 		color = "var(--default-button)",
 		bgcolor = "var(--default-button-dark)",
@@ -53,7 +55,10 @@
 		ontouchstart={pressButtonDown}
 		ontouchend={shiftButtonUp}
 		ontouchcancel={shiftButtonUp}
-		{onclick}
+		onclick={() => {
+			new Howl({ src: ["/sounds/button_click.webm"] }).play();
+			onclick?.();
+		}}
 	>
 		{@render children?.()}
 	</button>

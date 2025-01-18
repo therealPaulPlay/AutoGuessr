@@ -1,8 +1,14 @@
 <script>
+	import { Howl } from "howler";
 </script>
 
 <label class="switch">
-	<input type="checkbox" />
+	<input
+		type="checkbox"
+		onchange={() => {
+			new Howl({ src: ["/sounds/short_click.webm"] }).play();
+		}}
+	/>
 	<span class="switch-slider rounded-xl"></span>
 </label>
 
@@ -10,7 +16,7 @@
 	.switch {
 		position: relative;
 		width: 68px;
-        height: 42px;
+		height: 42px;
 	}
 
 	/* Hide default HTML checkbox */
@@ -44,7 +50,7 @@
 		transition: 0.25s;
 		background-color: var(--default-button);
 		border-radius: 0.45rem;
-        z-index: 2;
+		z-index: 2;
 	}
 
 	.switch-slider::after {
@@ -55,7 +61,7 @@
 		top: 6px;
 		width: 30px;
 		height: 30px;
-        transition: 0.25s;
+		transition: 0.25s;
 		background-color: var(--default-button-dark);
 		border-radius: 0.45rem;
 	}

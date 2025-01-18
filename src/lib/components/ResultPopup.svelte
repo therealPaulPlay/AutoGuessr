@@ -9,6 +9,8 @@
 	import { guessResult, question } from "$lib/stores/gameStore";
 	import { percentageDifference, goToNextQuestion, pointCalculation } from "$lib/utils/gameFunctions";
 	import { onMount } from "svelte";
+	import { isAuthenticated } from "$lib/stores/accountStore";
+	import { playClickingSound } from "$lib/utils/playClickingSound";
 
 	let showNext = $state(false);
 
@@ -20,6 +22,8 @@
 			showNextTimeout = setTimeout(() => {
 				showNext = true;
 			}, 2500);
+
+			setTimeout(playClickingSound, 2250);
 		} else {
 			showNext = false;
 		}
@@ -44,7 +48,11 @@
 					<span class="text-orange font-semibold">{percentageDifference().toFixed(2)}% off.</span>
 				</p>
 				<div in:slide={{ delay: 1500 }} class="text-black text-base text-center flex">
-					You get <span class="text-green font-semibold">&nbsp;{pointCalculation(true)} experience.</span>
+					{#if $isAuthenticated}
+						<p>You get <span class="text-green font-semibold">{pointCalculation(true)} experience.</span></p>
+					{:else}
+						<p>Sign in to earn <span class="text-green font-semibold">experience.</span></p>
+					{/if}
 				</div>
 			</div>
 			<div class="w-full h-14 mt-14">

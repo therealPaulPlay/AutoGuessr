@@ -195,7 +195,7 @@
 			<div class="text-orange font-semibold text-base">
 				${answer.toLocaleString()}
 			</div>
-			<img src="/assets/svg/simple arrow.svg" alt="Arrow" class="w-3.5 h-3.5 -rotate-90" />
+			<img src="/assets/svg/simple_arrow.svg" alt="Arrow" class="w-3.5 h-3.5 -rotate-90" />
 		</div>
 	{/if}
 	{#if showGuessPrice && guessBar}
@@ -208,7 +208,7 @@
 			<div class="text-black font-semibold text-base">
 				${guess.toLocaleString()}
 			</div>
-			<img src="/assets/svg/simple arrow black.svg" alt="Arrow" class="w-3.5 h-3.5 -rotate-90" />
+			<img src="/assets/svg/simple_arrow_black.svg" alt="Arrow" class="w-3.5 h-3.5 -rotate-90" />
 		</div>
 	{/if}
 </div>
