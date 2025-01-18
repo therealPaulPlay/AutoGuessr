@@ -22,7 +22,8 @@
 	import HowToPlayPopup from "$lib/components/HowToPlayPopup.svelte";
 	import ErrorPopup from "$lib/components/ErrorPopup.svelte";
 	import ResultPopup from "$lib/components/ResultPopup.svelte";
-	import { Howl } from "howler";
+	import { Howl, Howler } from "howler";
+	import { gameVolume } from "$lib/stores/gameStore";
 
 	let { children } = $props();
 
@@ -39,6 +40,12 @@
 	// Authenticate
 	onMount(() => {
 		checkAuthenticationStatus();
+	});
+
+	// Load saved volume from localStorage or set to default (50%)
+	onMount(() => {
+		gameVolume.set(parseInt(localStorage.getItem("autoguessr_volume") || "75", 10));
+		Howler.volume($gameVolume / 100); // Apply the volume globally to Howler
 	});
 </script>
 

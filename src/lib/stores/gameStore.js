@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 
 // Universal
+export const gameVolume = writable(75);
 export const difficulty = writable(1);
 export const difficultyRules = writable({
     1: {
