@@ -7,6 +7,7 @@
 	import { goto } from "$app/navigation";
 	import { gameVolume } from "$lib/stores/gameStore";
 	import { Howler } from "howler"; // Import Howler
+	import { music } from "$lib/stores/gameStore";
 
 	// Update volume in both Howler and localStorage
 	function updateVolume(event) {
@@ -46,7 +47,7 @@
 				<div class="flex items-center gap-10 justify-between">
 					<label for="music" class="text-base font-semibold">Music</label>
 					<div class="w-1/2 flex h-fit items-center">
-						<Toggle />
+						<Toggle bind:checked={$music} />
 					</div>
 				</div>
 

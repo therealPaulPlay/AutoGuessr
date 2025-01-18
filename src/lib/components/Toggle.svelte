@@ -1,12 +1,16 @@
 <script>
 	import { Howl } from "howler";
+	let { checked = $bindable() } = $props();
+	import { music } from "$lib/stores/gameStore";
 </script>
 
 <label class="switch">
 	<input
 		type="checkbox"
+		bind:checked={checked}
 		onchange={() => {
 			new Howl({ src: ["/sounds/short_click.webm"] }).play();
+			console.log($music);
 		}}
 	/>
 	<span class="switch-slider rounded-xl"></span>

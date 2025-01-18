@@ -14,15 +14,15 @@
 	let isLoading = $state(true);
 
 	function next() {
-		isLoading = true;
-		if (imgElement) imgElement.src = ""; // Clear the current image
+		if (images.length > 1) isLoading = true;
+		if (imgElement && images.length > 1) imgElement.src = ""; // Clear the current image (if more than one image - otherwise the current will be cleared)
 		$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
 		new Howl({ src: ["/sounds/short_click.webm"] }).play();
 	}
 
 	function prev() {
-		isLoading = true;
-		if (imgElement) imgElement.src = ""; // Clear the current image
+		if (images.length > 1) isLoading = true;
+		if (imgElement && images.length > 1) imgElement.src = ""; // Clear the current image
 		$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
 		new Howl({ src: ["/sounds/short_click.webm"] }).play();
 	}
@@ -146,7 +146,7 @@
 						rel="noopener noreferrer"
 						class="text-lg underline"
 					>
-						Visit the vendor's website
+						Visit the seller's website
 					</a>
 				{/if}
 

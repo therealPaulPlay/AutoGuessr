@@ -23,7 +23,7 @@
 	import ErrorPopup from "$lib/components/ErrorPopup.svelte";
 	import ResultPopup from "$lib/components/ResultPopup.svelte";
 	import { Howl, Howler } from "howler";
-	import { gameVolume } from "$lib/stores/gameStore";
+	import { gameVolume, music } from "$lib/stores/gameStore";
 
 	let { children } = $props();
 
@@ -42,10 +42,22 @@
 		checkAuthenticationStatus();
 	});
 
-	// Load saved volume from localStorage or set to default (50%)
+	// Sounds and Music
 	onMount(() => {
 		gameVolume.set(parseInt(localStorage.getItem("autoguessr_volume") || "75", 10));
 		Howler.volume($gameVolume / 100); // Apply the volume globally to Howler
+		const storedValue = localStorage.getItem("autoguessr_music");
+		music.set(Boolean(Number(storedValue)));
+		const backgroundMusic = new Howl({
+			src: ["/music/west_coast_music.mp3"], // Path to your music file
+			loop: true, // Enable looping
+			volume: 0.15, // Default volume
+		});
+
+		$effect(() => {
+			$music ? backgroundMusic.play() : backgroundMusic.pause();
+			localStorage.setItem("autoguessr_music", $music ? "1" : "0");
+		});
 	});
 </script>
 
