@@ -18,7 +18,7 @@
 		if (window.innerWidth > 768 && window.innerWidth <= 1280) {
 			scaledSize = MIN_SIZE + (viewportSize - MIN_SIZE) * 0.5;
 		} else if (window.innerWidth <= 768) {
-		} else  if (window.innerWidth <= 1920) {
+		} else if (window.innerWidth <= 1920) {
 			scaledSize = MIN_SIZE + (viewportSize - MIN_SIZE) * 0.9;
 		} else {
 			scaledSize = MIN_SIZE + (viewportSize - MIN_SIZE) * 1;
@@ -44,7 +44,7 @@
 		scene.add(new THREE.AmbientLight(0xffffff, 2.5)); // Reduced ambient light intensity
 
 		// Add spotlight
-		const spotlight = new THREE.SpotLight(0xffffff, 6.5);
+		const spotlight = new THREE.SpotLight(0xffffff, 5);
 		spotlight.position.set(6, 3, 6);
 		spotlight.lookAt(4, -3, -2);
 		spotlight.decay = 1;
@@ -53,6 +53,13 @@
 		spotlight.shadow.mapSize.width = 1024;
 		spotlight.shadow.mapSize.height = 1024;
 		scene.add(spotlight);
+
+		// Add keylight
+		const keyLight = new THREE.SpotLight(0xffffff, 7);
+		keyLight.position.set(10, 1, 9);
+		keyLight.lookAt(4, -3, -2);
+		keyLight.decay = 1;
+		scene.add(keyLight);
 
 		// Add ground plane for shadow
 		const groundGeometry = new THREE.PlaneGeometry(50, 50);
@@ -162,10 +169,70 @@
 	});
 </script>
 
+<!-- Images background -->
+<div class="fixed left-0 right-0 bottom-0 top-0 z-[-1]">
+	<!-- large bg's -->
+	<img
+		class="absolute right-0 xl:-bottom-5 -bottom-52 max-xl:bottom-0 xl:w-[1500px] w-96 xl:h-96 h-76 w-[1000px] max-md:w-96 max-md:bottom-80"
+		src="/assets/img/grass.png"
+		alt="grass"
+	/>
+	<img
+		class="absolute right-2 -bottom-52 w-[1600px] h-96 opacity-75 max-xl:hidden"
+		src="/assets/img/stones.png"
+		alt="stone"
+	/>
+	<img
+		class="absolute min-[2200px]:right-[46rem] min-[1800px]:right-[23rem] lg:right-[10rem] right-0 min-[1921px]:bottom-64 min-[1800px]:bottom-40 bottom-32 xl:w-[1000px] md:w-[650px] w-[350px] xl:h-96 h-72 max-md:h-32 w-80 max-md:bottom-96"
+		src="/assets/img/fence.png"
+		alt="fence"
+	/>
+	<!-- tires -->
+	<img
+		class="absolute right-[98rem] min-[2200px]:right-[108rem] bottom-6 w-80 h-52"
+		src="/assets/img/tire_ground.png"
+		alt="tire"
+	/>
+	<img
+		class="absolute right-[85rem] min-[2200px]:right-[95rem] -bottom-5 w-96 h-72"
+		src="/assets/img/tire_grass.png"
+		alt="tire"
+	/>
+	<img
+		class="absolute right-[86rem] min-[2200px]:right-[96rem] bottom-12 w-80 h-80"
+		src="/assets/img/tire_leaning.png"
+		alt="tire"
+	/>
+	<!-- tools -->
+	<img
+		class="absolute right-[79rem] min-[2200px]:right-[89rem] opacity-75 bottom-24 w-38 h-28"
+		src="/assets/img/toolbox.png"
+		alt="tool"
+	/>
+	<img class="absolute right-[60rem] bottom-3 w-18 h-15" src="/assets/img/tool.png" alt="tool" />
+</div>
+
+<!-- Canvas Container for 3d model -->
 <div
 	bind:this={container}
 	class="fixed bottom-0 max-w-screen max-h-screen bg-transparent max-md:mb-[21rem] max-xl:mb-[2rem] md:right-0 max-md:mr-2 right-1/2 translate-x-1/2 md:translate-x-0 z-[0]"
 ></div>
+
+<!-- Images Foreground -->
+<div class="fixed left-0 right-0 bottom-0 top-0">
+	<img
+		class="absolute right-2 bottom-[10%] xl:w-72 xl:h-72 w-44 h-44 max-xl:hidden"
+		src="/assets/img/long_grass_right.png"
+		alt="grass"
+	/>
+	<img
+		class="absolute xl:right-96 right-52 -bottom-8 xl:w-64 xl:h-64 w-36 h-36 min-[1921px]:w-72 min-[1921px]:h-72 max-md:bottom-80 max-md:w-20 max-md:h-20"
+		src="/assets/img/small_plant.png"
+		alt="grass"
+	/>
+</div>
+
+<!-- Gradient -->
 <div
-	class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-defaultShadowDark to-transparent z-[-1] opacity-90"
+	class="fixed bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-defaultShadowDark to-transparent z-[-2] opacity-90"
 ></div>
