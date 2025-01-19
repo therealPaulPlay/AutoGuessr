@@ -66,7 +66,6 @@ function isTokenExpired(token) {
         const expired = Date.now() >= exp * 1000;
         return expired;
     } catch {
-        expired = false;
-        return expired;
+        return false;
     }
 }
