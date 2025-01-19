@@ -6,8 +6,8 @@
 </script>
 
 {#if $howToPlayPopup}
-	<Popup title="" tall={true} closeFunction={() => ($howToPlayPopup = false)}>
-		<div class="w-full text-green flex justify-center text-5xl font-bold -mt-12 mb-12">How to play</div>
+	<Popup tall={true} closeFunction={() => ($howToPlayPopup = false)}>
+		<div class="w-full text-green flex justify-center text-5xl font-bold mb-12">How to play</div>
 		<div class="h-full max-h-[50dvh] overflow-auto">
 			<h1 class="text-3xl font-bold mb-4">Guess the price</h1>
 			<p class="text-base">

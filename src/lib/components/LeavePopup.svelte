@@ -6,7 +6,7 @@
 </script>
 
 {#if $leavePopup}
-    <Popup title="" showCloseButton={false} small={true}>
+    <Popup showCloseButton={false} small={true}>
         <div class="flex flex-col items-center h-full justify-evenly">
             <p
                 class="text-black

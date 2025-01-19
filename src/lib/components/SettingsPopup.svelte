@@ -1,5 +1,5 @@
 <script>
-	import { settingsPopup } from "$lib/stores/uiStore";
+	import { creditsPopup, settingsPopup } from "$lib/stores/uiStore";
 	import Popup from "./Popup.svelte";
 	import Toggle from "./Toggle.svelte";
 	import Button from "./Button.svelte";
@@ -20,13 +20,12 @@
 {#if $settingsPopup}
 	<Popup
 		title="Settings"
-		small={true}
 		closeFunction={() => {
 			settingsPopup.set(false);
 		}}
 	>
-		<div class="flex h-full items-end mt-20">
-			<div class="h-4/6 w-full p-4 flex flex-col gap-5">
+		<div class="overflow-y-auto max-h-[50dvh]">
+			<div class="h-4/6 w-full p-4 flex flex-col gap-5 max-h-4/6">
 				<!-- Volume Slider -->
 				<div class="flex items-center gap-10 justify-between">
 					<label for="volume-slider" class="text-base font-semibold">Volume</label>
@@ -72,7 +71,6 @@
 						</Button>
 					</div>
 				</div>
-
 				<!-- Legal Information -->
 				<div class="flex items-center gap-10 justify-between">
 					<label for="legal-info" class="text-base font-semibold">Legal information</label>
@@ -82,6 +80,18 @@
 								goto("/legal");
 								settingsPopup.set(false);
 							}}>Read <ExternalLink size={20} strokeWidth={2.5} class="ml-1" /></Button
+						>
+					</div>
+				</div>
+				<!-- Credits -->
+				<div class="flex items-center gap-10 justify-between">
+					<label for="legal-info" class="text-base font-semibold">Credits</label>
+					<div class="w-1/2 flex">
+						<Button
+							onclick={() => {
+								settingsPopup.set(false);
+								creditsPopup.set(true);
+							}}>View <ExternalLink size={20} strokeWidth={2.5} class="ml-1" /></Button
 						>
 					</div>
 				</div>
