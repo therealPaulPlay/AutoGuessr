@@ -210,6 +210,9 @@
 		alt="tool"
 	/>
 	<img class="absolute right-[60rem] bottom-3 w-18 h-15" src="/assets/img/tool.png" alt="tool" />
+	<!-- Clouds -->
+	<img class="absolute min-[2200px]:right-[10rem] xl:right-8 min-[2200px]:top-[10rem] xl:top-28 min-[2200px]:w-[30rem] w-[26rem] h-52 opacity-75 max-xl:hidden" src="/assets/img/big_cloud.png" alt="cloud" />
+	<img class="absolute -right-20 xl:top-96 w-80 h-40 opacity-85 max-xl:hidden" src="/assets/img/small_cloud.png" alt="cloud" />
 </div>
 
 <!-- Canvas Container for 3d model -->

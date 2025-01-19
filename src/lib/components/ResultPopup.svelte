@@ -37,15 +37,15 @@
 				<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="h-24 flex content-end" />
 			</div>
 		{/if}
-		<div class="h-full flex flex-col justify-evenly items-center">
-			<div class="flex flex-col items-center">
-				<p in:fly={{ y: -50, delay: 500 }} class="font-bold text-green text-7xl mb-5 text-center">
+		<div class="h-full max-w-full flex flex-col justify-evenly items-center">
+			<div class="flex flex-col items-center overflow-hidden">
+				<p in:fly={{ y: -50, delay: 500 }} class="font-bold text-green text-7xl text-nowrap max-md:text-3xl mb-5 text-center">
 					{$popupMessage}
 				</p>
-				<p class="text-black text-base text-center" in:fly={{ y: -50, delay: 500 }}>
+				<p class="text-black text-base text-center text-wrap w-full px-2" in:fly={{ y: -50, delay: 500 }}>
 					Your guess of <span class="text-orange font-semibold">${$guessResult.toLocaleString()}</span>
-					was
-					<span class="text-orange font-semibold">{percentageDifference().toFixed(2)}% off.</span>
+					was off by 
+					<span class="text-orange font-semibold">{percentageDifference().toFixed(2)}%</span>.
 				</p>
 				<div in:slide={{ delay: 1500 }} class="text-black text-base text-center flex">
 					{#if $isAuthenticated}
