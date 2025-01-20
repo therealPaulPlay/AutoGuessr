@@ -50,8 +50,8 @@
 		spotlight.decay = 1;
 		spotlight.distance = 50;
 		spotlight.castShadow = true;
-		spotlight.shadow.mapSize.width = 1024;
-		spotlight.shadow.mapSize.height = 1024;
+		spotlight.shadow.mapSize.width = 4096;
+		spotlight.shadow.mapSize.height = 4096;
 		scene.add(spotlight);
 
 		// Add keylight
@@ -173,7 +173,7 @@
 <div class="fixed left-0 right-0 bottom-0 top-0 z-[-1]">
 	<!-- large bg's -->
 	<img
-		class="absolute right-0 xl:-bottom-5 -bottom-52 max-xl:bottom-0 xl:w-[1500px] w-96 xl:h-96 h-76 w-[1000px] max-md:w-96 max-md:bottom-80"
+		class="absolute right-0 xl:-bottom-5 -bottom-52 max-xl:bottom-0 xl:w-[1500px] xl:h-96 h-76 w-[1000px] max-md:w-96 max-md:bottom-80"
 		src="/assets/img/grass.png"
 		alt="grass"
 	/>
@@ -183,7 +183,7 @@
 		alt="stone"
 	/>
 	<img
-		class="absolute min-[2200px]:right-[46rem] min-[1800px]:right-[23rem] lg:right-[10rem] right-0 min-[1921px]:bottom-64 min-[1800px]:bottom-40 bottom-32 xl:w-[1000px] md:w-[650px] w-[350px] xl:h-96 h-72 max-md:h-32 w-80 max-md:bottom-96"
+		class="absolute min-[2200px]:right-[46rem] min-[1800px]:right-[23rem] lg:right-[10rem] right-0 min-[1921px]:bottom-64 min-[1800px]:bottom-40 bottom-32 xl:w-[1000px] md:w-[650px] w-[350px] xl:h-96 h-72 max-md:h-32 max-md:bottom-96"
 		src="/assets/img/fence.png"
 		alt="fence"
 	/>
