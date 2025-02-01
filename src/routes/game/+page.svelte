@@ -114,11 +114,11 @@
 		if ($blinkingFlag) {
 			clearInterval(blinkInterval);
 			blinkInterval = setInterval(() => {
-				$livesImage = $livesImage == 3 ? 0 : 3; // Toggle between on and off
+				livesImage.set($livesImage == 3 ? 0 : 3); // Toggle between on and off
 			}, 1000);
 		} else {
 			clearInterval(blinkInterval);
-			$livesImage = $lives;
+			livesImage.set($lives);
 		}
 	});
 
