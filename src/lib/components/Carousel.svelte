@@ -32,37 +32,39 @@
 	});
 
 	function imageZoom() {
-		var img = imgElement;
-		var result = zoomResult;
+		// Wait for the image to load to get accurate dimensions
+		imgElement.onload = () => {
+			updateZoomDimensions();
+		};
 
-		// Set the zoomResult's background to show the image
-		result.style.backgroundImage = `url(${img.src})`;
-		result.style.backgroundSize = img.width * 2 + "px " + img.height * 2 + "px";
-
-		img.addEventListener("mousemove", updateZoom);
-		img.addEventListener("mouseleave", () => {
-			showZoom = false;
+		imgElement.addEventListener("mousemove", updateZoom);
+		imgElement.addEventListener("mouseleave", () => {
+			zoomResult.style.backgroundPosition = "center";
 		});
 
-		function updateZoom(e) {
-			var pos = getCursorPos(e); // Get the cursor's position relative to the image
-
-			// Calculate the percentage position of the cursor on the image
-			var xPercent = (pos.x / img.width) * 100;
-			var yPercent = (pos.y / img.height) * 100;
-			// Set the background position of the zoomResult
-			result.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
+		function updateZoomDimensions() {
+			const rect = imgElement.getBoundingClientRect();
+			zoomResult.style.backgroundImage = `url(${imgElement.src})`;
+			zoomResult.style.backgroundSize = rect.width * 2 + "px " + rect.height * 2 + "px";
 		}
 
-		function getCursorPos(e) {
-			var a,
-				x = 0,
-				y = 0;
-			e = e || window.event;
-			a = img.getBoundingClientRect();
-			x = e.pageX - a.left - window.pageXOffset;
-			y = e.pageY - a.top - window.pageYOffset;
-			return { x: x, y: y };
+		function updateZoom(e) {
+			const rect = imgElement.getBoundingClientRect();
+			const pos = getCursorPos(e, rect);
+			console.log(pos);
+
+			// Calculate the percentage position of the cursor on the image
+			const xPercent = (pos.x / rect.width) * 100;
+			const yPercent = (pos.y / rect.height) * 100;
+
+			// Set the background position of the zoomResult
+			zoomResult.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
+		}
+
+		function getCursorPos(e, rect) {
+			const x = e.clientX - rect.left;
+			const y = e.clientY - rect.top;
+			return { x, y };
 		}
 	}
 
