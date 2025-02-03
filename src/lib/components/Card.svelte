@@ -4,8 +4,6 @@
 
 	let { name = "N/A", HP = 0, price = 0, etype = "N/A", date = "N/A", rarity = "common", image = "" } = $props();
 
-	// let componentWidth = $state();
-	// let w = $derived(componentWidth * scaleFactor);
 	let w = $state();
 	let h = $state();
 	let titleSize = $derived(0.1 * w);
@@ -47,6 +45,12 @@
 		}
 		return null; // No space found at all
 	});
+
+	function formatPrice(price) {
+		if (price < 100_000) return price.toLocaleString();
+		if (price < 1_000_000) return `${(price / 1_000).toFixed(1)}K`;
+		return `${(price / 1_000_000).toFixed(1)}M`;
+	}
 </script>
 
 <div class="w-full h-full relative" bind:clientWidth={w} bind:clientHeight={h}>
@@ -91,7 +95,7 @@
 				{HP} HP
 			</p>
 			<p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">
-				${price.toLocaleString()}
+				${formatPrice(price)}
 			</p>
 			<p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">
 				{etype}
