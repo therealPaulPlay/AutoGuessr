@@ -10,17 +10,11 @@
 	gsap.registerPlugin(Flip);
 	import { score } from "$lib/stores/gameStore";
 	import { goto } from "$app/navigation";
+	import { cardDraw } from "$lib/utils/cardDraw";
 
-	let cardInfo = {
-		name: "TestName 1",
-		HP: 400,
-		price: 45000,
-		etype: "V10",
-		date: "2024",
-		rarity: "mystical",
-		image: "/assets/img/example/cardcar.png",
-	};
+	let cardInfo = $state();
 
+	let scrollContainer = $state();
 	let cardWidth = $state();
 	let containerWidth = $state();
 	let windowWidth = $state();
@@ -35,7 +29,8 @@
 	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
 	let rarityBonusValue = Math.pow($score, 2);
 
-	let rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
+	let rarities = $state(null);
+	let mainCard = $state();
 
 	function getRarityWithBonus(bonusValue, cardPositionIndex, cardInfo, raritiesSize) {
 		// Cap the bonus value between 0 and 100
@@ -105,16 +100,16 @@
 
 	function scrollToEnd() {
 		if (disableRollButton) return;
-		const container = document.querySelector(".scroll-container");
 
 		// 1. Scroll the container all the way to the left (the right side of the container is on the left side of the screen)
 		// 2. Move the container to the right by the half width of the screen
 		// 3. Move the container to the right by the half width of the card
 		// 4. For any addtional cards on the right, move the container to the right by the width of the card and add 8px for the gap (gap-2 in Tailwindcss)
 		disableRollButton = true;
+		// TODO: Simplify. Maybe scroll to the card instead of calculating the position?
 		gsap
-			.to(container, {
-				x: -(container.scrollWidth - windowWidth / 2 - cardWidth / 2 - cardsOnRight * (cardWidth + 8)),
+			.to(scrollContainer, {
+				x: -(scrollContainer.scrollWidth - windowWidth / 2 - cardWidth / 2 - cardsOnRight * (cardWidth + 8)),
 				duration: 4,
 				ease: "power2.inOut",
 			})
@@ -136,8 +131,7 @@
 	}
 
 	function initialCenterCards() {
-		const container = document.querySelector(".scroll-container");
-		gsap.to(container, {
+		gsap.to(scrollContainer, {
 			x: windowWidth / 2 - cardWidth / 2,
 			duration: 0.5,
 			ease: "power2.inOut",
@@ -145,7 +139,14 @@
 	}
 
 	onMount(() => {
-		initialCenterCards();
+		cardInfo = cardDraw();
+		rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
+	});
+
+	$effect(() => {
+		if (cardWidth > 1) {
+			initialCenterCards();
+		}
 	});
 
 	let resizeTimeout;
@@ -172,11 +173,15 @@
 			<img src="/assets/svg/arrow.svg" alt="Arrow" class="w-8 h-8 -rotate-90" />
 		</div>
 		<div class="fade-mask w-full">
-			<div bind:clientWidth={containerWidth} class="flex flex-row items-center w-fit scroll-container gap-2 my-5">
+			<div
+				bind:clientWidth={containerWidth}
+				bind:this={scrollContainer}
+				class="flex flex-row items-center w-fit scroll-container gap-2 my-5"
+			>
 				{#each rarities as rarity, i}
 					{#if i === cardPositionIndex}
 						<div
-							bind:clientWidth={cardWidth}
+							bind:this={mainCard}
 							class="flex-shrink-0 z-10 transition-all duration-700 w-fit relative [transform-style:preserve-3d] h-96"
 							class:flip-it={showCardBack}
 							style:width="{cardWidth}px"
