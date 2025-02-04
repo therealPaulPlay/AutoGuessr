@@ -1,7 +1,7 @@
-import { cars } from "$lib/stores/carsStore";
+import { carsList } from "$lib/stores/carsStore";
 import { get } from "svelte/store";
 
-let carsList = get(cars);
+let list = get(carsList);
 
 function getRarity() {
   const rarity = Math.floor(Math.random() * 100) + 1;
@@ -17,7 +17,7 @@ function getRarity() {
 }
 
 function getAllRarityCars(rarity) {
-  return carsList.filter((car) => car.rarity === rarity);
+  return list.filter((car) => car.rarity === rarity);
 }
 
 function getRandomCar(rarity) {

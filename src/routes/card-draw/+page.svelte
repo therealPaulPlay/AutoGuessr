@@ -11,6 +11,7 @@
 	import { score } from "$lib/stores/gameStore";
 	import { goto } from "$app/navigation";
 	import { cardDraw } from "$lib/utils/cardDraw";
+	import { saveAutocard } from "$lib/utils/handleAutocards";
 
 	let cardInfo = $state();
 
@@ -140,6 +141,14 @@
 
 	onMount(() => {
 		cardInfo = cardDraw();
+		if (cardInfo) {
+			if (saveAutocard(cardInfo)) {
+				console.log("Card saved");
+			}
+			else {
+				console.log("Card already exists");
+			}
+		}
 		rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
 	});
 

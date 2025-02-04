@@ -2,9 +2,13 @@
 	import { onMount, onDestroy } from "svelte";
 	import Card from "$lib/components/Card.svelte";
 	import { windowWidth } from "$lib/stores/uiStore";
-	import { cars } from "$lib/stores/carsStore";
+	import { carsList } from "$lib/stores/carsStore";
+	import { userCars } from "$lib/stores/accountStore";
+	import { get } from "svelte/store";
+	import { updateAutocardsList } from "$lib/utils/handleAutocards";
 
-	let cards = $cars;
+	updateAutocardsList();
+	let cards = $userCars;
 
 	let selectedCard = $state(0);
 	let windowHeight = $state();

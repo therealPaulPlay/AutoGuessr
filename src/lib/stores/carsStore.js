@@ -1,6 +1,6 @@
 import { readable } from "svelte/store";
 
-export const cars = readable([
+export const carsList = readable([
     // Common Cars
     {
         name: "Ford Focus ST",
