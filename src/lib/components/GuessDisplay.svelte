@@ -154,7 +154,6 @@
 		<div
 			class="absolute z-20 flex bottom-0 justify-center w-3.5 h-full bg-orange overflow-visible outline outline-3 outline-white"
 			style:left="{answerBarPos}px"
-			class:pinpoint={pinpointFlag}
 			bind:this={answerBar}
 		></div>
 		<div
