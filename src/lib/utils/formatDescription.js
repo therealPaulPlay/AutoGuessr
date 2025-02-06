@@ -74,7 +74,7 @@ export function formatSellerDescription(text) {
     }
 
     html += '<div class="features-section">';
-    html += '<strong style="font-size: 1.5em; ">Key Features</strong>';
+    html += '<strong style="font-size: 1.3em; ">Key Features</strong>';
 
     // Add categorized features with increased spacing
     for (const [category, categoryFeatures] of Object.entries(categorizedFeatures)) {
@@ -101,7 +101,7 @@ export function formatSellerDescription(text) {
     if (sections[1]) {
         html += `
         <div class="dealer-info" style="margin: 2em 0;">
-          <h3 style="font-size: 1.2em; margin-bottom: 0.5rem;">
+          <h3 style="font-size: 1.3em; margin-bottom: 0.5rem;">
             <strong>Dealer Information</strong>
           </h3>
           <p style="line-height: 1.6;">

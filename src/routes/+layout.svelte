@@ -9,7 +9,7 @@
 	import { settingsPopup, signupPopup, accountPopup, leavePopup } from "$lib/stores/uiStore";
 	import { displayError } from "$lib/utils/displayError";
 	import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
-	import { User, TriangleAlert, Scan } from "lucide-svelte";
+	import { User, TriangleAlert, Scan, UserPlus } from "lucide-svelte";
 	import { onMount } from "svelte";
 	import SignupPopup from "$lib/components/signupPopup.svelte";
 	import AccountPopup from "$lib/components/AccountPopup.svelte";
@@ -48,7 +48,7 @@
 		gameVolume.set(parseInt(localStorage.getItem("autoguessr_volume") || "75", 10));
 		Howler.volume($gameVolume / 100); // Apply the volume globally to Howler
 		const storedValue = localStorage.getItem("autoguessr_music");
-		music.set(Boolean(Number(storedValue)));
+		music.set(!Boolean(storedValue));
 		const backgroundMusic = new Howl({
 			src: ["/music/west_coast_music.mp3"], // Path to your music file
 			loop: true, // Enable looping
@@ -57,17 +57,24 @@
 
 		$effect(() => {
 			$music ? backgroundMusic.play() : backgroundMusic.pause();
-			localStorage.setItem("autoguessr_music", $music ? "1" : "0");
+			if (!$music) localStorage.setItem("autoguessr_music", "off");
+			if ($music) localStorage.removeItem("autoguessr_music");
 		});
 	});
 </script>
 
-<nav class="fixed left-0 right-0 flex flex-row justify-between p-4 items-center z-20 transition max-sm:bg-white">
+<nav
+	class="fixed left-0 right-0 flex flex-row justify-between p-4 items-center z-20 transition {$page.url.pathname !== '/'
+		? 'max-sm:bg-white'
+		: ''}"
+>
 	<div>
 		{#if $page.url.pathname != "/"}
 			<button class="w-10 h-10 transition active:scale-90" onclick={HandleBackButton}>
 				<img src="{base}/assets/svg/point_arrow.svg" alt="Back" />
 			</button>
+		{:else}
+			<img src="/android-chrome-512x512.png" class="w-10 h-10 md:hidden" alt="logo mobile" />
 		{/if}
 	</div>
 	<!-- Right side -->
@@ -90,10 +97,10 @@
 				</div>
 			{:else}
 				<Button
-					buttonWidth="8rem"
+					buttonWidth="3.25rem"
 					onclick={() => {
 						signupPopup.set(true);
-					}}><span class="text-white text-xl font-medium">Sign up</span></Button
+					}}><span class="text-white text-xl font-medium"><UserPlus strokeWidth={2.5} /></span></Button
 				>
 			{/if}
 		</div>
@@ -101,7 +108,6 @@
 			<Button
 				color="var(--default-button)"
 				bgcolor="var(--default-button-dark)"
-				shadowHeight="0.3rem"
 				buttonHeight="3.25rem"
 				buttonWidth="3.25rem"
 				onclick={() => settingsPopup.set(true)}
@@ -112,7 +118,7 @@
 	</div>
 </nav>
 
-<main class="pt-[calc(4rem+7dvh)] fixed top-0 bottom-0 right-0 left-0 bg-tanLight overflow-hidden overflow-y-auto">
+<main class="pt-[calc(4rem+7dvh)] fixed top-0 bottom-0 right-0 left-0 bg-tanLight overflow-auto">
 	{@render children?.()}
 </main>
 
