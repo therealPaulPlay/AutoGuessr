@@ -7,8 +7,10 @@
 	import { get } from "svelte/store";
 	import { updateAutocardsList } from "$lib/utils/handleAutocards";
 
+	let MAX_CARDS_FILL = 25;
+
 	onMount(updateAutocardsList);
-	let cards = $userCars;
+	let cards = $state([]);
 
 	let selectedCard = $state(0);
 	let windowHeight = $state();
@@ -50,6 +52,16 @@
 		container.scrollLeft += event.deltaY;
 	}
 
+	function generateCards() {
+		let currentLength = cards.length;
+		let fillLength = MAX_CARDS_FILL - currentLength;
+		fillLength = fillLength > 0 ? fillLength : 0; // Prevent negative fillLength
+
+		for (let i = 0; i < fillLength; i++) {
+			cards.push({ rarity: "locked" });
+		}
+	}
+
 	onMount(() => {
 		if (container) {
 			container.addEventListener("wheel", handleWheel, { passive: false });
@@ -58,6 +70,11 @@
 			let lastCard = document.getElementById(`card_${cards.length - 1}`);
 			if (lastCard) lastCard.style.marginRight = `${0.5 * $windowWidth - cardWidth / 2}px`;
 		}
+	});
+
+	onMount(() => {
+		cards = get(userCars);
+		generateCards();
 	});
 
 	onDestroy(() => {
