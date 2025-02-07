@@ -19,6 +19,7 @@
 		question,
 		guessResult,
 		totalCarAmount,
+		imgElement,
 	} from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
 	import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -127,6 +128,8 @@
 		lives.set(4);
 		score.set(0);
 		currentCarouselIndex.set(0);
+		const img = get(imgElement);
+		if (img) img.src = "";
 		$gameRounds = [];
 		clearInterval(blinkInterval);
 

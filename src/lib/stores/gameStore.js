@@ -26,6 +26,7 @@ export const guessResult = writable(0);
 
 // Carousel
 export const currentCarouselIndex = writable(0);
+export const imgElement = writable();
 
 // Car Data
 export const totalCarAmount = writable(0);

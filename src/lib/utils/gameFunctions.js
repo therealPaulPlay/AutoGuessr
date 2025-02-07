@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score } from "$lib/stores/gameStore";
+import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score, imgElement } from "$lib/stores/gameStore";
 import { resultPopup } from "$lib/stores/uiStore";
 import { penaltyFlag, rewardFlag } from "$lib/stores/resultPopupStore";
 import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -61,6 +61,8 @@ export function goToNextQuestion(saveHistory = true) {
     penaltyFlag.set(false);
     resultPopup.set(false);
     currentCarouselIndex.set(0);
+    const img = get(imgElement);
+    if (img) img.src = "";
 
     // Game over
     if (get(lives) <= 1) {

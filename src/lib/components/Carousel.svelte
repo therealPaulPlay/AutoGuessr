@@ -1,25 +1,19 @@
 <script>
 	import { onMount } from "svelte";
-	import { currentCarouselIndex } from "$lib/stores/gameStore";
+	import { currentCarouselIndex, imgElement } from "$lib/stores/gameStore";
 	import { Howl } from "howler";
 	import { formatSellerDescription } from "$lib/utils/formatDescription";
 	import MapDisplay from "./MapDisplay.svelte";
-
-	// Props
-	export let images = [];
-	export let description = "No description was provided.";
-	export let descriptionFlag = false;
+	let { images = [], description = "No description was provided.", descriptionFlag = false } = $props();
 
 	// References and state
-	let container; // the main container for sizing
-	let imgElement;
-	let isLoading = true;
-	let imageFit = false; // toggles object-fit between cover and contain
+	let container; // The main container for sizing
+	let imageFit = $state(false); // Toggles object-fit between cover and contain
 
 	// Zoom state
-	let scale = 1;
-	let translateX = 0;
-	let translateY = 0;
+	let scale = $state(1);
+	let translateX = $state(0);
+	let translateY = $state(0);
 	const MIN_SCALE = 1;
 	const MAX_SCALE = 3;
 
@@ -82,8 +76,7 @@
 	// Navigate Carousel ---
 	function next() {
 		if (images.length > 1) {
-			isLoading = true;
-			if (imgElement) imgElement.src = ""; // clear current image
+			if ($imgElement) $imgElement.src = ""; // clear current image
 			$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
 			new Howl({ src: ["/sounds/short_click.webm"] }).play();
 			resetZoom();
@@ -91,8 +84,7 @@
 	}
 	function prev() {
 		if (images.length > 1) {
-			isLoading = true;
-			if (imgElement) imgElement.src = "";
+			if ($imgElement) $imgElement.src = "";
 			$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
 			new Howl({ src: ["/sounds/short_click.webm"] }).play();
 			resetZoom();
@@ -132,9 +124,8 @@
 			<img
 				src={images[$currentCarouselIndex]}
 				alt=" "
-				bind:this={imgElement}
+				bind:this={$imgElement}
 				onload={() => {
-					isLoading = false;
 					resetZoom();
 					updateContainerSize();
 				}}
@@ -144,19 +135,15 @@
 				onwheel={handleWheel}
 				tabindex="0"
 				role="button"
-				class="absolute h-full w-full z-5 cursor-crosshair rounded-lg transition ease-in-out {isLoading
-					? 'opacity-0'
-					: ''} {imageFit ? 'object-contain' : 'object-cover'}"
+				class="absolute h-full w-full z-[5] cursor-crosshair rounded-lg transition ease-in-out {imageFit
+					? 'object-contain'
+					: 'object-cover'}"
 				style="transform: translate({translateX}px, {translateY}px) scale({scale});"
 			/>
 
-			{#if isLoading}
-				<p
-					class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center bg-white z-[9]"
-				>
-					Loading...
-				</p>
-			{/if}
+			<p class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-[4]">
+				Loading...
+			</p>
 		{:else}
 			<!-- Description view -->
 			<div class="h-full w-full overflow-auto p-5">
