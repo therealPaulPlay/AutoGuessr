@@ -24,7 +24,7 @@
 </svelte:head>
 
 <!-- Logo -->
-<div class="fixed mx-auto left-0 right-0 top-[20%] flex justify-center">
+<div class="fixed mx-auto left-0 right-0 top-[20%] flex justify-center max-md:hidden">
 	<img
 		class="w-[60vw] max-md:w-[80vw] max-w-[70rem] drop-shadow-[0px_10px_0px_rgba(237,209,182)] logo-animation"
 		src="/assets/svg/logo.svg"

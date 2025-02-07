@@ -57,6 +57,3 @@
         </div>
     </Popup>
 {/if}
-
-<style>
-</style>

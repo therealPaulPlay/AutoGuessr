@@ -7,7 +7,7 @@
 	import { get } from "svelte/store";
 	import { updateAutocardsList } from "$lib/utils/handleAutocards";
 
-	updateAutocardsList();
+	onMount(updateAutocardsList);
 	let cards = $userCars;
 
 	let selectedCard = $state(0);

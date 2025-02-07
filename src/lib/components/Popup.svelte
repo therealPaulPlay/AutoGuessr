@@ -22,7 +22,7 @@
 	transition:fade={{ duration: 150 }}
 >
 	<div
-		class="rounded-xl w-11/12 max-size relative {minimalPadding ? 'p-2' : 'p-8'} {small ? 'overflow-auto' : ''}"
+		class="rounded-xl w-[95%] max-size relative {minimalPadding ? 'p-2' : 'p-8'} {small ? 'overflow-auto' : ''}"
 		style:max-height={tall ? "1150px" : small ? "400px" : ""}
 		style:max-width={small ? "550px" : ""}
 		style:background-color={color}
@@ -30,7 +30,7 @@
 	>
 		{#if showCloseButton}
 			<div
-				class="absolute top-2 right-2 text-white z-10 border-8 border-white rounded-xl rounded-t-none rounded-r-none"
+				class="absolute top-[0.45rem] right-2 text-white z-10 border-8 border-white rounded-xl rounded-t-none rounded-r-none"
 				style:background-color={color}
 				style:border-color={color}
 			>

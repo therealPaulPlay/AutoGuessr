@@ -148,8 +148,8 @@
 	<title>Game</title>
 </svelte:head>
 
+<!-- main view with car images and stats -->
 <content class="flex w-full justify-center z-50">
-	<!-- main view with car images and stats -->
 	<div class="rounded-2xl w-full md:w-4/6 mx-2 max-md:mb-52">
 		<div class="flex w-1/2 gap-2 ml-4">
 			<!-- Images and About tabs -->
@@ -174,20 +174,18 @@
 				<span class="text-xl font-medium text-black">About</span>
 			</Tab>
 		</div>
-		<div class="flex flex-col w-full md:flex-row gap-5 min-h-[60dvh] md:max-h-[60dvh]">
-			<div class="md:w-2/3 w-full drop-shadow-[0_0.5rem_0_var(--default-shadow)] basis-4/6">
+		<div class="flex flex-col w-full md:flex-row gap-5 min-h-[60dvh] lg:max-h-[60dvh]">
+			<div class="md:w-2/3 w-full basis-4/6">
 				<Carousel images={$question.images} description={$question.description} {descriptionFlag} />
 			</div>
-			<div class="basis-2/6 min-w-64 overflow-auto drop-shadow-[0_0.5rem_0_var(--default-shadow)] rounded-2xl bg-white">
-				<div class="w-full flex flex-col h-full gap-2 p-2 overflow-auto">
-					{#each $question.stats as stat}
-						<Stat icon={stat.icon} text={stat.text} />
-					{/each}
-					<div class="flex flex-row items-center justify-center rounded-lg py-3 px-5 w-full mt-auto">
-						<p class="text-lg text-defaultShadowDark">
-							Data provided by <a class="underline text-orange" target="_blank" href="https://auto.dev">Auto.dev</a>
-						</p>
-					</div>
+			<div class="basis-2/6 min-w-64 rounded-2xl bg-white w-full flex flex-col min-h-full gap-2 p-2">
+				{#each $question.stats as stat}
+					<Stat icon={stat.icon} text={stat.text} />
+				{/each}
+				<div class="flex flex-row items-center justify-center rounded-lg py-3 px-5 w-full mt-auto">
+					<p class="text-lg text-defaultShadowDark">
+						Data provided by <a class="underline text-orange" target="_blank" href="https://auto.dev">Auto.dev</a>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -196,13 +194,13 @@
 
 <!-- Bottom UI -->
 <div
-	class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start"
+	class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start pointer-events-none z-20"
 >
 	<!-- Lives -->
-	<div class="lives relative z-[5]">
+	<div class="lives z-[1]">
 		<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="w-52 h-28 flex content-end" />
 	</div>
-	<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[8]" style:background-color="var(--default-shadow)">
+	<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[2] pointer-events-auto bg-defaultShadow">
 		<div class="flex grow gap-2.5 text-white">
 			<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={$guessResult} />
 			<Button

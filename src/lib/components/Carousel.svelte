@@ -1,132 +1,164 @@
 <script>
-	import { formatSellerDescription } from "$lib/utils/formatDescription";
 	import { onMount } from "svelte";
-	import { fade } from "svelte/transition";
 	import { currentCarouselIndex } from "$lib/stores/gameStore";
-	import MapDisplay from "./MapDisplay.svelte";
 	import { Howl } from "howler";
+	import { formatSellerDescription } from "$lib/utils/formatDescription";
+	import MapDisplay from "./MapDisplay.svelte";
 
-	let { images = [], description = "No desciption was provided.", descriptionFlag = false, children } = $props();
+	// Props
+	export let images = [];
+	export let description = "No description was provided.";
+	export let descriptionFlag = false;
 
-	let imgElement = $state();
-	let zoomResult = $state();
-	let showZoom = $state(false);
-	let isLoading = $state(true);
+	// References and state
+	let container; // the main container for sizing
+	let imgElement;
+	let isLoading = true;
+	let imageFit = false; // toggles object-fit between cover and contain
 
-	function next() {
-		if (images.length > 1) isLoading = true;
-		if (imgElement && images.length > 1) imgElement.src = ""; // Clear the current image (if more than one image - otherwise the current will be cleared)
-		$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
-		new Howl({ src: ["/sounds/short_click.webm"] }).play();
+	// Zoom state
+	let scale = 1;
+	let translateX = 0;
+	let translateY = 0;
+	const MIN_SCALE = 1;
+	const MAX_SCALE = 3;
+
+	// Store container dimensions for clamping translations.
+	let containerWidth = 0;
+	let containerHeight = 0;
+	function updateContainerSize() {
+		if (container) {
+			const rect = container.getBoundingClientRect();
+			containerWidth = rect.width;
+			containerHeight = rect.height;
+			clampTranslation();
+		}
 	}
 
+	// Ensure the image stays within the container.
+	function clampTranslation() {
+		// When scaled, the image is (scale * containerWidth) wide.
+		// At scale 1, there is no extra image visible.
+		// The extra width is containerWidth * (scale - 1) and should be divided equally on both sides.
+		const maxX = (containerWidth * (scale - 1)) / 2;
+		const maxY = (containerHeight * (scale - 1)) / 2;
+		if (translateX > maxX) translateX = maxX;
+		if (translateX < -maxX) translateX = -maxX;
+		if (translateY > maxY) translateY = maxY;
+		if (translateY < -maxY) translateY = -maxY;
+	}
+
+	// Reset zoom settings (called when the image loads or changes).
+	function resetZoom() {
+		scale = 1;
+		translateX = 0;
+		translateY = 0;
+	}
+
+	// Zooming via mouse wheel ---
+	// A linear zoom: each wheel tick adjusts scale by a fixed factor.
+	function handleWheel(e) {
+		e.preventDefault();
+		// Change scale by a fixed linear factor
+		let newScale = scale - e.deltaY * 0.005;
+		newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
+
+		// Calculate a simple adjustment so that the pointer stays in place.
+		const rect = container.getBoundingClientRect();
+		const centerX = rect.left + rect.width / 2;
+		const centerY = rect.top + rect.height / 2;
+		// Offset of pointer from container center.
+		const offsetX = e.clientX - centerX;
+		const offsetY = e.clientY - centerY;
+		// Linear interpolation: adjust translation proportionally to the scale change.
+		const factor = newScale / scale;
+		translateX = translateX * factor + offsetX * (1 - factor);
+		translateY = translateY * factor + offsetY * (1 - factor);
+
+		scale = newScale;
+		clampTranslation();
+	}
+
+	// Navigate Carousel ---
+	function next() {
+		if (images.length > 1) {
+			isLoading = true;
+			if (imgElement) imgElement.src = ""; // clear current image
+			$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
+			new Howl({ src: ["/sounds/short_click.webm"] }).play();
+			resetZoom();
+		}
+	}
 	function prev() {
-		if (images.length > 1) isLoading = true;
-		if (imgElement && images.length > 1) imgElement.src = ""; // Clear the current image
-		$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
-		new Howl({ src: ["/sounds/short_click.webm"] }).play();
+		if (images.length > 1) {
+			isLoading = true;
+			if (imgElement) imgElement.src = "";
+			$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
+			new Howl({ src: ["/sounds/short_click.webm"] }).play();
+			resetZoom();
+		}
 	}
 
 	onMount(() => {
-		imgElement.src = "";
-	});
-
-	function imageZoom() {
-		// Wait for the image to load to get accurate dimensions
-		imgElement.onload = () => {
-			updateZoomDimensions();
-		};
-
-		imgElement.addEventListener("mousemove", updateZoom);
-		imgElement.addEventListener("mouseleave", () => {
-			zoomResult.style.backgroundPosition = "center";
-		});
-
-		function updateZoomDimensions() {
-			const rect = imgElement.getBoundingClientRect();
-			zoomResult.style.backgroundImage = `url(${imgElement.src})`;
-			zoomResult.style.backgroundSize = rect.width * 2 + "px " + rect.height * 2 + "px";
-		}
-
-		function updateZoom(e) {
-			const rect = imgElement.getBoundingClientRect();
-			const pos = getCursorPos(e, rect);
-			console.log(pos);
-
-			// Calculate the percentage position of the cursor on the image
-			const xPercent = (pos.x / rect.width) * 100;
-			const yPercent = (pos.y / rect.height) * 100;
-
-			// Set the background position of the zoomResult
-			zoomResult.style.backgroundPosition = `${xPercent}% ${yPercent}%`;
-		}
-
-		function getCursorPos(e, rect) {
-			const x = e.clientX - rect.left;
-			const y = e.clientY - rect.top;
-			return { x, y };
-		}
-	}
-
-	let imageFit = $state(false);
-
-	$effect(() => {
-		if (imgElement && showZoom) {
-			imageZoom();
-		}
+		updateContainerSize();
 	});
 </script>
 
-<div class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden">
-	<div class="relative w-full h-full flex items-center bg-tanLight rounded-lg min-h-96">
+<svelte:window onresize={updateContainerSize} />
+
+<!-- Container -->
+<div
+	bind:this={container}
+	class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden"
+>
+	<div class="relative w-full h-full flex items-center rounded-lg min-h-96">
 		{#if !descriptionFlag}
-			<div class="z-20 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
-				<div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
-					<button onclick={prev} class="z-20 transition active:scale-90">
+			<!-- Navigation arrows -->
+			<div class="z-10 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
+				<div class="w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
+					<button onclick={prev} class="transition active:scale-90">
 						<img src="/assets/svg/arrow.svg" alt="Previous" class="w-8" />
 					</button>
 				</div>
-				<div class="realtive w-16 h-16 flex justify-center bg-white rounded-full pl-2 pointer-events-auto">
-					<button onclick={next} class="z-20 transition active:scale-90">
+				<div class="w-16 h-16 flex justify-center bg-white rounded-full pl-2 pointer-events-auto">
+					<button onclick={next} class="transition active:scale-90">
 						<img src="/assets/svg/arrow.svg" alt="Next" class="w-8 scale-x-[-1]" />
 					</button>
 				</div>
 			</div>
+
 			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<img
 				src={images[$currentCarouselIndex]}
 				alt=" "
 				bind:this={imgElement}
-				onload={() => (isLoading = false)}
+				onload={() => {
+					isLoading = false;
+					resetZoom();
+					updateContainerSize();
+				}}
 				onclick={() => {
 					imageFit = !imageFit;
 				}}
-				onmouseover={() => {
-					showZoom = true;
-				}}
-				onfocus={() => {
-					showZoom = true;
-				}}
+				onwheel={handleWheel}
 				tabindex="0"
 				role="button"
-				class="absolute h-full w-full {imageFit
-					? 'object-contain'
-					: 'object-cover'} z-10 cursor-crosshair rounded-lg transition ease-in-out {isLoading ? 'opacity-0' : ''}"
+				class="absolute h-full w-full z-5 cursor-crosshair rounded-lg transition ease-in-out {isLoading
+					? 'opacity-0'
+					: ''} {imageFit ? 'object-contain' : 'object-cover'}"
+				style="transform: translate({translateX}px, {translateY}px) scale({scale});"
 			/>
-			<p
-				class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 text-center text-wrap flex flex-wrap justify-center items-center bg-white z-[9]"
-			>
-				Loading...
-			</p>
-			{#if showZoom}
-				<div
-					transition:fade={{ duration: 150 }}
-					bind:this={zoomResult}
-					class="absolute m-5 w-32 h-32 z-10 rounded-lg top-0 right-0"
-				></div>
+
+			{#if isLoading}
+				<p
+					class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center bg-white z-[9]"
+				>
+					Loading...
+				</p>
 			{/if}
 		{:else}
+			<!-- Description view -->
 			<div class="h-full w-full overflow-auto p-5">
 				<p class="text-black text-lg text-justify">
 					{@html formatSellerDescription(description.text)}
@@ -151,7 +183,6 @@
 						Visit the seller's website
 					</a>
 				{/if}
-
 				{#if description.coordinates}
 					<div class="rounded-lg overflow-clip mt-5">
 						<MapDisplay coordinates={description.coordinates} />
