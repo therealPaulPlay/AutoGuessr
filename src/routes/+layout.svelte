@@ -78,9 +78,9 @@
 		{/if}
 	</div>
 	<!-- Right side -->
-	<div class="flex flex-row relative">
+	<div class="flex flex-row relative gap-3">
 		<!-- Username/level -->
-		<div class="mx-3 flex items-center rounded-lg transition {$isAuthenticated ? 'bg-white' : ''}">
+		<div class="flex items-center rounded-lg transition {$isAuthenticated ? 'bg-white' : ''}">
 			{#if $isAuthenticated}
 				<div class="p-3 flex items-center" in:scale>
 					<button
@@ -103,6 +103,17 @@
 					}}><span class="text-white text-xl font-medium"><UserPlus strokeWidth={2.5} /></span></Button
 				>
 			{/if}
+		</div>
+		<div class="flex flex-row items-center">
+			<Button
+				color="var(--default-button)"
+				bgcolor="var(--default-button-dark)"
+				buttonHeight="3.25rem"
+				buttonWidth="3.25rem"
+				onclick={() => window.open('https://discord.com/invite/CSc3MbDrZ8', '_blank')}
+			>
+				<img src="/assets/svg/discord.svg" alt="discord" style:width="1.5rem" />
+			</Button>
 		</div>
 		<div class="flex flex-row items-center">
 			<Button
