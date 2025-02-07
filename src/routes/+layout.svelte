@@ -11,7 +11,7 @@
 	import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
 	import { User, TriangleAlert, Scan, UserPlus } from "lucide-svelte";
 	import { onMount } from "svelte";
-	import SignupPopup from "$lib/components/signupPopup.svelte";
+	import SignupPopup from "$lib/components/SignupPopup.svelte";
 	import AccountPopup from "$lib/components/AccountPopup.svelte";
 	import PriceSlider from "$lib/components/PriceSlider.svelte";
 	import Toggle from "$lib/components/Toggle.svelte";
