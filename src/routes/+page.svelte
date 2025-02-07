@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>AutoGuessr - Guess the car's price!</title>
+	<title>AutoGuessr - Guess car listing prices!</title>
 </svelte:head>
 
 <!-- Logo -->
@@ -31,6 +31,13 @@
 		alt="Logo"
 	/>
 </div>
+
+<!-- Keywords -->
+<h1 class="hidden">
+	AutoGuessr is a fun and free car meta quiz game in which you guess the real prices of online car listings, including sportscars and supercars, 
+	from vendors across the US. This automotive trivia game, playable in the browser, is perfect for car driving and racing enthusiasts. Looking for 
+	the best free car game with no download? Look no further. 
+</h1>
 
 <!-- car model -->
 <CarModel />

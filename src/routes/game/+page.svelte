@@ -178,7 +178,7 @@
 			<div class="md:w-2/3 w-full basis-4/6">
 				<Carousel images={$question.images} description={$question.description} {descriptionFlag} />
 			</div>
-			<div class="basis-2/6 min-w-64 rounded-2xl bg-white w-full flex flex-col min-h-full gap-2 p-2">
+			<div class="basis-2/6 min-w-64 rounded-2xl bg-white w-full flex flex-col min-h-full gap-2 p-2 overflow-auto">
 				{#each $question.stats as stat}
 					<Stat icon={stat.icon} text={stat.text} />
 				{/each}
