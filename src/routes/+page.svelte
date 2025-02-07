@@ -34,9 +34,9 @@
 
 <!-- Keywords -->
 <h1 class="hidden">
-	AutoGuessr is a fun and free car meta quiz game in which you guess the real prices of online car listings, including sportscars and supercars, 
-	from vendors across the US. This automotive trivia game, playable in the browser, is perfect for car driving and racing enthusiasts. Looking for 
-	the best free car game with no download? Look no further. 
+	AutoGuessr is a fun and free car meta quiz game in which you guess the real prices of online car listings, including
+	sportscars and supercars, from vendors across the US. This automotive trivia game, playable in the browser, is perfect
+	for car driving and racing enthusiasts. Looking for the best free car game with no download? Look no further.
 </h1>
 
 <!-- car model -->
@@ -54,7 +54,7 @@
 					selected={Boolean($difficulty == 1)}
 					onclick={() => setDifficulty(1)}
 				>
-					<span class="text-xl font-medium">Easy</span>
+					<span class="text-xl">Easy</span>
 				</Tab>
 				<Tab
 					color="var(--default-button-dark)"
@@ -62,7 +62,7 @@
 					selected={Boolean($difficulty == 2)}
 					onclick={() => setDifficulty(2)}
 				>
-					<span class="text-xl font-medium">Medium</span>
+					<span class="text-xl">Medium</span>
 				</Tab>
 				<Tab
 					color="rgb(75, 73, 73)"
@@ -70,7 +70,7 @@
 					selected={Boolean($difficulty == 3)}
 					onclick={() => setDifficulty(3)}
 				>
-					<span class="text-xl font-medium">Hard</span>
+					<span class="text-xl">Hard</span>
 				</Tab>
 			</div>
 			<!-- Play Button -->
@@ -108,7 +108,7 @@
 					onclick={() => goto("/auto-cards")}
 				>
 					<div class="flex flex-row items-center justify-between w-full px-2">
-						<span class="text-white font-bold text-3xl mr-5">AutoCards</span>
+						<span class="text-white font-semibold text-3xl mr-5">AutoCards</span>
 						<img src="/assets/svg/autocards icon.svg" alt="" style:width="3rem" />
 					</div>
 				</Button>

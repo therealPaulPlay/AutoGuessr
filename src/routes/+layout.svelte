@@ -90,17 +90,17 @@
 							accountPopup.set(true);
 						}}
 					>
-						<span class="text-xl z-10 text-white font-semibold"><User strokeWidth={2} /></span>
+						<span class="text-xl z-10 text-white"><User strokeWidth={2} /></span>
 						<image class="absolute w-9 h-9" src="/assets/svg/level.svg" alt="level"></image>
 					</button>
-					<div class="text-xl font-semibold">{$username}</div>
+					<div class="text-xl">{$username}</div>
 				</div>
 			{:else}
 				<Button
 					buttonWidth="3.25rem"
 					onclick={() => {
 						signupPopup.set(true);
-					}}><span class="text-white text-xl font-medium"><UserPlus strokeWidth={2.5} /></span></Button
+					}}><span class="text-white text-xl"><UserPlus strokeWidth={2.5} /></span></Button
 				>
 			{/if}
 		</div>
@@ -110,7 +110,7 @@
 				bgcolor="var(--default-button-dark)"
 				buttonHeight="3.25rem"
 				buttonWidth="3.25rem"
-				onclick={() => window.open('https://discord.com/invite/CSc3MbDrZ8', '_blank')}
+				onclick={() => window.open("https://discord.com/invite/CSc3MbDrZ8", "_blank")}
 			>
 				<img src="/assets/svg/discord.svg" alt="discord" style:width="1.5rem" />
 			</Button>

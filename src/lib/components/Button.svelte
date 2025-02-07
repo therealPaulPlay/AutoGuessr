@@ -45,7 +45,7 @@
 >
 	<button
 		bind:this={buttonElement}
-		class="rounded-lg z-10 ease-out duration-150 px-3 w-full flex items-center justify-center box-border bg-orange {border
+		class="rounded-lg z-10 ease-out duration-150 px-3 w-full flex items-center justify-center box-border bg-orange font-medium {border
 			? 'border-white border-4'
 			: ''} {interactive ? '' : '!pointer-events-none'}"
 		style={buttonStyle}

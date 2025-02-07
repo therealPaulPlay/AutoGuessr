@@ -23,7 +23,7 @@
 			<div class="flex items-center gap-4 overflow-hidden mt-2 flex-wrap">
 				<div class="basis-1/4">
 					<Tab color="var(--green-button)" selected={false} onclick={() => {}}>
-						<span class="text-xl font-medium">Easy</span>
+						<span class="text-xl">Easy</span>
 					</Tab>
 				</div>
 				<div class="flex w-full flex-wrap gap-4">

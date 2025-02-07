@@ -28,7 +28,7 @@
 			<div class="h-4/6 w-full p-4 flex flex-col gap-5 max-h-4/6">
 				<!-- Volume Slider -->
 				<div class="flex items-center gap-10 justify-between">
-					<label for="volume-slider" class="text-base font-semibold">Volume</label>
+					<label for="volume-slider" class="text-base font-medium">Volume</label>
 					<div class="w-1/2">
 						<input
 							type="range"
@@ -44,7 +44,7 @@
 
 				<!-- Music Toggle -->
 				<div class="flex items-center gap-10 justify-between">
-					<label for="music" class="text-base font-semibold">Music</label>
+					<label for="music" class="text-base font-medium">Music</label>
 					<div class="w-1/2 flex h-fit items-center">
 						<Toggle bind:checked={$music} />
 					</div>
@@ -52,7 +52,7 @@
 
 				<!-- Fullscreen Toggle -->
 				<div class="flex items-center gap-10 justify-between">
-					<label for="fullscreen" class="text-base font-semibold">Fullscreen</label>
+					<label for="fullscreen" class="text-base font-medium">Fullscreen</label>
 					<div class="w-1/2 flex">
 						<Button
 							color="var(--default-button)"
@@ -73,7 +73,7 @@
 				</div>
 				<!-- Legal Information -->
 				<div class="flex items-center gap-10 justify-between">
-					<label for="legal-info" class="text-base font-semibold">Legal information</label>
+					<label for="legal-info" class="text-base font-medium">Legal information</label>
 					<div class="w-1/2 flex">
 						<Button
 							onclick={() => {
@@ -85,7 +85,7 @@
 				</div>
 				<!-- Credits -->
 				<div class="flex items-center gap-10 justify-between">
-					<label for="legal-info" class="text-base font-semibold">Credits</label>
+					<label for="legal-info" class="text-base font-medium">Credits</label>
 					<div class="w-1/2 flex">
 						<Button
 							onclick={() => {
