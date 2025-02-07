@@ -149,35 +149,35 @@
 	.mystical p {
 		color: var(--mystical);
 	}
-	.mystical-extrude {
+	:global(.mystical-extrude) {
 		color: var(--extrude-mystical);
 	}
 
 	.legendary p {
 		color: var(--legendary);
 	}
-	.legendary-extrude {
+	:global(.legendary-extrude) {
 		color: var(--extrude-legendary);
 	}
 
 	.epic p {
 		color: var(--epic);
 	}
-	.epic-extrude {
+	:global(.epic-extrude) {
 		color: var(--extrude-epic);
 	}
 
 	.rare p {
 		color: var(--rare);
 	}
-	.rare-extrude {
+	:global(.rare-extrude) {
 		color: var(--extrude-rare);
 	}
 
 	.common p {
 		color: var(--common);
 	}
-	.common-extrude {
+	:global(.common-extrude) {
 		color: var(--extrude-common);
 	}
 </style>

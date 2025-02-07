@@ -25,6 +25,7 @@
 	let disableRollButton = $state(false);
 	let removeRollButton = $state(false);
 	let showCardBack = $state(false);
+	let alreadyUnlocked = $state(false);
 	let raritiesSize = 40;
 	let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
@@ -143,10 +144,9 @@
 		cardInfo = cardDraw();
 		if (cardInfo) {
 			if (saveAutocard(cardInfo)) {
-				console.log("Card saved");
-			}
-			else {
-				console.log("Card already exists");
+				// Card saved successfully
+			} else {
+				alreadyUnlocked = true;
 			}
 		}
 		rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
@@ -200,7 +200,20 @@
 								<CardBack {rarity} />
 							</div>
 							<div class="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-								<Card {...cardInfo} />
+								<div class:dark={alreadyUnlocked}>
+									<Card {...cardInfo} />
+								</div>
+								{#if alreadyUnlocked}
+									<div
+										transition:fade={{ duration: 300, delay: 500 }}
+										class="w-full h-full absolute bottom-0 left-0 flex items-center justify-center z-50"
+									>
+										<span
+											class="rounded-lg px-3 py-2 bg-white font-bold text-sm text-center"
+											style:color="var(--extrude-{rarity})">Already unlocked!</span
+										>
+									</div>
+								{/if}
 							</div>
 						</div>
 					{:else}
@@ -299,6 +312,10 @@
 	.dim {
 		filter: brightness(0.5) opacity(0.5);
 		z-index: -20;
+	}
+
+	.dark {
+		filter: brightness(0.7) saturate(0.7);
 	}
 
 	/* TODO: Make it more visible on mobile phones */
