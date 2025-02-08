@@ -24,7 +24,7 @@ module.exports = {
         defaultShadowDark: 'rgb(220, 187, 154)',
       },
       fontSize: {
-        base: '20px',
+        base: '1.25rem',
       },
     },
   },
