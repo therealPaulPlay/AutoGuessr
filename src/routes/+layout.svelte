@@ -100,7 +100,7 @@
 					buttonWidth="3.25rem"
 					onclick={() => {
 						signupPopup.set(true);
-					}}><span class="text-white text-xl"><UserPlus strokeWidth={2.5} /></span></Button
+					}}><img src="/assets/svg/sign up.svg" alt="sign up" style:width="1.5rem" /></Button
 				>
 			{/if}
 		</div>
