@@ -153,7 +153,7 @@
 
 <!-- main view with car images and stats -->
 <content class="flex w-full justify-center z-50">
-	<div class="rounded-2xl w-full md:w-4/6 mx-2 max-md:mb-52">
+	<div class="rounded-2xl w-full md:w-4/6 md:max-lg:w-5/6 mx-2 max-md:mb-52">
 		<div class="flex w-1/2 gap-2 ml-4">
 			<!-- Images and About tabs -->
 			<Tab
@@ -177,7 +177,7 @@
 				<span class="text-xl text-black">About</span>
 			</Tab>
 		</div>
-		<div class="flex flex-col w-full md:flex-row gap-5 min-h-[60dvh] lg:max-h-[60dvh]">
+		<div class="flex flex-col w-full md:flex-row gap-5 min-h-[60dvh] lg:max-h-[60dvh] md:max-lg:h-[60dvh]">
 			<div class="md:w-2/3 w-full basis-4/6">
 				<Carousel images={$question.images} description={$question.description} {descriptionFlag} />
 			</div>
@@ -196,42 +196,35 @@
 </content>
 
 <!-- Bottom UI -->
-<div
-	class="fixed bottom-0 margin-x-auto flex flex-row-reverse w-full justify-center md:gap-10 max-md:flex-wrap max-md:justify-start pointer-events-none z-20"
->
-	<!-- Lives -->
-	<div class="lives z-[1]">
-		<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="w-52 h-28 flex content-end" />
-	</div>
-	<div class="p-2.5 rounded-t-2xl w-fit flex max-w-3xl z-[2] pointer-events-auto bg-defaultShadow">
-		<div class="flex grow gap-2.5 text-white">
-			<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={$guessResult} />
-			<Button
-				color="var(--default-button)"
-				bgcolor="var(--default-button-dark)"
-				buttonHeight="4.5rem"
-				buttonWidth="5.5rem"
-				onclick={() => {
-					checkPlayerPerformance(percentageDifference());
-					resultPopup.set(true);
-				}}
-			>
-				<span class="check-align-vertical">
-					<Check strokeWidth={5} size={30} />
-				</span>
-			</Button>
+<div class="fixed bottom-0 w-full pointer-events-none z-20 flex justify-center px-2">
+	<div class="flex flex-row-reverse justify-center md:gap-10 max-md:flex-col max-md:w-full max-md:items-end">
+		<!-- Lives -->
+		<div class="lives z-[1] max-md:translate-y-1/4 max-md:mr-10">
+			<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="w-52 max-md:w-40 flex content-end" />
+		</div>
+		<div class="p-2.5 rounded-t-2xl md:max-w-3xl max-md:w-full flex z-[2] pointer-events-auto bg-defaultShadow">
+			<div class="flex grow gap-2.5 text-white w-full">
+				<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={$guessResult} />
+				<Button
+					color="var(--default-button)"
+					bgcolor="var(--default-button-dark)"
+					buttonHeight="4.5rem"
+					buttonWidth="5.5rem"
+					onclick={() => {
+						checkPlayerPerformance(percentageDifference());
+						resultPopup.set(true);
+					}}
+				>
+					<span class="check-align-vertical">
+						<Check strokeWidth={5} size={30} />
+					</span>
+				</Button>
+			</div>
 		</div>
 	</div>
 </div>
 
 <style>
-	@media (max-width: 768px) {
-		.lives img {
-			height: 20vw; /* adjusts the size of the image */
-			transform: translateY(25%);
-		}
-	}
-
 	.check-align-vertical {
 		margin-top: 3px;
 	}

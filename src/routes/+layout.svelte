@@ -129,7 +129,7 @@
 	</div>
 </nav>
 
-<main class="pt-[calc(4rem+7dvh)] fixed top-0 bottom-0 right-0 left-0 bg-tanLight overflow-auto">
+<main class="pt-[calc(4rem+5dvh)] fixed top-0 bottom-0 right-0 left-0 bg-tanLight overflow-auto">
 	{@render children?.()}
 </main>
 
