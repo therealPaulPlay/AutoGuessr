@@ -62,6 +62,17 @@
 		}
 	}
 
+	function orderCards() {
+		const rarityOrder = ["common", "rare", "epic", "legendary", "mystical", "locked"];
+
+		// Sort the array based on the defined order
+		cards.sort((a, b) => {
+			const aIndex = rarityOrder.indexOf(a.rarity);
+			const bIndex = rarityOrder.indexOf(b.rarity);
+			return aIndex - bIndex;
+		});
+	}
+
 	onMount(() => {
 		if (container) {
 			container.addEventListener("wheel", handleWheel, { passive: false });
@@ -71,6 +82,7 @@
 	onMount(() => {
 		cards = get(userCars);
 		generateCards();
+		orderCards();
 	});
 
 	onDestroy(() => {
