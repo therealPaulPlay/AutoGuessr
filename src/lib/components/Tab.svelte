@@ -10,7 +10,7 @@
 			new Howl({ src: ["/sounds/jellyclick.webm"] }).play();
 			onclick?.();
 		}}
-		class="px-3 pt-1 pb-4 rounded-t-lg translate-y-2 w-full truncate text-white m-0 transition"
+		class="px-3 pt-1 pb-4 rounded-t-lg translate-y-2 w-full truncate text-white m-0 transition font-medium"
 		style:background-color={selected ? selectedColor : color}
 		style:box-shadow={shadow ? "0 -0.75rem 0 0 rgba(0,0,0,0.25) inset" : null}
 	>

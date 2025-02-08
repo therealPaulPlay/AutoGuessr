@@ -9,12 +9,12 @@
 	<Popup tall={true} closeFunction={() => ($howToPlayPopup = false)}>
 		<div class="w-full text-green flex justify-center text-5xl font-bold mb-12">How to play</div>
 		<div class="h-full max-h-[50dvh] overflow-auto">
-			<h1 class="text-3xl font-bold mb-4">Guess the price</h1>
+			<h1 class="text-2xl font-semibold mb-2">Guess the price</h1>
 			<p class="text-base">
 				You'll be shown a car listing, and your task is to guess its price. The closer your guess is to the actual
 				price, the more points you'll earn.
 			</p>
-			<h1 class="text-3xl font-bold mb-4 mt-8">Difficulties</h1>
+			<h1 class="text-2xl font-semibold mb-2 mt-8">Difficulties</h1>
 			<p class="text-base">
 				If your guess is in the <span class="text-greenDark font-semibold">Safe range</span>, you will get points and
 				not lose any lives. However, if you manage to land in the
@@ -23,7 +23,7 @@
 			<div class="flex items-center gap-4 overflow-hidden mt-2 flex-wrap">
 				<div class="basis-1/4">
 					<Tab color="var(--green-button)" selected={false} onclick={() => {}}>
-						<span class="text-xl font-medium">Easy</span>
+						<span class="text-xl">Easy</span>
 					</Tab>
 				</div>
 				<div class="flex w-full flex-wrap gap-4">

@@ -164,7 +164,7 @@
 					descriptionFlag = false;
 				}}
 			>
-				<span class="text-xl font-medium text-black">Images</span>
+				<span class="text-xl text-black">Images</span>
 			</Tab>
 			<Tab
 				color={imageTab ? "var(--default-shadow)" : "var(--white)"}
@@ -174,7 +174,7 @@
 					descriptionFlag = true;
 				}}
 			>
-				<span class="text-xl font-medium text-black">About</span>
+				<span class="text-xl text-black">About</span>
 			</Tab>
 		</div>
 		<div class="flex flex-col w-full md:flex-row gap-5 min-h-[60dvh] lg:max-h-[60dvh]">
@@ -186,7 +186,7 @@
 					<Stat icon={stat.icon} text={stat.text} />
 				{/each}
 				<div class="flex flex-row items-center justify-center rounded-lg py-3 px-5 w-full mt-auto">
-					<p class="text-lg text-defaultShadowDark">
+					<p class="text-lg text-defaultShadowDark font-medium">
 						Data provided by <a class="underline text-orange" target="_blank" href="https://auto.dev">Auto.dev</a>
 					</p>
 				</div>
