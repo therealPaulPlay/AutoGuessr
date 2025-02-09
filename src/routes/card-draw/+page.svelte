@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from "svelte";
 	import { tick } from "svelte";
-	import { fade, fly } from "svelte/transition";
+	import { draw, fade, fly } from "svelte/transition";
 	import { gsap } from "gsap";
 	import Button from "$lib/components/Button.svelte";
 	import Popup from "$lib/components/Popup.svelte";
@@ -9,7 +9,7 @@
 	import Card from "$lib/components/Card.svelte";
 	import Flip from "gsap/dist/Flip";
 	gsap.registerPlugin(Flip);
-	import { score } from "$lib/stores/gameStore";
+	import { score, drawCardFlag } from "$lib/stores/gameStore";
 	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { cardDraw } from "$lib/utils/cardDraw";
@@ -29,6 +29,7 @@
 	let showCardBack = $state(false);
 	let alreadyUnlocked = $state(false);
 	let showSignInPopup = $state(false);
+	let showNahUhPopup = $state(false);
 	let raritiesSize = 40;
 	let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
@@ -145,15 +146,21 @@
 	}
 
 	onMount(() => {
-		cardInfo = cardDraw();
-		if (cardInfo) {
-			if (saveAutocard(cardInfo)) {
-				// Card saved successfully
-			} else {
-				alreadyUnlocked = true;
+		console.log("Show card draw flag: ", $drawCardFlag);
+		if ($drawCardFlag) {
+			cardInfo = cardDraw();
+			if (cardInfo) {
+				if (saveAutocard(cardInfo)) {
+					// Card saved successfully
+				} else {
+					alreadyUnlocked = true;
+				}
 			}
+			rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
+			drawCardFlag.set(false);
+		} else {
+			showNahUhPopup = true;
 		}
-		rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
 	});
 
 	$effect(() => {
@@ -321,12 +328,48 @@
 					buttonWidth="7rem"
 					color="var(--default-button)"
 					bgcolor="var(--default-button-dark)"
-					onclick={() => {showSignInPopup = false;}}
+					onclick={() => {
+						showSignInPopup = false;
+					}}
 				>
 					<span
 						class="text-white
 					font-medium
 					text-xl">Got it</span
+					>
+				</Button>
+			</div>
+		</div>
+	</Popup>
+{/if}
+
+<!-- Nah Uh pop-up -->
+{#if showNahUhPopup}
+	<Popup showCloseButton={false} small={true}>
+		<div class="flex flex-col items-center h-full justify-evenly">
+			<p
+				class="text-black
+			text-base
+			text-center
+			"
+			>
+				<span class="font-semibold">Nah Uh!</span> You really think it's that simple? You need to play
+				the game first!
+			</p>
+			<div class="flex gap-16 mt-10">
+				<Button
+					buttonHeight="4rem"
+					buttonWidth="7rem"
+					color="var(--default-button)"
+					bgcolor="var(--default-button-dark)"
+					onclick={() => {
+						goto("/");
+					}}
+				>
+					<span
+						class="text-white
+					font-medium
+					text-xl">Sorry</span
 					>
 				</Button>
 			</div>

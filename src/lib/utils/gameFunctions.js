@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score, imgElement } from "$lib/stores/gameStore";
+import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score, imgElement, drawCardFlag } from "$lib/stores/gameStore";
 import { resultPopup } from "$lib/stores/uiStore";
 import { penaltyFlag, rewardFlag } from "$lib/stores/resultPopupStore";
 import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -71,7 +71,8 @@ export function goToNextQuestion(saveHistory = true) {
             return value;
         });
 
-        if (get(score) >= 5) {
+        if (get(score) >= 2) {
+            drawCardFlag.set(true);
             goto("/card-draw");
         }
         else {

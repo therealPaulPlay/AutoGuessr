@@ -23,6 +23,7 @@ export const lives = writable(4);
 export const score = writable(0);
 export const question = writable({});
 export const guessResult = writable(0);
+export const drawCardFlag = writable(false);
 
 // Carousel
 export const currentCarouselIndex = writable(0);
