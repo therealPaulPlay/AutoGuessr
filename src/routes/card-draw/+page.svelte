@@ -412,6 +412,13 @@
 		-webkit-mask-composite: intersect;
 	}
 
+	/* make rays larger for phone screen */
+	@media (max-width: 768px) {
+		.rays {
+			scale: 2.5;
+		}
+	}
+
 	@keyframes rotate {
 		from {
 			transform: rotate(0deg);

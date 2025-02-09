@@ -10,6 +10,8 @@ import { goto } from "$app/navigation";
 import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 
+let SCORE_THRESHOLD = 5;
+
 export async function setCurrentQuestion(questionId) {
     try {
         const data = await fetchWithErrorHandling(`${get(baseUrl)}/car-data/standard/${questionId}`).then((response) =>
@@ -65,13 +67,13 @@ export function goToNextQuestion(saveHistory = true) {
     if (img) img.src = "";
 
     // Game over
-    if (get(lives) <= 1) {
+    if (get(lives) <= SCORE_THRESHOLD) {
         highscore.update((value) => {
             if (get(score) > value) return get(score);
             return value;
         });
 
-        if (get(score) >= 2) {
+        if (get(score) >= SCORE_THRESHOLD) {
             drawCardFlag.set(true);
             goto("/card-draw");
         }
