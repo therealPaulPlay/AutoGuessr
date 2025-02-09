@@ -20,7 +20,7 @@
 			</div>
 			<p class="w-full">
 				You were able to get <span class="text-green font-bold">{$score}</span>
-				correct guess{$score <= 1 ? "" : "es"}! Your previous personal best was
+				correct guess{$score == 1 ? "" : "es"}! Your previous personal best was
 				<span class="text-orange font-bold">{get(highscore)}.</span>
 			</p>
 		</div>
