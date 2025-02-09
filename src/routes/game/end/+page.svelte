@@ -1,10 +1,10 @@
 <script>
-	import Button from "$lib/components/Button.svelte";
+	import { get } from "svelte/store";
 	import { goto } from "$app/navigation";
 	import { score, gameRounds } from "$lib/stores/gameStore";
+	import { highscore } from "$lib/stores/accountStore";
 	import { Home } from "lucide-svelte";
-
-	let previousPB = 42;
+	import Button from "$lib/components/Button.svelte";
 </script>
 
 <svelte:head>
@@ -20,8 +20,8 @@
 			</div>
 			<p class="w-full">
 				You were able to get <span class="text-green font-bold">{$score}</span>
-				correct guess{$score == 1 ? "" : "es"}! Your previous personal best was
-				<span class="text-orange font-bold">{previousPB}.</span>
+				correct guess{$score <= 1 ? "" : "es"}! Your previous personal best was
+				<span class="text-orange font-bold">{get(highscore)}.</span>
 			</p>
 		</div>
 		<div

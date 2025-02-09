@@ -8,7 +8,7 @@ import { milesToKilometers } from "$lib/utils/milesToKm";
 import { baseUrl } from "$lib/stores/apiConfigStore";
 import { goto } from "$app/navigation";
 import { addExperience } from "./addExp";
-import { isAuthenticated } from "$lib/stores/accountStore";
+import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 
 export async function setCurrentQuestion(questionId) {
     try {
@@ -66,6 +66,11 @@ export function goToNextQuestion(saveHistory = true) {
 
     // Game over
     if (get(lives) <= 1) {
+        highscore.update((value) => {
+            if (get(score) > value) return get(score);
+            return value;
+        });
+
         if (get(score) >= 5) {
             goto("/card-draw");
         }
