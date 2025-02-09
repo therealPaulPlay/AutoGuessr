@@ -4,11 +4,13 @@
 	import { fade, fly } from "svelte/transition";
 	import { gsap } from "gsap";
 	import Button from "$lib/components/Button.svelte";
+	import Popup from "$lib/components/Popup.svelte";
 	import CardBack from "$lib/components/CardBack.svelte";
 	import Card from "$lib/components/Card.svelte";
 	import Flip from "gsap/dist/Flip";
 	gsap.registerPlugin(Flip);
 	import { score } from "$lib/stores/gameStore";
+	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { cardDraw } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
@@ -26,6 +28,7 @@
 	let removeRollButton = $state(false);
 	let showCardBack = $state(false);
 	let alreadyUnlocked = $state(false);
+	let showSignInPopup = $state(false);
 	let raritiesSize = 40;
 	let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
@@ -129,6 +132,7 @@
 		setTimeout(() => {
 			showRevealButton = false;
 			showGameEnd = true;
+			showSignInPopup = !$isAuthenticated;
 		}, 500);
 	}
 
@@ -298,6 +302,37 @@
 		/>
 	</div>
 </content>
+
+<!-- Sign-in pop-up -->
+{#if showSignInPopup}
+	<Popup showCloseButton={false} small={true}>
+		<div class="flex flex-col items-center h-full justify-evenly">
+			<p
+				class="text-black
+			text-base
+			text-center
+			"
+			>
+				<span class="font-semibold">Sign-in to save your cards!</span> Your cards will be lost if you don't sign in.
+			</p>
+			<div class="flex gap-16 mt-10">
+				<Button
+					buttonHeight="4rem"
+					buttonWidth="7rem"
+					color="var(--default-button)"
+					bgcolor="var(--default-button-dark)"
+					onclick={() => {showSignInPopup = false;}}
+				>
+					<span
+						class="text-white
+					font-medium
+					text-xl">Got it</span
+					>
+				</Button>
+			</div>
+		</div>
+	</Popup>
+{/if}
 
 <style>
 	.scroll-container {
