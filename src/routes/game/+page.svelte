@@ -50,10 +50,6 @@
 		});
 	}
 
-	function addScore(amount) {
-		score.update((score) => score + amount);
-	}
-
 	function checkPlayerPerformance(percent) {
 		const rules = $difficultyRules[$difficulty];
 		if (!rules) throw new Error("Invalid difficulty level.");
@@ -62,7 +58,7 @@
 
 		if (percent <= upperBound) {
 			setPopupMessage("good");
-			addScore(1);
+			$score++;
 		}
 
 		if (percent <= lowerBound) {

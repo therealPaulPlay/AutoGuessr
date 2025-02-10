@@ -20,9 +20,3 @@ export function saveAutocard(card) {
         return false;
     }
 }
-
-
-export function updateAutocardsList() {
-    let autocards = JSON.parse(localStorage.getItem("autocards")) || [];
-    userCars.set(autocards);
-}

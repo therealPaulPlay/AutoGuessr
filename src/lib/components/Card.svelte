@@ -2,7 +2,7 @@
 	import { onMount } from "svelte";
 	import { derived } from "svelte/store";
 
-	let { name = "N/A", HP = 0, price = 0, etype = "N/A", date = "N/A", rarity = "common", image = "" } = $props();
+	let { name = "N/A", HP = 0, price = 0, engineType = "N/A", date = "N/A", rarity = "common", image = "" } = $props();
 
 	let w = $state();
 	let h = $state();
@@ -98,7 +98,7 @@
 				${formatPrice(price)}
 			</p>
 			<p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">
-				{etype}
+				{engineType}
 			</p>
 			<p class="font-bold text-nowrap overflow-hidden" style="font-size: {statSize}px">
 				{date}

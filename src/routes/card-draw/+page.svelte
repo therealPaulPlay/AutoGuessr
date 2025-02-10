@@ -8,12 +8,12 @@
 	import CardBack from "$lib/components/CardBack.svelte";
 	import Card from "$lib/components/Card.svelte";
 	import Flip from "gsap/dist/Flip";
-	gsap.registerPlugin(Flip);
 	import { score, drawCardFlag } from "$lib/stores/gameStore";
 	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { cardDraw } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
+	gsap.registerPlugin(Flip);
 
 	let cardInfo = $state();
 
@@ -28,8 +28,7 @@
 	let removeRollButton = $state(false);
 	let showCardBack = $state(false);
 	let alreadyUnlocked = $state(false);
-	let showSignInPopup = $state(false);
-	let showNahUhPopup = $state(false);
+	let drawNotAllowedPopup = $state(false);
 	let raritiesSize = 40;
 	let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
@@ -112,7 +111,6 @@
 		// 3. Move the container to the right by the half width of the card
 		// 4. For any addtional cards on the right, move the container to the right by the width of the card and add 8px for the gap (gap-2 in Tailwindcss)
 		disableRollButton = true;
-		// TODO: Simplify. Maybe scroll to the card instead of calculating the position?
 		gsap
 			.to(scrollContainer, {
 				x: -(scrollContainer.scrollWidth - windowWidth / 2 - cardWidth / 2 - cardsOnRight * (cardWidth + 8)),
@@ -133,7 +131,6 @@
 		setTimeout(() => {
 			showRevealButton = false;
 			showGameEnd = true;
-			showSignInPopup = !$isAuthenticated;
 		}, 500);
 	}
 
@@ -148,24 +145,16 @@
 	onMount(() => {
 		if ($drawCardFlag) {
 			cardInfo = cardDraw();
-			if (cardInfo) {
-				if (saveAutocard(cardInfo)) {
-					// Card saved successfully
-				} else {
-					alreadyUnlocked = true;
-				}
-			}
+			if (cardInfo && !saveAutocard(cardInfo)) alreadyUnlocked = true;
 			rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
 			drawCardFlag.set(false);
 		} else {
-			showNahUhPopup = true;
+			drawNotAllowedPopup = true;
 		}
 	});
 
 	$effect(() => {
-		if (cardWidth > 1) {
-			initialCenterCards();
-		}
+		if (cardWidth > 1) initialCenterCards();
 	});
 
 	let resizeTimeout;
@@ -309,8 +298,7 @@
 	</div>
 </content>
 
-<!-- Sign-in pop-up -->
-{#if showSignInPopup}
+{#if drawNotAllowedPopup}
 	<Popup showCloseButton={false} small={true}>
 		<div class="flex flex-col items-center h-full justify-evenly">
 			<p
@@ -319,41 +307,7 @@
 			text-center
 			"
 			>
-				<span class="font-semibold">Sign-in to save your cards!</span> Your cards will be lost if you don't sign in.
-			</p>
-			<div class="flex gap-16 mt-10">
-				<Button
-					buttonHeight="4rem"
-					buttonWidth="7rem"
-					color="var(--default-button)"
-					bgcolor="var(--default-button-dark)"
-					onclick={() => {
-						showSignInPopup = false;
-					}}
-				>
-					<span
-						class="text-white
-					font-medium
-					text-xl">Got it</span
-					>
-				</Button>
-			</div>
-		</div>
-	</Popup>
-{/if}
-
-<!-- Nah Uh pop-up -->
-{#if showNahUhPopup}
-	<Popup showCloseButton={false} small={true}>
-		<div class="flex flex-col items-center h-full justify-evenly">
-			<p
-				class="text-black
-			text-base
-			text-center
-			"
-			>
-				<span class="font-semibold">Nah Uh!</span> You really think it's that simple? You need to play
-				the game first!
+				<span class="font-semibold">No card draw available!</span> In order to draw a card, you need to play a game first.
 			</p>
 			<div class="flex gap-16 mt-10">
 				<Button
@@ -368,7 +322,7 @@
 					<span
 						class="text-white
 					font-medium
-					text-xl">Sorry</span
+					text-xl">Okay</span
 					>
 				</Button>
 			</div>
@@ -395,7 +349,6 @@
 		filter: brightness(0.7) saturate(0.7);
 	}
 
-	/* TODO: Make it more visible on mobile phones */
 	.rays {
 		z-index: -10;
 		scale: 1.7;

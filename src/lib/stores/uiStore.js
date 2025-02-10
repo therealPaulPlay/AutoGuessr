@@ -10,8 +10,5 @@ export const howToPlayPopup = writable(false);
 export const resultPopup = writable(false);
 export const creditsPopup = writable(false);
 
-// Misc calculations
-export const windowWidth = writable(1200);
-
 // Texts
 export const errorText = writable("");

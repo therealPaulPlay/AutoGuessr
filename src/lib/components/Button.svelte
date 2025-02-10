@@ -25,8 +25,6 @@
 		setTimeout(shiftButtonUp, 150);
 	}
 
-	shiftButtonUp();
-
 	function pressButtonDown() {
 		buttonStyle = `translate: 0 ${shadowHeight}; background-color: ${color}; height: ${calculatedButtonHeight};`;
 	}
@@ -34,6 +32,8 @@
 	function shiftButtonUp() {
 		buttonStyle = `translate: 0 0; background-color: ${color}; height: ${calculatedButtonHeight}`;
 	}
+
+	shiftButtonUp();
 </script>
 
 <div

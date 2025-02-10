@@ -59,13 +59,12 @@ function isTokenExpired(token) {
             .join(""),
     );
 
-
-    // If the token cannot be parsed, it is invalid and will be counted as expired
     try {
         const { exp } = JSON.parse(jsonPayload);
         const expired = Date.now() >= exp * 1000;
         return expired;
     } catch {
+        // If the token cannot be parsed, it is invalid and will be counted as expired
         return false;
     }
 }
