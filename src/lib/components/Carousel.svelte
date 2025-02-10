@@ -90,6 +90,44 @@
 			resetZoom();
 		}
 	}
+	// Swipe Handling for Mobile (to switch image) -------
+	let touchStartX = 0;
+	let touchStartY = 0;
+	let touchEndX = 0;
+	let touchEndY = 0;
+
+	function handleTouchStart(event) {
+		// Only consider single-finger swipes.
+		if (event.touches.length > 1) return;
+		touchStartX = event.touches[0].clientX;
+		touchStartY = event.touches[0].clientY;
+		// Initialize touchEnd to ensure a tap doesn't trigger a swipe.
+		touchEndX = touchStartX;
+		touchEndY = touchStartY;
+	}
+
+	function handleTouchMove(event) {
+		// Only consider single-finger swipes.
+		if (event.touches.length > 1) return;
+		// Prevent default to avoid scrolling while swiping.
+		event.preventDefault();
+		touchEndX = event.touches[0].clientX;
+		touchEndY = event.touches[0].clientY;
+	}
+
+	function handleTouchEnd() {
+		const dx = touchEndX - touchStartX;
+		const dy = touchEndY - touchStartY;
+		// Only trigger a swipe if the horizontal movement exceeds 50px
+		// and vertical movement is minimal.
+		if (Math.abs(dx) > 50 && Math.abs(dy) < 50) {
+			if (dx < 0) {
+				next();
+			} else {
+				prev();
+			}
+		}
+	}
 
 	onMount(() => {
 		updateContainerSize();
@@ -98,15 +136,18 @@
 
 <svelte:window onresize={updateContainerSize} />
 
-<!-- Container -->
+<!-- Container with swipe event handlers -->
 <div
 	bind:this={container}
+	ontouchstart={handleTouchStart}
+	ontouchmove={handleTouchMove}
+	ontouchend={handleTouchEnd}
 	class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden"
 >
 	<div class="relative w-full h-full flex items-center rounded-lg min-h-96">
 		{#if !descriptionFlag}
-			<!-- Navigation arrows -->
-			<div class="z-10 w-full h-full flex flex-row justify-between items-center mx-4 pointer-events-none">
+			<!-- Navigation arrows (hidden on small screens) -->
+			<div class="hidden sm:flex z-10 w-full h-full flex-row justify-between items-center mx-4 pointer-events-none">
 				<div class="w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
 					<button onclick={prev} class="transition active:scale-90">
 						<img src="/assets/svg/arrow.svg" alt="Previous" class="w-8" />
