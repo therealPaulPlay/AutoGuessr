@@ -146,7 +146,6 @@
 	}
 
 	onMount(() => {
-		console.log("Show card draw flag: ", $drawCardFlag);
 		if ($drawCardFlag) {
 			cardInfo = cardDraw();
 			if (cardInfo) {
