@@ -16,7 +16,7 @@
 			</p>
 			<h1 class="text-2xl font-semibold mb-2 mt-8">Difficulties</h1>
 			<p class="text-base">
-				If your guess is in the <span class="text-greenDark font-semibold">Safe range</span>, you will get points and
+				If your guess is in the <span class="text-greenDark font-semibold">Correct range</span>, you will get points and
 				not lose any lives. However, if you manage to land in the
 				<span class="text-green font-semibold">Reward range,</span> you will get an extra life!
 			</p>
@@ -28,7 +28,7 @@
 				</div>
 				<div class="flex w-full flex-wrap gap-4">
 					<p class="text-base">
-						Safe range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[1].correctTier[1]}%</span>
+						Correct range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[1].correctTier[1]}%</span>
 					</p>
 					<p class="text-base">
 						Reward range: <span class="text-green font-semibold">0% — {$difficultyRules[1].correctTier[0]}%</span>
@@ -43,7 +43,7 @@
 				</div>
 				<div class="flex w-full flex-wrap gap-4">
 					<p class="text-base">
-						Safe range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[2].correctTier[1]}%</span>
+						Correct range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[2].correctTier[1]}%</span>
 					</p>
 					<p class="text-base">
 						Reward range: <span class="text-green font-semibold">0% — {$difficultyRules[2].correctTier[0]}%</span>
@@ -58,7 +58,7 @@
 				</div>
 				<div class="flex w-full flex-wrap gap-4">
 					<p class="text-base">
-						Safe range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[3].correctTier[1]}%</span>
+						Correct range: <span class="text-greenDark font-semibold">0% — {$difficultyRules[3].correctTier[1]}%</span>
 					</p>
 					<p class="text-base">
 						Reward range: <span class="text-green font-semibold">0% — {$difficultyRules[3].correctTier[0]}%</span>
