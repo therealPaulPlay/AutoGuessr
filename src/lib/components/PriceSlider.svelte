@@ -54,9 +54,10 @@
 		/>
 	</div>
 	<div
-		class="flex items-center justify-center relative bg-white text-xl p-2 rounded-md h-full text-orange font-bold min-w-40 transition {inputFocused
+		class="flex items-center justify-center relative bg-white text-xl p-2 rounded-md h-full text-orange font-bold min-w-40 max-md:min-w-32 transition {inputFocused
 			? '!bg-orange'
 			: ''}"
+		class:default-number-width={sliderMax > 1_000_000}
 	>
 		<span
 			class="w-full h-full bg-transparent text-center custom-vertical-align {inputFocused
@@ -88,5 +89,16 @@
 <style>
 	.custom-vertical-align {
 		line-height: 35px;
+	}
+
+	.default-number-width {
+		min-width: 10rem;
+	}
+
+	/* make it smaller for phone screen */
+	@media (max-width: 768px) {
+		.default-number-width {
+			min-width: 8.5rem;
+		}
 	}
 </style>

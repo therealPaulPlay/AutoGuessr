@@ -101,9 +101,9 @@
 	});
 
 	function getValueRange(value) {
-		if (value <= 100000) return { min: 0, max: 100000 };
-		if (value <= 500000) return { min: 100000, max: 500000 };
-		return { min: 500000, max: 5000000 };
+		if (value <= 100_000) return { min: 0, max: 100_000 };
+		if (value <= 500_000) return { min: 100_000, max: 500_000 };
+		return { min: 500_000, max: 5_000_000 };
 	}
 
 	let blinkInterval;
