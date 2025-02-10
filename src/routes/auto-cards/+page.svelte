@@ -2,7 +2,7 @@
 	import { onMount, onDestroy } from "svelte";
 	import Card from "$lib/components/Card.svelte";
 	import { carsList } from "$lib/stores/carsStore";
-	import { userCards } from "$lib/stores/accountStore";
+	import { isAuthenticated, userCards } from "$lib/stores/accountStore";
 	import { get } from "svelte/store";
 
 	const MAX_CARDS_FILL = 25;
@@ -56,7 +56,13 @@
 	<title>AutoCards</title>
 </svelte:head>
 
-<main class="flex h-[80vh] items-center relative">
+{#if !$isAuthenticated}
+	<div class="rounded-xl bg-tanMedium w-fit p-0.5 px-2 mx-auto fixed bottom-4 left-0 right-0 text-nowrap text-center max-w-[90%] text-base">
+		<p class="text-ellipsis overflow-hidden">Sign in to sync your cards across devices!</p>
+	</div>
+{/if}
+
+<content class="flex h-[80vh] items-center relative">
 	<div
 		bind:this={container}
 		onwheel={handleWheel}
@@ -95,7 +101,7 @@
 			style:width="{0.3 * windowHeight}px"
 		/>
 	</div>
-</main>
+</content>
 
 <style>
 	div[id^="card_"]:hover {

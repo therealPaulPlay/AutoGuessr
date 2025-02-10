@@ -15,7 +15,7 @@
 	<div class="-mt-12 flex justify-center items-center flex-col">
 		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">Game Over!</h1>
 		<div class="mb-16 text-center w-4/5 text-base">
-			<div class="rounded-xl bg-tanMedium w-fit px-2 mx-auto mb-2">
+			<div class="rounded-xl bg-tanMedium w-fit px-2 mx-auto mb-2 p-1">
 				<p>Tip: {$score < 5 ? "Get 5 correct guesses to draw a card!" : "Higher scores result in more rare cards!"}</p>
 			</div>
 			<p class="w-full">
