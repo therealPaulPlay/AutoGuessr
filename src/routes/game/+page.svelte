@@ -23,7 +23,7 @@
 	} from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
 	import { fetchWithErrorHandling } from "$lib/utils/fetch";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { get } from "svelte/store";
 	import { displayError } from "$lib/utils/displayError";
 	import { resultPopup } from "$lib/stores/uiStore";
@@ -106,8 +106,6 @@
 
 	// Live (Traffic light) image + blinking state
 	$effect(() => {
-		$blinkingFlag = $lives == 3; // If set to the second life (blinking green), make it blink
-
 		if ($blinkingFlag) {
 			clearInterval(blinkInterval);
 			blinkInterval = setInterval(() => {
@@ -119,6 +117,10 @@
 		}
 	});
 
+	onDestroy(() => {
+		clearInterval(blinkInterval);
+	});
+
 	onMount(async () => {
 		// Resets
 		lives.set(4);
@@ -127,7 +129,6 @@
 		const img = get(imgElement);
 		if (img) img.src = "";
 		$gameRounds = [];
-		clearInterval(blinkInterval);
 
 		$totalCarAmount = await getTotalCarDataAmount();
 		goToNextQuestion(false); // Don't save last question to history (false)
