@@ -9,6 +9,7 @@ import { baseUrl } from "$lib/stores/apiConfigStore";
 import { goto } from "$app/navigation";
 import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
+import { saveStorage } from "./saveHelper";
 
 export async function setCurrentQuestion(questionId) {
     try {
@@ -68,10 +69,10 @@ export function goToNextQuestion(saveHistory = true) {
 
     // Game over
     if (get(lives) <= 1) {
-        highscore.update((value) => {
-            if (get(score) > value) return get(score);
-            return value;
-        });
+        if (get(score) > get(highscore)) {
+            highscore.set(get(score));
+            saveStorage();
+        }
 
         if (get(score) >= SCORE_DRAW_THRESHOLD) {
             drawCardFlag.set(true);

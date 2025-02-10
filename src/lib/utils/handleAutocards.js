@@ -1,22 +1,15 @@
-import { userCars } from "$lib/stores/accountStore";
+import { userCards } from "$lib/stores/accountStore";
+import { get } from "svelte/store";
+import { saveStorage } from "./saveHelper";
 
 export function saveAutocard(card) {
-    let autocards = JSON.parse(localStorage.getItem("autocards")) || [];
-
-    if (!Array.isArray(autocards)) {
-        autocards = [];
-    }
-
     const cardString = JSON.stringify(card);
-
-    // Check if an identical card already exists
-    const exists = autocards.some(existingCard => JSON.stringify(existingCard) === cardString);
+    const exists = get(userCards).some(existingCard => JSON.stringify(existingCard) === cardString); // Check if an identical card already exists
 
     if (!exists) {
-        autocards.push(card);
-        localStorage.setItem("autocards", JSON.stringify(autocards));
-        return true;
-    } else {
-        return false;
+        get(userCards).push(card);
+        saveStorage();
     }
+
+    return !exists;
 }

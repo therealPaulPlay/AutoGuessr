@@ -2,7 +2,7 @@
 	import { onMount, onDestroy } from "svelte";
 	import Card from "$lib/components/Card.svelte";
 	import { carsList } from "$lib/stores/carsStore";
-	import { userCars } from "$lib/stores/accountStore";
+	import { userCards } from "$lib/stores/accountStore";
 	import { get } from "svelte/store";
 
 	const MAX_CARDS_FILL = 25;
@@ -32,7 +32,7 @@
 		let resultArray = new Array(get(carsList).length);
 
 		get(carsList).forEach((car, index) => {
-			const userCar = get(userCars).find((userCar) => userCar.name === car.name);
+			const userCar = get(userCards).find((userCar) => userCar.name === car.name);
 			userCar ? (resultArray[index] = userCar) : (resultArray[index] = { rarity: "locked" });
 		});
 
@@ -40,10 +40,11 @@
 	}
 
 	onMount(() => {
-		// Load unlocked cards
-		let autocards = JSON.parse(localStorage.getItem("autocards")) || [];
-		userCars.set(autocards);
+		cards = orderCards();
+		generateCards();
+	});
 
+	userCards.subscribe((value) => {
 		cards = orderCards();
 		generateCards();
 	});

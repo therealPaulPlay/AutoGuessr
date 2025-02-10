@@ -1,5 +1,6 @@
 import { isAuthenticated, username, experience } from "$lib/stores/accountStore";
 import { fetchWithErrorHandling } from "./fetch";
+import { getSave } from "./saveHelper";
 
 async function getUser() {
     try {
@@ -37,6 +38,8 @@ export async function checkAuthenticationStatus() {
     } else {
         isAuthenticated.set(false);
     }
+
+    getSave(); // Load user save
 }
 
 export function signOut() {
