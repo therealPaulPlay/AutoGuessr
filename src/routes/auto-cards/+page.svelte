@@ -63,14 +63,20 @@
 	}
 
 	function orderCards() {
-		const rarityOrder = ["common", "rare", "epic", "legendary", "mystical", "locked"];
+		let resultArray = new Array(get(carsList).length);
 
-		// Sort the array based on the defined order
-		cards.sort((a, b) => {
-			const aIndex = rarityOrder.indexOf(a.rarity);
-			const bIndex = rarityOrder.indexOf(b.rarity);
-			return aIndex - bIndex;
+		get(carsList).forEach((car, index) => {
+			const userCar = get(userCars).find((userCar) => userCar.name === car.name);
+			if (userCar) {
+				console.log("found", userCar);
+				resultArray[index] = userCar;
+			} else {
+				console.log("not found", car);
+				resultArray[index] = { rarity: "locked" };
+			}
 		});
+
+		return resultArray;
 	}
 
 	onMount(() => {
@@ -80,7 +86,7 @@
 	});
 
 	onMount(() => {
-		cards = get(userCars);
+		cards = orderCards();
 		generateCards();
 		orderCards();
 	});
