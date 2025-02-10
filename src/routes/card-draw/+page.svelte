@@ -29,17 +29,16 @@
 	let showCardBack = $state(false);
 	let alreadyUnlocked = $state(false);
 	let drawNotAllowedPopup = $state(false);
-	let raritiesSize = 40;
-	let cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
-	let cardPositionIndex = raritiesSize - 1 - cardsOnRight;
-	let rarityBonusValue = Math.pow($score, 2);
+	
+	const raritiesSize = 40;
+	const cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 
 	let rarities = $state(null);
 	let mainCard = $state();
 
-	function getRarityWithBonus(bonusValue, cardPositionIndex, cardInfo, raritiesSize) {
+	function getRarityWithBonus(cardInfo, raritiesSize) {
 		// Cap the bonus value between 0 and 100
-		const cappedBonus = Math.min(Math.max(bonusValue, 0), 100);
+		const cappedBonus = Math.min(Math.max(Math.pow($score, 1.2), 0), 100);
 		const rarities = [];
 
 		// Base probabilities (when bonus is 0)
@@ -74,7 +73,7 @@
 		};
 
 		for (let i = 0; i < raritiesSize; i++) {
-			if (i === cardPositionIndex) {
+			if (i === raritiesSize - cardsOnRight - 1) {
 				rarities.push(cardInfo.rarity);
 				continue;
 			}
@@ -146,7 +145,7 @@
 		if ($drawCardFlag) {
 			cardInfo = cardDraw();
 			if (cardInfo && !saveAutocard(cardInfo)) alreadyUnlocked = true;
-			rarities = getRarityWithBonus(rarityBonusValue, cardPositionIndex, cardInfo, raritiesSize);
+			rarities = getRarityWithBonus(cardInfo, raritiesSize);
 			drawCardFlag.set(false);
 		} else {
 			drawNotAllowedPopup = true;
@@ -187,7 +186,7 @@
 				class="flex flex-row items-center w-fit scroll-container gap-2 my-5"
 			>
 				{#each rarities as rarity, i}
-					{#if i === cardPositionIndex}
+					{#if i === raritiesSize - cardsOnRight - 1}
 						<div
 							bind:this={mainCard}
 							class="flex-shrink-0 z-10 transition-all duration-700 w-fit relative [transform-style:preserve-3d] h-96"
