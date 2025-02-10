@@ -30,7 +30,7 @@ export const carsList = readable([
         image: "/assets/img/cars/mini-cooper-s.webp",
     },
     {
-        name: "Toyota RAV4 (4th Gen)",
+        name: "Toyota RAV4",
         HP: 203,
         price: 28000,
         etype: "I4",
