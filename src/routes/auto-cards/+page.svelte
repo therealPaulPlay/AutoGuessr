@@ -68,10 +68,8 @@
 		get(carsList).forEach((car, index) => {
 			const userCar = get(userCars).find((userCar) => userCar.name === car.name);
 			if (userCar) {
-				console.log("found", userCar);
 				resultArray[index] = userCar;
 			} else {
-				console.log("not found", car);
 				resultArray[index] = { rarity: "locked" };
 			}
 		});
