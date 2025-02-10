@@ -171,7 +171,7 @@ export const carsList = readable([
         image: "/assets/img/cars/lamborghini-temerario.webp",
     },
     {
-        name: "Nissan Skyline GT-R (R34)",
+        name: "Nissan Skyline GT-R",
         HP: 276,
         price: 120000,
         etype: "I6 Turbo",
