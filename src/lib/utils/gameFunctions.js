@@ -11,13 +11,25 @@ import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 import { saveStorage } from "./saveHelper";
 
-async function setCurrentQuestion(questionId) {
+async function setCurrentQuestion(questionIndex) {
     try {
-        const data = await fetchWithErrorHandling(`${get(baseUrl)}/car-data/standard/${questionId}`).then((response) =>
-            response.json(),
-        );
+        let data;
 
-        get(question).id = questionId;
+        try {
+            data = await fetchWithErrorHandling(`${get(baseUrl)}/car-data/standard/${questionIndex}`).then((response) =>
+                response.json(),
+            );
+        } catch (error) {
+            console.error("Error fetching car data:", error);
+            displayError("Loading backup car, as fetching car data failed: " + error);
+
+            const backupCarsUnparsed = await fetch("/json/backup_cars_250.json");
+            const backupCars = await backupCarsUnparsed.json();
+            if (questionIndex > 250) questionIndex = Math.floor(Math.random() * 250); // If the index is too large, get new random one
+            data = backupCars[questionIndex];
+        }
+
+        get(question).id = questionIndex;
         get(question).answer = data.price;
         get(question).images = data.photos;
         get(question).description = {};
@@ -50,8 +62,7 @@ async function setCurrentQuestion(questionId) {
         priceRange.set(getValueRange(get(question).answer)); // Set range
         guessResult.set(get(priceRange).min); // Reset price slider value to new minimum
     } catch (error) {
-        console.error("Error occured retrieving car data:", error);
-        displayError("Error occured retrieving car data: " + error);
+        console.error("Error occured loading new question:", error);
     }
 }
 
@@ -167,7 +178,7 @@ export async function getTotalCarDataAmount() {
         const data = await response.json();
         return data?.total;
     } catch (error) {
-        console.error("Error occured getting the available car dataset size:", error);
-        displayError("Error occured getting the available car dataset size: " + error);
+        console.error("Error occured fetching the available car amount:", error);
+        return 250; // Return backup size
     }
 }
