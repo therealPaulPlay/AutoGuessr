@@ -184,7 +184,7 @@
 			<div class="fixed w-full h-full rays" in:fade={{ duration: 300, delay: 500 }} out:fade={{ duration: 150 }}></div>
 		{/if}
 		<!-- Minimum height should be the same as the button height to avoid "snapping" artifacts -->
-		<div class="mt-5 flex flex-row gap-5 min-h-16">
+		<div class="mt-5 flex flex-row gap-5 min-h-16 bottom-element">
 			{#if !removeRollButton}
 				<div class="min-w-[12rem]" out:fly={{ y: 50, duration: 150 }}>
 					<Button buttonHeight="4rem" buttonWidth="12rem" shadowHeight="0.5rem" onclick={scrollToEnd}>
@@ -333,6 +333,13 @@
 		.fade-mask {
 			mask-image: radial-gradient(circle, rgba(255, 255, 255, 1) 20%, rgba(0, 0, 0, 0) 80%);
 			mask-composite: intersect;
+		}
+	}
+
+	@media (max-height: 640px) {
+		.bottom-element {
+			position: fixed;
+			bottom: 2rem;
 		}
 	}
 </style>
