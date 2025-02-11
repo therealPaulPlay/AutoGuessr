@@ -44,10 +44,6 @@
 			showNext = false;
 		}
 	});
-
-	$effect(() => {
-		console.log("showPlusOne", showPlusOne);
-	});
 </script>
 
 {#if $resultPopup}
