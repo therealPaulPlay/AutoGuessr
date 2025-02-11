@@ -26,7 +26,7 @@ Draw a new autocard. The rarity depends on the score that was achieved in the ga
 ## Tailwind
 [Tailwind 3](https://tailwindcss.com/) is being used for styling.
 
-## SV - Svelte CLI
+## Framework
 
 AutoGuessr was built with [Svelte 5](https://svelte.dev/), powered by [`sv`](https://github.com/sveltejs/cli). 
 
