@@ -2,6 +2,7 @@ import { experience, isAuthenticated } from "$lib/stores/accountStore";
 import { get } from "svelte/store";
 import { fetchWithErrorHandling } from "./fetch";
 import { displayError } from "./displayError";
+import { accountUrl } from "$lib/stores/apiConfigStore";
 
 export async function addExperience(addAmount) {
 
@@ -16,7 +17,7 @@ export async function addExperience(addAmount) {
     }
 
     try {
-        const response = await fetchWithErrorHandling("https://accounts.openguessr.com/accounts/update/experience", {
+        const response = await fetchWithErrorHandling(get(accountUrl) + "/accounts/update/experience", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

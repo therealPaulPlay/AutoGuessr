@@ -1,11 +1,13 @@
 import { isAuthenticated, username, experience } from "$lib/stores/accountStore";
+import { accountUrl } from "$lib/stores/apiConfigStore";
 import { fetchWithErrorHandling } from "./fetch";
+import { get } from "svelte/store";
 import { getSave } from "./saveHelper";
 
 async function getUser() {
     try {
         const response = await fetchWithErrorHandling(
-            `https://accounts.openguessr.com/accounts/user/${localStorage.getItem("id") || "-1"}`,
+            `${get(accountUrl)}/accounts/user/${localStorage.getItem("id") || "-1"}`,
             {
                 method: "GET",
                 headers: {
