@@ -11,7 +11,7 @@
 	import { score, drawCardFlag } from "$lib/stores/gameStore";
 	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
-	import { cardDraw } from "$lib/utils/cardDraw";
+	import { cardDraw, calculateRarity } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
 	gsap.registerPlugin(Flip);
 
@@ -29,7 +29,7 @@
 	let showCardBack = $state(false);
 	let alreadyUnlocked = $state(false);
 	let drawNotAllowedPopup = $state(false);
-	
+
 	const raritiesSize = 40;
 	const cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 
@@ -37,40 +37,8 @@
 	let mainCard = $state();
 
 	function getRarityWithBonus(cardInfo, raritiesSize) {
-		// Cap the bonus value between 0 and 100
 		const cappedBonus = Math.min(Math.max(Math.pow($score, 1.2), 0), 100);
 		const rarities = [];
-
-		// Base probabilities (when bonus is 0)
-		const baseProbs = {
-			common: 50,
-			rare: 25,
-			epic: 15,
-			legendary: 8,
-			mystical: 2,
-		};
-
-		// Calculate scaling factor based on bonus
-		// As bonus increases, we decrease common/rare chances and increase epic/legendary/mystical
-		const scalingFactor = cappedBonus / 100;
-
-		// Adjust probabilities based on bonus
-		const adjustedProbs = {
-			common: baseProbs.common * (1 - scalingFactor * 0.8), // Reduce commons significantly
-			rare: baseProbs.rare * (1 - scalingFactor * 0.5), // Reduce rares moderately
-			epic: baseProbs.epic * (1 + scalingFactor), // Increase epics
-			legendary: baseProbs.legendary * (1 + scalingFactor * 2), // Increase legendaries more
-			mystical: baseProbs.mystical * (1 + scalingFactor * 3), // Increase mysticals most
-		};
-
-		// Calculate cumulative thresholds
-		const thresholds = {
-			common: adjustedProbs.common,
-			rare: adjustedProbs.common + adjustedProbs.rare,
-			epic: adjustedProbs.common + adjustedProbs.rare + adjustedProbs.epic,
-			legendary: adjustedProbs.common + adjustedProbs.rare + adjustedProbs.epic + adjustedProbs.legendary,
-			mystical: 100, // Remainder goes to mystical
-		};
 
 		for (let i = 0; i < raritiesSize; i++) {
 			if (i === raritiesSize - cardsOnRight - 1) {
@@ -78,25 +46,7 @@
 				continue;
 			}
 
-			const number = Math.floor(Math.random() * 100);
-
-			switch (true) {
-				case number < thresholds.common:
-					rarities.push("common");
-					break;
-				case number < thresholds.rare:
-					rarities.push("rare");
-					break;
-				case number < thresholds.epic:
-					rarities.push("epic");
-					break;
-				case number < thresholds.legendary:
-					rarities.push("legendary");
-					break;
-				default:
-					rarities.push("mystical");
-					break;
-			}
+			rarities.push(calculateRarity(cappedBonus));
 		}
 
 		return rarities;
