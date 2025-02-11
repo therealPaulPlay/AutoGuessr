@@ -4,6 +4,7 @@ import { get } from "svelte/store";
 import { storage } from "three/tsl";
 import { fetchWithErrorHandling } from "./fetch";
 import { displayError } from "./displayError";
+import { accountUrl } from "$lib/stores/apiConfigStore";
 
 export async function saveStorage() {
     const storageObject = {
@@ -22,7 +23,7 @@ export async function saveStorage() {
     // Save to database
     if (get(isAuthenticated) && localStorage.getItem("id") != null) {
         try {
-            const response = await fetchWithErrorHandling("https://accounts.openguessr.com/autoguessr/save", {
+            const response = await fetchWithErrorHandling(get(accountUrl) + "/autoguessr/save", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +45,7 @@ export async function saveStorage() {
 export async function getSave() {
     if (get(isAuthenticated) && localStorage.getItem("id") != null) {
         try {
-            const response = await fetchWithErrorHandling("https://accounts.openguessr.com/autoguessr/get-save/" + localStorage.getItem("id"));
+            const response = await fetchWithErrorHandling(get(accountUrl) + "/autoguessr/get-save/" + localStorage.getItem("id"));
             const data = await response.json();
             highscore.set(data?.highscore || 0);
             userCards.set(data?.userCards || []);
