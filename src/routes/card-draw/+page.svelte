@@ -11,7 +11,7 @@
 	import { score, drawCardFlag } from "$lib/stores/gameStore";
 	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
-	import { cardDraw } from "$lib/utils/cardDraw";
+	import { cardDraw, calculateRarity } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
 	gsap.registerPlugin(Flip);
 
@@ -29,7 +29,7 @@
 	let showCardBack = $state(false);
 	let alreadyUnlocked = $state(false);
 	let drawNotAllowedPopup = $state(false);
-	
+
 	const raritiesSize = 40;
 	const cardsOnRight = 3; // For some reason 0 breaks it. Not sure why
 
@@ -37,40 +37,8 @@
 	let mainCard = $state();
 
 	function getRarityWithBonus(cardInfo, raritiesSize) {
-		// Cap the bonus value between 0 and 100
 		const cappedBonus = Math.min(Math.max(Math.pow($score, 1.2), 0), 100);
 		const rarities = [];
-
-		// Base probabilities (when bonus is 0)
-		const baseProbs = {
-			common: 50,
-			rare: 20,
-			epic: 20,
-			legendary: 8,
-			mystical: 2,
-		};
-
-		// Calculate scaling factor based on bonus
-		// As bonus increases, we decrease common/rare chances and increase epic/legendary/mystical
-		const scalingFactor = cappedBonus / 100;
-
-		// Adjust probabilities based on bonus
-		const adjustedProbs = {
-			common: baseProbs.common * (1 - scalingFactor * 0.8), // Reduce commons significantly
-			rare: baseProbs.rare * (1 - scalingFactor * 0.5), // Reduce rares moderately
-			epic: baseProbs.epic * (1 + scalingFactor), // Increase epics
-			legendary: baseProbs.legendary * (1 + scalingFactor * 2), // Increase legendaries more
-			mystical: baseProbs.mystical * (1 + scalingFactor * 3), // Increase mysticals most
-		};
-
-		// Calculate cumulative thresholds
-		const thresholds = {
-			common: adjustedProbs.common,
-			rare: adjustedProbs.common + adjustedProbs.rare,
-			epic: adjustedProbs.common + adjustedProbs.rare + adjustedProbs.epic,
-			legendary: adjustedProbs.common + adjustedProbs.rare + adjustedProbs.epic + adjustedProbs.legendary,
-			mystical: 100, // Remainder goes to mystical
-		};
 
 		for (let i = 0; i < raritiesSize; i++) {
 			if (i === raritiesSize - cardsOnRight - 1) {
@@ -78,25 +46,7 @@
 				continue;
 			}
 
-			const number = Math.floor(Math.random() * 100);
-
-			switch (true) {
-				case number < thresholds.common:
-					rarities.push("common");
-					break;
-				case number < thresholds.rare:
-					rarities.push("rare");
-					break;
-				case number < thresholds.epic:
-					rarities.push("epic");
-					break;
-				case number < thresholds.legendary:
-					rarities.push("legendary");
-					break;
-				default:
-					rarities.push("mystical");
-					break;
-			}
+			rarities.push(calculateRarity(cappedBonus));
 		}
 
 		return rarities;
@@ -144,7 +94,7 @@
 	onMount(async () => {
 		if ($drawCardFlag) {
 			cardInfo = await cardDraw();
-			if (cardInfo && !saveAutocard(cardInfo)) alreadyUnlocked = true;
+			if (cardInfo && !saveAutocard(cardInfo.id)) alreadyUnlocked = true;
 			rarities = getRarityWithBonus(cardInfo, raritiesSize);
 			drawCardFlag.set(false);
 		} else {
@@ -234,7 +184,7 @@
 			<div class="fixed w-full h-full rays" in:fade={{ duration: 300, delay: 500 }} out:fade={{ duration: 150 }}></div>
 		{/if}
 		<!-- Minimum height should be the same as the button height to avoid "snapping" artifacts -->
-		<div class="mt-5 flex flex-row gap-5 min-h-16">
+		<div class="mt-5 flex flex-row gap-5 min-h-16 bottom-element">
 			{#if !removeRollButton}
 				<div class="min-w-[12rem]" out:fly={{ y: 50, duration: 150 }}>
 					<Button buttonHeight="4rem" buttonWidth="12rem" shadowHeight="0.5rem" onclick={scrollToEnd}>
@@ -383,6 +333,13 @@
 		.fade-mask {
 			mask-image: radial-gradient(circle, rgba(255, 255, 255, 1) 20%, rgba(0, 0, 0, 0) 80%);
 			mask-composite: intersect;
+		}
+	}
+
+	@media (max-height: 640px) {
+		.bottom-element {
+			position: fixed;
+			bottom: 2rem;
 		}
 	}
 </style>

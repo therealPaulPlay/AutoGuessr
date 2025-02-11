@@ -34,8 +34,8 @@
 		let resultArray = new Array(carsList?.length);
 
 		carsList?.forEach((car, index) => {
-			const userCar = get(userCards).find((userCar) => userCar.name === car.name);
-			userCar ? (resultArray[index] = userCar) : (resultArray[index] = { rarity: "locked" });
+			const userCar = get(userCards).find((carId) => carId === car.id);
+			userCar ? (resultArray[index] = car) : (resultArray[index] = { rarity: "locked" });
 		});
 
 		return resultArray;

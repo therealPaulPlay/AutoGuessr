@@ -11,20 +11,20 @@
 	<title>Game Over</title>
 </svelte:head>
 
-<content class="flex items-center justify-center overflow-y-visible h-full w-full">
-	<div class="-mt-12 flex justify-center items-center flex-col w-full max-w-2xl">
+<content class="flex items-center justify-center w-full min-h-full">
+	<div class="flex justify-center items-center flex-col w-full max-w-2xl pb-5 pt-2">
 		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">Game Over!</h1>
-		<div class="mb-16 text-center w-4/5 text-base">
+		<div class="mb-12 text-center w-4/5 text-base">
 			<div class="rounded-xl bg-tanMedium w-fit px-2 mx-auto mb-2">
 				<p>Tip: {$score < 5 ? "Get 5 correct guesses to draw a card!" : "Higher scores result in more rare cards!"}</p>
 			</div>
 			<p class="w-full max-w-full">
-				You were able to get <span class="text-green font-bold">{$score}</span>
+				You got <span class="text-green font-bold">{$score}</span>
 				correct guess{$score == 1 ? "" : "es"}!
 				{#if $score == $highscore}
-					This is your highscore!
+					New highscore!
 				{:else}
-					Your previous personal best was
+					Previous highscore:
 					<span class="text-orange font-bold">{$highscore}.</span>
 				{/if}
 			</p>
