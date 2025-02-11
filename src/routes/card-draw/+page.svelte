@@ -44,8 +44,8 @@
 		// Base probabilities (when bonus is 0)
 		const baseProbs = {
 			common: 50,
-			rare: 20,
-			epic: 20,
+			rare: 25,
+			epic: 15,
 			legendary: 8,
 			mystical: 2,
 		};
