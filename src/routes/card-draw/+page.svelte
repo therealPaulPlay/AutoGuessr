@@ -1,5 +1,5 @@
 <script>
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 	import { tick } from "svelte";
 	import { draw, fade, fly } from "svelte/transition";
 	import { gsap } from "gsap";
@@ -13,6 +13,7 @@
 	import { goto } from "$app/navigation";
 	import { cardDraw, calculateRarity } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
+	import { Howl } from "howler";
 	gsap.registerPlugin(Flip);
 
 	let cardInfo = $state();
@@ -60,6 +61,25 @@
 		// 3. Move the container to the right by the half width of the card
 		// 4. For any addtional cards on the right, move the container to the right by the width of the card and add 8px for the gap (gap-2 in Tailwindcss)
 		disableRollButton = true;
+		// Scroll "ticking" sound
+		const sound = new Howl({ src: ["/sounds/card_draw_tick.webm"], volume: 0.5 });
+		const duration = 3000,
+			minDelay = 50,
+			maxDelay = 600,
+			gamma = 0.7;
+		let elapsed = 0;
+		(function tick() {
+			if (elapsed >= duration) return;
+			sound.play();
+			const progress = elapsed / duration;
+			const delay =
+				progress < 0.5
+					? maxDelay - (maxDelay - minDelay) * Math.pow(progress / 0.5, gamma)
+					: maxDelay - ((maxDelay - minDelay) / 2) * (4 - 4 * progress);
+			elapsed += delay;
+			setTimeout(tick, delay);
+		})();
+
 		gsap
 			.to(scrollContainer, {
 				x: -(scrollContainer.scrollWidth - windowWidth / 2 - cardWidth / 2 - cardsOnRight * (cardWidth + 8)),
@@ -70,12 +90,14 @@
 				removeRollButton = true;
 				setTimeout(() => {
 					showRevealButton = true;
+					sound.play();
 				}, 150);
 			});
 	}
 
 	function revealCard() {
 		showCardBack = !showCardBack;
+		new Howl({ src: ["/sounds/card_unlock.webm"] }).volume(0.5).play();
 
 		setTimeout(() => {
 			showRevealButton = false;
@@ -188,7 +210,7 @@
 			{#if !removeRollButton}
 				<div class="min-w-[12rem]" out:fly={{ y: 50, duration: 150 }}>
 					<Button buttonHeight="4rem" buttonWidth="12rem" shadowHeight="0.5rem" onclick={scrollToEnd}>
-						<span class="text-white font-bold text-3xl">Roll!</span>
+						<span class="text-white font-semibold text-3xl">Roll!</span>
 					</Button>
 				</div>
 			{/if}
@@ -202,7 +224,7 @@
 						bgcolor="var(--green-button-dark)"
 						onclick={revealCard}
 					>
-						<span class="text-white font-bold text-3xl">Reveal!</span>
+						<span class="text-white font-semibold text-3xl">Reveal!</span>
 					</Button>
 				</div>
 			{/if}
@@ -216,7 +238,7 @@
 							goto("/game/end");
 						}}
 					>
-						<span class="text-white font-bold text-3xl">Summary</span>
+						<span class="text-white font-semibold text-3xl">Summary</span>
 					</Button>
 				</div>
 			{/if}

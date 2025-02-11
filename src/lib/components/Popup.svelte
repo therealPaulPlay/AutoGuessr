@@ -43,7 +43,7 @@
 				</Button>
 			</div>
 		{/if}
-		<h1 class="absolute mt-5 mb-10 text-3xl font-bold w-3/4 overflow-hidden text-ellipsis py-1">
+		<h1 class="absolute mt-5 mb-10 text-3xl font-semibold w-3/4 overflow-hidden text-ellipsis py-1">
 			{title}
 		</h1>
 		<div
