@@ -3,11 +3,13 @@ import { get } from "svelte/store";
 import { saveStorage } from "./saveHelper";
 
 export function saveAutocard(card) {
-    const cardString = JSON.stringify(card);
-    const exists = get(userCards).some(existingCard => JSON.stringify(existingCard) === cardString); // Check if an identical card already exists
+    const cardId = card.id;
+    const exists = get(userCards).some(existingId => existingId === cardId); // Check if ID already exists
 
     if (!exists) {
-        get(userCards).push(card);
+        get(userCards).push(
+            {id: cardId}
+        ); // Store only the ID
         saveStorage();
     }
 
