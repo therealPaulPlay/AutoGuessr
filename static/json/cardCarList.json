@@ -1,6 +1,6 @@
 [
     {
-        "id": "101",
+        "id": 101,
         "name": "Ford Focus ST",
         "HP": 280,
         "price": 35000,
@@ -10,7 +10,7 @@
         "image": "/assets/img/cars/ford-focus-st.webp"
     },
     {
-        "id": "102",
+        "id": 102,
         "name": "Mazda Miata MX-5 (NA)",
         "HP": 116,
         "price": 15000,
@@ -20,7 +20,7 @@
         "image": "/assets/img/cars/mazda-miata-mx-5-(na).webp"
     },
     {
-        "id": "103",
+        "id": 103,
         "name": "Mini Cooper S",
         "HP": 189,
         "price": 32000,
@@ -30,7 +30,7 @@
         "image": "/assets/img/cars/mini-cooper-s.webp"
     },
     {
-        "id": "104",
+        "id": 104,
         "name": "Toyota RAV4",
         "HP": 203,
         "price": 28000,
@@ -40,7 +40,7 @@
         "image": "/assets/img/cars/toyota-rav4-(4th-gen).webp"
     },
     {
-        "id": "105",
+        "id": 105,
         "name": "Volkswagen Golf GTI",
         "HP": 228,
         "price": 30000,
@@ -50,7 +50,7 @@
         "image": "/assets/img/cars/volkswagen-golf-gti.webp"
     },
     {
-        "id": "201",
+        "id": 201,
         "name": "BMW i3",
         "HP": 170,
         "price": 45000,
@@ -60,7 +60,7 @@
         "image": "/assets/img/cars/bmw-i3.webp"
     },
     {
-        "id": "202",
+        "id": 202,
         "name": "Maserati Ghibli",
         "HP": 424,
         "price": 85000,
@@ -70,7 +70,7 @@
         "image": "/assets/img/cars/maserati-ghibli.webp"
     },
     {
-        "id": "203",
+        "id": 203,
         "name": "Mercedes A-Class",
         "HP": 221,
         "price": 40000,
@@ -80,7 +80,7 @@
         "image": "/assets/img/cars/mercedes-a-class.webp"
     },
     {
-        "id": "204",
+        "id": 204,
         "name": "Porsche Cayenne",
         "HP": 335,
         "price": 75000,
@@ -90,7 +90,7 @@
         "image": "/assets/img/cars/porsche-cayenne.webp"
     },
     {
-        "id": "205",
+        "id": 205,
         "name": "Range Rover Evoque",
         "HP": 246,
         "price": 55000,
@@ -100,7 +100,7 @@
         "image": "/assets/img/cars/range-rover-evoque.webp"
     },
     {
-        "id": "301",
+        "id": 301,
         "name": "Audi R8 V8",
         "HP": 430,
         "price": 115000,
@@ -110,7 +110,7 @@
         "image": "/assets/img/cars/audi-r8-v8.webp"
     },
     {
-        "id": "302",
+        "id": 302,
         "name": "BMW 6 Series",
         "HP": 445,
         "price": 78000,
@@ -120,7 +120,7 @@
         "image": "/assets/img/cars/bmw-6-series.webp"
     },
     {
-        "id": "303",
+        "id": 303,
         "name": "Dodge Viper GTS",
         "HP": 450,
         "price": 85000,
@@ -130,7 +130,7 @@
         "image": "/assets/img/cars/dodge-viper-gts.webp"
     },
     {
-        "id": "304",
+        "id": 304,
         "name": "Bentley Flying Spur Mulliner",
         "HP": 626,
         "price": 225000,
@@ -140,7 +140,7 @@
         "image": "/assets/img/cars/flying-spur-mulliner.webp"
     },
     {
-        "id": "305",
+        "id": 305,
         "name": "Ford Mustang Dark Horse",
         "HP": 500,
         "price": 60000,
@@ -150,7 +150,7 @@
         "image": "/assets/img/cars/ford-mustang-dark-horse.webp"
     },
     {
-        "id": "401",
+        "id": 401,
         "name": "Aston Martin V12 Vantage S",
         "HP": 565,
         "price": 180000,
@@ -160,7 +160,7 @@
         "image": "/assets/img/cars/aston-martin-v12-vantage-s.webp"
     },
     {
-        "id": "402",
+        "id": 402,
         "name": "Ferrari F12 Berlinetta",
         "HP": 730,
         "price": 330000,
@@ -170,7 +170,7 @@
         "image": "/assets/img/cars/ferrari-f12-berlinetta.webp"
     },
     {
-        "id": "403",
+        "id": 403,
         "name": "Lamborghini Temerario",
         "HP": 814,
         "price": 400000,
@@ -180,7 +180,7 @@
         "image": "/assets/img/cars/lamborghini-temerario.webp"
     },
     {
-        "id": "404",
+        "id": 404,
         "name": "Nissan Skyline GT-R",
         "HP": 276,
         "price": 120000,
@@ -190,7 +190,7 @@
         "image": "/assets/img/cars/nissan-skyline-gt-r-(r34).webp"
     },
     {
-        "id": "405",
+        "id": 405,
         "name": "Porsche 911",
         "HP": 473,
         "price": 130000,
@@ -200,7 +200,7 @@
         "image": "/assets/img/cars/porsche-911.webp"
     },
     {
-        "id": "501",
+        "id": 501,
         "name": "Bugatti Tourbillon",
         "HP": 1800,
         "price": 5000000,
@@ -210,7 +210,7 @@
         "image": "/assets/img/cars/bugatti-tourbillon.webp"
     },
     {
-        "id": "502",
+        "id": 502,
         "name": "Ferrari F40",
         "HP": 471,
         "price": 1500000,
@@ -220,7 +220,7 @@
         "image": "/assets/img/cars/ferrari-f40.webp"
     },
     {
-        "id": "503",
+        "id": 503,
         "name": "McLaren F1",
         "HP": 627,
         "price": 20000000,
@@ -230,7 +230,7 @@
         "image": "/assets/img/cars/mclaren-f1.webp"
     },
     {
-        "id": "504",
+        "id": 504,
         "name": "Miura P400 SV",
         "HP": 385,
         "price": 4000000,
@@ -240,7 +240,7 @@
         "image": "/assets/img/cars/miura-p400-sv.webp"
     },
     {
-        "id": "505",
+        "id": 505,
         "name": "Porsche 959 S",
         "HP": 515,
         "price": 2000000,

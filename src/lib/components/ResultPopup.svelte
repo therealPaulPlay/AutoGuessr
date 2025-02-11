@@ -34,7 +34,7 @@
 			timeout2 = setTimeout(() => {
 				showPlusOne = false;
 				animatedScore = $score;
-			}, 5000);
+			}, 4750);
 			showNextTimeout = setTimeout(() => {
 				showNext = true;
 			}, 2500);

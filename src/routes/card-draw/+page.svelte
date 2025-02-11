@@ -94,7 +94,7 @@
 	onMount(async () => {
 		if ($drawCardFlag) {
 			cardInfo = await cardDraw();
-			if (cardInfo && !saveAutocard(cardInfo)) alreadyUnlocked = true;
+			if (cardInfo && !saveAutocard(cardInfo.id)) alreadyUnlocked = true;
 			rarities = getRarityWithBonus(cardInfo, raritiesSize);
 			drawCardFlag.set(false);
 		} else {
