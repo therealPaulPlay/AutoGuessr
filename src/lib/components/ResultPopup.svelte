@@ -6,19 +6,35 @@
 	import { fly, slide } from "svelte/transition";
 	import { resultPopup } from "$lib/stores/uiStore";
 	import { penaltyFlag, rewardFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
-	import { guessResult, question } from "$lib/stores/gameStore";
+	import { guessResult, question, score } from "$lib/stores/gameStore";
 	import { percentageDifference, goToNextQuestion, pointCalculation } from "$lib/utils/gameFunctions";
-	import { onMount } from "svelte";
+	import { onMount, onDestroy } from "svelte";
 	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { playClickingSound } from "$lib/utils/playClickingSound";
+	import { get } from "svelte/store";
 
 	let showNext = $state(false);
+	let showPlusOne = $state(false);
+	let animatedScore = $state();
 
 	let showNextTimeout;
+	let timeout1, timeout2;
 
 	resultPopup.subscribe((value) => {
 		if (value) {
 			clearTimeout(showNextTimeout);
+			clearTimeout(timeout1);
+			clearTimeout(timeout2);
+
+			animatedScore = $penaltyFlag ? $score : $score - 1;
+
+			timeout1 = setTimeout(() => {
+				showPlusOne = true;
+			}, 3500);
+			timeout2 = setTimeout(() => {
+				showPlusOne = false;
+				animatedScore = $score;
+			}, 5000);
 			showNextTimeout = setTimeout(() => {
 				showNext = true;
 			}, 2500);
@@ -27,6 +43,10 @@
 		} else {
 			showNext = false;
 		}
+	});
+
+	$effect(() => {
+		console.log("showPlusOne", showPlusOne);
 	});
 </script>
 
@@ -64,6 +84,14 @@
 				/>
 			</div>
 			<div in:fly={{ x: -50, delay: 2500 }} class="mt-10">
+				<div class="flex w-full justify-center p-3">
+					<span class="relative text-base text-orange font-semibold bg-tanLight px-2 py-1 rounded-lg min-w-28 text-center">
+						Score: {animatedScore}
+						{#if showPlusOne && !$penaltyFlag}
+							<span in:fly={{ y: 20 }} out:fly={{ x: -20 }} class="absolute -right-8 text-orange font-bold">+1</span>
+						{/if}
+					</span>
+				</div>
 				<Button buttonWidth="12rem" buttonHeight="4rem" onclick={goToNextQuestion} interactive={showNext}>
 					<span class="text-white text-xl font-medium flex items-center justify-center gap-2"
 						>Next <ArrowRightCircle strokeWidth={3} /></span
