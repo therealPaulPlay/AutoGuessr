@@ -141,9 +141,9 @@
 		});
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		if ($drawCardFlag) {
-			cardInfo = cardDraw();
+			cardInfo = await cardDraw();
 			if (cardInfo && !saveAutocard(cardInfo)) alreadyUnlocked = true;
 			rarities = getRarityWithBonus(cardInfo, raritiesSize);
 			drawCardFlag.set(false);

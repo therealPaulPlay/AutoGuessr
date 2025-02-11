@@ -1,0 +1,227 @@
+[
+    {
+        "name": "Ford Focus ST",
+        "HP": 280,
+        "price": 35000,
+        "engineType": "I4 Turbo",
+        "date": "2020",
+        "rarity": "common",
+        "image": "/assets/img/cars/ford-focus-st.webp"
+    },
+    {
+        "name": "Mazda Miata MX-5 (NA)",
+        "HP": 116,
+        "price": 15000,
+        "engineType": "I4",
+        "date": "1990",
+        "rarity": "common",
+        "image": "/assets/img/cars/mazda-miata-mx-5-(na).webp"
+    },
+    {
+        "name": "Mini Cooper S",
+        "HP": 189,
+        "price": 32000,
+        "engineType": "I4 Turbo",
+        "date": "2022",
+        "rarity": "common",
+        "image": "/assets/img/cars/mini-cooper-s.webp"
+    },
+    {
+        "name": "Toyota RAV4",
+        "HP": 203,
+        "price": 28000,
+        "engineType": "I4",
+        "date": "2018",
+        "rarity": "common",
+        "image": "/assets/img/cars/toyota-rav4-(4th-gen).webp"
+    },
+    {
+        "name": "Volkswagen Golf GTI",
+        "HP": 228,
+        "price": 30000,
+        "engineType": "I4 Turbo",
+        "date": "2019",
+        "rarity": "common",
+        "image": "/assets/img/cars/volkswagen-golf-gti.webp"
+    },
+    {
+        "name": "BMW i3",
+        "HP": 170,
+        "price": 45000,
+        "engineType": "Electric",
+        "date": "2013",
+        "rarity": "rare",
+        "image": "/assets/img/cars/bmw-i3.webp"
+    },
+    {
+        "name": "Maserati Ghibli",
+        "HP": 424,
+        "price": 85000,
+        "engineType": "V6 Turbo",
+        "date": "2022",
+        "rarity": "rare",
+        "image": "/assets/img/cars/maserati-ghibli.webp"
+    },
+    {
+        "name": "Mercedes A-Class",
+        "HP": 221,
+        "price": 40000,
+        "engineType": "I4 Turbo",
+        "date": "2023",
+        "rarity": "rare",
+        "image": "/assets/img/cars/mercedes-a-class.webp"
+    },
+    {
+        "name": "Porsche Cayenne",
+        "HP": 335,
+        "price": 75000,
+        "engineType": "V6 Turbo",
+        "date": "2023",
+        "rarity": "rare",
+        "image": "/assets/img/cars/porsche-cayenne.webp"
+    },
+    {
+        "name": "Range Rover Evoque",
+        "HP": 246,
+        "price": 55000,
+        "engineType": "I4 Turbo",
+        "date": "2023",
+        "rarity": "rare",
+        "image": "/assets/img/cars/range-rover-evoque.webp"
+    },
+    {
+        "name": "Audi R8 V8",
+        "HP": 430,
+        "price": 115000,
+        "engineType": "V8",
+        "date": "2007",
+        "rarity": "epic",
+        "image": "/assets/img/cars/audi-r8-v8.webp"
+    },
+    {
+        "name": "BMW 6 Series",
+        "HP": 445,
+        "price": 78000,
+        "engineType": "V8",
+        "date": "2018",
+        "rarity": "epic",
+        "image": "/assets/img/cars/bmw-6-series.webp"
+    },
+    {
+        "name": "Dodge Viper GTS",
+        "HP": 450,
+        "price": 85000,
+        "engineType": "V10",
+        "date": "1996",
+        "rarity": "epic",
+        "image": "/assets/img/cars/dodge-viper-gts.webp"
+    },
+    {
+        "name": "Bentley Flying Spur Mulliner",
+        "HP": 626,
+        "price": 225000,
+        "engineType": "W12",
+        "date": "2022",
+        "rarity": "epic",
+        "image": "/assets/img/cars/flying-spur-mulliner.webp"
+    },
+    {
+        "name": "Ford Mustang Dark Horse",
+        "HP": 500,
+        "price": 60000,
+        "engineType": "V8",
+        "date": "2024",
+        "rarity": "epic",
+        "image": "/assets/img/cars/ford-mustang-dark-horse.webp"
+    },
+    {
+        "name": "Aston Martin V12 Vantage S",
+        "HP": 565,
+        "price": 180000,
+        "engineType": "V12",
+        "date": "2013",
+        "rarity": "legendary",
+        "image": "/assets/img/cars/aston-martin-v12-vantage-s.webp"
+    },
+    {
+        "name": "Ferrari F12 Berlinetta",
+        "HP": 730,
+        "price": 330000,
+        "engineType": "V12",
+        "date": "2012",
+        "rarity": "legendary",
+        "image": "/assets/img/cars/ferrari-f12-berlinetta.webp"
+    },
+    {
+        "name": "Lamborghini Temerario",
+        "HP": 814,
+        "price": 400000,
+        "engineType": "V12 Hybrid",
+        "date": "2024",
+        "rarity": "legendary",
+        "image": "/assets/img/cars/lamborghini-temerario.webp"
+    },
+    {
+        "name": "Nissan Skyline GT-R",
+        "HP": 276,
+        "price": 120000,
+        "engineType": "I6 Turbo",
+        "date": "1999",
+        "rarity": "legendary",
+        "image": "/assets/img/cars/nissan-skyline-gt-r-(r34).webp"
+    },
+    {
+        "name": "Porsche 911",
+        "HP": 473,
+        "price": 130000,
+        "engineType": "Flat-6 Turbo",
+        "date": "2023",
+        "rarity": "legendary",
+        "image": "/assets/img/cars/porsche-911.webp"
+    },
+    {
+        "name": "Bugatti Tourbillon",
+        "HP": 1800,
+        "price": 5000000,
+        "engineType": "Hybrid V16",
+        "date": "2024",
+        "rarity": "mystical",
+        "image": "/assets/img/cars/bugatti-tourbillon.webp"
+    },
+    {
+        "name": "Ferrari F40",
+        "HP": 471,
+        "price": 1500000,
+        "engineType": "V8",
+        "date": "1987",
+        "rarity": "mystical",
+        "image": "/assets/img/cars/ferrari-f40.webp"
+    },
+    {
+        "name": "McLaren F1",
+        "HP": 627,
+        "price": 20000000,
+        "engineType": "V12",
+        "date": "1992",
+        "rarity": "mystical",
+        "image": "/assets/img/cars/mclaren-f1.webp"
+    },
+    {
+        "name": "Miura P400 SV",
+        "HP": 385,
+        "price": 4000000,
+        "engineType": "V12",
+        "date": "1971",
+        "rarity": "mystical",
+        "image": "/assets/img/cars/miura-p400-sv.webp"
+    },
+    {
+        "name": "Porsche 959 S",
+        "HP": 515,
+        "price": 2000000,
+        "engineType": "Flat-6 Turbo",
+        "date": "1988",
+        "rarity": "mystical",
+        "image": "/assets/img/cars/porsche-959-s.webp"
+    }
+]

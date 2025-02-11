@@ -1,4 +1,5 @@
 <script>
+	import { browser } from "$app/environment";
 	import { onDestroy, onMount } from "svelte";
 	import * as THREE from "three";
 	import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
@@ -166,7 +167,7 @@
 		wheels = null;
 
 		// Remove event listener
-		if (typeof window !== "undefined") {
+		if (browser) {
 			window.removeEventListener("resize", onWindowResize);
 		}
 	});

@@ -53,7 +53,7 @@ export async function setCurrentQuestion(questionId) {
     }
 }
 
-const SCORE_DRAW_THRESHOLD = 5;
+const SCORE_DRAW_THRESHOLD = 0;
 
 export function goToNextQuestion(saveHistory = true) {
     if (saveHistory) addLastQuestionToHistory();

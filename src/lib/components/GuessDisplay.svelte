@@ -4,6 +4,7 @@
 	import { gsap } from "gsap";
 	import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 	import { fly } from "svelte/transition";
+	import { browser } from "$app/environment";
 	gsap.registerPlugin(ScrollToPlugin);
 
 	let { answer, guess, percentageDifference } = $props();
@@ -60,7 +61,7 @@
 	}
 
 	function positionPrice(barElement, priceElement) {
-		if (typeof window === "undefined" && !barElement) return;
+		if (!browser && !barElement) return;
 		if (!priceElement) return console.warn("Price element is undefined!");
 
 		let barOffset = barElement.getBoundingClientRect().left;

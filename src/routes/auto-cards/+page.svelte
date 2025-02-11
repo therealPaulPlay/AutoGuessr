@@ -1,9 +1,10 @@
 <script>
 	import { onMount, onDestroy } from "svelte";
 	import Card from "$lib/components/Card.svelte";
-	import { carsList } from "$lib/stores/carsStore";
 	import { isAuthenticated, userCards } from "$lib/stores/accountStore";
 	import { get } from "svelte/store";
+	import { getCardCarList } from "$lib/utils/getCardCarList";
+	import { browser } from "$app/environment";
 
 	const MAX_CARDS_FILL = 25;
 
@@ -28,10 +29,11 @@
 		}
 	}
 
-	function orderCards() {
-		let resultArray = new Array(get(carsList).length);
+	async function orderCards() {
+		const carsList = await getCardCarList();
+		let resultArray = new Array(carsList?.length);
 
-		get(carsList).forEach((car, index) => {
+		carsList?.forEach((car, index) => {
 			const userCar = get(userCards).find((userCar) => userCar.name === car.name);
 			userCar ? (resultArray[index] = userCar) : (resultArray[index] = { rarity: "locked" });
 		});
@@ -39,13 +41,9 @@
 		return resultArray;
 	}
 
-	onMount(() => {
-		cards = orderCards();
-		generateCards();
-	});
-
-	userCards.subscribe((value) => {
-		cards = orderCards();
+	userCards.subscribe(async (value) => {
+		if (!browser) return;
+		cards = await orderCards();
 		generateCards();
 	});
 </script>
@@ -57,7 +55,9 @@
 </svelte:head>
 
 {#if !$isAuthenticated}
-	<div class="rounded-xl bg-tanMedium w-fit p-0.5 px-2 mx-auto fixed bottom-4 left-0 right-0 text-nowrap text-center max-w-[90%] text-base">
+	<div
+		class="rounded-xl bg-tanMedium w-fit p-0.5 px-2 mx-auto fixed bottom-4 left-0 right-0 text-nowrap text-center max-w-[90%] text-base"
+	>
 		<p class="text-ellipsis overflow-hidden">Sign in to sync your cards across devices!</p>
 	</div>
 {/if}
