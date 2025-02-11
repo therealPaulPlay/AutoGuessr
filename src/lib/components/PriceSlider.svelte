@@ -1,7 +1,7 @@
 <script>
 	import { Howl } from "howler";
-	let { sliderMin = 1, sliderMax = 500_000, guessValue = $bindable(sliderMin), children } = $props();
-	
+	let { sliderMin = 0, sliderMax = 500_000, guessValue = $bindable(sliderMin), children } = $props();
+
 	const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
 	let restrictedGuess = $derived(clamp(guessValue, sliderMin, sliderMax));
 
@@ -41,7 +41,9 @@
 	let inputFocused = $state(false);
 </script>
 
-<div class="w-full flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] gap-2">
+<div
+	class="w-full flex items-center h-[4.2rem] rounded-lg bg-tanLight p-2 drop-shadow-[0_0.3rem_0_var(--white-shadow)] gap-2"
+>
 	<div class="grow-[2]">
 		<input
 			type="range"

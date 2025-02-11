@@ -20,6 +20,7 @@
 		guessResult,
 		totalCarAmount,
 		imgElement,
+		priceRange,
 	} from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
 	import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -88,18 +89,6 @@
 		if (!messages[condition]) return console.warn("Invalid condition provided.");
 		const conditionMessages = messages[condition];
 		$popupMessage = conditionMessages[Math.floor(Math.random() * conditionMessages.length)];
-	}
-
-	// Slider
-	let range = $state(0);
-	question.subscribe((value) => {
-		range = getValueRange(value.answer);
-	});
-
-	function getValueRange(value) {
-		if (value <= 100_000) return { min: 0, max: 100_000 };
-		if (value <= 500_000) return { min: 100_000, max: 500_000 };
-		return { min: 500_000, max: 5_000_000 };
 	}
 
 	let blinkInterval;
@@ -201,7 +190,7 @@
 		</div>
 		<div class="p-2.5 rounded-t-2xl md:max-w-3xl max-md:w-full flex z-[2] pointer-events-auto bg-defaultShadow">
 			<div class="flex grow gap-2.5 text-white w-full">
-				<PriceSlider sliderMin={range.min} sliderMax={range.max} bind:guessValue={$guessResult} />
+				<PriceSlider sliderMin={$priceRange?.min} sliderMax={$priceRange?.max} bind:guessValue={$guessResult} />
 				<Button
 					color="var(--default-button)"
 					bgcolor="var(--default-button-dark)"

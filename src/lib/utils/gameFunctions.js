@@ -1,5 +1,5 @@
 import { get } from "svelte/store";
-import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score, imgElement, drawCardFlag } from "$lib/stores/gameStore";
+import { question, guessResult, lives, currentCarouselIndex, gameRounds, totalCarAmount, score, imgElement, drawCardFlag, priceRange } from "$lib/stores/gameStore";
 import { resultPopup } from "$lib/stores/uiStore";
 import { penaltyFlag, rewardFlag } from "$lib/stores/resultPopupStore";
 import { fetchWithErrorHandling } from "$lib/utils/fetch";
@@ -11,7 +11,7 @@ import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 import { saveStorage } from "./saveHelper";
 
-export async function setCurrentQuestion(questionId) {
+async function setCurrentQuestion(questionId) {
     try {
         const data = await fetchWithErrorHandling(`${get(baseUrl)}/car-data/standard/${questionId}`).then((response) =>
             response.json(),
@@ -47,16 +47,24 @@ export async function setCurrentQuestion(questionId) {
         ];
 
         question.set(get(question)); // Ensure reactivity update for store
+        priceRange.set(getValueRange(get(question).answer)); // Set range
+        guessResult.set(get(priceRange).min); // Reset price slider value to new minimum
     } catch (error) {
         console.error("Error occured retrieving car data:", error);
         displayError("Error occured retrieving car data: " + error);
     }
 }
 
-const SCORE_DRAW_THRESHOLD = 0;
+function getValueRange(value) {
+    if (value <= 100_000) return { min: 0, max: 100_000 };
+    if (value <= 500_000) return { min: 100_000, max: 500_000 };
+    return { min: 500_000, max: 5_000_000 };
+}
+
+const SCORE_DRAW_THRESHOLD = 5;
 
 export function goToNextQuestion(saveHistory = true) {
-    if (saveHistory) addLastQuestionToHistory();
+    if (saveHistory) addLastQuestionToRoundLog();
 
     // Resets
     guessResult.set(0);
@@ -101,7 +109,7 @@ export function goToNextQuestion(saveHistory = true) {
     setCurrentQuestion(newIndex); // Fetch new car question
 }
 
-function addLastQuestionToHistory() {
+function addLastQuestionToRoundLog() {
     gameRounds.update((value) => {
         const newArray = value;
         newArray.push({

@@ -66,7 +66,7 @@
 					goto("/game");
 				}}
 			>
-				<span class="text-white font-bold text-3xl">Play again</span>
+				<span class="text-white font-semibold text-3xl">Play again</span>
 			</Button>
 			<Button
 				buttonHeight="4rem"
@@ -76,7 +76,7 @@
 					goto("/");
 				}}
 			>
-				<span class="text-white font-bold text-3xl"><Home strokeWidth={3} size={28} /></span>
+				<span class="text-white text-3xl"><Home strokeWidth={3} size={28} /></span>
 			</Button>
 		</div>
 	</div>
