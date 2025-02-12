@@ -56,7 +56,7 @@
 
 {#if !$isAuthenticated}
 	<div
-		class="rounded-xl bg-tanMedium w-fit p-0.5 px-2 mx-auto fixed bottom-4 left-0 right-0 text-nowrap text-center max-w-[90%] text-base"
+		class="rounded-xl bg-tanMedium w-fit p-0.5 px-2 mx-auto fixed bottom-4 left-0 right-0 text-nowrap text-center max-w-[90%] text-base max-sm:hidden"
 	>
 		<p class="text-ellipsis overflow-hidden">Sign in to sync your cards across devices!</p>
 	</div>

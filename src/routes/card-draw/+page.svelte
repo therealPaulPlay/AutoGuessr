@@ -79,7 +79,7 @@
 			elapsed += delay;
 			setTimeout(tick, delay);
 		})();
-
+		setTimeout(() => (removeRollButton = true), 350);
 		gsap
 			.to(scrollContainer, {
 				x: -(scrollContainer.scrollWidth - windowWidth / 2 - cardWidth / 2 - cardsOnRight * (cardWidth + 8)),
@@ -87,7 +87,6 @@
 				ease: "power2.inOut",
 			})
 			.then(() => {
-				removeRollButton = true;
 				setTimeout(() => {
 					showRevealButton = true;
 					sound.play();
@@ -146,7 +145,7 @@
 		}, 100);
 	}}
 />
-<content class="relative h-full block">
+<content class="relative h-full">
 	<div class="flex flex-col w-full h-full justify-center items-center overflow-hidden">
 		<div>
 			<img src="/assets/svg/arrow.svg" alt="Arrow" class="w-8 h-8 -rotate-90" />
@@ -358,7 +357,7 @@
 		}
 	}
 
-	@media (max-height: 640px) {
+	@media (max-height: 720px) {
 		.bottom-element {
 			position: fixed;
 			bottom: 2rem;
