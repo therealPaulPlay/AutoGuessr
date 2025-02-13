@@ -116,7 +116,7 @@
 	onMount(() => {
 		setTimeout(() => {
 			scrollToAnswer();
-		}, 2000);
+		}, 1500);
 	});
 
 	onMount(() => {
