@@ -57,7 +57,7 @@
 			<div class="flex flex-col items-center overflow-hidden">
 				<p
 					in:fly={{ y: -50, delay: 250 }}
-					class="font-bold text-green text-7xl text-nowrap max-md:text-3xl mb-3 text-center"
+					class="font-bold text-green text-7xl text-nowrap max-md:text-3xl mb-4 text-center"
 				>
 					{$popupMessage}
 				</p>
