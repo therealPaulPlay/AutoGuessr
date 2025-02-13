@@ -57,11 +57,11 @@
 			<div class="flex flex-col items-center overflow-hidden">
 				<p
 					in:fly={{ y: -50, delay: 250 }}
-					class="font-bold text-green text-7xl text-nowrap max-md:text-3xl mb-5 text-center"
+					class="font-bold text-green text-7xl text-nowrap max-md:text-3xl mb-3 text-center"
 				>
 					{$popupMessage}
 				</p>
-				<p class="text-black text-base text-center text-wrap md:w-2/3 w-full px-2" in:fly={{ y: -50, delay: 500 }}>
+				<p class="text-black text-base text-center text-wrap md:w-2/3 w-full px-2 mb-1" in:fly={{ y: -50, delay: 500 }}>
 					Your guess of <span class="text-orange font-semibold">${$guessResult.toLocaleString()}</span>
 					was off by
 					<span class="text-orange font-semibold">{percentageDifference().toFixed(2)}%</span>.
