@@ -82,7 +82,7 @@
 	const messages = {
 		bad: ["Uh oh...", "Stay strong!", "That's not it!", "Not quite..."],
 		good: ["Nice work!", "Keep it up!", "Well done!", "Very good!"],
-		great: ["Amazing job!", "You're unstoppable!", "Keep shining!", "Just wow!"],
+		great: ["Amazing job!", "Spot on!", "Keep shining!", "Just wow!"],
 	};
 
 	function setPopupMessage(condition) {
