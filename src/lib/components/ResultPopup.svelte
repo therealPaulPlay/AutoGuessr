@@ -30,16 +30,16 @@
 
 			timeout1 = setTimeout(() => {
 				showPlusOne = true;
-			}, 3500);
+			}, 2000);
 			timeout2 = setTimeout(() => {
 				showPlusOne = false;
 				animatedScore = $score;
-			}, 4750);
+			}, 3250);
 			showNextTimeout = setTimeout(() => {
 				showNext = true;
-			}, 2500);
+			}, 1000);
 
-			setTimeout(playClickingSound, 2250);
+			setTimeout(playClickingSound, 1750);
 		} else {
 			showNext = false;
 		}
@@ -49,14 +49,14 @@
 {#if $resultPopup}
 	<Popup closeFunction={goToNextQuestion} showCloseButton={false}>
 		{#if $penaltyFlag || $rewardFlag}
-			<div in:fly|global={{ y: 50, delay: 1000 }} class="lives absolute z-[-1] right-0 -top-28">
+			<div in:fly|global={{ y: 50, delay: 250 }} class="lives absolute z-[-1] right-0 -top-28">
 				<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="h-24 flex content-end" />
 			</div>
 		{/if}
 		<div class="h-full max-w-full flex flex-col justify-evenly items-center">
 			<div class="flex flex-col items-center overflow-hidden">
 				<p
-					in:fly={{ y: -50, delay: 500 }}
+					in:fly={{ y: -50, delay: 250 }}
 					class="font-bold text-green text-7xl text-nowrap max-md:text-3xl mb-5 text-center"
 				>
 					{$popupMessage}
@@ -79,7 +79,7 @@
 					percentageDifference={percentageDifference().toFixed(2)}
 				/>
 			</div>
-			<div in:fly={{ x: -50, delay: 2500 }} class="mt-10">
+			<div in:fly={{ x: -50, delay: 1500 }} class="mt-10">
 				<div class="flex w-full justify-center p-3">
 					<span class="relative text-base text-orange font-semibold bg-tanLight px-2 py-1 rounded-lg min-w-28 text-center">
 						Score: {animatedScore}
