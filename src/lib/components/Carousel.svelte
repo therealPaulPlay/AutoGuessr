@@ -6,6 +6,16 @@
 	import MapDisplay from "./MapDisplay.svelte";
 	let { images = [], description = "No description was provided.", descriptionFlag = false } = $props();
 
+	// Add www. to prevent 80ms long redirect
+	let processedImages = $derived.by(() => {
+		return images.map((url) => {
+			if (url.startsWith("https://") && !url.startsWith("https://www.")) {
+				return "https://www." + url.slice("https://".length);
+			}
+			return url;
+		});
+	});
+
 	// References and state
 	let container; // The main container for sizing
 	let imageFit = $state(false); // Toggles object-fit between cover and contain
@@ -31,9 +41,6 @@
 
 	// Ensure the image stays within the container.
 	function clampTranslation() {
-		// When scaled, the image is (scale * containerWidth) wide.
-		// At scale 1, there is no extra image visible.
-		// The extra width is containerWidth * (scale - 1) and should be divided equally on both sides.
 		const maxX = (containerWidth * (scale - 1)) / 2;
 		const maxY = (containerHeight * (scale - 1)) / 2;
 		if (translateX > maxX) translateX = maxX;
@@ -49,14 +56,12 @@
 		translateY = 0;
 	}
 
-	// Zooming via mouse wheel ---
-	// A linear zoom: each wheel tick adjusts scale by a fixed factor.
+	// Zooming via mouse wheel
 	function handleWheel(e) {
 		e.preventDefault();
 		// Change scale by a fixed linear factor
 		let newScale = scale - e.deltaY * 0.005;
 		newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, newScale));
-
 		// Calculate a simple adjustment so that the pointer stays in place.
 		const rect = container.getBoundingClientRect();
 		const centerX = rect.left + rect.width / 2;
@@ -68,64 +73,62 @@
 		const factor = newScale / scale;
 		translateX = translateX * factor + offsetX * (1 - factor);
 		translateY = translateY * factor + offsetY * (1 - factor);
-
 		scale = newScale;
 		clampTranslation();
 	}
 
-	// Navigate Carousel ---
+	// Navigate Carousel
 	function next() {
-		if (images.length > 1) {
+		if (processedImages?.length > 1) {
 			if ($imgElement) $imgElement.src = ""; // clear current image
-			$currentCarouselIndex = ($currentCarouselIndex + 1) % images.length;
+			$currentCarouselIndex = ($currentCarouselIndex + 1) % processedImages?.length;
 			new Howl({ src: ["/sounds/short_click.webm"] }).play();
 			resetZoom();
+			if ($currentCarouselIndex + 1 - processedImages?.length) {
+				const preloadedImage = new Image();
+				preloadedImage.src = processedImages?.[$currentCarouselIndex + 1];
+			}
 		}
 	}
 	function prev() {
-		if (images.length > 1) {
+		if (processedImages?.length > 1) {
 			if ($imgElement) $imgElement.src = "";
-			$currentCarouselIndex = ($currentCarouselIndex - 1 + images.length) % images.length;
+			$currentCarouselIndex = ($currentCarouselIndex - 1 + processedImages?.length) % processedImages?.length;
 			new Howl({ src: ["/sounds/short_click.webm"] }).play();
 			resetZoom();
 		}
 	}
-	// Swipe Handling for Mobile (to switch image) -------
+
+	$effect(() => {
+		if ($currentCarouselIndex == 0) {
+			const preloadedImage = new Image();
+			preloadedImage.src = processedImages?.[$currentCarouselIndex + 1];
+		}
+	});
+
+	// Swipe Handling for Mobile
 	let touchStartX = 0;
 	let touchStartY = 0;
 	let touchEndX = 0;
 	let touchEndY = 0;
-
 	function handleTouchStart(event) {
-		// Only consider single-finger swipes.
 		if (event.touches.length > 1) return;
 		touchStartX = event.touches[0].clientX;
 		touchStartY = event.touches[0].clientY;
-		// Initialize touchEnd to ensure a tap doesn't trigger a swipe.
 		touchEndX = touchStartX;
 		touchEndY = touchStartY;
 	}
-
 	function handleTouchMove(event) {
-		// Only consider single-finger swipes.
 		if (event.touches.length > 1) return;
-		// Prevent default to avoid scrolling while swiping.
 		event.preventDefault();
 		touchEndX = event.touches[0].clientX;
 		touchEndY = event.touches[0].clientY;
 	}
-
 	function handleTouchEnd() {
 		const dx = touchEndX - touchStartX;
 		const dy = touchEndY - touchStartY;
-		// Only trigger a swipe if the horizontal movement exceeds 50px
-		// and vertical movement is minimal.
 		if (Math.abs(dx) > 50 && Math.abs(dy) < 50) {
-			if (dx < 0) {
-				next();
-			} else {
-				prev();
-			}
+			dx < 0 ? next() : prev();
 		}
 	}
 
@@ -136,7 +139,6 @@
 
 <svelte:window onresize={updateContainerSize} />
 
-<!-- Container with swipe event handlers -->
 <div
 	bind:this={container}
 	ontouchstart={handleTouchStart}
@@ -146,7 +148,6 @@
 >
 	<div class="relative w-full h-full flex items-center rounded-lg min-h-96">
 		{#if !descriptionFlag}
-			<!-- Navigation arrows (hidden on small screens) -->
 			<div class="hidden sm:flex z-10 w-full h-full flex-row justify-between items-center mx-4 pointer-events-none">
 				<div class="w-16 h-16 flex justify-center bg-white rounded-full pr-2 pointer-events-auto">
 					<button onclick={prev} class="transition active:scale-90">
@@ -159,18 +160,17 @@
 					</button>
 				</div>
 			</div>
-			<!-- Count view -->
 			<div class="absolute -bottom-1 -right-1 p-2 bg-white rounded-tl-lg font-medium text-base text-orange z-10">
 				<p class="text-lg">
-					{$currentCarouselIndex + 1} / {images.length}
+					{$currentCarouselIndex + 1} / {processedImages?.length}
 				</p>
 			</div>
 
-			<!-- Image view -->
+			<!-- Updated the image src to use the processedImages array -->
 			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<img
-				src={images[$currentCarouselIndex]}
+				src={processedImages?.[$currentCarouselIndex]}
 				alt=" "
 				bind:this={$imgElement}
 				onload={() => {
