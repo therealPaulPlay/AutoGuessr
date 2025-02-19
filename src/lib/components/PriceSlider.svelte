@@ -3,7 +3,12 @@
 	let { sliderMin = 0, sliderMax = 500_000, guessValue = $bindable(sliderMin), children } = $props();
 
 	const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
-	let restrictedGuess = $derived(clamp(guessValue, sliderMin, sliderMax));
+	let restrictedGuess = $derived.by(() => {
+		if(guessValue < sliderMin) {
+			return guessValue;
+		}
+		return clamp(guessValue, sliderMin, sliderMax);
+	});
 
 	// Initialize the Howl sound instance for the coin click
 	const coinClickSound = new Howl({ src: ["/sounds/price_click.webm"], volume: 0.25 });
