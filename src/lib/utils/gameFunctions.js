@@ -146,6 +146,8 @@ function addLastQuestionToRoundLog() {
 
 // Get percentage difference between guess & actual price
 export function percentageDifference() {
+    if(get(guessResult) < get(priceRange)?.min) guessResult.set(get(priceRange)?.min) // Ensure guess is within range
+    if(get(guessResult) > get(priceRange).max) guessResult.set(get(priceRange)?.max) // Probably not needed, but just in case
     if (get(question).answer === 0 && get(guessResult) === 0) return 0;
     const base = (Math.abs(get(question).answer) + Math.abs(get(guessResult))) / 2; // Calculate the base as the average of absolute values
     const difference = Math.abs(get(question).answer - get(guessResult)); // Calculate the absolute difference
