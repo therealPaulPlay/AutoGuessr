@@ -21,6 +21,11 @@
 		// Expand the table fully before capturing
 		resultTable.style.maxHeight = "none";
 
+		// This is a fix because for some reason text-center doesn't center in screenshot
+		resultTable.querySelectorAll("td, th").forEach((td) => {
+			td.style.paddingBottom = "2rem";
+		});
+
 		// Show the extra element before capturing
 		watermark.classList.remove("hidden");
 
@@ -42,6 +47,9 @@
 
 		// Restore original styles
 		resultTable.style.maxHeight = originalHeight;
+		resultTable.querySelectorAll("td, th").forEach((td) => {
+			td.style.paddingBottom = "";
+		});
 
 		// Hide the extra element again
 		watermark.classList.add("hidden");
@@ -75,30 +83,30 @@
 			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
 		>
 			<table class="table-auto w-full h-full">
-				<thead class="bg-orange text-white border-b-2 border-white">
-					<tr>
-						<th class="py-5 px-2">Round</th>
-						<th class="px-2">Guess</th>
-						<th class="px-2">Answer</th>
-						<th class="px-2">Difference</th>
-						<th class="px-2">Points</th>
+				<thead class="text-white bg-orange border-b-2 border-white">
+					<tr class="head-row">
+						<th>Round</th>
+						<th>Guess</th>
+						<th>Answer</th>
+						<th>Difference</th>
+						<th>Points</th>
 					</tr>
 				</thead>
 				<tbody>
 					{#each $gameRounds as round, index}
-						<tr class="text-center" class:green-row={round.rewardFlag} class:red-row={round.penaltyFlag}>
-							<td class="px-4 py-2">{index + 1}</td>
-							<td class="px-4 py-2">${round.guess.toLocaleString()}</td>
-							<td class="px-4 py-2">${round.answer.toLocaleString()}</td>
-							<td class="px-4 py-2">{round.difference.toFixed(2)}%</td>
-							<td class="px-4 py-2" s>{round.points}</td>
+						<tr class="text-center row" class:green-row={round.rewardFlag} class:red-row={round.penaltyFlag}>
+							<td>{index + 1}</td>
+							<td>${round.guess.toLocaleString()}</td>
+							<td>${round.answer.toLocaleString()}</td>
+							<td>{round.difference.toFixed(2)}%</td>
+							<td>{round.points}</td>
 						</tr>
 					{/each}
 				</tbody>
 			</table>
 		</div>
 		<p bind:this={watermark} class="text-base hidden">
-			Come and play at<span class="text-orange font-bold">&nbsp;Autoguessr.com!</span>
+			Play on<span class="text-orange font-bold">&nbsp;Autoguessr.com!</span>
 		</p>
 		<div class="flex gap-5 flex-wrap justify-center items-center no-capture">
 			<Button
@@ -137,5 +145,13 @@
 
 	.red-row {
 		background-color: var(--tan-medium);
+	}
+
+	.head-row th {
+		padding: 1.25rem 0.5rem;
+	}
+
+	.row td {
+		padding: 1rem 0.5rem;
 	}
 </style>
