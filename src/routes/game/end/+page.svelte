@@ -109,7 +109,7 @@
 			</table>
 		</div>
 		<p bind:this={watermark} class="text-base hidden">
-			Play on<span class="text-orange font-bold">&nbsp;AutoGuessr.com!</span>
+			Play on<span class="text-orange font-semibold">&nbsp;AutoGuessr.com!</span>
 		</p>
 		<div class="flex gap-5 flex-wrap justify-center items-center no-capture">
 			<Button
