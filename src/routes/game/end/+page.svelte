@@ -3,13 +3,14 @@
 	import { goto } from "$app/navigation";
 	import { score, gameRounds } from "$lib/stores/gameStore";
 	import { highscore } from "$lib/stores/accountStore";
-	import { Home, Share } from "lucide-svelte";
+	import { Home, Share, Repeat } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
 
 	let mainContent = $state();
 	let resultTable = $state();
 	let watermark = $state();
+	let innerWidth = $state();
 
 	function captureScreen() {
 		if (!resultTable) return;
@@ -60,6 +61,8 @@
 	<title>Game Over</title>
 </svelte:head>
 
+<svelte:window bind:innerWidth />
+
 <content class="flex items-center justify-center w-full min-h-full" bind:this={mainContent}>
 	<div class="flex justify-center items-center flex-col w-full max-w-2xl pb-5 pt-2">
 		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">Game Over!</h1>
@@ -106,12 +109,12 @@
 			</table>
 		</div>
 		<p bind:this={watermark} class="text-base hidden">
-			Play on<span class="text-orange font-bold">&nbsp;Autoguessr.com!</span>
+			Play on<span class="text-orange font-bold">&nbsp;AutoGuessr.com!</span>
 		</p>
 		<div class="flex gap-5 flex-wrap justify-center items-center no-capture">
 			<Button
 				buttonHeight="4rem"
-				buttonWidth="14rem"
+				buttonWidth={innerWidth >= 768 ? "14rem" : "4rem"}
 				shadowHeight="0.5rem"
 				color="var(--green-button)"
 				bgcolor="var(--green-button-dark)"
@@ -119,7 +122,13 @@
 					goto("/game");
 				}}
 			>
-				<span class="text-white font-semibold text-3xl">Play again</span>
+				{#if innerWidth >= 768}
+					<!-- Render text on larger screens -->
+					<span class="text-white font-semibold text-3xl">Play again</span>
+				{:else}
+					<!-- Render an icon on smaller screens -->
+					<span class="text-white text-3xl"><Repeat strokeWidth={3} size={28} /></span>
+				{/if}
 			</Button>
 			<Button
 				buttonHeight="4rem"
