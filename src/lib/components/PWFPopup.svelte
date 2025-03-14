@@ -13,6 +13,7 @@
 	let showCopiedMessage = $state(false);
 	let timeoutId;
 
+	// Test inputs
 	let playerNames = [
 		"real name 1",
 		"real name 2",
@@ -49,10 +50,8 @@
 		copiedFlag = true;
 		showCopiedMessage = true;
 
-		// Clear any existing timeout
 		clearTimeout(timeoutId);
 
-		// Hide message after 2 seconds
 		timeoutId = setTimeout(() => {
 			showCopiedMessage = false;
 		}, 1000);
@@ -135,7 +134,10 @@
 					</button>
 				</div>
 				<div class="w-[80%] pb-2">
-					<BasicTable array={playerNames} />
+					<BasicTable array={playerNames} emptyMessage={"Waiting for players..."} />
+					<span>
+						{playerNames.length} player{playerNames.length > 1 || playerNames.length == 0 ? "s are" : " is"} waiting!
+					</span>
 				</div>
 				<div class="flex gap-5 w-[80%]">
 					<div class="w-2/3">
