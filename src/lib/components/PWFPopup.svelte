@@ -3,7 +3,7 @@
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
 	import { PWFPopupBody, PWFCurrentScreen } from "$lib/stores/multiplayerStore";
-	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste } from "lucide-svelte";
+	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
@@ -199,9 +199,10 @@
 					</div>
 					<div class="w-[80%] pb-2">
 						<BasicTable array={playerNames} emptyMessage={"Waiting for players..."} />
-						<span>
-							{playerNames.length} player{playerNames.length > 1 || playerNames.length == 0 ? "s are" : " is"} waiting!
-						</span>
+						<div class="flex items-center gap-1 mt-1 text-black">
+							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
+							{playerNames.length}
+						</div>
 					</div>
 					<div class="flex gap-5 w-[80%]">
 						<div class="w-2/3">
