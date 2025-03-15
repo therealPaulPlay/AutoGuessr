@@ -130,177 +130,179 @@
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
-<Popup
-	closeFunction={() => {
-		PWFPopupBody.set(false);
-	}}
-	small={windowWidth > 768}
->
-	<div class="pt-6 flex flex-col justify-center items-center">
-		{#if $PWFCurrentScreen === "main"}
-			<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
-			<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
-				<Button
-					color="var(--green-button)"
-					bgcolor="var(--green-button-dark)"
-					buttonHeight="10rem"
-					buttonWidth="10rem"
-					shadowHeight="0.5rem"
-					onclick={handleHost}
-				>
-					<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
-						<Globe strokeWidth={4} absoluteStrokeWidth={true} size={72} />
-						<span class="text-white font-semibold text-3xl">Host</span>
-					</div>
-				</Button>
-				<span class="text-2xl text-black opacity-80">or</span>
-				<Button buttonHeight="10rem" buttonWidth="10rem" shadowHeight="0.5rem" onclick={handleJoin}>
-					<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
-						<Unplug strokeWidth={4} absoluteStrokeWidth={true} size={72} />
-						<span class="text-white font-semibold text-3xl">Join</span>
-					</div>
-				</Button>
-			</div>
-			<p class="text-center text-black mt-8 opacity-50 w-[79%]">
-				* Please refrain from using VPNs or proxies as it will more likely than not break multiplayer.
-			</p>
-		{:else if $PWFCurrentScreen === "host"}
-			<div class="flex flex-col justify-center items-center w-full">
-				<span>Code:</span>
-				<div class="flex align-middle mb-5 items-center gap-4">
-					<span class="text-3xl font-semibold text-black">
-						{#each code as letter}
-							<span class="underline mx-1">
-								{letter.toUpperCase()}
-							</span>
-						{/each}
-					</span>
-					<button
-						class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
-						class:copied={copiedFlag}
-						onclick={handleCopy}
+{#if $PWFPopupBody}
+	<Popup
+		closeFunction={() => {
+			PWFPopupBody.set(false);
+		}}
+		small={windowWidth > 768}
+	>
+		<div class="pt-6 flex flex-col justify-center items-center">
+			{#if $PWFCurrentScreen === "main"}
+				<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
+				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
+					<Button
+						color="var(--green-button)"
+						bgcolor="var(--green-button-dark)"
+						buttonHeight="10rem"
+						buttonWidth="10rem"
+						shadowHeight="0.5rem"
+						onclick={handleHost}
 					>
-						{#if !copiedFlag}
-							<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
-						{:else}
-							<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
-						{/if}
-						{#if showCopiedMessage}
-							<span
-								in:fly={{ y: 10, delay: 50 }}
-								out:fade={{ duration: 150 }}
-								class="absolute -top-7 -left-12 text-black"
+						<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
+							<Globe strokeWidth={4} absoluteStrokeWidth={true} size={72} />
+							<span class="text-white font-semibold text-3xl">Host</span>
+						</div>
+					</Button>
+					<span class="text-2xl text-black opacity-80">or</span>
+					<Button buttonHeight="10rem" buttonWidth="10rem" shadowHeight="0.5rem" onclick={handleJoin}>
+						<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
+							<Unplug strokeWidth={4} absoluteStrokeWidth={true} size={72} />
+							<span class="text-white font-semibold text-3xl">Join</span>
+						</div>
+					</Button>
+				</div>
+				<p class="text-center text-black mt-8 opacity-50 w-[79%]">
+					* Please refrain from using VPNs or proxies as it will more likely than not break multiplayer.
+				</p>
+			{:else if $PWFCurrentScreen === "host"}
+				<div class="flex flex-col justify-center items-center w-full">
+					<span>Code:</span>
+					<div class="flex align-middle mb-5 items-center gap-4">
+						<span class="text-3xl font-semibold text-black">
+							{#each code as letter}
+								<span class="underline mx-1">
+									{letter.toUpperCase()}
+								</span>
+							{/each}
+						</span>
+						<button
+							class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+							class:copied={copiedFlag}
+							onclick={handleCopy}
+						>
+							{#if !copiedFlag}
+								<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
+							{:else}
+								<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
+							{/if}
+							{#if showCopiedMessage}
+								<span
+									in:fly={{ y: 10, delay: 50 }}
+									out:fade={{ duration: 150 }}
+									class="absolute -top-7 -left-12 text-black"
+								>
+									Copied!
+								</span>
+							{/if}
+						</button>
+					</div>
+					<div class="w-[80%] pb-2">
+						<BasicTable array={playerNames} emptyMessage={"Waiting for players..."} />
+						<span>
+							{playerNames.length} player{playerNames.length > 1 || playerNames.length == 0 ? "s are" : " is"} waiting!
+						</span>
+					</div>
+					<div class="flex gap-5 w-[80%]">
+						<div class="w-2/3">
+							<Button
+								color="var(--green-button)"
+								bgcolor="var(--green-button-dark)"
+								customClasses="!w-full"
+								buttonHeight="4rem"
+								buttonWidth="21rem"
+								shadowHeight="0.5rem"
+								onclick={() => {
+									console.log("Start clicked!");
+								}}
 							>
-								Copied!
-							</span>
-						{/if}
-					</button>
-				</div>
-				<div class="w-[80%] pb-2">
-					<BasicTable array={playerNames} emptyMessage={"Waiting for players..."} />
-					<span>
-						{playerNames.length} player{playerNames.length > 1 || playerNames.length == 0 ? "s are" : " is"} waiting!
-					</span>
-				</div>
-				<div class="flex gap-5 w-[80%]">
-					<div class="w-2/3">
-						<Button
-							color="var(--green-button)"
-							bgcolor="var(--green-button-dark)"
-							customClasses="!w-full"
-							buttonHeight="4rem"
-							buttonWidth="21rem"
-							shadowHeight="0.5rem"
-							onclick={() => {
-								console.log("Start clicked!");
-							}}
-						>
-							<span class="text-white w-full text-center font-semibold text-3xl">Start</span>
-						</Button>
+								<span class="text-white w-full text-center font-semibold text-3xl">Start</span>
+							</Button>
+						</div>
+						<div class="w-1/3">
+							<Button
+								customClasses="!w-full"
+								buttonHeight="4rem"
+								buttonWidth="21rem"
+								shadowHeight="0.5rem"
+								onclick={handleHostLeave}
+							>
+								{#if windowWidth >= 768}
+									<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
+								{:else}
+									<div class="-rotate-90">
+										<Share strokeWidth={3} size={28} />
+									</div>
+								{/if}
+							</Button>
+						</div>
 					</div>
-					<div class="w-1/3">
-						<Button
-							customClasses="!w-full"
-							buttonHeight="4rem"
-							buttonWidth="21rem"
-							shadowHeight="0.5rem"
-							onclick={handleHostLeave}
-						>
-							{#if windowWidth >= 768}
-								<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
-							{:else}
-								<div class="-rotate-90">
-									<Share strokeWidth={3} size={28} />
+				</div>
+			{:else if $PWFCurrentScreen === "join"}
+				<div class="flex flex-col justify-center items-center w-full">
+					<span class="mb-2">Enter the room code:</span>
+					<div class="flex align-middle mb-5 items-center gap-4">
+						<div class="flex w-full h-10 gap-2">
+							{#each alphanetPlaceholders as letter, index (index)}
+								<div>
+									<input
+										type="text"
+										placeholder={letter}
+										class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
+										oninput={(e) => handleInput(e, index)}
+										onkeydown={(e) => handleKeyDown(e, index)}
+										bind:value={codeInputs[index]}
+										use:collectRef={index}
+									/>
+									<div class="code-underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
 								</div>
-							{/if}
-						</Button>
-					</div>
-				</div>
-			</div>
-		{:else if $PWFCurrentScreen === "join"}
-			<div class="flex flex-col justify-center items-center w-full">
-				<span class="mb-2">Enter the room code:</span>
-				<div class="flex align-middle mb-5 items-center gap-4">
-					<div class="flex w-full h-10 gap-2">
-						{#each alphanetPlaceholders as letter, index (index)}
-							<div>
-								<input
-									type="text"
-									placeholder={letter}
-									class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
-									oninput={(e) => handleInput(e, index)}
-									onkeydown={(e) => handleKeyDown(e, index)}
-									bind:value={codeInputs[index]}
-									use:collectRef={index}
-								/>
-								<div class="code-underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
-							</div>
-						{/each}
-					</div>
-					<button
-						class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
-						class:copied={copiedFlag}
-						onclick={handlePaste}
-					>
-						<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
-					</button>
-				</div>
-				<div class="flex gap-5 w-[80%]">
-					<div class="w-2/3">
-						<Button
-							color="var(--green-button)"
-							bgcolor="var(--green-button-dark)"
-							customClasses="!w-full"
-							buttonHeight="4rem"
-							buttonWidth="21rem"
-							shadowHeight="0.5rem"
-							onclick={handlePlayerEnter}
+							{/each}
+						</div>
+						<button
+							class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+							class:copied={copiedFlag}
+							onclick={handlePaste}
 						>
-							<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
-						</Button>
+							<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
+						</button>
 					</div>
-					<div class="w-1/3">
-						<Button
-							customClasses="!w-full"
-							buttonHeight="4rem"
-							buttonWidth="21rem"
-							shadowHeight="0.5rem"
-							onclick={handleHostLeave}
-						>
-							{#if windowWidth >= 768}
-								<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
-							{:else}
-								<div class="-rotate-90">
-									<Share strokeWidth={3} size={28} />
-								</div>
-							{/if}
-						</Button>
+					<div class="flex gap-5 w-[80%]">
+						<div class="w-2/3">
+							<Button
+								color="var(--green-button)"
+								bgcolor="var(--green-button-dark)"
+								customClasses="!w-full"
+								buttonHeight="4rem"
+								buttonWidth="21rem"
+								shadowHeight="0.5rem"
+								onclick={handlePlayerEnter}
+							>
+								<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
+							</Button>
+						</div>
+						<div class="w-1/3">
+							<Button
+								customClasses="!w-full"
+								buttonHeight="4rem"
+								buttonWidth="21rem"
+								shadowHeight="0.5rem"
+								onclick={handleHostLeave}
+							>
+								{#if windowWidth >= 768}
+									<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
+								{:else}
+									<div class="-rotate-90">
+										<Share strokeWidth={3} size={28} />
+									</div>
+								{/if}
+							</Button>
+						</div>
 					</div>
 				</div>
-			</div>
-		{/if}
-	</div>
-</Popup>
+			{/if}
+		</div>
+	</Popup>
+{/if}
 
 <style>
 	.copied {

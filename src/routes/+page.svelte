@@ -138,10 +138,6 @@
 	</div>
 </content>
 
-{#if $PWFPopupBody}
-	<PWFPopup />
-{/if}
-
 <style>
 	.logo-animation {
 		animation: dynamicPulse 8s infinite ease-in-out;
