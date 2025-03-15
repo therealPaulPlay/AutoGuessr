@@ -3,7 +3,7 @@
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
 	import { PWFPopupBody, PWFCurrentScreen } from "$lib/stores/multiplayerStore";
-	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share } from "lucide-svelte";
+	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste } from "lucide-svelte";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
@@ -12,6 +12,10 @@
 	let copiedFlag = $state(false);
 	let showCopiedMessage = $state(false);
 	let timeoutId;
+
+	let alphanetPlaceholders = ["A", "B", "C", "D", "E", "F"];
+	let codeInputs = $state(Array(6).fill(""));
+	let inputRefs = $state([]);
 
 	// Test inputs
 	let playerNames = [
@@ -55,6 +59,48 @@
 		timeoutId = setTimeout(() => {
 			showCopiedMessage = false;
 		}, 1000);
+	}
+
+	function handlePaste() {
+		console.log("Codepaste clicked");
+	}
+
+	// Svelte action to collect element references
+	function collectRef(node, index) {
+		inputRefs[index] = node;
+		return {
+			destroy() {
+				inputRefs[index] = null;
+			},
+		};
+	}
+
+	// Handles input: validates a single uppercase letter and moves focus
+	function handleInput(e, index) {
+		let val = e.target.value.toUpperCase().slice(0, 1);
+		if (/^[A-Z]$/.test(val)) {
+			codeInputs[index] = val;
+			e.target.value = val;
+
+			codeInputs = [...codeInputs];
+			
+			// Move focus to the next input if available
+			if (index < alphanetPlaceholders.length - 1) {
+				inputRefs[index + 1]?.focus();
+			}
+		} else {
+			// Clear invalid input
+			codeInputs[index] = "";
+			e.target.value = "";
+			codeInputs = [...codeInputs];
+		}
+	}
+
+	// Handle keydown event for Backspace: move focus to previous if needed
+	function handleKeyDown(e, index) {
+		if (e.key === "Backspace" && !codeInputs[index] && index > 0) {
+			inputRefs[index - 1]?.focus();
+		}
 	}
 
 	function handleHostLeave() {
@@ -175,8 +221,66 @@
 				</div>
 			</div>
 		{:else if $PWFCurrentScreen === "join"}
-			<div class="pt-6 flex flex-col justify-center items-center">
-				<span class="text-3xl font-semibold text-black mb-5">Join screen</span>
+			<div class="flex flex-col justify-center items-center w-full">
+				<span class="mb-2">Enter the room code:</span>
+				<div class="flex align-middle mb-5 items-center gap-4">
+					<div class="flex w-full h-10 gap-2">
+						{#each alphanetPlaceholders as letter, index (index)}
+							<div>
+								<input
+									type="text"
+									placeholder={letter}
+									class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
+									oninput={(e) => handleInput(e, index)}
+									onkeydown={(e) => handleKeyDown(e, index)}
+									use:collectRef={index}
+								/>
+								<div class="underline" style:opacity={codeInputs[index] ? 1 : 0.4}></div>
+							</div>
+						{/each}
+					</div>
+					<button
+						class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+						class:copied={copiedFlag}
+						onclick={handlePaste}
+					>
+						<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
+					</button>
+				</div>
+				<div class="flex gap-5 w-[80%]">
+					<div class="w-2/3">
+						<Button
+							color="var(--green-button)"
+							bgcolor="var(--green-button-dark)"
+							customClasses="!w-full"
+							buttonHeight="4rem"
+							buttonWidth="21rem"
+							shadowHeight="0.5rem"
+							onclick={() => {
+								console.log("Start clicked!");
+							}}
+						>
+							<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
+						</Button>
+					</div>
+					<div class="w-1/3">
+						<Button
+							customClasses="!w-full"
+							buttonHeight="4rem"
+							buttonWidth="21rem"
+							shadowHeight="0.5rem"
+							onclick={handleHostLeave}
+						>
+							{#if windowWidth >= 768}
+								<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
+							{:else}
+								<div class="-rotate-90">
+									<Share strokeWidth={3} size={28} />
+								</div>
+							{/if}
+						</Button>
+					</div>
+				</div>
 			</div>
 		{/if}
 	</div>
@@ -185,5 +289,17 @@
 <style>
 	.copied {
 		background-color: var(--default-button);
+	}
+
+	.underline {
+		height: 2px;
+		width: 100%;
+		background-color: black;
+		margin-top: 4px;
+	}
+
+	input::placeholder {
+		color: var(--black);
+		opacity: 0.15;
 	}
 </style>
