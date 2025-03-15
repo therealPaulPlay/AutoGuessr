@@ -63,7 +63,14 @@
 	}
 
 	function handlePaste() {
-		fillCode("ASDZXC");
+		navigator.clipboard
+			.readText()
+			.then((text) => {
+				fillCode(text.toUpperCase());
+			})
+			.catch((err) => {
+				console.error("Failed to read clipboard contents: ", err);
+			});
 	}
 
 	// Svelte action to collect element references
@@ -108,8 +115,8 @@
 		codeInputs = premadeCode.split("").slice(0, 6);
 	}
 
-	function handlePlayerEnter(){
-		let codeString = codeInputs.join('');
+	function handlePlayerEnter() {
+		let codeString = codeInputs.join("");
 		console.log(codeString);
 	}
 
