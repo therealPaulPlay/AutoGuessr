@@ -205,7 +205,7 @@
 						</div>
 					</div>
 					<div class="flex gap-5 w-[80%]">
-						<div class="w-2/3">
+						<div class="w-3/4">
 							<Button
 								color="var(--green-button)"
 								bgcolor="var(--green-button-dark)"
@@ -220,7 +220,7 @@
 								<span class="text-white w-full text-center font-semibold text-3xl">Start</span>
 							</Button>
 						</div>
-						<div class="w-1/3">
+						<div class="w-1/4">
 							<Button
 								customClasses="!w-full"
 								buttonHeight="4rem"
@@ -228,13 +228,9 @@
 								shadowHeight="0.5rem"
 								onclick={handleHostLeave}
 							>
-								{#if windowWidth >= 768}
-									<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
-								{:else}
-									<div class="-rotate-90">
-										<Share strokeWidth={3} size={28} />
-									</div>
-								{/if}
+								<div class="-rotate-90">
+									<Share strokeWidth={3} size={28} />
+								</div>
 							</Button>
 						</div>
 					</div>
@@ -268,7 +264,7 @@
 						</button>
 					</div>
 					<div class="flex gap-5 w-[80%]">
-						<div class="w-2/3">
+						<div class="w-3/4">
 							<Button
 								color="var(--green-button)"
 								bgcolor="var(--green-button-dark)"
@@ -281,7 +277,7 @@
 								<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
 							</Button>
 						</div>
-						<div class="w-1/3">
+						<div class="w-1/4">
 							<Button
 								customClasses="!w-full"
 								buttonHeight="4rem"
@@ -289,13 +285,9 @@
 								shadowHeight="0.5rem"
 								onclick={handleHostLeave}
 							>
-								{#if windowWidth >= 768}
-									<span class="text-white w-full text-center font-semibold text-3xl">Leave</span>
-								{:else}
-									<div class="-rotate-90">
-										<Share strokeWidth={3} size={28} />
-									</div>
-								{/if}
+								<div class="-rotate-90">
+									<Share strokeWidth={3} size={28} />
+								</div>
 							</Button>
 						</div>
 					</div>
