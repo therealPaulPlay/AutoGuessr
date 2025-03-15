@@ -62,7 +62,7 @@
 	}
 
 	function handlePaste() {
-		console.log("Codepaste clicked");
+		fillCode("ASDZXC");
 	}
 
 	// Svelte action to collect element references
@@ -83,7 +83,7 @@
 			e.target.value = val;
 
 			codeInputs = [...codeInputs];
-			
+
 			// Move focus to the next input if available
 			if (index < alphanetPlaceholders.length - 1) {
 				inputRefs[index + 1]?.focus();
@@ -101,6 +101,15 @@
 		if (e.key === "Backspace" && !codeInputs[index] && index > 0) {
 			inputRefs[index - 1]?.focus();
 		}
+	}
+
+	function fillCode(premadeCode) {
+		codeInputs = premadeCode.split("").slice(0, 6);
+	}
+
+	function handlePlayerEnter(){
+		let codeString = codeInputs.join('');
+		console.log(codeString);
 	}
 
 	function handleHostLeave() {
@@ -233,9 +242,10 @@
 									class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
 									oninput={(e) => handleInput(e, index)}
 									onkeydown={(e) => handleKeyDown(e, index)}
+									bind:value={codeInputs[index]}
 									use:collectRef={index}
 								/>
-								<div class="underline" style:opacity={codeInputs[index] ? 1 : 0.4}></div>
+								<div class="underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
 							</div>
 						{/each}
 					</div>
@@ -256,9 +266,7 @@
 							buttonHeight="4rem"
 							buttonWidth="21rem"
 							shadowHeight="0.5rem"
-							onclick={() => {
-								console.log("Start clicked!");
-							}}
+							onclick={handlePlayerEnter}
 						>
 							<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
 						</Button>
@@ -296,6 +304,7 @@
 		width: 100%;
 		background-color: black;
 		margin-top: 4px;
+		transition: opacity 250ms;
 	}
 
 	input::placeholder {
