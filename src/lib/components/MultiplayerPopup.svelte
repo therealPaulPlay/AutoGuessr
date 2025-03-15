@@ -197,14 +197,14 @@
 							{/if}
 						</button>
 					</div>
-					<div class="w-[80%] pb-2">
+					<div class="w-[80%]">
 						<BasicTable array={playerNames} emptyMessage={"Waiting for players..."} />
 						<div class="flex items-center gap-1 mt-1 text-black">
 							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
 							{playerNames.length}
 						</div>
 					</div>
-					<div class="flex gap-5 w-[80%]">
+					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-3/4">
 							<Button
 								color="var(--green-button)"
@@ -263,7 +263,7 @@
 							<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
 						</button>
 					</div>
-					<div class="flex gap-5 w-[80%]">
+					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-3/4">
 							<Button
 								color="var(--green-button)"
