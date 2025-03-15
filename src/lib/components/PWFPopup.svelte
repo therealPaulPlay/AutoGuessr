@@ -35,6 +35,7 @@
 
 	function handleJoin() {
 		console.log("Join clicked");
+		copiedFlag = false;
 		showScreen("join");
 	}
 
@@ -245,7 +246,7 @@
 									bind:value={codeInputs[index]}
 									use:collectRef={index}
 								/>
-								<div class="underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
+								<div class="code-underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
 							</div>
 						{/each}
 					</div>
@@ -299,7 +300,7 @@
 		background-color: var(--default-button);
 	}
 
-	.underline {
+	.code-underline {
 		height: 2px;
 		width: 100%;
 		background-color: black;
