@@ -25,7 +25,7 @@
 	import { Howl, Howler } from "howler";
 	import { gameVolume, music } from "$lib/stores/gameStore";
 	import CreditsPopup from "$lib/components/CreditsPopup.svelte";
-	import PwfPopup from "$lib/components/PWFPopup.svelte";
+	import MultiplayerPopup from "$lib/components/MultiplayerPopup.svelte";
 
 	let { children } = $props();
 
@@ -144,4 +144,4 @@
 <Analytics />
 <ResultPopup />
 <CreditsPopup />
-<PwfPopup />
+<MultiplayerPopup />

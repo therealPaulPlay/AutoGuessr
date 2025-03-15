@@ -2,11 +2,11 @@
 	import Button from "$lib/components/Button.svelte";
 	import Tab from "$lib/components/Tab.svelte";
 	import Popup from "$lib/components/Popup.svelte";
-	import PWFPopup from "$lib/components/PWFPopup.svelte";
+	import MultiplayerPopup from "$lib/components/MultiplayerPopup.svelte";
 	import { goto } from "$app/navigation";
 	import { difficulty, difficultyRules } from "$lib/stores/gameStore";
 	import { howToPlayPopup } from "$lib/stores/uiStore";
-	import { PWFPopupBody } from "$lib/stores/multiplayerStore";
+	import { MultiplayerPopupBody } from "$lib/stores/multiplayerStore";
 	import { onMount } from "svelte";
 	import CarModel from "$lib/components/CarModel.svelte";
 
@@ -107,7 +107,7 @@
 						buttonWidth="21rem"
 						shadowHeight="0.5rem"
 						onclick={() => {
-							$PWFPopupBody = true;
+							$MultiplayerPopupBody = true;
 						}}
 					>
 						<div class="flex flex-row items-center justify-between w-full px-2">

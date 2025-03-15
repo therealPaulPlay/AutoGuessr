@@ -2,7 +2,7 @@
 	import Popup from "$lib/components/Popup.svelte";
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
-	import { PWFPopupBody, PWFCurrentScreen } from "$lib/stores/multiplayerStore";
+	import { MultiplayerPopupBody, MultiplayerCurrentScreen } from "$lib/stores/multiplayerStore";
 	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
@@ -40,7 +40,7 @@
 	}
 
 	function showScreen(screen) {
-		$PWFCurrentScreen = screen;
+		$MultiplayerCurrentScreen = screen;
 	}
 
 	function copyToClipboard(text) {
@@ -130,15 +130,15 @@
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
-{#if $PWFPopupBody}
+{#if $MultiplayerPopupBody}
 	<Popup
 		closeFunction={() => {
-			PWFPopupBody.set(false);
+			MultiplayerPopupBody.set(false);
 		}}
 		small={windowWidth > 768}
 	>
 		<div class="pt-6 flex flex-col justify-center items-center">
-			{#if $PWFCurrentScreen === "main"}
+			{#if $MultiplayerCurrentScreen === "main"}
 				<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
 				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
 					<Button
@@ -165,7 +165,7 @@
 				<p class="text-center text-black mt-8 opacity-50 w-[79%]">
 					* Please refrain from using VPNs or proxies as it will more likely than not break multiplayer.
 				</p>
-			{:else if $PWFCurrentScreen === "host"}
+			{:else if $MultiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
 					<span>Code:</span>
 					<div class="flex align-middle mb-5 items-center gap-4">
@@ -235,7 +235,7 @@
 						</div>
 					</div>
 				</div>
-			{:else if $PWFCurrentScreen === "join"}
+			{:else if $MultiplayerCurrentScreen === "join"}
 				<div class="flex flex-col justify-center items-center w-full">
 					<span class="mb-2">Enter the room code:</span>
 					<div class="flex align-middle mb-5 items-center gap-4">

@@ -1,4 +1,4 @@
 import { writable } from "svelte/store";
 
-export const PWFPopupBody = writable(false);
-export const PWFCurrentScreen = writable(false);
+export const MultiplayerPopupBody = writable(false);
+export const MultiplayerCurrentScreen = writable(false);
