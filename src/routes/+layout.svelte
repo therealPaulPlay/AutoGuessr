@@ -62,7 +62,33 @@
 			if ($music) localStorage.removeItem("autoguessr_music");
 		});
 	});
+
+	// Load Playlight
+	let playlightSDK;
+	onMount(async () => {
+		try {
+			const module = await import("https://sdk.playlight.dev/playlight-sdk.es.js");
+			playlightSDK = module.default;
+			await playlightSDK.init({
+				button: {
+					visible: false,
+				},
+			});
+		} catch (error) {
+			console.error("Error loading the Playlight SDK:", error);
+		}
+	});
 </script>
+
+<svelte:head>
+	<!-- Load Playlight CSS -->
+	<link
+		rel="stylesheet"
+		href="https://sdk.playlight.dev/playlight-sdk.css"
+		media="print"
+		onload={(this.media = "all")}
+	/>
+</svelte:head>
 
 <nav
 	class="fixed left-0 right-0 flex flex-row justify-between p-4 items-center z-20 transition {$page.url.pathname !== '/'
@@ -74,8 +100,6 @@
 			<button class="w-10 h-10 transition active:scale-90" onclick={HandleBackButton}>
 				<img src="{base}/assets/svg/point_arrow.svg" alt="Back" />
 			</button>
-		{:else}
-			<img src="/android-chrome-512x512.png" class="w-10 h-10 md:hidden" alt="logo mobile" />
 		{/if}
 	</div>
 	<!-- Right side -->
@@ -94,16 +118,41 @@
 						<span class="text-xl z-10 text-white"><User strokeWidth={2} /></span>
 						<image class="absolute w-9 h-9" src="/assets/svg/level.svg" alt="level"></image>
 					</button>
-					<div class="text-xl">{$username}</div>
+					<div class="text-xl max-md:max-w-16 md:max-w-30 truncate">{$username}</div>
 				</div>
 			{:else}
 				<Button
 					buttonWidth="3.25rem"
 					onclick={() => {
 						signupPopup.set(true);
-					}}><img src="/assets/svg/sign up.svg" alt="sign up" style:width="1.5rem" /></Button
+					}}><img src="/assets/svg/sign_up.svg" alt="sign up" style:width="1.5rem" /></Button
 				>
 			{/if}
+		</div>
+		<div class="flex flex-row items-center">
+			<div class="md:visible max-md:hidden">
+				<Button
+					color="var(--default-button)"
+					bgcolor="var(--default-button-dark)"
+					buttonHeight="3.25rem"
+					buttonWidth="7.5rem"
+					onclick={() => playlightSDK?.setDiscovery()}
+				>
+					<p class="text-xl mr-2">More</p>
+					<img src="/assets/svg/controller.svg" alt="discord" style:width="1.9rem" />
+				</Button>
+			</div>
+			<div class="md:hidden">
+				<Button
+					color="var(--default-button)"
+					bgcolor="var(--default-button-dark)"
+					buttonHeight="3.25rem"
+					buttonWidth="3.25rem"
+					onclick={() => playlightSDK?.setDiscovery()}
+				>
+					<img src="/assets/svg/controller.svg" alt="discord" style:width="1.75rem" />
+				</Button>
+			</div>
 		</div>
 		<div class="flex flex-row items-center">
 			<Button
