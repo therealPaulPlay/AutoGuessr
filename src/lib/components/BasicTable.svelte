@@ -6,7 +6,7 @@
 	{#if array.length > 0}
 		{#each array as ele}
 			<div class="w-full py-1 text-center text-black truncate border-b-2 border-black/10">
-				{ele}
+				{ele.id}
 			</div>
 		{/each}
 	{:else}

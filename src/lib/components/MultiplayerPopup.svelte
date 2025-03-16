@@ -2,11 +2,13 @@
 	import Popup from "$lib/components/Popup.svelte";
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
-	import { MultiplayerPopupBody, MultiplayerCurrentScreen } from "$lib/stores/multiplayerStore";
+	import { MultiplayerPopupBody, MultiplayerCurrentScreen, CurrentPlayers, roomId } from "$lib/stores/multiplayerStore";
 	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
+	import { handleHostStart, handleJoinRoom, getRoomCodeFromPeerId } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
+	import { get } from "svelte/store";
 
 	let windowWidth = $state();
 	let copiedFlag = $state(false);
@@ -26,8 +28,21 @@
 		"real name 5",
 		"a really really really really really really really really long name",
 	];
-	let code = "abcdef";
 
+	function handlePlayerEnter() {
+		let codeString = codeInputs.join("");
+		handleJoinRoom(codeString.toLocaleLowerCase());
+	}
+
+	function handleHostLeave() {
+		showScreen("main");
+	}
+
+	function handleCreateRoom() {
+		$roomId = getRoomCodeFromPeerId(handleHostStart());
+	}
+
+	// UI ONLY
 	function handleHost() {
 		console.log("Host clicked");
 		showScreen("host");
@@ -45,13 +60,13 @@
 
 	function copyToClipboard(text) {
 		navigator.clipboard
-			.writeText(text)
+			.writeText(text.toUpperCase())
 			.then(() => console.log("Code copied"))
 			.catch((err) => console.error("Failed to copy code", err));
 	}
 
 	function handleCopy() {
-		copyToClipboard(code);
+		copyToClipboard($roomId);
 		copiedFlag = true;
 		showCopiedMessage = true;
 
@@ -115,15 +130,6 @@
 		codeInputs = premadeCode.split("").slice(0, 6);
 	}
 
-	function handlePlayerEnter() {
-		let codeString = codeInputs.join("");
-		console.log(codeString);
-	}
-
-	function handleHostLeave() {
-		showScreen("main");
-	}
-
 	onMount(() => {
 		showScreen("main");
 	});
@@ -168,40 +174,44 @@
 			{:else if $MultiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
 					<span>Code:</span>
-					<div class="flex align-middle mb-5 items-center gap-4">
-						<span class="text-3xl font-semibold text-black">
-							{#each code as letter}
-								<span class="underline mx-1">
-									{letter.toUpperCase()}
-								</span>
-							{/each}
-						</span>
-						<button
-							class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
-							class:copied={copiedFlag}
-							onclick={handleCopy}
-						>
-							{#if !copiedFlag}
-								<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
-							{:else}
-								<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
-							{/if}
-							{#if showCopiedMessage}
-								<span
-									in:fly={{ y: 10, delay: 50 }}
-									out:fade={{ duration: 150 }}
-									class="absolute -top-7 -left-12 text-black"
-								>
-									Copied!
-								</span>
-							{/if}
-						</button>
-					</div>
+					{#if $roomId != ""}
+						<div class="flex align-middle mb-5 items-center gap-4">
+							<span class="text-3xl font-semibold text-black">
+								{#each $roomId as letter}
+									<span class="underline mx-1">
+										{letter.toUpperCase()}
+									</span>
+								{/each}
+							</span>
+							<button
+								class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+								class:copied={copiedFlag}
+								onclick={handleCopy}
+							>
+								{#if !copiedFlag}
+									<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
+								{:else}
+									<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
+								{/if}
+								{#if showCopiedMessage}
+									<span
+										in:fly={{ y: 10, delay: 50 }}
+										out:fade={{ duration: 150 }}
+										class="absolute -top-7 -left-12 text-black"
+									>
+										Copied!
+									</span>
+								{/if}
+							</button>
+						</div>
+					{:else}
+						<span class="font-semibold text-black mb-2"> Click <span class="text-green">create</span> to generate a room code!</span>
+					{/if}
 					<div class="w-[80%]">
-						<BasicTable array={playerNames} emptyMessage={"Waiting for players..."} />
+						<BasicTable array={$CurrentPlayers} emptyMessage={"Waiting for players..."} />
 						<div class="flex items-center gap-1 mt-1 text-black">
 							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
-							{playerNames.length}
+							{$CurrentPlayers.length}
 						</div>
 					</div>
 					<div class="flex gap-5 w-[80%] mt-3">
@@ -213,11 +223,11 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={() => {
-									console.log("Start clicked!");
-								}}
+								onclick={handleCreateRoom}
 							>
-								<span class="text-white w-full text-center font-semibold text-3xl">Start</span>
+								<span class="text-white w-full text-center font-semibold text-3xl"
+									>{$roomId != "" ? "Start" : "Create"}</span
+								>
 							</Button>
 						</div>
 						<div class="w-1/4">
