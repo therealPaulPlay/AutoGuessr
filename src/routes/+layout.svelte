@@ -82,12 +82,7 @@
 
 <svelte:head>
 	<!-- Load Playlight CSS -->
-	<link
-		rel="stylesheet"
-		href="https://sdk.playlight.dev/playlight-sdk.css"
-		media="print"
-		onload={(this.media = "all")}
-	/>
+	<link rel="stylesheet" href="https://sdk.playlight.dev/playlight-sdk.css" />
 </svelte:head>
 
 <nav

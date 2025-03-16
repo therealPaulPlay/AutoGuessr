@@ -6,7 +6,7 @@
 
 	let scene, camera, renderer, carBody, springs, wheels, clock;
 	let container;
-	const loader = new GLTFLoader();
+	let loader;
 
 	// Define size bounds
 	const MIN_SIZE = 350; // Minimum size to keep model visible on phones
@@ -30,7 +30,7 @@
 		return size;
 	}
 
-	onMount(() => {
+	onMount(async () => {
 		scene = new THREE.Scene();
 		camera = new THREE.PerspectiveCamera(45, 1, 1, 1000);
 		renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -78,6 +78,10 @@
 
 		camera.position.set(6, 0.2, 6);
 		camera.lookAt(3.75, 0.5, -2);
+
+		// Load loader (must be client side)
+		const { GLTFLoader } = await import("three/examples/jsm/loaders/GLTFLoader.js");
+		loader = new GLTFLoader();
 
 		loadModels();
 		animate();
@@ -213,7 +217,11 @@
 		src="/assets/img/decorations/toolbox.png"
 		alt="tool"
 	/>
-	<img class="absolute right-[60rem] bottom-3 w-18 h-15 select-none" src="/assets/img/decorations/tool.png" alt="tool" />
+	<img
+		class="absolute right-[60rem] bottom-3 w-18 h-15 select-none"
+		src="/assets/img/decorations/tool.png"
+		alt="tool"
+	/>
 	<!-- Clouds -->
 	<img
 		class="absolute min-[2200px]:right-[10rem] xl:right-8 min-[2200px]:top-[10rem] xl:top-28 min-[2200px]:w-[30rem] w-[26rem] h-52 opacity-75 max-xl:hidden select-none"
