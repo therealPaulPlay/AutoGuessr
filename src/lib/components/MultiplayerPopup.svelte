@@ -2,9 +2,17 @@
 	import Popup from "$lib/components/Popup.svelte";
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
-	import { MultiplayerPopupBody, MultiplayerCurrentScreen, CurrentPlayers, roomId } from "$lib/stores/multiplayerStore";
+	import {
+		MultiplayerPopupBody,
+		MultiplayerCurrentScreen,
+		CurrentPlayers,
+		roomId,
+		MultiplayerFlag,
+		peerStore,
+		peerStatusStore,
+	} from "$lib/stores/multiplayerStore";
 	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
-	import { handleHostStart, handleJoinRoom, getRoomCodeFromPeerId } from "$lib/utils/multiplayer";
+	import { handleHostStart, handleJoinRoom, getRoomCodeFromPeerId, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
@@ -19,6 +27,12 @@
 	let codeInputs = $state(Array(6).fill(""));
 	let inputRefs = $state([]);
 
+	let peerStatus = $state();
+	let connectedToRoomFlag = $derived.by(() => {
+		if ($peerStatusStore == "Connection to host established.") return true;
+		return false;
+	});
+
 	// Test inputs
 	let playerNames = [
 		"real name 1",
@@ -29,27 +43,41 @@
 		"a really really really really really really really really long name",
 	];
 
-	function handlePlayerEnter() {
+	async function handlePlayerEnter() {
 		let codeString = codeInputs.join("");
-		handleJoinRoom(codeString.toLocaleLowerCase());
+		await handleJoinRoom(codeString.toLocaleLowerCase());
 	}
 
 	function handleHostLeave() {
+		leaveMultiplayerRoom();
 		showScreen("main");
 	}
 
-	function handleCreateRoom() {
-		$roomId = getRoomCodeFromPeerId(handleHostStart());
+	// TODO: If no special functionality is needed just combine it with the handleHostleave
+	function handlePlayerLeave() {
+		leaveMultiplayerRoom();
+		showScreen("main");
+	}
+
+	async function handleCreateRoom() {
+		// creates a room if none exist
+		if (!$roomId) {
+			console.log("Room doesn't exist, creating one...");
+			$roomId = await getRoomCodeFromPeerId(handleHostStart());
+			return;
+		}
+
+		peerStore.onEvent("status", (status) => {
+			peerStatus = status;
+		});
 	}
 
 	// UI ONLY
 	function handleHost() {
-		console.log("Host clicked");
 		showScreen("host");
 	}
 
 	function handleJoin() {
-		console.log("Join clicked");
 		copiedFlag = false;
 		showScreen("join");
 	}
@@ -59,10 +87,7 @@
 	}
 
 	function copyToClipboard(text) {
-		navigator.clipboard
-			.writeText(text.toUpperCase())
-			.then(() => console.log("Code copied"))
-			.catch((err) => console.error("Failed to copy code", err));
+		navigator.clipboard.writeText(text.toUpperCase()).catch((err) => console.error("Failed to copy code", err));
 	}
 
 	function handleCopy() {
@@ -174,7 +199,7 @@
 			{:else if $MultiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
 					<span>Code:</span>
-					{#if $roomId != ""}
+					{#if $roomId}
 						<div class="flex align-middle mb-5 items-center gap-4">
 							<span class="text-3xl font-semibold text-black">
 								{#each $roomId as letter}
@@ -205,7 +230,9 @@
 							</button>
 						</div>
 					{:else}
-						<span class="font-semibold text-black mb-2"> Click <span class="text-green">create</span> to generate a room code!</span>
+						<span class="text-black text-center mb-2">
+							Click <span class="text-green font-bold">create</span> to generate a room code!</span
+						>
 					{/if}
 					<div class="w-[80%]">
 						<BasicTable array={$CurrentPlayers} emptyMessage={"Waiting for players..."} />
@@ -215,6 +242,19 @@
 						</div>
 					</div>
 					<div class="flex gap-5 w-[80%] mt-3">
+						<div class="w-1/4">
+							<Button
+								customClasses="!w-full"
+								buttonHeight="4rem"
+								buttonWidth="21rem"
+								shadowHeight="0.5rem"
+								onclick={handleHostLeave}
+							>
+								<div class="-rotate-90">
+									<Share strokeWidth={2.5} size={28} />
+								</div>
+							</Button>
+						</div>
 						<div class="w-3/4">
 							<Button
 								color="var(--green-button)"
@@ -225,81 +265,73 @@
 								shadowHeight="0.5rem"
 								onclick={handleCreateRoom}
 							>
-								<span class="text-white w-full text-center font-semibold text-3xl"
-									>{$roomId != "" ? "Start" : "Create"}</span
-								>
-							</Button>
-						</div>
-						<div class="w-1/4">
-							<Button
-								customClasses="!w-full"
-								buttonHeight="4rem"
-								buttonWidth="21rem"
-								shadowHeight="0.5rem"
-								onclick={handleHostLeave}
-							>
-								<div class="-rotate-90">
-									<Share strokeWidth={3} size={28} />
-								</div>
+								<span class="text-white w-full text-center font-semibold text-3xl">{$roomId ? "Start" : "Create"}</span>
 							</Button>
 						</div>
 					</div>
 				</div>
 			{:else if $MultiplayerCurrentScreen === "join"}
 				<div class="flex flex-col justify-center items-center w-full">
-					<span class="mb-2">Enter the room code:</span>
-					<div class="flex align-middle mb-5 items-center gap-4">
-						<div class="flex w-full h-10 gap-2">
-							{#each alphanetPlaceholders as letter, index (index)}
-								<div>
-									<input
-										type="text"
-										placeholder={letter}
-										class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
-										oninput={(e) => handleInput(e, index)}
-										onkeydown={(e) => handleKeyDown(e, index)}
-										bind:value={codeInputs[index]}
-										use:collectRef={index}
-									/>
-									<div class="code-underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
-								</div>
-							{/each}
-						</div>
-						<button
-							class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
-							class:copied={copiedFlag}
-							onclick={handlePaste}
-						>
-							<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
-						</button>
-					</div>
-					<div class="flex gap-5 w-[80%] mt-3">
-						<div class="w-3/4">
-							<Button
-								color="var(--green-button)"
-								bgcolor="var(--green-button-dark)"
-								customClasses="!w-full"
-								buttonHeight="4rem"
-								buttonWidth="21rem"
-								shadowHeight="0.5rem"
-								onclick={handlePlayerEnter}
+					{#if !connectedToRoomFlag}
+						<span class="mb-2">Enter the room code:</span>
+						<div class="flex align-middle mb-5 items-center gap-4">
+							<div class="flex w-full h-10 gap-2">
+								{#each alphanetPlaceholders as letter, index (index)}
+									<div>
+										<input
+											type="text"
+											placeholder={letter}
+											class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
+											oninput={(e) => handleInput(e, index)}
+											onkeydown={(e) => handleKeyDown(e, index)}
+											bind:value={codeInputs[index]}
+											use:collectRef={index}
+										/>
+										<div class="code-underline" style:opacity={codeInputs[index] ? 1 : 0.2}></div>
+									</div>
+								{/each}
+							</div>
+							<button
+								class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+								class:copied={copiedFlag}
+								onclick={handlePaste}
 							>
-								<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
-							</Button>
+								<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
+							</button>
 						</div>
+						<p>{$peerStatusStore == "Destroyed." ? "" : $peerStatusStore}</p>
+					{:else}
+						<p class="text-base my-10">Waiting for host to start...</p>
+					{/if}
+					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-1/4">
 							<Button
 								customClasses="!w-full"
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handleHostLeave}
+								onclick={handlePlayerLeave}
 							>
 								<div class="-rotate-90">
-									<Share strokeWidth={3} size={28} />
+									<Share strokeWidth={2.5} size={28} />
 								</div>
 							</Button>
 						</div>
+						{#if !connectedToRoomFlag}
+							<div class="w-3/4">
+								<Button
+									color="var(--green-button)"
+									bgcolor="var(--green-button-dark)"
+									customClasses="!w-full"
+									buttonHeight="4rem"
+									buttonWidth="21rem"
+									shadowHeight="0.5rem"
+									onclick={handlePlayerEnter}
+								>
+									<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
+								</Button>
+							</div>
+						{/if}
 					</div>
 				</div>
 			{/if}
