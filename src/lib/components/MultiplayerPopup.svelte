@@ -66,10 +66,6 @@
 			$roomId = await getRoomCodeFromPeerId(handleHostStart());
 			return;
 		}
-
-		peerStore.onEvent("status", (status) => {
-			peerStatus = status;
-		});
 	}
 
 	// UI ONLY
@@ -165,6 +161,7 @@
 	<Popup
 		closeFunction={() => {
 			MultiplayerPopupBody.set(false);
+			leaveMultiplayerRoom();
 		}}
 		small={windowWidth > 768}
 	>

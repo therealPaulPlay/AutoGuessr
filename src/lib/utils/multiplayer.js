@@ -36,6 +36,7 @@ export function leaveMultiplayerRoom() {
 	peer.destroy();
 	peer = null;
 	roomId.set("");
+	MultiplayerFlag.set(false);
 }
 
 function generateRoomCode() {
