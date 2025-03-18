@@ -6,7 +6,7 @@
 	import { goto } from "$app/navigation";
 	import { difficulty, difficultyRules } from "$lib/stores/gameStore";
 	import { howToPlayPopup } from "$lib/stores/uiStore";
-	import { MultiplayerPopupBody } from "$lib/stores/multiplayerStore";
+	import { multiplayerPopupBody } from "$lib/stores/multiplayerStore";
 	import { onMount } from "svelte";
 	import CarModel from "$lib/components/CarModel.svelte";
 
@@ -107,7 +107,7 @@
 						buttonWidth="21rem"
 						shadowHeight="0.5rem"
 						onclick={() => {
-							$MultiplayerPopupBody = true;
+							$multiplayerPopupBody = true;
 						}}
 					>
 						<div class="flex flex-row items-center justify-between w-full px-2">

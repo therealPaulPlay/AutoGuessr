@@ -3,13 +3,14 @@
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
 	import {
-		MultiplayerPopupBody,
-		MultiplayerCurrentScreen,
-		CurrentPlayers,
+		multiplayerPopupBody,
+		multiplayerCurrentScreen,
+		currentPlayers,
 		roomId,
-		MultiplayerFlag,
+		multiplayerFlag,
 		peerStore,
 		peerStatusStore,
+		gameInProgressFlag,
 	} from "$lib/stores/multiplayerStore";
 	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
 	import { handleHostStart, handleJoinRoom, getRoomCodeFromPeerId, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
@@ -17,6 +18,7 @@
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
 	import { get } from "svelte/store";
+	import { goto } from "$app/navigation";
 
 	let windowWidth = $state();
 	let copiedFlag = $state(false);
@@ -68,18 +70,23 @@
 		}
 	}
 
-	// UI ONLY
-	function handleHost() {
+	async function handleHost() {
 		showScreen("host");
+		await handleCreateRoom();
 	}
 
+	function handleStartGame() {
+		$peerStore.updateStorage('gameInProgress', true);
+	}
+
+	// UI ONLY
 	function handleJoin() {
 		copiedFlag = false;
 		showScreen("join");
 	}
 
 	function showScreen(screen) {
-		$MultiplayerCurrentScreen = screen;
+		$multiplayerCurrentScreen = screen;
 	}
 
 	function copyToClipboard(text) {
@@ -154,19 +161,26 @@
 	onMount(() => {
 		showScreen("main");
 	});
+
+	$effect(() => {
+		if($gameInProgressFlag) {
+			$multiplayerPopupBody = false;
+			goto("/game");
+		}
+	})
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
-{#if $MultiplayerPopupBody}
+{#if $multiplayerPopupBody}
 	<Popup
 		closeFunction={() => {
-			MultiplayerPopupBody.set(false);
+			multiplayerPopupBody.set(false);
 			leaveMultiplayerRoom();
 		}}
 		small={windowWidth > 768}
 	>
 		<div class="pt-6 flex flex-col justify-center items-center">
-			{#if $MultiplayerCurrentScreen === "main"}
+			{#if $multiplayerCurrentScreen === "main"}
 				<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
 				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
 					<Button
@@ -193,49 +207,43 @@
 				<p class="text-center text-black mt-8 opacity-50 w-[79%]">
 					* Please refrain from using VPNs or proxies as it will more likely than not break multiplayer.
 				</p>
-			{:else if $MultiplayerCurrentScreen === "host"}
+			{:else if $multiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
 					<span>Code:</span>
-					{#if $roomId}
-						<div class="flex align-middle mb-5 items-center gap-4">
-							<span class="text-3xl font-semibold text-black">
-								{#each $roomId as letter}
-									<span class="underline mx-1">
-										{letter.toUpperCase()}
-									</span>
-								{/each}
-							</span>
-							<button
-								class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
-								class:copied={copiedFlag}
-								onclick={handleCopy}
-							>
-								{#if !copiedFlag}
-									<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
-								{:else}
-									<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
-								{/if}
-								{#if showCopiedMessage}
-									<span
-										in:fly={{ y: 10, delay: 50 }}
-										out:fade={{ duration: 150 }}
-										class="absolute -top-7 -left-12 text-black"
-									>
-										Copied!
-									</span>
-								{/if}
-							</button>
-						</div>
-					{:else}
-						<span class="text-black text-center mb-2">
-							Click <span class="text-green font-bold">create</span> to generate a room code!</span
+					<div class="flex align-middle mb-5 items-center gap-4">
+						<span class="text-3xl font-semibold text-black">
+							{#each $roomId as letter}
+								<span class="underline mx-1">
+									{letter.toUpperCase()}
+								</span>
+							{/each}
+						</span>
+						<button
+							class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+							class:copied={copiedFlag}
+							onclick={handleCopy}
 						>
-					{/if}
+							{#if !copiedFlag}
+								<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
+							{:else}
+								<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
+							{/if}
+							{#if showCopiedMessage}
+								<span
+									in:fly={{ y: 10, delay: 50 }}
+									out:fade={{ duration: 150 }}
+									class="absolute -top-7 -left-12 text-black"
+								>
+									Copied!
+								</span>
+							{/if}
+						</button>
+					</div>
 					<div class="w-[80%]">
-						<BasicTable array={$CurrentPlayers} emptyMessage={"Waiting for players..."} />
+						<BasicTable array={$currentPlayers} emptyMessage={"Waiting for players..."} />
 						<div class="flex items-center gap-1 mt-1 text-black">
 							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
-							{$CurrentPlayers.length}
+							{$currentPlayers.length}
 						</div>
 					</div>
 					<div class="flex gap-5 w-[80%] mt-3">
@@ -260,14 +268,14 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handleCreateRoom}
+								onclick={handleStartGame}
 							>
-								<span class="text-white w-full text-center font-semibold text-3xl">{$roomId ? "Start" : "Create"}</span>
+								<span class="text-white w-full text-center font-semibold text-3xl">Start</span>
 							</Button>
 						</div>
 					</div>
 				</div>
-			{:else if $MultiplayerCurrentScreen === "join"}
+			{:else if $multiplayerCurrentScreen === "join"}
 				<div class="flex flex-col justify-center items-center w-full">
 					{#if !connectedToRoomFlag}
 						<span class="mb-2">Enter the room code:</span>

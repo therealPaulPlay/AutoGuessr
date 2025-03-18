@@ -1,5 +1,5 @@
 import PlayPeer from "playpeerjs";
-import { CurrentPlayers, MultiplayerFlag, roomId, peerStore, peerStatusStore } from "$lib/stores/multiplayerStore";
+import { currentPlayers, multiplayerFlag, roomId, peerStore, peerStatusStore, gameInProgressFlag } from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
 
 let peer;
@@ -16,7 +16,7 @@ export async function handleJoinRoom(roomId) {
 	try {
 		if (!peer) await initPeer();
 		await peer.joinRoom(`autoguessr_${roomId.toLowerCase()}`);
-		MultiplayerFlag.set(true);
+		multiplayerFlag.set(true);
 	} catch (error) {
 		alert("Failed to join: " + error.message);
 	}
@@ -32,11 +32,11 @@ export async function getRoomCodeFromPeerId(peerId) {
 }
 
 export function leaveMultiplayerRoom() {
-	if(!peer) return;
+	if (!peer) return;
 	peer.destroy();
 	peer = null;
 	roomId.set("");
-	MultiplayerFlag.set(false);
+	multiplayerFlag.set(false);
 }
 
 function generateRoomCode() {
@@ -62,22 +62,27 @@ async function initPeer() {
 	peerStore.set(peer);
 
 	peer.onEvent("status", (status) => {
-		peerStatusStore.set(status)
+		peerStatusStore.set(status);
 	});
 	peer.onEvent("storageUpdated", (storage) => {
-        CurrentPlayers.set(storage.players);
+		currentPlayers.set(storage.players);
+		console.log(storage)
+		if(get(gameInProgressFlag) != storage.gameInProgress) {
+			gameInProgressFlag.set(storage.gameInProgress);
+			console.log("gameInProgressFlag updated to", get(gameInProgressFlag));
+		}
 	});
 
 	// For host: When a peer is connected to the host
 	peer.onEvent("incomingPeerConnected", (newPeerId) => {
-		peer.updateStorageArray("players", "add-unique", { id: newPeerId });
+		peer.updateStorageArray("players", "add-unique", { id: newPeerId, score: -1 });
 	});
-    peer.onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
+	peer.onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
 		peer.updateStorageArray("players", "remove-matching", { id: disconnectedPeerId });
 	});
 
 	// For peer: When peer connects/discconects from host
-    peer.onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
+	peer.onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
 		peer.updateStorageArray("players", "remove-matching", { id: disconnectedPeerId });
 	});
 
@@ -90,5 +95,6 @@ async function host() {
 	} catch (error) {
 		console.error("Error occurred in host function:", error);
 	}
-	await peer.createRoom({ players: [] });
+	await peer.createRoom({ players: [], gameInProgress: false, questionsIds: ["10", "20", "30", "40", "50"] });
+	if(peer.isHost) peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1 });
 }
