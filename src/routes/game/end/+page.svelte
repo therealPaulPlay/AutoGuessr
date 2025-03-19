@@ -6,6 +6,7 @@
 	import { Home, Share, Repeat } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
+	import { currentPlayers, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
 
 	let mainContent = $state();
 	let resultTable = $state();
@@ -81,6 +82,24 @@
 				{/if}
 			</p>
 		</div>
+		{#if $multiplayerFlag || $peerStore.isHost}
+			<div class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture">
+				{#each $currentPlayers as ele (ele)}
+					<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
+					<div
+						animate:flip={{}}
+						class="w-full flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
+					>
+						<p class="w-5/6 overflow-clip text-ellipsis">
+							{ele.id}
+						</p>
+						<p class="w-1/6">
+							{ele.score}
+						</p>
+					</div>
+				{/each}
+			</div>
+		{/if}
 		<div
 			bind:this={resultTable}
 			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar max-h-[30vh]"
