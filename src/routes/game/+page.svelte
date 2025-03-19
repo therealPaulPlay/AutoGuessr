@@ -30,6 +30,8 @@
 	import { resultPopup } from "$lib/stores/uiStore";
 	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
+	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
+	import { gameInProgressFlag, multiplayerFlag } from "$lib/stores/multiplayerStore";
 
 	// Carousel controls
 	let descriptionFlag = $state(false);
@@ -209,6 +211,13 @@
 		</div>
 	</div>
 </div>
+
+<!-- Multiplayer drawer -->
+{#if $multiplayerFlag || $gameInProgressFlag}
+	<div class="fixed right-0 max-w-[50%] top-48 md:top-20 z-50">
+		<MultiplayerDrawer />
+	</div>
+{/if}
 
 <style>
 	.check-align-vertical {
