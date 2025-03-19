@@ -1,6 +1,15 @@
 import PlayPeer from "playpeerjs";
-import { currentPlayers, multiplayerFlag, roomId, peerStore, peerStatusStore, gameInProgressFlag } from "$lib/stores/multiplayerStore";
+import {
+	currentPlayers,
+	multiplayerFlag,
+	roomId,
+	peerStore,
+	peerStatusStore,
+	gameInProgressFlag,
+} from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
+import { totalCarAmount } from "$lib/stores/gameStore";
+import { getTotalCarDataAmount } from "./gameFunctions";
 
 let peer;
 let peerId;
@@ -66,11 +75,11 @@ async function initPeer() {
 	});
 	peer.onEvent("storageUpdated", (storage) => {
 		currentPlayers.set(storage.players);
-		console.log(storage)
-		if(get(gameInProgressFlag) != storage.gameInProgress) {
+		if (get(gameInProgressFlag) != storage.gameInProgress) {
 			gameInProgressFlag.set(storage.gameInProgress);
 			console.log("gameInProgressFlag updated to", get(gameInProgressFlag));
 		}
+		checkQuestionsArray(storage.players, storage.questionsIds);
 	});
 
 	// For host: When a peer is connected to the host
@@ -95,6 +104,38 @@ async function host() {
 	} catch (error) {
 		console.error("Error occurred in host function:", error);
 	}
-	await peer.createRoom({ players: [], gameInProgress: false, questionsIds: ["10", "20", "30", "40", "50"] });
-	if(peer.isHost) peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1 });
+	await peer.createRoom({ players: [], gameInProgress: false, questionsIds: [] });
+	if (peer.isHost) peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1 });
+}
+
+async function checkQuestionsArray(playersArray, questionsArray) {
+	// Insure the function runs only for host, that way we don't have this function run multiple times for each peer
+	if(!peer.isHost) return;
+
+	let questionMargin = 3;
+	let currentMaxScore = maxScore(playersArray);
+	let availableIndecies = await getTotalCarDataAmount();
+	let addedQuestions = [];
+
+	// if the difference between the current max score and questions array
+	// is higher than the question margin then it'll return
+	if (questionsArray.length > currentMaxScore + questionMargin) return;
+
+	for (let i = 0; i < questionMargin; i++) {
+		addedQuestions.push(Math.floor(Math.random() * availableIndecies));
+	}
+
+	let newQuestionArray = [...questionsArray, ...addedQuestions];
+
+	peer.updateStorage("questionsIds", newQuestionArray);
+}
+
+function maxScore(array) {
+	let maxScore = -1;
+	for (const item of array) {
+		if (item.score > maxScore) {
+			maxScore = item.score;
+		}
+	}
+	return maxScore;
 }
