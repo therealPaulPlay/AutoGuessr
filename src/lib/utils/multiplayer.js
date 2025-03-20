@@ -6,6 +6,7 @@ import {
 	peerStore,
 	peerStatusStore,
 	gameInProgressFlag,
+	inGame,
 } from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
 import { totalCarAmount } from "$lib/stores/gameStore";
@@ -75,16 +76,23 @@ async function initPeer() {
 	});
 	peer.onEvent("storageUpdated", (storage) => {
 		currentPlayers.set(storage.players);
+
 		if (get(gameInProgressFlag) != storage.gameInProgress) {
 			gameInProgressFlag.set(storage.gameInProgress);
-			console.log("gameInProgressFlag updated to", get(gameInProgressFlag));
 		}
+
+		const playerInfo = getPlayerInfo(peer.id);
+		if (playerInfo && get(inGame) !== playerInfo.inGame) {
+			inGame.set(playerInfo.inGame);
+		}
+
 		checkQuestionsArray(storage.players, storage.questionsIds);
+		console.log("storage update:", storage);
 	});
 
 	// For host: When a peer is connected to the host
 	peer.onEvent("incomingPeerConnected", (newPeerId) => {
-		peer.updateStorageArray("players", "add-unique", { id: newPeerId, score: -1 });
+		peer.updateStorageArray("players", "add-unique", { id: newPeerId, score: -1, inGame: false });
 	});
 	peer.onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
 		peer.updateStorageArray("players", "remove-matching", { id: disconnectedPeerId });
@@ -106,7 +114,7 @@ async function host() {
 	}
 	await peer.createRoom({ players: [], gameInProgress: false, questionsIds: [] });
 	if (peer.isHost) {
-		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1 });
+		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1, inGame: false });
 		multiplayerFlag.set(true);
 	}
 }
@@ -141,4 +149,39 @@ function maxScore(array) {
 		}
 	}
 	return maxScore;
+}
+
+export function getPlayerInfo(id) {
+	try {
+		if (!peer) {
+			return null;
+		}
+
+		// Find the player object with the matching id
+		return peer.getStorage.players.find((obj) => obj.id === id) || null;
+	} catch (error) {
+		console.error("Error occurred in getPlayerInfo function:", error);
+		throw error; // Re-throw the error for other unexpected issues
+	}
+}
+
+export function updatePlayerScore(playerId, newScore) {
+	console.log("updatePlayerScore called");
+	try {
+		if (!peer) {
+			return null;
+		}
+
+		let playerInfo = getPlayerInfo(playerId);
+		peer.updateStorageArray(
+			"players",
+			"update-matching",
+			{ id: playerId, score: playerInfo.score, inGame: playerInfo.inGame },
+			{ id: playerId, score: newScore, inGame: playerInfo.inGame },
+		);
+		console.log("updatePlayerScore got all the way");
+	} catch (error) {
+		console.error("Error occurred in updatePlayerScore function:", error);
+		throw error;
+	}
 }

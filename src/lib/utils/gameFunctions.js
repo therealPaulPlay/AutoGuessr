@@ -21,7 +21,8 @@ import { goto } from "$app/navigation";
 import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 import { saveStorage } from "./saveHelper";
-import { multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+import { inGame, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+import { getPlayerInfo, updatePlayerScore } from "./multiplayer";
 
 async function setCurrentQuestion(questionIndex) {
 	try {
@@ -127,15 +128,9 @@ export function goToNextQuestion(saveHistory = true) {
 	if (get(multiplayerFlag)) {
 		let multiplayerQuestionsList = get(peerStore).getStorage.questionsIds;
 		let peerId = get(peerStore).id;
-		let currentScore = get(peerStore).getStorage.players.find((player) => player.id === peerId).score;
-		let newScore = currentScore + 1;
-		get(peerStore).updateStorageArray(
-			"players",
-			"update-matching",
-			{ id: peerId, score: currentScore }, // Match player by ID
-			{ id: peerId, score: newScore },
-		);
-		setCurrentQuestion(multiplayerQuestionsList[newScore]);
+		let currentScore = getPlayerInfo(peerId).score;
+		updatePlayerScore(peerId, currentScore + 1);
+		setCurrentQuestion(multiplayerQuestionsList[currentScore + 1]);
 		return;
 	}
 
