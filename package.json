@@ -17,7 +17,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-static": "^3.0.8",
 		"autoprefixer": "^10.4.20",
-		"gsap": "^3.12.5",
+		"gsap": "^3.12.7",
 		"howler": "^2.2.4",
 		"html2canvas": "^1.4.1",
 		"lucide-svelte": "^0.456.0",
