@@ -124,7 +124,7 @@ export function goToNextQuestion(saveHistory = true) {
 	}
 
 	// Logic if player in a multiplayer game
-	if (get(multiplayerFlag) || get(peerStore).isHost) {
+	if (get(multiplayerFlag)) {
 		let multiplayerQuestionsList = get(peerStore).getStorage.questionsIds;
 		let peerId = get(peerStore).id;
 		let currentScore = get(peerStore).getStorage.players.find((player) => player.id === peerId).score;

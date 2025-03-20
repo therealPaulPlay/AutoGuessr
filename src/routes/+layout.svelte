@@ -26,6 +26,8 @@
 	import { gameVolume, music } from "$lib/stores/gameStore";
 	import CreditsPopup from "$lib/components/CreditsPopup.svelte";
 	import MultiplayerPopup from "$lib/components/MultiplayerPopup.svelte";
+	import { multiplayerFlag } from "$lib/stores/multiplayerStore";
+	import { leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 
 	let { children } = $props();
 
@@ -37,6 +39,7 @@
 		} else {
 			goto("/");
 		}
+		if ($multiplayerFlag) leaveMultiplayerRoom();
 	}
 
 	// Authenticate

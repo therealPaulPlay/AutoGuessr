@@ -105,12 +105,15 @@ async function host() {
 		console.error("Error occurred in host function:", error);
 	}
 	await peer.createRoom({ players: [], gameInProgress: false, questionsIds: [] });
-	if (peer.isHost) peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1 });
+	if (peer.isHost) {
+		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1 });
+		multiplayerFlag.set(true);
+	}
 }
 
 async function checkQuestionsArray(playersArray, questionsArray) {
 	// Insure the function runs only for host, that way we don't have this function run multiple times for each peer
-	if(!peer.isHost) return;
+	if (!peer.isHost) return;
 
 	let questionMargin = 3;
 	let currentMaxScore = maxScore(playersArray);

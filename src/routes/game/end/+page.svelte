@@ -82,7 +82,7 @@
 				{/if}
 			</p>
 		</div>
-		{#if $multiplayerFlag || $peerStore.isHost}
+		{#if $multiplayerFlag}
 			<div class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture">
 				{#each $currentPlayers as ele (ele)}
 					<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
