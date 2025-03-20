@@ -22,7 +22,7 @@ import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 import { saveStorage } from "./saveHelper";
 import { inGame, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
-import { getPlayerInfo, updatePlayerScore } from "./multiplayer";
+import { getPlayerInfo, updatePlayerInGame, updatePlayerScore } from "./multiplayer";
 
 async function setCurrentQuestion(questionIndex) {
 	try {
@@ -110,6 +110,10 @@ export function goToNextQuestion(saveHistory = true) {
 			drawCardFlag.set(true);
 			goto("/card-draw");
 			return;
+		}
+
+		if(get(multiplayerFlag)) {
+			updatePlayerInGame(get(peerStore).id, false);
 		}
 
 		goto("/game/end");

@@ -6,12 +6,14 @@
 	import { Home, Share, Repeat } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
-	import { currentPlayers, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+	import { currentPlayers, multiplayerFlag, peerStore, playersInGame } from "$lib/stores/multiplayerStore";
+	import { getInGamePlayers } from "$lib/utils/multiplayer";
 
 	let mainContent = $state();
 	let resultTable = $state();
 	let watermark = $state();
 	let innerWidth = $state();
+	let showPlayAgain = $state(true);
 
 	function captureScreen() {
 		if (!resultTable) return;
@@ -56,6 +58,14 @@
 		// Hide the extra element again
 		watermark.classList.add("hidden");
 	}
+
+	$effect(() => {
+		if ($multiplayerFlag) {
+			console.log("$playersInGame =", $playersInGame);
+			if ($playersInGame.length == 0 && $peerStore.isHost) showPlayAgain = true;
+			else showPlayAgain = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -131,24 +141,26 @@
 			Play on<span class="text-orange font-semibold">&nbsp;AutoGuessr.com!</span>
 		</p>
 		<div class="flex gap-5 flex-wrap justify-center items-center no-capture">
-			<Button
-				buttonHeight="4rem"
-				buttonWidth={innerWidth >= 768 ? "14rem" : "4rem"}
-				shadowHeight="0.5rem"
-				color="var(--green-button)"
-				bgcolor="var(--green-button-dark)"
-				onclick={() => {
-					goto("/game");
-				}}
-			>
-				{#if innerWidth >= 768}
-					<!-- Render text on larger screens -->
-					<span class="text-white font-semibold text-3xl">Play again</span>
-				{:else}
-					<!-- Render an icon on smaller screens -->
-					<span class="text-white text-3xl"><Repeat strokeWidth={3} size={28} /></span>
-				{/if}
-			</Button>
+			{#if showPlayAgain}
+				<Button
+					buttonHeight="4rem"
+					buttonWidth={innerWidth >= 768 ? "14rem" : "4rem"}
+					shadowHeight="0.5rem"
+					color="var(--green-button)"
+					bgcolor="var(--green-button-dark)"
+					onclick={() => {
+						goto("/game");
+					}}
+				>
+					{#if innerWidth >= 768}
+						<!-- Render text on larger screens -->
+						<span class="text-white font-semibold text-3xl">Play again</span>
+					{:else}
+						<!-- Render an icon on smaller screens -->
+						<span class="text-white text-3xl"><Repeat strokeWidth={3} size={28} /></span>
+					{/if}
+				</Button>
+			{/if}
 			<Button
 				buttonHeight="4rem"
 				buttonWidth="4rem"

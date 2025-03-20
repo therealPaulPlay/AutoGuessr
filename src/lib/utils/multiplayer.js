@@ -7,6 +7,7 @@ import {
 	peerStatusStore,
 	gameInProgressFlag,
 	inGame,
+	playersInGame,
 } from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
 import { totalCarAmount } from "$lib/stores/gameStore";
@@ -84,6 +85,11 @@ async function initPeer() {
 		const playerInfo = getPlayerInfo(peer.id);
 		if (playerInfo && get(inGame) !== playerInfo.inGame) {
 			inGame.set(playerInfo.inGame);
+		}
+
+		const currentInGame = get(playersInGame);
+		if (JSON.stringify(currentInGame) !== JSON.stringify(getInGamePlayers())) {
+			playersInGame.set(getInGamePlayers());
 		}
 
 		checkQuestionsArray(storage.players, storage.questionsIds);
@@ -166,7 +172,6 @@ export function getPlayerInfo(id) {
 }
 
 export function updatePlayerScore(playerId, newScore) {
-	console.log("updatePlayerScore called");
 	try {
 		if (!peer) {
 			return null;
@@ -179,9 +184,31 @@ export function updatePlayerScore(playerId, newScore) {
 			{ id: playerId, score: playerInfo.score, inGame: playerInfo.inGame },
 			{ id: playerId, score: newScore, inGame: playerInfo.inGame },
 		);
-		console.log("updatePlayerScore got all the way");
 	} catch (error) {
 		console.error("Error occurred in updatePlayerScore function:", error);
 		throw error;
 	}
+}
+
+export function updatePlayerInGame(playerId, newValue) {
+	try {
+		if (!peer) {
+			return null;
+		}
+
+		let playerInfo = getPlayerInfo(playerId);
+		peer.updateStorageArray(
+			"players",
+			"update-matching",
+			{ id: playerId, score: playerInfo.score, inGame: playerInfo.inGame },
+			{ id: playerId, score: playerInfo.score, inGame: newValue },
+		);
+	} catch (error) {
+		console.error("Error occurred in updatePlayerInGame function:", error);
+		throw error;
+	}
+}
+
+export function getInGamePlayers() {
+	return peer.getStorage.players.filter(player => player.inGame);
 }

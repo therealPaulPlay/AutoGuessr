@@ -26,7 +26,7 @@
 	import { gameVolume, music } from "$lib/stores/gameStore";
 	import CreditsPopup from "$lib/components/CreditsPopup.svelte";
 	import MultiplayerPopup from "$lib/components/MultiplayerPopup.svelte";
-	import { multiplayerFlag } from "$lib/stores/multiplayerStore";
+	import { inGame, multiplayerFlag } from "$lib/stores/multiplayerStore";
 	import { leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 
 	let { children } = $props();
@@ -81,6 +81,11 @@
 			console.error("Error loading the Playlight SDK:", error);
 		}
 	});
+
+	
+	$effect(() => {
+		console.log("inGame store updated to", $inGame);
+	})
 </script>
 
 <svelte:head>

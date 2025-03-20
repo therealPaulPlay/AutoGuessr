@@ -31,7 +31,8 @@
 	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
-	import { gameInProgressFlag, multiplayerFlag } from "$lib/stores/multiplayerStore";
+	import { gameInProgressFlag, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+	import { updatePlayerInGame } from "$lib/utils/multiplayer";
 
 	// Carousel controls
 	let descriptionFlag = $state(false);
@@ -120,6 +121,10 @@
 		const img = get(imgElement);
 		if (img) img.src = "";
 		$gameRounds = [];
+		
+		if($multiplayerFlag) {
+			updatePlayerInGame(get(peerStore).id, true);
+		}
 
 		$totalCarAmount = await getTotalCarDataAmount();
 		goToNextQuestion(false); // Don't save last question to history (false)
