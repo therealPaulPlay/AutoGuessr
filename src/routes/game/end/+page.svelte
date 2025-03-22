@@ -7,7 +7,8 @@
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
 	import { currentPlayers, multiplayerFlag, peerStore, playersInGame } from "$lib/stores/multiplayerStore";
-	import { getInGamePlayers } from "$lib/utils/multiplayer";
+	import { getInGamePlayers, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
+	import { flip } from "svelte/animate";
 
 	let mainContent = $state();
 	let resultTable = $state();
@@ -166,6 +167,7 @@
 				buttonWidth="4rem"
 				shadowHeight="0.5rem"
 				onclick={() => {
+					if ($multiplayerFlag) leaveMultiplayerRoom();
 					goto("/");
 				}}
 			>
