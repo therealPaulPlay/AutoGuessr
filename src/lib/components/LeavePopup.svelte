@@ -3,6 +3,8 @@
 	import Popup from "./Popup.svelte";
 	import Button from "./Button.svelte";
 	import { goto } from "$app/navigation";
+	import { multiplayerFlag } from "$lib/stores/multiplayerStore";
+	import { leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 </script>
 
 {#if $leavePopup}
@@ -23,6 +25,7 @@
 					color="var(--default-button)"
 					bgcolor="var(--default-button-dark)"
 					onclick={() => {
+						if ($multiplayerFlag) leaveMultiplayerRoom();
 						goto("/");
 						$leavePopup = false;
 					}}

@@ -37,9 +37,9 @@
 		if (leavePopupUrls.includes($page.url.pathname)) {
 			$leavePopup = true;
 		} else {
+			if ($multiplayerFlag) leaveMultiplayerRoom();
 			goto("/");
 		}
-		if ($multiplayerFlag) leaveMultiplayerRoom();
 	}
 
 	// Authenticate
