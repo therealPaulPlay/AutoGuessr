@@ -23,6 +23,7 @@
 	let windowWidth = $state();
 	let copiedFlag = $state(false);
 	let showCopiedMessage = $state(false);
+	let showWaitForPlayers = $state(false);
 	let timeoutId;
 
 	let alphanetPlaceholders = ["A", "B", "C", "D", "E", "F"];
@@ -76,7 +77,8 @@
 	}
 
 	function handleStartGame() {
-		$peerStore.updateStorage('gameInProgress', true);
+		if ($currentPlayers.length > 1) $peerStore.updateStorage("gameInProgress", true);
+		else showWaitForPlayers = true;
 	}
 
 	// UI ONLY
@@ -163,11 +165,15 @@
 	});
 
 	$effect(() => {
-		if($gameInProgressFlag) {
+		if ($gameInProgressFlag) {
 			$multiplayerPopup = false;
 			goto("/game");
 		}
-	})
+	});
+
+	$effect(() => {
+		if ($currentPlayers.length > 1) showWaitForPlayers = false;
+	});
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
@@ -209,7 +215,7 @@
 				</p>
 			{:else if $multiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
-					<span>Code:</span>
+					<span class="text-black">Code:</span>
 					<div class="flex align-middle mb-5 items-center gap-4">
 						<span class="text-3xl font-semibold text-black">
 							{#each $roomId as letter}
@@ -246,6 +252,9 @@
 							{$currentPlayers.length}
 						</div>
 					</div>
+					{#if showWaitForPlayers}
+						<span class="text-black w-[80%] text-center">You need to wait for other players before starting</span>
+					{/if}
 					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-1/4">
 							<Button
