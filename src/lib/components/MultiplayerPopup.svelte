@@ -3,7 +3,7 @@
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
 	import {
-		multiplayerPopupBody,
+		multiplayerPopup,
 		multiplayerCurrentScreen,
 		currentPlayers,
 		roomId,
@@ -164,17 +164,17 @@
 
 	$effect(() => {
 		if($gameInProgressFlag) {
-			$multiplayerPopupBody = false;
+			$multiplayerPopup = false;
 			goto("/game");
 		}
 	})
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} />
-{#if $multiplayerPopupBody}
+{#if $multiplayerPopup}
 	<Popup
 		closeFunction={() => {
-			multiplayerPopupBody.set(false);
+			multiplayerPopup.set(false);
 			leaveMultiplayerRoom();
 		}}
 		small={windowWidth > 768}

@@ -1,6 +1,5 @@
 import { writable } from "svelte/store";
 
-export const multiplayerPopupBody = writable(false);
 export const multiplayerCurrentScreen = writable(false);
 export const multiplayerFlag = writable(false);
 export const gameInProgressFlag = writable(false);

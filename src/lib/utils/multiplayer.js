@@ -101,12 +101,14 @@ async function initPeer() {
 		peer.updateStorageArray("players", "add-unique", { id: newPeerId, score: -1, inGame: false });
 	});
 	peer.onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
-		peer.updateStorageArray("players", "remove-matching", { id: disconnectedPeerId });
+		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
+		peer.updateStorageArray("players", "remove-matching", currentPlayerInfo);
 	});
 
 	// For peer: When peer connects/discconects from host
 	peer.onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
-		peer.updateStorageArray("players", "remove-matching", { id: disconnectedPeerId });
+		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
+		peer.updateStorageArray("players", "remove-matching", currentPlayerInfo);
 	});
 
 	await peer.init();
@@ -159,12 +161,10 @@ function maxScore(array) {
 
 export function getPlayerInfo(id) {
 	try {
-		if (!peer) {
-			return null;
-		}
+		if (!peer) return null;
 
 		// Find the player object with the matching id
-		return peer.getStorage.players.find((obj) => obj.id === id) || null;
+		return peer.getStorage?.players?.find((obj) => obj.id === id) || null;
 	} catch (error) {
 		console.error("Error occurred in getPlayerInfo function:", error);
 		throw error; // Re-throw the error for other unexpected issues
@@ -173,9 +173,7 @@ export function getPlayerInfo(id) {
 
 export function updatePlayerScore(playerId, newScore) {
 	try {
-		if (!peer) {
-			return null;
-		}
+		if (!peer) return null;
 
 		let playerInfo = getPlayerInfo(playerId);
 		peer.updateStorageArray(
@@ -192,9 +190,7 @@ export function updatePlayerScore(playerId, newScore) {
 
 export function updatePlayerInGame(playerId, newValue) {
 	try {
-		if (!peer) {
-			return null;
-		}
+		if (!peer) return null;
 
 		let playerInfo = getPlayerInfo(playerId);
 		peer.updateStorageArray(
@@ -210,5 +206,5 @@ export function updatePlayerInGame(playerId, newValue) {
 }
 
 export function getInGamePlayers() {
-	return peer.getStorage.players.filter(player => player.inGame);
+	return peer.getStorage.players.filter((player) => player.inGame);
 }
