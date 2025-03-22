@@ -3,7 +3,6 @@
 	import Button from "$lib/components/Button.svelte";
 	import BasicTable from "./BasicTable.svelte";
 	import {
-		multiplayerPopup,
 		multiplayerCurrentScreen,
 		currentPlayers,
 		roomId,
@@ -12,6 +11,7 @@
 		peerStatusStore,
 		gameInProgressFlag,
 	} from "$lib/stores/multiplayerStore";
+	import { multiplayerPopup } from "$lib/stores/uiStore";
 	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
 	import { handleHostStart, handleJoinRoom, getRoomCodeFromPeerId, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
