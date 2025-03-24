@@ -3,7 +3,7 @@
 	import { goto } from "$app/navigation";
 	import { score, gameRounds } from "$lib/stores/gameStore";
 	import { highscore } from "$lib/stores/accountStore";
-	import { Home, Share, Repeat } from "lucide-svelte";
+	import { Home, Share, Repeat, LoaderCircle } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
 	import {
@@ -184,10 +184,26 @@
 				>
 					{#if innerWidth >= 768}
 						<!-- Render text on larger screens -->
-						<span class="text-white font-semibold text-3xl">Play again</span>
+						<span class="text-white font-semibold text-3xl">
+							{#if playAgainClicked}
+								<div class="animate-spin">
+									<LoaderCircle strokeWidth={3} size={28} color={"var(--white)"} />
+								</div>
+							{:else}
+								Play again
+							{/if}
+						</span>
 					{:else}
 						<!-- Render an icon on smaller screens -->
-						<span class="text-white text-3xl"><Repeat strokeWidth={3} size={28} /></span>
+						<span class="text-white text-3xl">
+							{#if playAgainClicked}
+								<div class="animate-spin">
+									<LoaderCircle strokeWidth={3} size={28} color={"var(--white)"} />
+								</div>
+							{:else}
+								<Repeat strokeWidth={3} size={28} />
+							{/if}</span
+						>
 					{/if}
 				</Button>
 			{/if}
