@@ -110,7 +110,7 @@
 			</p>
 		</div>
 		{#if $multiplayerFlag}
-			<div class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture">
+			<div class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture no-last-border">
 				{#each $currentPlayers as ele (ele)}
 					<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
 					<div
@@ -240,5 +240,9 @@
 
 	.row td {
 		padding: 1rem 0.5rem;
+	}
+
+	.no-last-border > div:last-child {
+		border-bottom: none !important;
 	}
 </style>

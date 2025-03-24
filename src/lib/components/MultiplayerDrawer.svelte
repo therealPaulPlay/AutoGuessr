@@ -40,7 +40,7 @@
 			<ChevronsLeft strokeWidth={3} color="var(--white)" />
 		</div></button
 	>
-	<div class="bg-tanLight w-full max-h-96 rounded px-2 overflow-x-hidden overflow-y-auto">
+	<div class="bg-tanLight w-full max-h-96 rounded px-2 overflow-x-hidden overflow-y-auto no-last-border">
 		{#each $currentPlayers as ele (ele)}
 			<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
 			<div
@@ -57,3 +57,9 @@
 		{/each}
 	</div>
 </div>
+
+<style>
+	.no-last-border > div:last-child {
+		border-bottom: none !important;
+	}
+</style>
