@@ -81,11 +81,6 @@
 			console.error("Error loading the Playlight SDK:", error);
 		}
 	});
-
-	
-	$effect(() => {
-		console.log("inGame store updated to", $inGame);
-	})
 </script>
 
 <svelte:head>

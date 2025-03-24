@@ -8,6 +8,8 @@ import {
 	gameInProgressFlag,
 	inGame,
 	playersInGame,
+	gameRestartedFlag,
+	multiplayerQuestionsList,
 } from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
 import { totalCarAmount } from "$lib/stores/gameStore";
@@ -48,6 +50,7 @@ export function leaveMultiplayerRoom() {
 	peer = null;
 	roomId.set("");
 	multiplayerFlag.set(false);
+	gameInProgressFlag.set(false);
 }
 
 function generateRoomCode() {
@@ -75,11 +78,15 @@ async function initPeer() {
 	peer.onEvent("status", (status) => {
 		peerStatusStore.set(status);
 	});
-	peer.onEvent("storageUpdated", (storage) => {
+	peer.onEvent("storageUpdated", async (storage) => {
 		currentPlayers.set(storage.players);
 
 		if (get(gameInProgressFlag) != storage.gameInProgress) {
 			gameInProgressFlag.set(storage.gameInProgress);
+		}
+
+		if (get(gameRestartedFlag) != storage.gameRestarted) {
+			gameRestartedFlag.set(storage.gameRestarted);
 		}
 
 		const playerInfo = getPlayerInfo(peer.id);
@@ -92,8 +99,13 @@ async function initPeer() {
 			playersInGame.set(getInGamePlayers());
 		}
 
-		checkQuestionsArray(storage.players, storage.questionsIds);
-		console.log("storage update:", storage);
+		if (maxScore(storage.players) >= storage.questionsIds.length - 3 && peer.isHost) {
+			await checkQuestionsArray(storage.players, storage.questionsIds);
+		}
+
+		if (JSON.stringify(get(multiplayerQuestionsList)) !== JSON.stringify(storage.questionsIds)) {
+			multiplayerQuestionsList.set(storage.questionsIds);
+		}
 	});
 
 	// For host: When a peer is connected to the host
@@ -120,7 +132,7 @@ async function host() {
 	} catch (error) {
 		console.error("Error occurred in host function:", error);
 	}
-	await peer.createRoom({ players: [], gameInProgress: false, questionsIds: [] });
+	await peer.createRoom({ players: [], gameInProgress: false, gameRestarted: false, questionsIds: [] });
 	if (peer.isHost) {
 		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1, inGame: false });
 		multiplayerFlag.set(true);
@@ -131,14 +143,14 @@ async function checkQuestionsArray(playersArray, questionsArray) {
 	// Insure the function runs only for host, that way we don't have this function run multiple times for each peer
 	if (!peer.isHost) return;
 
-	let questionMargin = 3;
-	let currentMaxScore = maxScore(playersArray);
-	let availableIndecies = await getTotalCarDataAmount();
-	let addedQuestions = [];
-
+	const questionMargin = 3;
+	const currentMaxScore = maxScore(playersArray);
 	// if the difference between the current max score and questions array
 	// is higher than the question margin then it'll return
 	if (questionsArray.length > currentMaxScore + questionMargin) return;
+
+	let availableIndecies = await getTotalCarDataAmount();
+	let addedQuestions = [];
 
 	for (let i = 0; i < questionMargin; i++) {
 		addedQuestions.push(Math.floor(Math.random() * availableIndecies));
@@ -207,4 +219,24 @@ export function updatePlayerInGame(playerId, newValue) {
 
 export function getInGamePlayers() {
 	return peer.getStorage.players.filter((player) => player.inGame);
+}
+
+export function resetMultiplayerScores() {
+	if (peer.isHost) {
+		const playersArray = peer.getStorage.players;
+		let updatedPlayers = [];
+
+		if (Array.isArray(playersArray)) {
+			// Create a new array with updated scores
+			updatedPlayers = playersArray.map((player) => ({
+				...player, // Copy all existing properties
+				score: -1, // Reset the score
+			}));
+
+			// Update the storage in a single operation
+			peer.updateStorage("players", updatedPlayers);
+		} else {
+			console.error("players.array is not an array or does not exist.");
+		}
+	}
 }

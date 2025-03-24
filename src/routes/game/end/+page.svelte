@@ -6,8 +6,15 @@
 	import { Home, Share, Repeat } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
-	import { currentPlayers, multiplayerFlag, peerStore, playersInGame } from "$lib/stores/multiplayerStore";
-	import { getInGamePlayers, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
+	import {
+		currentPlayers,
+		gameInProgressFlag,
+		gameRestartedFlag,
+		multiplayerFlag,
+		peerStore,
+		playersInGame,
+	} from "$lib/stores/multiplayerStore";
+	import { getInGamePlayers, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 
 	let mainContent = $state();
@@ -62,9 +69,16 @@
 
 	$effect(() => {
 		if ($multiplayerFlag) {
-			console.log("$playersInGame =", $playersInGame);
 			if ($playersInGame.length == 0 && $peerStore.isHost) showPlayAgain = true;
 			else showPlayAgain = false;
+		}
+	});
+
+	$effect(() => {
+		if ($gameInProgressFlag && !$peerStore.isHost && $gameRestartedFlag) {
+			setTimeout(() => {
+				goto("/game");
+			}, 250);
 		}
 	});
 </script>
@@ -150,7 +164,17 @@
 					color="var(--green-button)"
 					bgcolor="var(--green-button-dark)"
 					onclick={() => {
-						goto("/game");
+						if ($multiplayerFlag) {
+							if ($currentPlayers.length > 1 && $peerStore.isHost) {
+								$peerStore.updateStorage("gameRestarted", true);
+								$peerStore.updateStorage("gameInProgress", true);
+								$peerStore.updateStorage("questionsIds", []);
+								resetMultiplayerScores();
+							} else leaveMultiplayerRoom(); // if the player is alone it'll kick them from the multiplayer state and restart a normal game
+						}
+						setTimeout(() => {
+							goto("/game");
+						}, 250);  // This seems to be necessary for the first question to be synced
 					}}
 				>
 					{#if innerWidth >= 768}

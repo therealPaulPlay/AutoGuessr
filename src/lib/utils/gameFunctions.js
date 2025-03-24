@@ -21,7 +21,7 @@ import { goto } from "$app/navigation";
 import { addExperience } from "./addExp";
 import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
 import { saveStorage } from "./saveHelper";
-import { inGame, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+import { inGame, multiplayerFlag, multiplayerQuestionsList, peerStore } from "$lib/stores/multiplayerStore";
 import { getPlayerInfo, updatePlayerInGame, updatePlayerScore } from "./multiplayer";
 
 async function setCurrentQuestion(questionIndex) {
@@ -112,7 +112,7 @@ export function goToNextQuestion(saveHistory = true) {
 			return;
 		}
 
-		if(get(multiplayerFlag)) {
+		if (get(multiplayerFlag)) {
 			updatePlayerInGame(get(peerStore).id, false);
 		}
 
@@ -130,11 +130,13 @@ export function goToNextQuestion(saveHistory = true) {
 
 	// Logic if player in a multiplayer game
 	if (get(multiplayerFlag)) {
-		let multiplayerQuestionsList = get(peerStore).getStorage.questionsIds;
 		let peerId = get(peerStore).id;
 		let currentScore = getPlayerInfo(peerId).score;
+
 		updatePlayerScore(peerId, currentScore + 1);
-		setCurrentQuestion(multiplayerQuestionsList[currentScore + 1]);
+
+		let newQuestionIndex = get(peerStore).getStorage.questionsIds[currentScore + 1];
+		setCurrentQuestion(newQuestionIndex);
 		return;
 	}
 
