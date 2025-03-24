@@ -14,7 +14,7 @@
 		peerStore,
 		playersInGame,
 	} from "$lib/stores/multiplayerStore";
-	import { getInGamePlayers, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
+	import { getInGamePlayers, getPlayerInfo, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 
 	let mainContent = $state();
@@ -118,7 +118,7 @@
 						class="w-full flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
 					>
 						<p class="w-5/6 overflow-clip text-ellipsis">
-							{ele.id}
+							{getPlayerInfo(ele.id).name}
 						</p>
 						<p class="w-1/6">
 							{ele.score}

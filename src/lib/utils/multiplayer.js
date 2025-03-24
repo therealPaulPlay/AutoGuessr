@@ -14,6 +14,7 @@ import {
 import { get } from "svelte/store";
 import { totalCarAmount } from "$lib/stores/gameStore";
 import { getTotalCarDataAmount } from "./gameFunctions";
+import { username } from "$lib/stores/accountStore";
 
 let peer;
 let peerId;
@@ -106,11 +107,18 @@ async function initPeer() {
 		if (JSON.stringify(get(multiplayerQuestionsList)) !== JSON.stringify(storage.questionsIds)) {
 			multiplayerQuestionsList.set(storage.questionsIds);
 		}
+
+		console.log(storage);
 	});
 
 	// For host: When a peer is connected to the host
 	peer.onEvent("incomingPeerConnected", (newPeerId) => {
-		peer.updateStorageArray("players", "add-unique", { id: newPeerId, score: -1, inGame: false });
+		// peer.updateStorageArray("players", "add-unique", {
+		// 	id: newPeerId,
+		// 	score: -1,
+		// 	inGame: false,
+		// 	name: getPlayerName(),
+		// });
 	});
 	peer.onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
 		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
@@ -121,6 +129,15 @@ async function initPeer() {
 	peer.onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
 		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
 		peer.updateStorageArray("players", "remove-matching", currentPlayerInfo);
+	});
+	peer.onEvent("outgoingPeerConnected", (connectedPeerId) => {
+		console.log("Name should be updated");
+		peer.updateStorageArray("players", "add-unique", {
+			id: connectedPeerId,
+			score: -1,
+			inGame: false,
+			name: getPlayerName(),  // Why doesn't this work?
+		});
 	});
 
 	await peer.init();
@@ -134,7 +151,7 @@ async function host() {
 	}
 	await peer.createRoom({ players: [], gameInProgress: false, gameRestarted: false, questionsIds: [] });
 	if (peer.isHost) {
-		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1, inGame: false });
+		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1, inGame: false, name: getPlayerName() });
 		multiplayerFlag.set(true);
 	}
 }
@@ -188,12 +205,7 @@ export function updatePlayerScore(playerId, newScore) {
 		if (!peer) return null;
 
 		let playerInfo = getPlayerInfo(playerId);
-		peer.updateStorageArray(
-			"players",
-			"update-matching",
-			{ id: playerId, score: playerInfo.score, inGame: playerInfo.inGame },
-			{ id: playerId, score: newScore, inGame: playerInfo.inGame },
-		);
+		peer.updateStorageArray("players", "update-matching", { playerInfo }, { ...playerInfo, score: newScore });
 	} catch (error) {
 		console.error("Error occurred in updatePlayerScore function:", error);
 		throw error;
@@ -205,12 +217,7 @@ export function updatePlayerInGame(playerId, newValue) {
 		if (!peer) return null;
 
 		let playerInfo = getPlayerInfo(playerId);
-		peer.updateStorageArray(
-			"players",
-			"update-matching",
-			{ id: playerId, score: playerInfo.score, inGame: playerInfo.inGame },
-			{ id: playerId, score: playerInfo.score, inGame: newValue },
-		);
+		peer.updateStorageArray("players", "update-matching", { playerInfo }, { ...playerInfo, inGame: newValue });
 	} catch (error) {
 		console.error("Error occurred in updatePlayerInGame function:", error);
 		throw error;
@@ -239,4 +246,70 @@ export function resetMultiplayerScores() {
 			console.error("players.array is not an array or does not exist.");
 		}
 	}
+}
+
+function getPlayerName() {
+	if (get(username) !== "Guest") {
+		return get(username);
+	}
+
+	const adjectives = [
+		"Dark",
+		"Mystic",
+		"Silent",
+		"Frozen",
+		"Iron",
+		"Shadow",
+		"Blazing",
+		"Thunder",
+		"Savage",
+		"Ruthless",
+		"Swift",
+		"Ancient",
+		"Lone",
+		"Vengeful",
+		"Crimson",
+		"Phantom",
+		"Ghostly",
+		"Wandering",
+		"Frost",
+		"Storm",
+		"Doomed",
+		"Fallen",
+		"Raging",
+		"Divine",
+		"Infernal",
+	];
+
+	const nouns = [
+		"Wolf",
+		"Knight",
+		"Assassin",
+		"Mage",
+		"Dragon",
+		"Reaper",
+		"Samurai",
+		"Warden",
+		"Giant",
+		"Viper",
+		"Specter",
+		"Warlord",
+		"Bandit",
+		"Outlaw",
+		"Hunter",
+		"Slayer",
+		"Sorcerer",
+		"Paladin",
+		"Berserker",
+		"Titan",
+		"Ranger",
+		"Nomad",
+		"Gladiator",
+		"Phoenix",
+		"Wraith",
+	];
+
+	const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
+	const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
+	return `${randomAdjective}${randomNoun}`; // e.g., "DarkKnight", "FrostDragon"
 }

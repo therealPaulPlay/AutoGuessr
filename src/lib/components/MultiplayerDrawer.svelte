@@ -4,6 +4,7 @@
 	import { flip } from "svelte/animate";
 	import { gsap } from "gsap";
 	import Flip from "gsap/dist/Flip";
+	import { getPlayerInfo } from "$lib/utils/multiplayer";
 	gsap.registerPlugin(Flip);
 
 	let multiplayerDrawerFlag = $state(false);
@@ -21,7 +22,7 @@
 
 		Flip.from(drawerState, {
 			duration: 0.5,
-			// ease: "power3.inOut",
+			ease: "power3.inOut",
 		});
 	}
 
@@ -48,7 +49,7 @@
 				class="w-full md:min-w-64 md:max-w-80 flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
 			>
 				<p class="w-5/6 overflow-clip text-ellipsis">
-					{ele.id}
+					{getPlayerInfo(ele.id).name}
 				</p>
 				<p class="w-1/6">
 					{ele.score}
