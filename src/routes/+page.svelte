@@ -9,6 +9,7 @@
 	import { multiplayerPopup } from "$lib/stores/uiStore";
 	import { onMount } from "svelte";
 	import CarModel from "$lib/components/CarModel.svelte";
+	import { multiplayerCurrentScreen } from "$lib/stores/multiplayerStore";
 
 	function setDifficulty(difficultyLevel) {
 		localStorage.setItem("difficulty", difficultyLevel);
@@ -108,6 +109,7 @@
 						shadowHeight="0.5rem"
 						onclick={() => {
 							$multiplayerPopup = true;
+							$multiplayerCurrentScreen = "main";
 						}}
 					>
 						<div class="flex flex-row items-center justify-between w-full px-2">

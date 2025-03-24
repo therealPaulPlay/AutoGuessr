@@ -84,6 +84,7 @@
 	// UI ONLY
 	function handleJoin() {
 		copiedFlag = false;
+		fillCode("");
 		showScreen("join");
 	}
 
