@@ -22,6 +22,7 @@
 	let watermark = $state();
 	let innerWidth = $state();
 	let showPlayAgain = $state(true);
+	let playAgainClicked = $state(false);
 
 	function captureScreen() {
 		if (!resultTable) return;
@@ -75,6 +76,7 @@
 	});
 
 	$effect(() => {
+		if (!$peerStore) return;
 		if ($gameInProgressFlag && !$peerStore.isHost && $gameRestartedFlag) {
 			setTimeout(() => {
 				goto("/game");
@@ -164,17 +166,20 @@
 					color="var(--green-button)"
 					bgcolor="var(--green-button-dark)"
 					onclick={() => {
-						if ($multiplayerFlag) {
+						if ($multiplayerFlag && !playAgainClicked) {
 							if ($currentPlayers.length > 1 && $peerStore.isHost) {
+								playAgainClicked = true;
 								$peerStore.updateStorage("gameRestarted", true);
 								$peerStore.updateStorage("gameInProgress", true);
 								$peerStore.updateStorage("questionsIds", []);
 								resetMultiplayerScores();
+								setTimeout(() => {
+									goto("/game");
+								}, 250); // This seems to be necessary for the first question to be synced
+								return;
 							} else leaveMultiplayerRoom(); // if the player is alone it'll kick them from the multiplayer state and restart a normal game
 						}
-						setTimeout(() => {
-							goto("/game");
-						}, 250);  // This seems to be necessary for the first question to be synced
+						goto("/game");
 					}}
 				>
 					{#if innerWidth >= 768}
