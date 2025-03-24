@@ -201,7 +201,7 @@
 	<div class="flex flex-row-reverse justify-center md:gap-10 max-md:flex-col max-md:w-full max-md:items-end">
 		<!-- Lives -->
 		<div class="lives z-[1] max-md:translate-y-1/4 max-md:mr-10">
-			<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="w-52 max-md:w-40 flex content-end" />
+			<img src="/assets/svg/traffic_{$livesImage || 0}.svg" alt="lives" class="w-52 max-md:w-40 flex content-end" />
 		</div>
 		<div class="p-2.5 rounded-t-2xl md:max-w-3xl max-md:w-full flex z-[2] pointer-events-auto bg-defaultShadow">
 			<div class="flex grow gap-2.5 text-white w-full">
