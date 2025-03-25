@@ -5,7 +5,6 @@ import {
 	roomId,
 	peer,
 	multiplayerStatus,
-	gameInProgressFlag,
 	inGame,
 	playersInGame,
 	multiplayerQuestionsList,
@@ -17,6 +16,7 @@ import { getTotalCarDataAmount } from "./gameFunctions";
 import { username } from "$lib/stores/accountStore";
 import { displayError } from "./displayError";
 import { goto } from "$app/navigation";
+import { multiplayerPopup } from "$lib/stores/uiStore";
 
 export async function handleJoinRoom(roomId) {
 	try {
@@ -28,13 +28,12 @@ export async function handleJoinRoom(roomId) {
 	}
 }
 
-export function leaveMultiplayerRoom() {
+export function leaveMultiplayerRoom(dontDestroy = false) {
 	if (!get(peer)) return;
 	multiplayerFlag.set(false); // First thing: set multiplayer to false to prevent displayed errors!
-	get(peer).destroy();
+	if (!dontDestroy) get(peer).destroy();
 	peer.set(null);
 	roomId.set("");
-	gameInProgressFlag.set(false);
 	currentMatchIndex.set(0);
 }
 
@@ -61,11 +60,18 @@ async function initPeer() {
 	get(peer).onEvent("status", (status) => {
 		multiplayerStatus.set(status);
 	});
+
 	get(peer).onEvent("error", (error) => {
 		if (!get(multiplayerFlag)) return;
 		console.error("PlayPeerJS error: " + error);
 		displayError("PlayPeerJS error: " + error);
 	});
+
+	get(peer).onEvent("destroy", () => {
+		if (!get(multiplayerFlag)) return;
+		leaveMultiplayerRoom(true);
+	});
+
 	get(peer).onEvent("storageUpdated", async (storage) => {
 		currentPlayers.set(storage?.players);
 
@@ -79,12 +85,9 @@ async function initPeer() {
 			});
 		}
 
-		if (get(gameInProgressFlag) != storage?.gameInProgress) {
-			gameInProgressFlag.set(storage?.gameInProgress);
-		}
-
 		if (get(currentMatchIndex) != storage?.matchIndex && storage?.questionsIds?.length !== 0) {
 			currentMatchIndex.set(storage?.matchIndex);
+			multiplayerPopup.set(false);
 			goto("/game");
 		}
 

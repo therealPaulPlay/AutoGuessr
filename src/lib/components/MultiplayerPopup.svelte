@@ -9,10 +9,19 @@
 		multiplayerFlag,
 		peer,
 		multiplayerStatus,
-		gameInProgressFlag,
 	} from "$lib/stores/multiplayerStore";
 	import { multiplayerPopup } from "$lib/stores/uiStore";
-	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
+	import {
+		FastForward,
+		Globe,
+		Unplug,
+		Copy,
+		CopyCheck,
+		Share,
+		ClipboardPaste,
+		Users,
+		SeparatorVertical,
+	} from "lucide-svelte";
 	import { host, handleJoinRoom, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
@@ -23,7 +32,6 @@
 	let windowWidth = $state();
 	let copiedFlag = $state(false);
 	let showCopiedMessage = $state(false);
-	let showWaitForPlayers = $state(false);
 	let timeoutId;
 
 	let alphanetPlaceholders = ["A", "B", "C", "D", "E", "F"];
@@ -52,15 +60,9 @@
 		await handleJoinRoom(codeString.toLocaleLowerCase());
 	}
 
-	function handleHostLeave() {
+	function handleLeave() {
 		leaveMultiplayerRoom();
-		showScreen("main");
-	}
-
-	// TODO: If no special functionality is needed just combine it with the handleHostleave
-	function handlePlayerLeave() {
-		leaveMultiplayerRoom();
-		showScreen("main");
+		$multiplayerCurrentScreen = "main";
 	}
 
 	async function handleCreateRoom() {
@@ -74,17 +76,8 @@
 	}
 
 	async function handleHost() {
-		showScreen("host");
+		$multiplayerCurrentScreen = "host";
 		await handleCreateRoom();
-	}
-
-	function handleStartGame() {
-		if ($currentPlayers.length > 1) $peer?.updateStorage("gameInProgress", true);
-		else showWaitForPlayers = true;
-	}
-
-	function showScreen(screen) {
-		$multiplayerCurrentScreen = screen;
 	}
 
 	function copyToClipboard(text) {
@@ -160,19 +153,8 @@
 		}
 	}
 
-	onMount(() => {
-		showScreen("main");
-	});
-
-	$effect(() => {
-		if ($gameInProgressFlag) {
-			$multiplayerPopup = false;
-			goto("/game");
-		}
-	});
-
-	$effect(() => {
-		if ($currentPlayers.length > 1) showWaitForPlayers = false;
+	multiplayerPopup.subscribe((value) => {
+		if (value) $multiplayerCurrentScreen = "main";
 	});
 
 	$effect(() => {
@@ -217,7 +199,7 @@
 						onclick={() => {
 							copiedFlag = false;
 							codeInputs = Array(6).fill("");
-							showScreen("join");
+							$multiplayerCurrentScreen = "join";
 						}}
 					>
 						<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
@@ -268,9 +250,6 @@
 							{$currentPlayers?.length}
 						</div>
 					</div>
-					{#if showWaitForPlayers}
-						<span class="text-black w-[80%] text-center">You need to wait for other players before starting</span>
-					{/if}
 					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-1/4">
 							<Button
@@ -278,7 +257,7 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handleHostLeave}
+								onclick={handleLeave}
 							>
 								<div class="-rotate-90">
 									<Share strokeWidth={2.5} size={28} />
@@ -293,7 +272,10 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handleStartGame}
+								disabled={$currentPlayers?.length <= 1}
+								onclick={() => {
+									$peer?.updateStorage("matchIndex", $peer?.getStorage?.matchIndex + 1);
+								}}
 							>
 								<span class="text-white w-full text-center font-semibold text-3xl">Start</span>
 							</Button>
@@ -340,7 +322,7 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handlePlayerLeave}
+								onclick={handleLeave}
 							>
 								<div class="-rotate-90">
 									<Share strokeWidth={2.5} size={28} />

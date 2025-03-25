@@ -8,7 +8,6 @@
 	import html2canvas from "html2canvas";
 	import {
 		currentPlayers,
-		gameInProgressFlag,
 		multiplayerFlag,
 		peer,
 		playersInGame,

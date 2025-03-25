@@ -31,7 +31,7 @@
 	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
-	import { gameInProgressFlag, multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
+	import { multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
 	import { updatePlayerInGame } from "$lib/utils/multiplayer";
 
 	// Carousel controls
@@ -121,8 +121,8 @@
 		const img = get(imgElement);
 		if (img) img.src = "";
 		$gameRounds = [];
-		
-		if($multiplayerFlag) {
+
+		if ($multiplayerFlag) {
 			updatePlayerInGame(get(peer).id, true);
 		}
 
@@ -218,7 +218,7 @@
 </div>
 
 <!-- Multiplayer drawer -->
-{#if $multiplayerFlag || $gameInProgressFlag}
+{#if $multiplayerFlag}
 	<div class="fixed right-0 max-w-[50%] top-48 md:top-20 z-50">
 		<MultiplayerDrawer />
 	</div>
