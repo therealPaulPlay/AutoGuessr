@@ -94,6 +94,7 @@
 
 		timeoutId = setTimeout(() => {
 			showCopiedMessage = false;
+			copiedFlag = false;
 		}, 1000);
 	}
 
@@ -228,15 +229,15 @@
 							onclick={handleCopy}
 						>
 							{#if !copiedFlag}
-								<Copy strokeWidth={3} absoluteStrokeWidth={true} color={"var(--black)"} />
+								<Copy strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
 							{:else}
-								<CopyCheck strokeWidth={3} absoluteStrokeWidth={true} color={"var(--white)"} />
+								<CopyCheck strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--white)"} />
 							{/if}
 							{#if showCopiedMessage}
 								<span
 									in:fly={{ y: 10, delay: 50 }}
 									out:fade={{ duration: 150 }}
-									class="absolute -top-7 -left-12 text-black"
+									class="absolute -top-7 left-1/2 transform -translate-x-1/2 text-black"
 								>
 									Copied!
 								</span>
