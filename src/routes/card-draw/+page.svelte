@@ -14,7 +14,7 @@
 	import { cardDraw, calculateRarity } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
 	import { Howl } from "howler";
-	import { multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+	import { multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
 	import { updatePlayerInGame } from "$lib/utils/multiplayer";
 	gsap.registerPlugin(Flip);
 
@@ -238,7 +238,7 @@
 						onclick={() => {
 							goto("/game/end");
 							if ($multiplayerFlag) {
-								updatePlayerInGame($peerStore.id, false);
+								updatePlayerInGame($peer?.id, false);
 							}
 						}}
 					>

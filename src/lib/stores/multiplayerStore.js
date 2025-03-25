@@ -9,5 +9,5 @@ export const multiplayerQuestionsList = writable([]);
 export const currentPlayers = writable([]);
 export const playersInGame = writable([]);
 export const roomId = writable();
-export const peerStore = writable();
+export const peer = writable();
 export const peerStatusStore = writable();

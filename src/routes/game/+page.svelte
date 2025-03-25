@@ -31,7 +31,7 @@
 	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
-	import { gameInProgressFlag, multiplayerFlag, peerStore } from "$lib/stores/multiplayerStore";
+	import { gameInProgressFlag, multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
 	import { updatePlayerInGame } from "$lib/utils/multiplayer";
 
 	// Carousel controls
@@ -123,7 +123,7 @@
 		$gameRounds = [];
 		
 		if($multiplayerFlag) {
-			updatePlayerInGame(get(peerStore).id, true);
+			updatePlayerInGame(get(peer).id, true);
 		}
 
 		$totalCarAmount = await getTotalCarDataAmount();
@@ -131,9 +131,9 @@
 	});
 
 	onMount(() => {
-		if($peerStore.isHost) {
+		if($peer?.isHost) {
 			setTimeout(() => {
-				$peerStore.updateStorage("gameRestarted", false);
+				$peer?.updateStorage("gameRestarted", false);
 			}, 2000)
 		}
 	})

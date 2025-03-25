@@ -7,13 +7,13 @@
 		currentPlayers,
 		roomId,
 		multiplayerFlag,
-		peerStore,
+		peer,
 		peerStatusStore,
 		gameInProgressFlag,
 	} from "$lib/stores/multiplayerStore";
 	import { multiplayerPopup } from "$lib/stores/uiStore";
 	import { FastForward, Globe, Unplug, Copy, CopyCheck, Share, ClipboardPaste, Users } from "lucide-svelte";
-	import { handleHostStart, handleJoinRoom, getRoomCodeFromPeerId, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
+	import { host, handleJoinRoom, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
@@ -28,6 +28,7 @@
 
 	let alphanetPlaceholders = ["A", "B", "C", "D", "E", "F"];
 	let codeInputs = $state(Array(6).fill(""));
+	let isCodeInput = $state(false);
 	let inputRefs = $state([]);
 
 	let peerStatus = $state();
@@ -66,7 +67,8 @@
 		// creates a room if none exist
 		if (!$roomId) {
 			console.log("Room doesn't exist, creating one...");
-			$roomId = await getRoomCodeFromPeerId(handleHostStart());
+			const code = await host();
+			$roomId = code.replaceAll("autoguessr_", "");
 			return;
 		}
 	}
@@ -77,15 +79,8 @@
 	}
 
 	function handleStartGame() {
-		if ($currentPlayers.length > 1) $peerStore.updateStorage("gameInProgress", true);
+		if ($currentPlayers.length > 1) $peer?.updateStorage("gameInProgress", true);
 		else showWaitForPlayers = true;
-	}
-
-	// UI ONLY
-	function handleJoin() {
-		copiedFlag = false;
-		fillCode("");
-		showScreen("join");
 	}
 
 	function showScreen(screen) {
@@ -108,6 +103,12 @@
 		}, 1000);
 	}
 
+	// Paste code ---------------------------------------------------------------------------------------
+
+	function fillCode(premadeCode) {
+		codeInputs = premadeCode.split("").slice(0, 6);
+	}
+
 	function handlePaste() {
 		navigator.clipboard
 			.readText()
@@ -118,6 +119,8 @@
 				console.error("Failed to read clipboard contents: ", err);
 			});
 	}
+
+	// Handle Inputs ---------------------------------------------------------------------------------------
 
 	// Svelte action to collect element references
 	function collectRef(node, index) {
@@ -157,10 +160,6 @@
 		}
 	}
 
-	function fillCode(premadeCode) {
-		codeInputs = premadeCode.split("").slice(0, 6);
-	}
-
 	onMount(() => {
 		showScreen("main");
 	});
@@ -174,6 +173,13 @@
 
 	$effect(() => {
 		if ($currentPlayers.length > 1) showWaitForPlayers = false;
+	});
+
+	$effect(() => {
+		const index = codeInputs.findIndex((e) => {
+			return e == "" || e == undefined;
+		});
+		isCodeInput = index == -1;
 	});
 </script>
 
@@ -204,7 +210,16 @@
 						</div>
 					</Button>
 					<span class="text-2xl text-black opacity-80">or</span>
-					<Button buttonHeight="10rem" buttonWidth="10rem" shadowHeight="0.5rem" onclick={handleJoin}>
+					<Button
+						buttonHeight="10rem"
+						buttonWidth="10rem"
+						shadowHeight="0.5rem"
+						onclick={() => {
+							copiedFlag = false;
+							codeInputs = Array(6).fill("");
+							showScreen("join");
+						}}
+					>
 						<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
 							<Unplug strokeWidth={4} absoluteStrokeWidth={true} size={72} />
 							<span class="text-white font-semibold text-3xl">Join</span>
@@ -250,7 +265,7 @@
 						<BasicTable array={$currentPlayers} emptyMessage={"Waiting for players..."} />
 						<div class="flex items-center gap-1 mt-1 text-black">
 							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
-							{$currentPlayers.length}
+							{$currentPlayers?.length}
 						</div>
 					</div>
 					{#if showWaitForPlayers}
@@ -341,6 +356,7 @@
 									buttonHeight="4rem"
 									buttonWidth="21rem"
 									shadowHeight="0.5rem"
+									disabled={!isCodeInput}
 									onclick={handlePlayerEnter}
 								>
 									<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>

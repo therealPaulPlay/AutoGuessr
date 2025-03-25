@@ -11,7 +11,7 @@
 		gameInProgressFlag,
 		gameRestartedFlag,
 		multiplayerFlag,
-		peerStore,
+		peer,
 		playersInGame,
 	} from "$lib/stores/multiplayerStore";
 	import { getInGamePlayers, getPlayerInfo, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
@@ -70,14 +70,14 @@
 
 	$effect(() => {
 		if ($multiplayerFlag) {
-			if ($playersInGame.length == 0 && $peerStore.isHost) showPlayAgain = true;
+			if ($playersInGame.length == 0 && $peer?.isHost) showPlayAgain = true;
 			else showPlayAgain = false;
 		}
 	});
 
 	$effect(() => {
-		if (!$peerStore) return;
-		if ($gameInProgressFlag && !$peerStore.isHost && $gameRestartedFlag) {
+		if (!$peer) return;
+		if ($gameInProgressFlag && !$peer?.isHost && $gameRestartedFlag) {
 			setTimeout(() => {
 				goto("/game");
 			}, 250);
@@ -167,11 +167,11 @@
 					bgcolor="var(--green-button-dark)"
 					onclick={() => {
 						if ($multiplayerFlag && !playAgainClicked) {
-							if ($currentPlayers.length > 1 && $peerStore.isHost) {
+							if ($currentPlayers.length > 1 && $peer?.isHost) {
 								playAgainClicked = true;
-								$peerStore.updateStorage("gameRestarted", true);
-								$peerStore.updateStorage("gameInProgress", true);
-								$peerStore.updateStorage("questionsIds", []);
+								$peer?.updateStorage("gameRestarted", true);
+								$peer?.updateStorage("gameInProgress", true);
+								$peer?.updateStorage("questionsIds", []);
 								resetMultiplayerScores();
 								setTimeout(() => {
 									goto("/game");

@@ -3,7 +3,7 @@ import {
 	currentPlayers,
 	multiplayerFlag,
 	roomId,
-	peerStore,
+	peer,
 	peerStatusStore,
 	gameInProgressFlag,
 	inGame,
@@ -15,40 +15,22 @@ import { get } from "svelte/store";
 import { totalCarAmount } from "$lib/stores/gameStore";
 import { getTotalCarDataAmount } from "./gameFunctions";
 import { username } from "$lib/stores/accountStore";
-
-let peer;
-let peerId;
-
-export async function handleHostStart() {
-	await host();
-	return peerId; // host id
-}
+import { displayError } from "./displayError";
 
 export async function handleJoinRoom(roomId) {
-	if (!roomId) return alert("Please enter the Room code (Host ID)");
-
 	try {
-		if (!peer) await initPeer();
-		await peer.joinRoom(`autoguessr_${roomId.toLowerCase()}`);
+		if (!get(peer)) await initPeer();
+		await get(peer).joinRoom(`autoguessr_${roomId.toLowerCase()}`);
 		multiplayerFlag.set(true);
 	} catch (error) {
-		alert("Failed to join: " + error.message);
+		displayError("Failed to join: " + error.message)
 	}
-}
-
-export async function getRoomCodeFromPeerId(peerId) {
-	let string = await peerId;
-	const parts = string.split("_");
-	if (parts.length > 1) {
-		return parts[1];
-	}
-	return "";
 }
 
 export function leaveMultiplayerRoom() {
-	if (!peer) return;
-	peer.destroy();
-	peer = null;
+	if (!get(peer)) return;
+	get(peer).destroy();
+	peer.set(null);
 	roomId.set("");
 	multiplayerFlag.set(false);
 	gameInProgressFlag.set(false);
@@ -64,35 +46,48 @@ function generateRoomCode() {
 }
 
 async function initPeer() {
-	peerId = `autoguessr_${generateRoomCode()}`;
-	peer = new PlayPeer(peerId, {
+	const peerId = `autoguessr_${generateRoomCode()}`;
+	peer.set(new PlayPeer(peerId, {
 		config: {
 			iceServers: [
 				{ urls: "stun:stun.l.google.com:19302" },
 				{ urls: "turn:freestun.net:3478", username: "free", credential: "free" }, // For production, use fastturn, or a different turn server
 			],
 		},
-	});
+	}));
 
-	peerStore.set(peer);
-
-	peer.onEvent("status", (status) => {
+	get(peer).onEvent("status", (status) => {
 		peerStatusStore.set(status);
 	});
-	peer.onEvent("storageUpdated", async (storage) => {
-		currentPlayers.set(storage.players);
+	get(peer).onEvent("error", (error) => {
+		if (!get(multiplayerFlag)) return;
+		console.error("PlayPeerJS error: " + error);
+		displayError("PlayPeerJS error: " + error);
+	});
+	get(peer).onEvent("storageUpdated", async (storage) => {
+		currentPlayers.set(storage?.players);
 
-		if (get(gameInProgressFlag) != storage.gameInProgress) {
-			gameInProgressFlag.set(storage.gameInProgress);
+		if (!getPlayerInfo(get(peer)?.id)) {
+			const name = getPlayerName();
+			get(peer).updateStorageArray("players", "add-unique", {
+				id: get(peer)?.id,
+				score: -1,
+				inGame: false,
+				name,
+			});
 		}
 
-		if (get(gameRestartedFlag) != storage.gameRestarted) {
-			gameRestartedFlag.set(storage.gameRestarted);
+		if (get(gameInProgressFlag) != storage?.gameInProgress) {
+			gameInProgressFlag.set(storage?.gameInProgress);
 		}
 
-		const playerInfo = getPlayerInfo(peer.id);
-		if (playerInfo && get(inGame) !== playerInfo.inGame) {
-			inGame.set(playerInfo.inGame);
+		if (get(gameRestartedFlag) != storage?.gameRestarted) {
+			gameRestartedFlag.set(storage?.gameRestarted);
+		}
+
+		const playerInfo = getPlayerInfo(get(peer).id);
+		if (playerInfo && get(inGame) !== playerInfo?.inGame) {
+			inGame.set(playerInfo?.inGame);
 		}
 
 		const currentInGame = get(playersInGame);
@@ -100,65 +95,50 @@ async function initPeer() {
 			playersInGame.set(getInGamePlayers());
 		}
 
-		if (maxScore(storage.players) >= storage.questionsIds.length - 3 && peer.isHost) {
-			await checkQuestionsArray(storage.players, storage.questionsIds);
+		if (maxScore(storage?.players) >= storage?.questionsIds.length - 3 && get(peer)?.isHost) {
+			await checkQuestionsArray(storage?.players, storage?.questionsIds);
 		}
 
-		if (JSON.stringify(get(multiplayerQuestionsList)) !== JSON.stringify(storage.questionsIds)) {
-			multiplayerQuestionsList.set(storage.questionsIds);
+		if (JSON.stringify(get(multiplayerQuestionsList)) !== JSON.stringify(storage?.questionsIds)) {
+			multiplayerQuestionsList.set(storage?.questionsIds);
 		}
-
-		console.log(storage);
 	});
 
-	// For host: When a peer is connected to the host
-	peer.onEvent("incomingPeerConnected", (newPeerId) => {
-		// peer.updateStorageArray("players", "add-unique", {
-		// 	id: newPeerId,
-		// 	score: -1,
-		// 	inGame: false,
-		// 	name: getPlayerName(),
-		// });
-	});
-	peer.onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
+	get(peer).onEvent("incomingPeerDisconnected", (disconnectedPeerId) => {
 		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
-		peer.updateStorageArray("players", "remove-matching", currentPlayerInfo);
+		get(peer).updateStorageArray("players", "remove-matching", currentPlayerInfo);
 	});
 
 	// For peer: When peer connects/discconects from host
-	peer.onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
+	get(peer).onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
 		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
-		peer.updateStorageArray("players", "remove-matching", currentPlayerInfo);
-	});
-	peer.onEvent("outgoingPeerConnected", (connectedPeerId) => {
-		console.log("Name should be updated");
-		peer.updateStorageArray("players", "add-unique", {
-			id: connectedPeerId,
-			score: -1,
-			inGame: false,
-			name: getPlayerName(),  // Why doesn't this work?
-		});
+		get(peer).updateStorageArray("players", "remove-matching", currentPlayerInfo);
 	});
 
-	await peer.init();
+	await get(peer).init();
 }
 
-async function host() {
+export async function host() {
 	try {
-		if (!peer) await initPeer();
+		if (!get(peer)) await initPeer();
+
+		const name = getPlayerName();
+		const code = await get(peer).createRoom({
+			players: [
+				{ id: get(peer).id, score: -1, inGame: false, name }
+			], gameInProgress: false, gameRestarted: false, questionsIds: []
+		});
+		multiplayerFlag.set(true);
+		return code;
 	} catch (error) {
 		console.error("Error occurred in host function:", error);
-	}
-	await peer.createRoom({ players: [], gameInProgress: false, gameRestarted: false, questionsIds: [] });
-	if (peer.isHost) {
-		peer.updateStorageArray("players", "add-unique", { id: peer.id, score: -1, inGame: false, name: getPlayerName() });
-		multiplayerFlag.set(true);
+		displayError("Failed to create room: " + error);
 	}
 }
 
 async function checkQuestionsArray(playersArray, questionsArray) {
 	// Insure the function runs only for host, that way we don't have this function run multiple times for each peer
-	if (!peer.isHost) return;
+	if (!get(peer).isHost) return;
 
 	const questionMargin = 3;
 	const currentMaxScore = maxScore(playersArray);
@@ -174,26 +154,19 @@ async function checkQuestionsArray(playersArray, questionsArray) {
 	}
 
 	let newQuestionArray = [...questionsArray, ...addedQuestions];
-
-	peer.updateStorage("questionsIds", newQuestionArray);
+	get(peer).updateStorage("questionsIds", newQuestionArray);
 }
 
 function maxScore(array) {
-	let maxScore = -1;
-	for (const item of array) {
-		if (item.score > maxScore) {
-			maxScore = item.score;
-		}
-	}
-	return maxScore;
+	return array.sort()?.[array?.length - 1] ?? -1;
 }
 
 export function getPlayerInfo(id) {
 	try {
-		if (!peer) return null;
+		if (!get(peer)) return null;
 
 		// Find the player object with the matching id
-		return peer.getStorage?.players?.find((obj) => obj.id === id) || null;
+		return get(peer).getStorage?.players?.find((obj) => obj.id === id) || null;
 	} catch (error) {
 		console.error("Error occurred in getPlayerInfo function:", error);
 		throw error; // Re-throw the error for other unexpected issues
@@ -202,35 +175,29 @@ export function getPlayerInfo(id) {
 
 export function updatePlayerScore(playerId, newScore) {
 	try {
-		if (!peer) return null;
-
 		let playerInfo = getPlayerInfo(playerId);
-		peer.updateStorageArray("players", "update-matching", { playerInfo }, { ...playerInfo, score: newScore });
+		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, score: newScore });
 	} catch (error) {
 		console.error("Error occurred in updatePlayerScore function:", error);
-		throw error;
 	}
 }
 
 export function updatePlayerInGame(playerId, newValue) {
 	try {
-		if (!peer) return null;
-
 		let playerInfo = getPlayerInfo(playerId);
-		peer.updateStorageArray("players", "update-matching", { playerInfo }, { ...playerInfo, inGame: newValue });
+		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, inGame: newValue });
 	} catch (error) {
 		console.error("Error occurred in updatePlayerInGame function:", error);
-		throw error;
 	}
 }
 
 export function getInGamePlayers() {
-	return peer.getStorage.players.filter((player) => player.inGame);
+	return get(peer).getStorage.players.filter((player) => player.inGame);
 }
 
 export function resetMultiplayerScores() {
-	if (peer.isHost) {
-		const playersArray = peer.getStorage.players;
+	if (get(peer).isHost) {
+		const playersArray = get(peer).getStorage.players;
 		let updatedPlayers = [];
 
 		if (Array.isArray(playersArray)) {
@@ -241,7 +208,7 @@ export function resetMultiplayerScores() {
 			}));
 
 			// Update the storage in a single operation
-			peer.updateStorage("players", updatedPlayers);
+			get(peer).updateStorage("players", updatedPlayers);
 		} else {
 			console.error("players.array is not an array or does not exist.");
 		}
@@ -249,7 +216,7 @@ export function resetMultiplayerScores() {
 }
 
 function getPlayerName() {
-	if (get(username) !== "Guest") {
+	if (get(username) !== "Guest" && get(username)) {
 		return get(username);
 	}
 
@@ -263,18 +230,6 @@ function getPlayerName() {
 		"Blazing",
 		"Thunder",
 		"Savage",
-		"Ruthless",
-		"Swift",
-		"Ancient",
-		"Lone",
-		"Vengeful",
-		"Crimson",
-		"Phantom",
-		"Ghostly",
-		"Wandering",
-		"Frost",
-		"Storm",
-		"Doomed",
 		"Fallen",
 		"Raging",
 		"Divine",
@@ -290,17 +245,6 @@ function getPlayerName() {
 		"Reaper",
 		"Samurai",
 		"Warden",
-		"Giant",
-		"Viper",
-		"Specter",
-		"Warlord",
-		"Bandit",
-		"Outlaw",
-		"Hunter",
-		"Slayer",
-		"Sorcerer",
-		"Paladin",
-		"Berserker",
 		"Titan",
 		"Ranger",
 		"Nomad",
