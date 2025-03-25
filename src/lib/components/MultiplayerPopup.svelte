@@ -80,6 +80,7 @@
 		await handleCreateRoom();
 	}
 
+	// Copy code ---------------------------------------------------------------------------------------
 	function copyToClipboard(text) {
 		navigator.clipboard.writeText(text.toUpperCase()).catch((err) => console.error("Failed to copy code", err));
 	}
@@ -97,7 +98,6 @@
 	}
 
 	// Paste code ---------------------------------------------------------------------------------------
-
 	function fillCode(premadeCode) {
 		codeInputs = premadeCode.split("").slice(0, 6);
 	}
