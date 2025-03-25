@@ -5,12 +5,14 @@
 	import { ScrollToPlugin } from "gsap/dist/ScrollToPlugin";
 	import { fly } from "svelte/transition";
 	import { browser } from "$app/environment";
+	import { multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
+	import { get } from "svelte/store";
 	gsap.registerPlugin(ScrollToPlugin);
 
 	let { answer, guess, percentageDifference } = $props();
 
 	let sectionsAmount = 50;
-	const rules = $difficultyRules[$difficulty];
+	const rules = $difficultyRules[$multiplayerFlag ? get(peer)?.getStorage?.difficulty : $difficulty];
 	let [lowerBound, upperBound] = rules.correctTier;
 
 	let markings = $state();

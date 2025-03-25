@@ -11,7 +11,7 @@ import {
 	currentMatchIndex,
 } from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
-import { totalCarAmount } from "$lib/stores/gameStore";
+import { difficulty, totalCarAmount } from "$lib/stores/gameStore";
 import { getTotalCarDataAmount } from "./gameFunctions";
 import { username } from "$lib/stores/accountStore";
 import { displayError } from "./displayError";
@@ -129,11 +129,12 @@ export async function host() {
 		if (!get(peer)) await initPeer();
 
 		const name = getPlayerName();
+		const diff = get(difficulty);
 		const code = await get(peer).createRoom({
 			matchIndex: 0,
 			players: [
 				{ id: get(peer).id, score: 0, inGame: false, name }
-			], gameInProgress: false, gameRestarted: false, questionsIds: []
+			], gameInProgress: false, gameRestarted: false, difficulty: diff, questionsIds: []
 		});
 		multiplayerFlag.set(true);
 		return code;
