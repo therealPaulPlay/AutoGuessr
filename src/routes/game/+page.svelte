@@ -129,14 +129,6 @@
 		$totalCarAmount = await getTotalCarDataAmount();
 		goToNextQuestion(false); // Don't save last question to history (false)
 	});
-
-	onMount(() => {
-		if($peer?.isHost) {
-			setTimeout(() => {
-				$peer?.updateStorage("gameRestarted", false);
-			}, 2000)
-		}
-	})
 </script>
 
 <svelte:window

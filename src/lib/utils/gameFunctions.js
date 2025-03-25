@@ -133,7 +133,7 @@ export function goToNextQuestion(saveHistory = true) {
 		let currentScore = getPlayerInfo(get(peer)?.id)?.score;
 		updatePlayerScore(get(peer)?.id, currentScore + 1);
 
-		let newQuestionIndex = get(peer).getStorage.questionsIds[currentScore + 1];
+		let newQuestionIndex = get(peer)?.getStorage?.questionsIds[currentScore];
 		setCurrentQuestion(newQuestionIndex);
 		return;
 	}

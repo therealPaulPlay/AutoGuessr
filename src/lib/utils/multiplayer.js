@@ -4,18 +4,19 @@ import {
 	multiplayerFlag,
 	roomId,
 	peer,
-	peerStatusStore,
+	multiplayerStatus,
 	gameInProgressFlag,
 	inGame,
 	playersInGame,
-	gameRestartedFlag,
 	multiplayerQuestionsList,
+	currentMatchIndex,
 } from "$lib/stores/multiplayerStore";
 import { get } from "svelte/store";
 import { totalCarAmount } from "$lib/stores/gameStore";
 import { getTotalCarDataAmount } from "./gameFunctions";
 import { username } from "$lib/stores/accountStore";
 import { displayError } from "./displayError";
+import { goto } from "$app/navigation";
 
 export async function handleJoinRoom(roomId) {
 	try {
@@ -29,11 +30,12 @@ export async function handleJoinRoom(roomId) {
 
 export function leaveMultiplayerRoom() {
 	if (!get(peer)) return;
+	multiplayerFlag.set(false); // First thing: set multiplayer to false to prevent displayed errors!
 	get(peer).destroy();
 	peer.set(null);
 	roomId.set("");
-	multiplayerFlag.set(false);
 	gameInProgressFlag.set(false);
+	currentMatchIndex.set(0);
 }
 
 function generateRoomCode() {
@@ -57,7 +59,7 @@ async function initPeer() {
 	}));
 
 	get(peer).onEvent("status", (status) => {
-		peerStatusStore.set(status);
+		multiplayerStatus.set(status);
 	});
 	get(peer).onEvent("error", (error) => {
 		if (!get(multiplayerFlag)) return;
@@ -71,7 +73,7 @@ async function initPeer() {
 			const name = getPlayerName();
 			get(peer).updateStorageArray("players", "add-unique", {
 				id: get(peer)?.id,
-				score: -1,
+				score: 0,
 				inGame: false,
 				name,
 			});
@@ -81,8 +83,9 @@ async function initPeer() {
 			gameInProgressFlag.set(storage?.gameInProgress);
 		}
 
-		if (get(gameRestartedFlag) != storage?.gameRestarted) {
-			gameRestartedFlag.set(storage?.gameRestarted);
+		if (get(currentMatchIndex) != storage?.matchIndex && storage?.questionsIds?.length !== 0) {
+			currentMatchIndex.set(storage?.matchIndex);
+			goto("/game");
 		}
 
 		const playerInfo = getPlayerInfo(get(peer).id);
@@ -95,7 +98,7 @@ async function initPeer() {
 			playersInGame.set(getInGamePlayers());
 		}
 
-		if (maxScore(storage?.players) >= storage?.questionsIds.length - 3 && get(peer)?.isHost) {
+		if (maxScore(storage?.players) >= storage?.questionsIds?.length - 3 && get(peer)?.isHost) {
 			await checkQuestionsArray(storage?.players, storage?.questionsIds);
 		}
 
@@ -124,8 +127,9 @@ export async function host() {
 
 		const name = getPlayerName();
 		const code = await get(peer).createRoom({
+			matchIndex: 0,
 			players: [
-				{ id: get(peer).id, score: -1, inGame: false, name }
+				{ id: get(peer).id, score: 0, inGame: false, name }
 			], gameInProgress: false, gameRestarted: false, questionsIds: []
 		});
 		multiplayerFlag.set(true);
@@ -158,7 +162,13 @@ async function checkQuestionsArray(playersArray, questionsArray) {
 }
 
 function maxScore(array) {
-	return array.sort()?.[array?.length - 1] ?? -1;
+	let maxScore = 0;
+	for (const item of array) {
+		if (item.score > maxScore) {
+			maxScore = item.score;
+		}
+	}
+	return maxScore;
 }
 
 export function getPlayerInfo(id) {
@@ -204,7 +214,7 @@ export function resetMultiplayerScores() {
 			// Create a new array with updated scores
 			updatedPlayers = playersArray.map((player) => ({
 				...player, // Copy all existing properties
-				score: -1, // Reset the score
+				score: 0, // Reset the score
 			}));
 
 			// Update the storage in a single operation

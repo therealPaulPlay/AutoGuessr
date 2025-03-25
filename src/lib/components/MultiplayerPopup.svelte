@@ -1,14 +1,14 @@
 <script>
 	import Popup from "$lib/components/Popup.svelte";
 	import Button from "$lib/components/Button.svelte";
-	import BasicTable from "./BasicTable.svelte";
+	import MultiplayerPlayerTable from "./MultiplayerPlayerTable.svelte";
 	import {
 		multiplayerCurrentScreen,
 		currentPlayers,
 		roomId,
 		multiplayerFlag,
 		peer,
-		peerStatusStore,
+		multiplayerStatus,
 		gameInProgressFlag,
 	} from "$lib/stores/multiplayerStore";
 	import { multiplayerPopup } from "$lib/stores/uiStore";
@@ -33,7 +33,7 @@
 
 	let peerStatus = $state();
 	let connectedToRoomFlag = $derived.by(() => {
-		if ($peerStatusStore == "Connection to host established.") return true;
+		if ($multiplayerStatus == "Connection to host established.") return true;
 		return false;
 	});
 
@@ -262,7 +262,7 @@
 						</button>
 					</div>
 					<div class="w-[80%]">
-						<BasicTable array={$currentPlayers} emptyMessage={"Waiting for players..."} />
+						<MultiplayerPlayerTable array={$currentPlayers} emptyMessage={"Waiting for players..."} />
 						<div class="flex items-center gap-1 mt-1 text-black">
 							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
 							{$currentPlayers?.length}
@@ -329,7 +329,7 @@
 								<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
 							</button>
 						</div>
-						<p>{$peerStatusStore == "Destroyed." ? "" : $peerStatusStore}</p>
+						<p>{$multiplayerStatus == "Destroyed." ? "" : $multiplayerStatus}</p>
 					{:else}
 						<p class="text-base my-10">Waiting for host to start...</p>
 					{/if}

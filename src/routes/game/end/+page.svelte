@@ -9,12 +9,11 @@
 	import {
 		currentPlayers,
 		gameInProgressFlag,
-		gameRestartedFlag,
 		multiplayerFlag,
 		peer,
 		playersInGame,
 	} from "$lib/stores/multiplayerStore";
-	import { getInGamePlayers, getPlayerInfo, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
+	import { getPlayerInfo, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 
 	let mainContent = $state();
@@ -67,22 +66,6 @@
 		// Hide the extra element again
 		watermark.classList.add("hidden");
 	}
-
-	$effect(() => {
-		if ($multiplayerFlag) {
-			if ($playersInGame.length == 0 && $peer?.isHost) showPlayAgain = true;
-			else showPlayAgain = false;
-		}
-	});
-
-	$effect(() => {
-		if (!$peer) return;
-		if ($gameInProgressFlag && !$peer?.isHost && $gameRestartedFlag) {
-			setTimeout(() => {
-				goto("/game");
-			}, 250);
-		}
-	});
 </script>
 
 <svelte:head>
@@ -110,7 +93,9 @@
 			</p>
 		</div>
 		{#if $multiplayerFlag}
-			<div class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture no-last-border">
+			<div
+				class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture no-last-border"
+			>
 				{#each $currentPlayers as ele (ele)}
 					<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
 					<div
@@ -158,55 +143,50 @@
 			Play on<span class="text-orange font-semibold">&nbsp;AutoGuessr.com!</span>
 		</p>
 		<div class="flex gap-5 flex-wrap justify-center items-center no-capture">
-			{#if showPlayAgain}
-				<Button
-					buttonHeight="4rem"
-					buttonWidth={innerWidth >= 768 ? "14rem" : "4rem"}
-					shadowHeight="0.5rem"
-					color="var(--green-button)"
-					bgcolor="var(--green-button-dark)"
-					onclick={() => {
-						if ($multiplayerFlag && !playAgainClicked) {
-							if ($currentPlayers.length > 1 && $peer?.isHost) {
-								playAgainClicked = true;
-								$peer?.updateStorage("gameRestarted", true);
-								$peer?.updateStorage("gameInProgress", true);
-								$peer?.updateStorage("questionsIds", []);
-								resetMultiplayerScores();
-								setTimeout(() => {
-									goto("/game");
-								}, 250); // This seems to be necessary for the first question to be synced
-								return;
-							} else leaveMultiplayerRoom(); // if the player is alone it'll kick them from the multiplayer state and restart a normal game
-						}
-						goto("/game");
-					}}
-				>
-					{#if innerWidth >= 768}
-						<!-- Render text on larger screens -->
-						<span class="text-white font-semibold text-3xl">
-							{#if playAgainClicked}
-								<div class="animate-spin">
-									<LoaderCircle strokeWidth={3} size={28} color={"var(--white)"} />
-								</div>
-							{:else}
-								Play again
-							{/if}
-						</span>
-					{:else}
-						<!-- Render an icon on smaller screens -->
-						<span class="text-white text-3xl">
-							{#if playAgainClicked}
-								<div class="animate-spin">
-									<LoaderCircle strokeWidth={3} size={28} color={"var(--white)"} />
-								</div>
-							{:else}
-								<Repeat strokeWidth={3} size={28} />
-							{/if}</span
-						>
-					{/if}
-				</Button>
-			{/if}
+			<!-- TODO: The peer.isHost is not reactive, maybe put into an effect (?) -->
+			<Button
+				buttonHeight="4rem"
+				buttonWidth={innerWidth >= 768 ? "14rem" : "4rem"}
+				shadowHeight="0.5rem"
+				color="var(--green-button)"
+				bgcolor="var(--green-button-dark)"
+				disabled={$multiplayerFlag && (!$peer?.isHost || $playersInGame?.length)}
+				onclick={() => {
+					if ($multiplayerFlag && !playAgainClicked) {
+						playAgainClicked = true;
+						$peer?.updateStorage("gameInProgress", true);
+						$peer?.updateStorage("questionsIds", []);
+						$peer?.updateStorage("matchIndex", $peer?.getStorage?.matchIndex + 1);
+						resetMultiplayerScores();
+						return;
+					}
+					goto("/game");
+				}}
+			>
+				{#if innerWidth >= 768}
+					<!-- Render text on larger screens -->
+					<span class="text-white font-semibold text-3xl">
+						{#if playAgainClicked}
+							<div class="animate-spin">
+								<LoaderCircle strokeWidth={3} size={28} color={"var(--white)"} />
+							</div>
+						{:else}
+							Play again
+						{/if}
+					</span>
+				{:else}
+					<!-- Render an icon on smaller screens -->
+					<span class="text-white text-3xl">
+						{#if playAgainClicked}
+							<div class="animate-spin">
+								<LoaderCircle strokeWidth={3} size={28} color={"var(--white)"} />
+							</div>
+						{:else}
+							<Repeat strokeWidth={3} size={28} />
+						{/if}</span
+					>
+				{/if}
+			</Button>
 			<Button
 				buttonHeight="4rem"
 				buttonWidth="4rem"
