@@ -3,11 +3,17 @@
 	import { goto } from "$app/navigation";
 	import { score, gameRounds } from "$lib/stores/gameStore";
 	import { highscore } from "$lib/stores/accountStore";
-	import { Home, Share, Repeat, LoaderCircle } from "lucide-svelte";
+	import { Home, Share, Repeat, LoaderCircle, Skull } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
 	import { currentPlayers, multiplayerFlag, peer, playersInGame } from "$lib/stores/multiplayerStore";
-	import { getPlayerInfo, getPlayerWithHighestScore, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
+	import {
+		getPlayerInfo,
+		getPlayerWithHighestScore,
+		isPlayerInGame,
+		leaveMultiplayerRoom,
+		resetMultiplayerScores,
+	} from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 
 	let mainContent = $state();
@@ -63,10 +69,10 @@
 	}
 
 	$effect(() => {
-		if($multiplayerFlag) {
-			title = $playersInGame.length ? "On Going..." : `${getPlayerWithHighestScore().name} won!`
-		} else title = "Game Over!"
-	})
+		if ($multiplayerFlag) {
+			title = $playersInGame.length ? "On Going..." : `${getPlayerWithHighestScore().name} won!`;
+		} else title = "Game Over!";
+	});
 </script>
 
 <svelte:head>
@@ -103,8 +109,11 @@
 						animate:flip={{}}
 						class="w-full flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
 					>
-						<p class="w-5/6 overflow-clip text-ellipsis">
+						<p class="w-5/6 overflow-clip text-ellipsis flex justify-center items-center">
 							{getPlayerInfo(ele.id).name}
+							{#if !isPlayerInGame(ele.id)}
+								&nbsp;<Skull strokeWidth={2.5} size={16} color={"var(--black)"} />
+							{/if}
 						</p>
 						<p class="w-1/6">
 							{ele.score}

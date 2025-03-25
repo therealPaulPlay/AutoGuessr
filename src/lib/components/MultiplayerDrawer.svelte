@@ -1,10 +1,10 @@
 <script>
 	import { currentPlayers } from "$lib/stores/multiplayerStore";
-	import { ChevronsLeft } from "lucide-svelte";
+	import { ChevronsLeft, Skull } from "lucide-svelte";
 	import { flip } from "svelte/animate";
 	import { gsap } from "gsap";
 	import Flip from "gsap/dist/Flip";
-	import { getPlayerInfo } from "$lib/utils/multiplayer";
+	import { getPlayerInfo, isPlayerInGame } from "$lib/utils/multiplayer";
 	gsap.registerPlugin(Flip);
 
 	let multiplayerDrawerFlag = $state(false);
@@ -48,8 +48,11 @@
 				animate:flip={{}}
 				class="w-full md:min-w-64 md:max-w-80 flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
 			>
-				<p class="w-5/6 overflow-clip text-ellipsis">
+				<p class="w-5/6 overflow-clip text-ellipsis flex justify-center items-center">
 					{getPlayerInfo(ele.id).name}
+					{#if !isPlayerInGame(ele.id)}
+						&nbsp;<Skull strokeWidth={2.5} size={16} color={"var(--black)"} />
+					{/if}
 				</p>
 				<p class="w-1/6">
 					{ele.score}

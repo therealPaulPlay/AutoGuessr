@@ -263,6 +263,11 @@ export function getPlayerWithHighestScore() {
 	}
 }
 
+export function isPlayerInGame(playerId) {
+	const players = getInGamePlayers() || [];
+	return players.some((p) => p.id === playerId);
+}
+
 function getPlayerName() {
 	if (get(username) !== "Guest" && get(username)) {
 		return get(username);
