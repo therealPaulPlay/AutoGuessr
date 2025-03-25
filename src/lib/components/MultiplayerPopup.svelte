@@ -17,10 +17,10 @@
 		Unplug,
 		Copy,
 		CopyCheck,
-		Share,
 		ClipboardPaste,
 		Users,
 		SeparatorVertical,
+		ArrowLeft,
 	} from "lucide-svelte";
 	import { host, handleJoinRoom, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
@@ -259,9 +259,7 @@
 								shadowHeight="0.5rem"
 								onclick={handleLeave}
 							>
-								<div class="-rotate-90">
-									<Share strokeWidth={2.5} size={28} />
-								</div>
+								<ArrowLeft strokeWidth={4} size={28} />
 							</Button>
 						</div>
 						<div class="w-3/4">
@@ -324,9 +322,7 @@
 								shadowHeight="0.5rem"
 								onclick={handleLeave}
 							>
-								<div class="-rotate-90">
-									<Share strokeWidth={2.5} size={28} />
-								</div>
+								<ArrowLeft strokeWidth={4} size={28} absoluteStrokeWidth={true} />
 							</Button>
 						</div>
 						{#if !connectedToRoomFlag}
