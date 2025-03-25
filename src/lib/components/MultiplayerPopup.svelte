@@ -310,9 +310,16 @@
 								<ClipboardPaste strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
 							</button>
 						</div>
-						<p>{$multiplayerStatus == "Destroyed." ? "" : $multiplayerStatus}</p>
+						<p>
+							{$multiplayerStatus == "Destroyed." ? "" : $multiplayerStatus}
+						</p>
 					{:else}
-						<p class="text-base my-10">Waiting for host to start...</p>
+						<div class="w-full flex flex-col justify-center items-center">
+							<p class="text-base mb-2">Waiting for host to start...</p>
+							<p class="w-[80%]">
+								<MultiplayerPlayerTable array={$currentPlayers} emptyMessage={multiplayerStatus} />
+							</p>
+						</div>
 					{/if}
 					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-1/4">
