@@ -31,8 +31,8 @@
 	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
-	import { multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
-	import { updatePlayerInGame } from "$lib/utils/multiplayer";
+	import { currentPlayers, multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
+	import { leaveMultiplayerRoom, updatePlayerInGame } from "$lib/utils/multiplayer";
 
 	// Carousel controls
 	let descriptionFlag = $state(false);
@@ -108,6 +108,14 @@
 			livesImage.set($lives);
 		}
 	});
+
+	$effect(() => {
+		if($multiplayerFlag && $currentPlayers?.length <= 1) {
+			goto("/");
+			leaveMultiplayerRoom();
+			displayError("Host disconnected or all players left the room.");
+		}
+	})
 
 	onDestroy(() => {
 		clearInterval(blinkInterval);

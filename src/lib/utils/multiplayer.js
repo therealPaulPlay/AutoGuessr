@@ -67,7 +67,7 @@ async function initPeer() {
 		displayError("PlayPeerJS error: " + error);
 	});
 
-	get(peer).onEvent("destroy", () => {
+	get(peer).onEvent("instanceDestroyed", () => {
 		if (!get(multiplayerFlag)) return;
 		leaveMultiplayerRoom(true);
 	});

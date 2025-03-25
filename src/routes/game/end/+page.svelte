@@ -6,12 +6,7 @@
 	import { Home, Share, Repeat, LoaderCircle } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
-	import {
-		currentPlayers,
-		multiplayerFlag,
-		peer,
-		playersInGame,
-	} from "$lib/stores/multiplayerStore";
+	import { currentPlayers, multiplayerFlag, peer, playersInGame } from "$lib/stores/multiplayerStore";
 	import { getPlayerInfo, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 
@@ -149,7 +144,7 @@
 				shadowHeight="0.5rem"
 				color="var(--green-button)"
 				bgcolor="var(--green-button-dark)"
-				disabled={$multiplayerFlag && (!$peer?.isHost || $playersInGame?.length)}
+				disabled={$multiplayerFlag && (!$peer?.isHost || $playersInGame?.length || $currentPlayers.length <= 1)}
 				onclick={() => {
 					if ($multiplayerFlag && !playAgainClicked) {
 						playAgainClicked = true;
