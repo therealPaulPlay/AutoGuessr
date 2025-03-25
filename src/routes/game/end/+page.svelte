@@ -15,6 +15,7 @@
 		resetMultiplayerScores,
 	} from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
+	import { getTotalCarDataAmount } from "$lib/utils/gameFunctions";
 
 	let mainContent = $state();
 	let resultTable = $state();
@@ -66,6 +67,18 @@
 
 		// Hide the extra element again
 		watermark.classList.add("hidden");
+	}
+
+	async function generateNewQuestions() {
+		let availableIndecies = await getTotalCarDataAmount();
+		let newQuestions = [];
+
+		// generates 3 questions to initialize the new round with
+		for (let i = 0; i < 3; i++) {
+			newQuestions.push(Math.floor(Math.random() * availableIndecies));
+		}
+
+		return newQuestions;
 	}
 
 	$effect(() => {
@@ -161,11 +174,12 @@
 				color="var(--green-button)"
 				bgcolor="var(--green-button-dark)"
 				disabled={$multiplayerFlag && (!$peer?.isHost || $playersInGame?.length || $currentPlayers.length <= 1)}
-				onclick={() => {
+				onclick={async () => {
 					if ($multiplayerFlag && !playAgainClicked) {
 						playAgainClicked = true;
+						let startQuestions = await generateNewQuestions();
+						$peer?.updateStorage("questionsIds", startQuestions);
 						$peer?.updateStorage("gameInProgress", true);
-						$peer?.updateStorage("questionsIds", []);
 						$peer?.updateStorage("matchIndex", $peer?.getStorage?.matchIndex + 1);
 						resetMultiplayerScores();
 						return;
