@@ -24,7 +24,7 @@ export async function handleJoinRoom(roomId) {
 		await get(peer).joinRoom(`autoguessr_${roomId.toLowerCase()}`);
 		multiplayerFlag.set(true);
 	} catch (error) {
-		displayError("Failed to join: " + error.message)
+		displayError("Failed to join: " + error.message);
 	}
 }
 
@@ -48,14 +48,16 @@ function generateRoomCode() {
 
 async function initPeer() {
 	const peerId = `autoguessr_${generateRoomCode()}`;
-	peer.set(new PlayPeer(peerId, {
-		config: {
-			iceServers: [
-				{ urls: "stun:stun.l.google.com:19302" },
-				{ urls: "turn:freestun.net:3478", username: "free", credential: "free" }, // For production, use fastturn, or a different turn server
-			],
-		},
-	}));
+	peer.set(
+		new PlayPeer(peerId, {
+			config: {
+				iceServers: [
+					{ urls: "stun:stun.l.google.com:19302" },
+					{ urls: "turn:freestun.net:3478", username: "free", credential: "free" }, // For production, use fastturn, or a different turn server
+				],
+			},
+		}),
+	);
 
 	get(peer).onEvent("status", (status) => {
 		multiplayerStatus.set(status);
@@ -132,9 +134,11 @@ export async function host() {
 		const diff = get(difficulty);
 		const code = await get(peer).createRoom({
 			matchIndex: 0,
-			players: [
-				{ id: get(peer).id, score: 0, inGame: false, name }
-			], gameInProgress: false, gameRestarted: false, difficulty: diff, questionsIds: []
+			players: [{ id: get(peer).id, score: 0, inGame: false, name }],
+			gameInProgress: false,
+			gameRestarted: false,
+			difficulty: diff,
+			questionsIds: [],
 		});
 		multiplayerFlag.set(true);
 		return code;
@@ -226,6 +230,36 @@ export function resetMultiplayerScores() {
 		} else {
 			console.error("players.array is not an array or does not exist.");
 		}
+	}
+}
+
+export function getPlayerWithHighestScore() {
+	try {
+		if (!get(peer)) return null;
+
+		const players = get(peer).getStorage.players;
+		if (!Array.isArray(players)) {
+			console.error("Players is not an array");
+			return null;
+		}
+
+		if (players.length === 0) {
+			console.log("No players found");
+			return null;
+		}
+
+		// Find player with highest score
+		let highestScoringPlayer = players[0];
+		for (const player of players) {
+			if (player.score > highestScoringPlayer.score) {
+				highestScoringPlayer = player;
+			}
+		}
+
+		return highestScoringPlayer;
+	} catch (error) {
+		console.error("Error in getPlayerWithHighestScore:", error);
+		throw error;
 	}
 }
 

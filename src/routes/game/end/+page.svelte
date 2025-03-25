@@ -7,7 +7,7 @@
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
 	import { currentPlayers, multiplayerFlag, peer, playersInGame } from "$lib/stores/multiplayerStore";
-	import { getPlayerInfo, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
+	import { getPlayerInfo, getPlayerWithHighestScore, leaveMultiplayerRoom, resetMultiplayerScores } from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 
 	let mainContent = $state();
@@ -16,6 +16,7 @@
 	let innerWidth = $state();
 	let showPlayAgain = $state(true);
 	let playAgainClicked = $state(false);
+	let title = $state("Game Over!");
 
 	function captureScreen() {
 		if (!resultTable) return;
@@ -60,6 +61,12 @@
 		// Hide the extra element again
 		watermark.classList.add("hidden");
 	}
+
+	$effect(() => {
+		if($multiplayerFlag) {
+			title = $playersInGame.length ? "On Going..." : `${getPlayerWithHighestScore().name} won!`
+		} else title = "Game Over!"
+	})
 </script>
 
 <svelte:head>
@@ -70,7 +77,7 @@
 
 <content class="flex items-center justify-center w-full min-h-full" bind:this={mainContent}>
 	<div class="flex justify-center items-center flex-col w-full max-w-2xl pb-5 pt-2">
-		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">Game Over!</h1>
+		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">{title}</h1>
 		<div class="mb-12 text-center w-4/5 text-base">
 			<div class="rounded-xl bg-tanMedium w-fit px-2 mx-auto mb-2 no-capture">
 				<p>Tip: {$score < 5 ? "Get 5 correct guesses to draw a card!" : "Higher scores result in more rare cards!"}</p>
