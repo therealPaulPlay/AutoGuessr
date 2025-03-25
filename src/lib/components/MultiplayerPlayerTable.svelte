@@ -1,4 +1,5 @@
 <script>
+	import { peer } from "$lib/stores/multiplayerStore";
 	import { getPlayerInfo } from "$lib/utils/multiplayer";
 
 	let { array = [], emptyMessage } = $props();
@@ -8,7 +9,7 @@
 <div class="w-full bg-tanLight rounded-lg px-3 overflow-y-auto max-h-32 overflow-x-hidden no-last-border">
 	{#if array.length > 0}
 		{#each array as element}
-			<div class="w-full py-1 text-center text-black truncate border-b-2 border-black/10">
+			<div class="w-full py-1 text-center text-black truncate border-b-2 border-black/10" style:font-weight={element.id == $peer.id ? 600 : ""}>
 				{getPlayerInfo(element.id)?.name}
 			</div>
 		{/each}

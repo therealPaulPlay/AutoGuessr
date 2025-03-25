@@ -116,20 +116,21 @@
 			<div
 				class="w-4/5 bg-tanMedium rounded-lg px-2 mb-2 -mt-10 max-h-[6.5rem] overflow-y-auto no-capture no-last-border"
 			>
-				{#each $currentPlayers as ele (ele)}
+				{#each $currentPlayers as element (element)}
 					<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
 					<div
 						animate:flip={{}}
 						class="w-full flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
+						style:font-weight={element.id == $peer.id ? 600 : ""}
 					>
 						<p class="w-5/6 overflow-clip text-ellipsis flex justify-center items-center">
-							{getPlayerInfo(ele.id).name}
-							{#if !isPlayerInGame(ele.id)}
+							{getPlayerInfo(element.id).name}
+							{#if !isPlayerInGame(element.id)}
 								&nbsp;<Skull strokeWidth={2.5} size={16} color={"var(--black)"} />
 							{/if}
 						</p>
 						<p class="w-1/6">
-							{ele.score}
+							{element.score}
 						</p>
 					</div>
 				{/each}

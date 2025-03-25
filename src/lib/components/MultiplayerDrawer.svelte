@@ -1,5 +1,5 @@
 <script>
-	import { currentPlayers } from "$lib/stores/multiplayerStore";
+	import { currentPlayers, peer } from "$lib/stores/multiplayerStore";
 	import { ChevronsLeft, Skull } from "lucide-svelte";
 	import { flip } from "svelte/animate";
 	import { gsap } from "gsap";
@@ -42,20 +42,21 @@
 		</div></button
 	>
 	<div class="bg-tanLight w-full max-h-96 rounded px-2 overflow-x-hidden overflow-y-auto no-last-border">
-		{#each $currentPlayers as ele (ele)}
+		{#each $currentPlayers as element (element)}
 			<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
 			<div
 				animate:flip={{}}
 				class="w-full md:min-w-64 md:max-w-80 flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
+				style:font-weight={element.id == $peer.id ? 600 : ""}
 			>
 				<p class="w-5/6 overflow-clip text-ellipsis flex justify-center items-center">
-					{getPlayerInfo(ele.id).name}
-					{#if !isPlayerInGame(ele.id)}
+					{getPlayerInfo(element.id).name}
+					{#if !isPlayerInGame(element.id)}
 						&nbsp;<Skull strokeWidth={2.5} size={16} color={"var(--black)"} />
 					{/if}
 				</p>
 				<p class="w-1/6">
-					{ele.score}
+					{element.score}
 				</p>
 			</div>
 		{/each}
