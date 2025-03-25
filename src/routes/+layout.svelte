@@ -6,7 +6,7 @@
 	import { isAuthenticated, username } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { base } from "$app/paths";
-	import { settingsPopup, signupPopup, accountPopup, leavePopup } from "$lib/stores/uiStore";
+	import { settingsPopup, signupPopup, accountPopup, leavePopup, howToPlayPopup } from "$lib/stores/uiStore";
 	import { displayError } from "$lib/utils/displayError";
 	import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
 	import { User, TriangleAlert, Scan, UserPlus } from "lucide-svelte";
@@ -79,6 +79,13 @@
 			});
 		} catch (error) {
 			console.error("Error loading the Playlight SDK:", error);
+		}
+	});
+
+	onMount(() => {
+		if (!localStorage.getItem("hasVisited")) {
+			localStorage.setItem("hasVisited", "true");
+			$howToPlayPopup = true;
 		}
 	});
 </script>
