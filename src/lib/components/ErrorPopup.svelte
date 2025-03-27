@@ -6,7 +6,7 @@
 </script>
 
 {#if $errorPopup}
-	<Popup title="Error" small={true} color="var(--tan-medium)" closeFunction={() => errorPopup.set(false)}>
+	<Popup title="Error" z={9999} small={true} color="var(--tan-medium)" closeFunction={() => errorPopup.set(false)}>
 		<div class="flex h-full items-end">
 			<div class="h-3/5 w-full bg-tanLight rounded-lg p-4">
 				<div class="mb-4">

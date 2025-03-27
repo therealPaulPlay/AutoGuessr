@@ -178,7 +178,7 @@
 		<div class="pt-6 flex flex-col justify-center items-center">
 			{#if $multiplayerCurrentScreen === "main"}
 				<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
-				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
+				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center main-screen">
 					<Button
 						color="var(--green-button)"
 						bgcolor="var(--green-button-dark)"
@@ -292,7 +292,7 @@
 										<input
 											type="text"
 											placeholder={letter}
-											class="bg-tanDark rounded h-full w-10 text-center outline-none text-black text-lg font-bold"
+											class="bg-tanDark rounded-lg h-full w-10 text-center outline-none text-black text-lg font-bold"
 											oninput={(e) => handleInput(e, index)}
 											onkeydown={(e) => handleKeyDown(e, index)}
 											bind:value={codeInputs[index]}
@@ -315,13 +315,13 @@
 						</p>
 					{:else}
 						<div class="w-full flex flex-col justify-center items-center">
-							<p class="text-base mb-2">Waiting for host to start...</p>
+							<p class="text-base mb-4">Waiting for host to start...</p>
 							<p class="w-[80%]">
 								<MultiplayerPlayerTable array={$currentPlayers} emptyMessage={multiplayerStatus} />
 							</p>
 						</div>
 					{/if}
-					<div class="flex gap-5 w-[80%] mt-3">
+					<div class="flex gap-5 w-[80%] mt-4">
 						<div class="w-1/4">
 							<Button
 								customClasses="!w-full"
@@ -372,5 +372,16 @@
 	input::placeholder {
 		color: var(--black);
 		opacity: 0.15;
+	}
+
+	@media (max-height: 640px) {
+		.main-screen {
+			flex-direction: row !important;
+			gap: 0.5rem !important;
+		}
+
+		.main-screen > span {
+			display: none;
+		}
 	}
 </style>

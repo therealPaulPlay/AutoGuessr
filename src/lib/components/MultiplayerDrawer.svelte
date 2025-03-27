@@ -32,34 +32,43 @@
 </script>
 
 <div
-	class="bg-defaultShadowDark relative w-full h-full p-1 rounded-lg drawer"
+	class="bg-defaultShadow relative w-full h-full p-1.5 rounded-lg drawer"
 	style="right: -98%"
 	bind:this={drawerElement}
 >
-	<button class="absolute top-3 -z-10 rounded-l-lg -left-11 bg-defaultShadowDark p-3" onclick={handleDrawerToggle}
+	<button
+		class="absolute top-1/2 -translate-y-1/2 -z-10 rounded-l-lg -left-9 bg-defaultShadow px-1.5 py-12"
+		onclick={handleDrawerToggle}
 		><div class="arrow-icon">
 			<ChevronsLeft strokeWidth={3} color="var(--white)" />
 		</div></button
 	>
-	<div class="bg-tanLight w-full max-h-96 rounded px-2 overflow-x-hidden overflow-y-auto no-last-border">
-		{#each $currentPlayers as element (element)}
-			<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
-			<div
-				animate:flip={{}}
-				class="w-full md:min-w-64 md:max-w-80 flex justify-between p-1 text-center text-black truncate border-b-2 border-black/10"
-				style:font-weight={element.id == $peer.id ? 600 : ""}
-			>
-				<p class="w-5/6 overflow-clip text-ellipsis flex justify-center items-center">
-					{getPlayerInfo(element.id).name}
-					{#if !isPlayerInGame(element.id)}
-						&nbsp;<Skull strokeWidth={2.5} size={16} color={"var(--black)"} />
-					{/if}
-				</p>
-				<p class="w-1/6">
-					{element.score}
-				</p>
-			</div>
-		{/each}
+	<div class="w-full h-full">
+		<div class="bg-tanLight rounded text-center mb-5 p-2">
+			<span class="text-2xl text-orange font-bold">Players</span>
+		</div>
+		<div class="bg-tanLight w-full max-h-96 rounded px-2 overflow-x-hidden overflow-y-auto no-last-border">
+			{#each $currentPlayers as element (element)}
+				<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
+				<div
+					animate:flip={{}}
+					class="w-full md:min-w-64 md:max-w-80 flex justify-between p-1 text-center text-2xl text-black truncate border-b-2 border-black/10"
+					style:font-weight={element.id == $peer.id ? 600 : ""}
+				>
+					<p class="overflow-clip text-ellipsis px-4 w-5/6">
+						{getPlayerInfo(element.id).name}
+					</p>
+					<p class="min-w-10 flex justify-center items-center relative">
+						{#if !isPlayerInGame(element.id)}
+							<span class="absolute left-0 -translate-x-3/4">
+								<Skull strokeWidth={2.5} color={"var(--black)"} />
+							</span>
+						{/if}
+						{element.score}
+					</p>
+				</div>
+			{/each}
+		</div>
 	</div>
 </div>
 

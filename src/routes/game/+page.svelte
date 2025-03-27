@@ -227,7 +227,7 @@
 
 <!-- Multiplayer drawer -->
 {#if $multiplayerFlag}
-	<div class="fixed right-0 max-w-[50%] top-48 md:top-20 z-50">
+	<div class="fixed right-0 max-w-[70%] top-1/2 -translate-y-1/2 z-50">
 		<MultiplayerDrawer />
 	</div>
 {/if}
