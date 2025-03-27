@@ -32,7 +32,7 @@
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
 	import { currentPlayers, multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
-	import { leaveMultiplayerRoom, updatePlayerInGame } from "$lib/utils/multiplayer";
+	import { leaveMultiplayerRoom, updatePlayerInGame, updatePlayerScore } from "$lib/utils/multiplayer";
 
 	// Carousel controls
 	let descriptionFlag = $state(false);
@@ -63,6 +63,7 @@
 		if (percent <= upperBound) {
 			setPopupMessage("good");
 			$score++;
+			if($multiplayerFlag) updatePlayerScore($peer.id, $score);
 		}
 
 		if (percent <= lowerBound) {

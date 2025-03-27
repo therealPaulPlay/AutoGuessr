@@ -82,6 +82,7 @@ async function initPeer() {
 			get(peer).updateStorageArray("players", "add-unique", {
 				id: get(peer)?.id,
 				score: 0,
+				round: 0,
 				inGame: false,
 				name,
 			});
@@ -103,7 +104,7 @@ async function initPeer() {
 			playersInGame.set(getInGamePlayers());
 		}
 
-		if (maxScore(storage?.players) >= storage?.questionsIds?.length - 3 && get(peer)?.isHost) {
+		if (maxRound(storage?.players) >= storage?.questionsIds?.length - 3 && get(peer)?.isHost) {
 			await checkQuestionsArray(storage?.players, storage?.questionsIds);
 		}
 
@@ -134,7 +135,7 @@ export async function host() {
 		const diff = get(difficulty);
 		const code = await get(peer).createRoom({
 			matchIndex: 0,
-			players: [{ id: get(peer).id, score: 0, inGame: false, name }],
+			players: [{ id: get(peer).id, score: 0, round: 0, inGame: false, name }],
 			gameInProgress: false,
 			gameRestarted: false,
 			difficulty: diff,
@@ -153,10 +154,10 @@ async function checkQuestionsArray(playersArray, questionsArray) {
 	if (!get(peer).isHost) return;
 
 	const questionMargin = 3;
-	const currentMaxScore = maxScore(playersArray);
-	// if the difference between the current max score and questions array
+	const currentMaxRound = maxRound(playersArray);
+	// if the difference between the current max round and questions array
 	// is higher than the question margin then it'll return
-	if (questionsArray.length > currentMaxScore + questionMargin) return;
+	if (questionsArray.length > currentMaxRound + questionMargin) return;
 
 	let availableIndecies = await getTotalCarDataAmount();
 	let addedQuestions = [];
@@ -179,6 +180,16 @@ function maxScore(array) {
 	return maxScore;
 }
 
+function maxRound(array) {
+	let maxRound = 0;
+	for (const item of array) {
+		if (item.round > maxRound) {
+			maxRound = item.score;
+		}
+	}
+	return maxRound;
+}
+
 export function getPlayerInfo(id) {
 	try {
 		if (!get(peer)) return null;
@@ -195,6 +206,15 @@ export function updatePlayerScore(playerId, newScore) {
 	try {
 		let playerInfo = getPlayerInfo(playerId);
 		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, score: newScore });
+	} catch (error) {
+		console.error("Error occurred in updatePlayerScore function:", error);
+	}
+}
+
+export function updatePlayerRound(playerId, newRound) {
+	try {
+		let playerInfo = getPlayerInfo(playerId);
+		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, round: newRound });
 	} catch (error) {
 		console.error("Error occurred in updatePlayerScore function:", error);
 	}
@@ -222,7 +242,8 @@ export function resetMultiplayerScores() {
 			// Create a new array with updated scores
 			updatedPlayers = playersArray.map((player) => ({
 				...player, // Copy all existing properties
-				score: 0, // Reset the score
+				score: 0,
+				round: 0,
 			}));
 
 			// Update the storage in a single operation
