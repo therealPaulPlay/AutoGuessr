@@ -21,6 +21,7 @@
 		Users,
 		SeparatorVertical,
 		ArrowLeft,
+		LoaderCircle,
 	} from "lucide-svelte";
 	import { host, handleJoinRoom, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
@@ -214,43 +215,49 @@
 				</p>
 			{:else if $multiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
-					<span class="text-black">Code:</span>
-					<div class="flex align-middle mb-5 items-center gap-4">
-						<span class="text-3xl font-semibold text-black">
-							{#each $roomId as letter}
-								<span class="underline mx-1">
-									{letter.toUpperCase()}
-								</span>
-							{/each}
-						</span>
-						<button
-							class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
-							class:copied={copiedFlag}
-							onclick={handleCopy}
-						>
-							{#if !copiedFlag}
-								<Copy strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
-							{:else}
-								<CopyCheck strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--white)"} />
-							{/if}
-							{#if showCopiedMessage}
-								<span
-									in:fly={{ y: 10, delay: 50 }}
-									out:fade={{ duration: 150 }}
-									class="absolute -top-7 left-1/2 transform -translate-x-1/2 text-black"
-								>
-									Copied!
-								</span>
-							{/if}
-						</button>
-					</div>
-					<div class="w-[80%]">
-						<MultiplayerPlayerTable array={$currentPlayers} emptyMessage={"Waiting for players..."} />
-						<div class="flex items-center gap-1 mt-1 text-black">
-							<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
-							{$currentPlayers?.length}
+					{#if !$roomId}
+						<div class="animate-spin py-12">
+							<LoaderCircle strokeWidth={4} absoluteStrokeWidth={true} size={64} color={"var(--black)"} />
 						</div>
-					</div>
+					{:else}
+						<span class="text-black">Code:</span>
+						<div class="flex align-middle mb-5 items-center gap-4">
+							<span class="text-3xl font-semibold text-black">
+								{#each $roomId as letter}
+									<span class="underline mx-1">
+										{letter.toUpperCase()}
+									</span>
+								{/each}
+							</span>
+							<button
+								class="relative p-2 rounded-lg bg-tanDark cursor-pointer transition ease-in-out delay-50"
+								class:copied={copiedFlag}
+								onclick={handleCopy}
+							>
+								{#if !copiedFlag}
+									<Copy strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--black)"} />
+								{:else}
+									<CopyCheck strokeWidth={2.5} absoluteStrokeWidth={true} color={"var(--white)"} />
+								{/if}
+								{#if showCopiedMessage}
+									<span
+										in:fly={{ y: 10, delay: 50 }}
+										out:fade={{ duration: 150 }}
+										class="absolute -top-7 left-1/2 transform -translate-x-1/2 text-black"
+									>
+										Copied!
+									</span>
+								{/if}
+							</button>
+						</div>
+						<div class="w-[80%]">
+							<MultiplayerPlayerTable array={$currentPlayers} emptyMessage={"Waiting for players..."} />
+							<div class="flex items-center gap-1 mt-1 text-black">
+								<Users strokeWidth={1.5} size={16} absoluteStrokeWidth={true} color={"var(--black)"} />
+								{$currentPlayers?.length}
+							</div>
+						</div>
+					{/if}
 					<div class="flex gap-5 w-[80%] mt-3">
 						<div class="w-1/4">
 							<Button
