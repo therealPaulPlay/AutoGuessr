@@ -144,7 +144,7 @@
 	ontouchstart={handleTouchStart}
 	ontouchmove={handleTouchMove}
 	ontouchend={handleTouchEnd}
-	class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden"
+	class="flex w-full h-full relative rounded-2xl border-white border-[10px] bg-white overflow-hidden"
 >
 	<div class="relative w-full h-full flex items-center rounded-lg min-h-96">
 		{#if !descriptionFlag}
@@ -160,7 +160,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="absolute -bottom-1 -right-1 p-2 bg-white rounded-tl-lg font-medium text-base text-orange z-10">
+			<div class="absolute -bottom-1.5 -right-[5px] p-2 bg-white rounded-tl-lg font-medium text-base text-orange z-10">
 				<p class="text-lg">
 					{$currentCarouselIndex + 1} / {processedImages?.length}
 				</p>

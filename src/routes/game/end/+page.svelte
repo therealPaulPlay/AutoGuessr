@@ -122,14 +122,14 @@
 					<thead class="text-white bg-orange border-b-2 border-white">
 						<tr class="head-row">
 							<th>Player</th>
-							<th>Rounds survived</th>
+							<th>Rounds</th>
 							<th>Score</th>
 						</tr>
 					</thead>
 					<tbody>
 						{#each $currentPlayers as player}
-							<tr class="text-center row bg-tanDark border-b-[3px] border-tanDark">
-								<td>{player.name}</td>
+							<tr class="text-center row bg-white border-b-[3px] border-tanDark">
+								<td class="max-w-56 truncate">{player.name}</td>
 								<td>{player.round}</td>
 								<td>{player.score}</td>
 							</tr>

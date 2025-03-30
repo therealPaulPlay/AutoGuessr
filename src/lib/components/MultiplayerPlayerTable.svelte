@@ -5,7 +5,7 @@
 	let { array = [], emptyMessage } = $props();
 </script>
 
-<div class="w-full bg-tanDark rounded-lg px-3 overflow-y-auto max-h-32 overflow-x-hidden no-last-border">
+<div class="w-full bg-tanDark rounded-lg px-3 overflow-y-auto max-h-[7.5rem] overflow-x-hidden no-last-border">
 	{#if array.length > 0}
 		{#each array as element}
 			<div
