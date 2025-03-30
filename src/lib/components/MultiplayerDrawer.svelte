@@ -45,12 +45,6 @@
 		</Button>
 	</div>
 	<div class="w-full h-full bg-tanLight p-2.5 rounded-lg">
-		<!-- <div class="flex justify-center relative rounded-t-lg text-center pb-3">
-			<div class="w-10 flex items-center absolute left-10 top-0.5">
-				<img src="/assets/svg/group-orange.svg" alt="" style:width="3rem" />
-			</div>
-			<span class="text-2xl text-orange font-medium relative">Players</span>
-		</div> -->
 		<div class="bg-white w-full max-h-96 rounded-md px-2 overflow-x-hidden overflow-y-auto no-last-border">
 			{#each $currentPlayers as element (element)}
 				<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
@@ -59,20 +53,21 @@
 					class="w-full md:min-w-64 md:max-w-80 flex justify-between p-2.5 text-center text-base text-black truncate border-b-[3px] border-tanDark"
 					style:font-weight={element.id == $peer.id ? 600 : ""}
 				>
-					<p class="overflow-clip text-ellipsis px-4 w-5/6">
+					<p class="overflow-clip text-ellipsis px-4 w-2/3">
 						{getPlayerInfo(element.id).name}
 					</p>
-					<p class="min-w-10 flex justify-center items-center relative">
+					<div class="w-1/3 flex justify-center items-center relative">
+						<p class="mr-4">
+							{element.score}
+						</p>
 						{#if !isPlayerInGame(element.id)}
-							<span class="absolute left-0 -translate-x-3/4">
+							<div class="px-0.5">
 								<Skull strokeWidth={2} color={"var(--black)"} />
-							</span>
-						{/if}
-						{element.score}
-						{#if isPlayerInGame(element.id)}
+							</div>
+						{:else}
 							{` (${element.round})`}
 						{/if}
-					</p>
+					</div>
 				</div>
 			{/each}
 		</div>
