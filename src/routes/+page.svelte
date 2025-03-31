@@ -132,7 +132,7 @@
 				>
 					<div class="flex flex-row items-center justify-between w-full px-2">
 						<span class="text-white font-semibold text-3xl mr-5">AutoCards</span>
-						<img src="/assets/svg/autocards icon.svg" alt="" style:width="3rem" />
+						<img src="/assets/svg/autocards icon.svg" alt="" style:height="2.2rem" />
 					</div>
 				</Button>
 			</div>

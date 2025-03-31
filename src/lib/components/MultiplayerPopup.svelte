@@ -190,7 +190,7 @@
 						onclick={handleHost}
 					>
 						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
-							<Globe strokeWidth={4} absoluteStrokeWidth={true} size={72} />
+							<Globe strokeWidth={windowHeight < 640 ? 5 : 4} absoluteStrokeWidth={true} size={72} />
 							<span class="text-white font-semibold text-3xl">Host</span>
 						</div>
 					</Button>
@@ -206,7 +206,7 @@
 						}}
 					>
 						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
-							<Unplug strokeWidth={4} absoluteStrokeWidth={true} size={72} />
+							<Unplug strokeWidth={windowHeight < 640 ? 5 : 4} absoluteStrokeWidth={true} size={72} />
 							<span class="text-white font-semibold text-3xl">Join</span>
 						</div>
 					</Button>

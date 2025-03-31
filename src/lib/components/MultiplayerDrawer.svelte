@@ -58,7 +58,7 @@
 					style:font-weight={element.id == $peer.id ? 600 : ""}
 				>
 					{#if index == 0}
-						<div class="flex w-full justify-between overflow-clip font-bold opacity-50">
+						<div class="flex w-full justify-between overflow-clip text-black">
 							<p>Name</p>
 							<p class="flex justify-center items-center relative">
 								Score {`(Round)`}
