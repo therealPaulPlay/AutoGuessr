@@ -96,7 +96,7 @@
 <svelte:window bind:innerWidth />
 
 <content class="flex-fix flex-col w-full h-full" bind:this={mainContent}>
-	<div class="flex flex-fix flex-col w-full h-full overflow-y-auto max-w-2xl">
+	<div class="flex flex-fix flex-col w-full overflow-y-auto max-w-2xl">
 		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">{title}</h1>
 		<div class="mb-12 text-center w-4/5 text-base">
 			<div class="rounded-xl bg-tanMedium w-fit px-2 mx-auto mb-2 no-capture">
