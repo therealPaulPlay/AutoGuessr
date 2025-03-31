@@ -31,6 +31,7 @@
 	import { goto } from "$app/navigation";
 
 	let windowWidth = $state();
+	let windowHeight = $state();
 	let copiedFlag = $state(false);
 	let showCopiedMessage = $state(false);
 	let timeoutId;
@@ -167,7 +168,7 @@
 	});
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} />
+<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 {#if $multiplayerPopup}
 	<Popup
 		closeFunction={() => {
@@ -179,23 +180,23 @@
 		<div class="pt-6 flex flex-col justify-center items-center">
 			{#if $multiplayerCurrentScreen === "main"}
 				<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
-				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center main-screen">
+				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
 					<Button
 						color="var(--green-button)"
 						bgcolor="var(--green-button-dark)"
-						buttonHeight="10rem"
+						buttonHeight={windowHeight < 640 ? "5rem" : "10rem"}
 						buttonWidth="10rem"
 						shadowHeight="0.5rem"
 						onclick={handleHost}
 					>
-						<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
+						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
 							<Globe strokeWidth={4} absoluteStrokeWidth={true} size={72} />
 							<span class="text-white font-semibold text-3xl">Host</span>
 						</div>
 					</Button>
 					<span class="text-2xl text-black opacity-80">or</span>
 					<Button
-						buttonHeight="10rem"
+						buttonHeight={windowHeight < 640 ? "5rem" : "10rem"}
 						buttonWidth="10rem"
 						shadowHeight="0.5rem"
 						onclick={() => {
@@ -204,7 +205,7 @@
 							$multiplayerCurrentScreen = "join";
 						}}
 					>
-						<div class="flex flex-col justify-center items-center w-full px-2 gap-4">
+						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
 							<Unplug strokeWidth={4} absoluteStrokeWidth={true} size={72} />
 							<span class="text-white font-semibold text-3xl">Join</span>
 						</div>
@@ -382,13 +383,8 @@
 	}
 
 	@media (max-height: 640px) {
-		.main-screen {
-			flex-direction: row !important;
-			gap: 0.5rem !important;
-		}
-
-		.main-screen > span {
-			display: none;
+		.button-style {
+			flex-direction: row;
 		}
 	}
 </style>
