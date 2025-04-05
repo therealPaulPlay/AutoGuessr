@@ -63,7 +63,7 @@
 		if (percent <= upperBound) {
 			setPopupMessage("good");
 			$score++;
-			if($multiplayerFlag) updatePlayerScore($peer.id, $score);
+			if ($multiplayerFlag) updatePlayerScore($peer.id, $score);
 		}
 
 		if (percent <= lowerBound) {
@@ -111,12 +111,12 @@
 	});
 
 	$effect(() => {
-		if($multiplayerFlag && $currentPlayers?.length <= 1) {
+		if ($multiplayerFlag && $currentPlayers?.length <= 1) {
 			goto("/");
 			leaveMultiplayerRoom();
 			displayError("Room closed because all other players have left.");
 		}
-	})
+	});
 
 	onDestroy(() => {
 		clearInterval(blinkInterval);

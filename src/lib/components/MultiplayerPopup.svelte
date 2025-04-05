@@ -57,16 +57,6 @@
 		"a really really really really really really really really long name",
 	];
 
-	async function handlePlayerEnter() {
-		let codeString = codeInputs.join("");
-		await handleJoinRoom(codeString.toLocaleLowerCase());
-	}
-
-	function handleLeave() {
-		leaveMultiplayerRoom();
-		$multiplayerCurrentScreen = "main";
-	}
-
 	async function handleCreateRoom() {
 		// creates a room if none exist
 		if (!$roomId) {
@@ -75,11 +65,6 @@
 			$roomId = code.replaceAll("autoguessr_", "");
 			return;
 		}
-	}
-
-	async function handleHost() {
-		$multiplayerCurrentScreen = "host";
-		await handleCreateRoom();
 	}
 
 	// Copy code ---------------------------------------------------------------------------------------
@@ -187,7 +172,10 @@
 						buttonHeight={windowHeight < 640 ? "5rem" : "10rem"}
 						buttonWidth="10rem"
 						shadowHeight="0.5rem"
-						onclick={handleHost}
+						onclick={async () => {
+							$multiplayerCurrentScreen = "host";
+							await handleCreateRoom();
+						}}
 					>
 						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
 							<Globe strokeWidth={windowHeight < 640 ? 5 : 4} absoluteStrokeWidth={true} size={72} />
@@ -266,7 +254,10 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handleLeave}
+								onclick={() => {
+									leaveMultiplayerRoom();
+									$multiplayerCurrentScreen = "main";
+								}}
 							>
 								<ArrowLeft strokeWidth={4} size={28} />
 							</Button>
@@ -336,7 +327,10 @@
 								buttonHeight="4rem"
 								buttonWidth="21rem"
 								shadowHeight="0.5rem"
-								onclick={handleLeave}
+								onclick={() => {
+									leaveMultiplayerRoom();
+									$multiplayerCurrentScreen = "main";
+								}}
 							>
 								<ArrowLeft strokeWidth={4} size={28} absoluteStrokeWidth={true} />
 							</Button>
@@ -351,7 +345,10 @@
 									buttonWidth="21rem"
 									shadowHeight="0.5rem"
 									disabled={!isCodeInput}
-									onclick={handlePlayerEnter}
+									onclick={async () => {
+										let codeString = codeInputs.join("");
+										await handleJoinRoom(codeString.toLocaleLowerCase());
+									}}
 								>
 									<span class="text-white w-full text-center font-semibold text-3xl">Enter</span>
 								</Button>
