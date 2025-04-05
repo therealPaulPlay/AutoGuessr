@@ -36,7 +36,8 @@
 	function scrollToAnswer() {
 		showGuessPrice = false;
 		// gsap scroll to
-		gsap.to(guessBand, {
+		if(guessBand) {
+			gsap.to(guessBand, {
 			duration: 2,
 			scrollTo: {
 				x: answerBar,
@@ -51,6 +52,7 @@
 				}, 50);
 			},
 		});
+		}
 	}
 
 	function positionAnswerPrice() {
