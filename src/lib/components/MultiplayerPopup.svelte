@@ -218,7 +218,7 @@
 				<div class="flex flex-col justify-center items-center w-full">
 					{#if !$roomId}
 						<div class="animate-spin py-12">
-							<LoaderCircle strokeWidth={4} absoluteStrokeWidth={true} size={64} color={"var(--black)"} />
+							<LoaderCircle strokeWidth={4} absoluteStrokeWidth={true} size={40} color={"var(--black)"} />
 						</div>
 					{:else}
 						<span class="text-black">Code:</span>
