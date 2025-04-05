@@ -160,7 +160,7 @@
 			multiplayerPopup.set(false);
 			leaveMultiplayerRoom();
 		}}
-		small={windowWidth > 768}
+		small={windowWidth >= 768}
 	>
 		<div class="pt-6 flex flex-col justify-center items-center">
 			{#if $multiplayerCurrentScreen === "main"}
@@ -169,7 +169,7 @@
 					<Button
 						color="var(--green-button)"
 						bgcolor="var(--green-button-dark)"
-						buttonHeight={windowHeight < 640 ? "5rem" : "10rem"}
+						buttonHeight={windowHeight <= 640 || windowWidth <= 768 ? "5rem" : "10rem"}
 						buttonWidth="10rem"
 						shadowHeight="0.5rem"
 						onclick={async () => {
@@ -178,13 +178,17 @@
 						}}
 					>
 						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
-							<Globe strokeWidth={windowHeight < 640 ? 5 : 4} absoluteStrokeWidth={true} size={72} />
+							<Globe
+								strokeWidth={windowHeight <= 640 || windowWidth <= 768 ? 5 : 4}
+								absoluteStrokeWidth={true}
+								size={72}
+							/>
 							<span class="text-white font-semibold text-3xl">Host</span>
 						</div>
 					</Button>
 					<span class="text-2xl text-black opacity-80">or</span>
 					<Button
-						buttonHeight={windowHeight < 640 ? "5rem" : "10rem"}
+						buttonHeight={windowHeight <= 640 || windowWidth <= 768 ? "5rem" : "10rem"}
 						buttonWidth="10rem"
 						shadowHeight="0.5rem"
 						onclick={() => {
@@ -194,7 +198,11 @@
 						}}
 					>
 						<div class="button-style flex flex-col justify-center items-center w-full px-2 gap-4">
-							<Unplug strokeWidth={windowHeight < 640 ? 5 : 4} absoluteStrokeWidth={true} size={72} />
+							<Unplug
+								strokeWidth={windowHeight <= 640 || windowWidth <= 768 ? 5 : 4}
+								absoluteStrokeWidth={true}
+								size={72}
+							/>
 							<span class="text-white font-semibold text-3xl">Join</span>
 						</div>
 					</Button>
@@ -379,7 +387,7 @@
 		opacity: 0.15;
 	}
 
-	@media (max-height: 640px) {
+	@media (max-height: 640px), (max-width: 768px) {
 		.button-style {
 			flex-direction: row;
 		}
