@@ -4,7 +4,7 @@
 	import { flip } from "svelte/animate";
 	import { gsap } from "gsap";
 	import Flip from "gsap/dist/Flip";
-	import { getPlayerInfo, isPlayerInGame } from "$lib/utils/multiplayer";
+	import { getPlayerInfo } from "$lib/utils/multiplayer";
 	import Button from "./Button.svelte";
 	gsap.registerPlugin(Flip);
 
@@ -22,8 +22,8 @@
 
 		drawerElement.style.right = multiplayerDrawerFlag ? "1rem" : "-100%";
 		buttonElement.style.left = drawerClicked ? "0.625rem" : "0px";
-		
-		gsap.to(".arrow-icon", { rotate: multiplayerDrawerFlag ? 180 : 0, duration: 0.5 });
+
+		gsap.to(".arrow-icon", { rotate: multiplayerDrawerFlag ? 180 : 0, duration: 0.4 });
 		Flip.from(drawerState, { duration: 0.5, ease: "power3.inOut" });
 		Flip.from(buttonState, { duration: 0.5, ease: "power3.inOut" });
 	}
@@ -72,7 +72,7 @@
 							<p class="mr-4">
 								{element.score}
 							</p>
-							{#if !isPlayerInGame(element.id)}
+							{#if !element?.inGame}
 								<div class="px-0.5">
 									<Skull strokeWidth={2} color={"var(--black)"} />
 								</div>

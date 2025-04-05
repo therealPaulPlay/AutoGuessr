@@ -10,7 +10,6 @@
 	import {
 		getPlayerInfo,
 		getPlayerWithHighestScore,
-		isPlayerInGame,
 		leaveMultiplayerRoom,
 		resetMultiplayerScores,
 	} from "$lib/utils/multiplayer";
@@ -19,7 +18,6 @@
 
 	let mainContent = $state();
 	let resultTable = $state();
-	let multiplayerTable = $state();
 	let watermark = $state();
 	let innerWidth = $state();
 	let showPlayAgain = $state(true);
@@ -115,7 +113,6 @@
 		</div>
 		{#if $multiplayerFlag}
 			<div
-				bind:this={multiplayerTable}
 				class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar min-h-40 max-h-[30vh]"
 			>
 				<table class="table-auto w-full h-full">
@@ -126,11 +123,18 @@
 							<th>Score</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="no-last-border">
 						{#each $currentPlayers as player}
 							<tr class="text-center row bg-white border-b-[3px] border-tanDark">
 								<td class="max-w-56 truncate">{player.name}</td>
-								<td>{player.round}</td>
+								<td class="inline-flex items-center"
+									>{player.round}
+									{#if !player?.inGame}
+										<span class="px-1">
+											<Skull strokeWidth={2} size={18} color={"var(--black)"} />
+										</span>
+									{/if}
+								</td>
 								<td>{player.score}</td>
 							</tr>
 						{/each}
@@ -154,7 +158,11 @@
 				</thead>
 				<tbody>
 					{#each $gameRounds as round, index}
-						<tr class="text-center row border-b-[3px] border-tanDark" class:green-row={round.rewardFlag} class:red-row={round.penaltyFlag}>
+						<tr
+							class="text-center row border-b-[3px] border-tanDark"
+							class:green-row={round.rewardFlag}
+							class:red-row={round.penaltyFlag}
+						>
 							<td>{index + 1}</td>
 							<td>${round.guess.toLocaleString()}</td>
 							<td>${round.answer.toLocaleString()}</td>
@@ -253,5 +261,9 @@
 		display: flex;
 		align-items: safe center;
 		justify-content: safe center;
+	}
+
+	.no-last-border > *:last-child {
+		border-bottom: none !important;
 	}
 </style>

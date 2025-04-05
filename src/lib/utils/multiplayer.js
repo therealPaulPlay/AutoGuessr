@@ -203,30 +203,18 @@ export function getPlayerInfo(id) {
 }
 
 export function updatePlayerScore(playerId, newScore) {
-	try {
-		let playerInfo = getPlayerInfo(playerId);
-		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, score: newScore });
-	} catch (error) {
-		console.error("Error occurred in updatePlayerScore function:", error);
-	}
+	let playerInfo = getPlayerInfo(playerId);
+	get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, score: newScore });
 }
 
 export function updatePlayerRound(playerId, newRound) {
-	try {
-		let playerInfo = getPlayerInfo(playerId);
-		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, round: newRound });
-	} catch (error) {
-		console.error("Error occurred in updatePlayerScore function:", error);
-	}
+	let playerInfo = getPlayerInfo(playerId);
+	get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, round: newRound });
 }
 
 export function updatePlayerInGame(playerId, newValue) {
-	try {
-		let playerInfo = getPlayerInfo(playerId);
-		get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, inGame: newValue });
-	} catch (error) {
-		console.error("Error occurred in updatePlayerInGame function:", error);
-	}
+	let playerInfo = getPlayerInfo(playerId);
+	get(peer)?.updateStorageArray("players", "update-matching", playerInfo, { ...playerInfo, inGame: newValue });
 }
 
 export function getInGamePlayers() {
@@ -282,11 +270,6 @@ export function getPlayerWithHighestScore() {
 		console.error("Error in getPlayerWithHighestScore:", error);
 		throw error;
 	}
-}
-
-export function isPlayerInGame(playerId) {
-	const players = getInGamePlayers() || [];
-	return players.some((p) => p.id === playerId);
 }
 
 function getPlayerName() {
