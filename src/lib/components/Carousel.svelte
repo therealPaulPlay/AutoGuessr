@@ -86,7 +86,7 @@
 			resetZoom();
 			if ($currentCarouselIndex + 1 - processedImages?.length) {
 				const preloadedImage = new Image();
-				preloadedImage.src = processedImages?.[$currentCarouselIndex + 1];
+				preloadedImage.src = processedImages?.[$currentCarouselIndex + 1] || "/assets/img/example/cardcar.png";
 			}
 		}
 	}
@@ -102,7 +102,7 @@
 	$effect(() => {
 		if ($currentCarouselIndex == 0) {
 			const preloadedImage = new Image();
-			preloadedImage.src = processedImages?.[$currentCarouselIndex + 1];
+			preloadedImage.src = processedImages?.[$currentCarouselIndex + 1] || "/assets/img/example/cardcar.png";
 		}
 	});
 
