@@ -96,8 +96,7 @@ export function goToNextQuestion(saveHistory = true) {
 	penaltyFlag.set(false);
 	resultPopup.set(false);
 	currentCarouselIndex.set(0);
-	const img = get(imgElement);
-	if (img) img.src = "";
+	if (get(imgElement)) get(imgElement).src = "";
 
 	// Game over
 	if (get(lives) <= 1) {
@@ -112,9 +111,7 @@ export function goToNextQuestion(saveHistory = true) {
 			return;
 		}
 
-		if (get(multiplayerFlag)) {
-			updatePlayerInGame(get(peer).id, false);
-		}
+		if (get(multiplayerFlag)) updatePlayerInGame(get(peer)?.id, false);
 
 		goto("/game/end");
 		return;

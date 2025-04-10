@@ -23,7 +23,7 @@
 		ArrowLeft,
 		LoaderCircle,
 	} from "lucide-svelte";
-	import { host, handleJoinRoom, leaveMultiplayerRoom } from "$lib/utils/multiplayer";
+	import { host, handleJoinRoom, leaveMultiplayerRoom, updatePlayerInGame } from "$lib/utils/multiplayer";
 	import { onMount } from "svelte";
 	import { error } from "@sveltejs/kit";
 	import { fade, fly } from "svelte/transition";
@@ -47,38 +47,19 @@
 		return false;
 	});
 
-	// Test inputs
-	let playerNames = [
-		"real name 1",
-		"real name 2",
-		"real name 3",
-		"real name 4",
-		"real name 5",
-		"a really really really really really really really really long name",
-	];
-
 	async function handleCreateRoom() {
-		// creates a room if none exist
 		if (!$roomId) {
-			console.log("Room doesn't exist, creating one...");
 			const code = await host();
 			$roomId = code.replaceAll("autoguessr_", "");
-			return;
 		}
 	}
 
 	// Copy code ---------------------------------------------------------------------------------------
-	function copyToClipboard(text) {
-		navigator.clipboard.writeText(text.toUpperCase()).catch((err) => console.error("Failed to copy code", err));
-	}
-
 	function handleCopy() {
-		copyToClipboard($roomId);
+		navigator.clipboard.writeText($roomId?.toUpperCase()).catch((err) => console.error("Failed to copy code", err));
 		copiedFlag = true;
 		showCopiedMessage = true;
-
 		clearTimeout(timeoutId);
-
 		timeoutId = setTimeout(() => {
 			showCopiedMessage = false;
 			copiedFlag = false;
@@ -208,7 +189,7 @@
 					</Button>
 				</div>
 				<p class="text-center text-black mt-8 opacity-50 w-[79%]">
-					* Please refrain from using VPNs or proxies as it will more likely than not break multiplayer.
+					* Please refrain from using VPNs or proxies as most are incompatible with multiplayer.
 				</p>
 			{:else if $multiplayerCurrentScreen === "host"}
 				<div class="flex flex-col justify-center items-center w-full">
@@ -280,6 +261,7 @@
 								shadowHeight="0.5rem"
 								disabled={$currentPlayers?.length <= 1}
 								onclick={() => {
+									updatePlayerInGame(get(peer)?.id, true);
 									$peer?.updateStorage("matchIndex", $peer?.getStorage?.matchIndex + 1);
 								}}
 							>

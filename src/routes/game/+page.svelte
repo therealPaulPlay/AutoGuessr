@@ -19,7 +19,6 @@
 		question,
 		guessResult,
 		totalCarAmount,
-		imgElement,
 		priceRange,
 	} from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
@@ -127,13 +126,10 @@
 		lives.set(4);
 		score.set(0);
 		currentCarouselIndex.set(0);
-		const img = get(imgElement);
-		if (img) img.src = "";
 		$gameRounds = [];
+		$question = {};
 
-		if ($multiplayerFlag) {
-			updatePlayerInGame(get(peer).id, true);
-		}
+		if ($multiplayerFlag) updatePlayerInGame(get(peer)?.id, true);
 
 		$totalCarAmount = await getTotalCarDataAmount();
 		goToNextQuestion(false); // Don't save last question to history (false)

@@ -12,6 +12,7 @@
 		getPlayerWithHighestScore,
 		leaveMultiplayerRoom,
 		resetMultiplayerScores,
+		updatePlayerInGame,
 	} from "$lib/utils/multiplayer";
 	import { flip } from "svelte/animate";
 	import { getTotalCarDataAmount } from "$lib/utils/gameFunctions";
@@ -142,37 +143,39 @@
 				</table>
 			</div>
 		{/if}
-		<div
-			bind:this={resultTable}
-			class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar min-h-40 max-h-[30vh]"
-		>
-			<table class="table-auto w-full h-full">
-				<thead class="text-white bg-orange border-b-2 border-white">
-					<tr class="head-row">
-						<th>Round</th>
-						<th>Guess</th>
-						<th>Answer</th>
-						<th>Difference</th>
-						<th>Points</th>
-					</tr>
-				</thead>
-				<tbody>
-					{#each $gameRounds as round, index}
-						<tr
-							class="text-center row border-b-[3px] border-tanDark"
-							class:green-row={round.rewardFlag}
-							class:red-row={round.penaltyFlag}
-						>
-							<td>{index + 1}</td>
-							<td>${round.guess.toLocaleString()}</td>
-							<td>${round.answer.toLocaleString()}</td>
-							<td>{round.difference.toFixed(2)}%</td>
-							<td>{round.points}</td>
+		{#if $gameRounds?.length}
+			<div
+				bind:this={resultTable}
+				class="w-4/5 mb-10 bg-white rounded-lg overflow-auto overscroll-none drop-shadow-[0px_5px_0px_var(--white-shadow)] no-scrollbar min-h-40 max-h-[30vh]"
+			>
+				<table class="table-auto w-full h-full">
+					<thead class="text-white bg-orange border-b-2 border-white">
+						<tr class="head-row">
+							<th>Round</th>
+							<th>Guess</th>
+							<th>Answer</th>
+							<th>Difference</th>
+							<th>Points</th>
 						</tr>
-					{/each}
-				</tbody>
-			</table>
-		</div>
+					</thead>
+					<tbody>
+						{#each $gameRounds as round, index}
+							<tr
+								class="text-center row border-b-[3px] border-tanDark"
+								class:green-row={round.rewardFlag}
+								class:red-row={round.penaltyFlag}
+							>
+								<td>{index + 1}</td>
+								<td>${round.guess.toLocaleString()}</td>
+								<td>${round.answer.toLocaleString()}</td>
+								<td>{round.difference.toFixed(2)}%</td>
+								<td>{round.points}</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		{/if}
 		<p bind:this={watermark} class="text-base hidden">
 			Play on<span class="text-orange font-semibold">&nbsp;AutoGuessr.com!</span>
 		</p>
@@ -192,6 +195,7 @@
 					let startQuestions = await generateNewQuestions();
 					$peer?.updateStorage("questionsIds", startQuestions);
 					$peer?.updateStorage("gameInProgress", true);
+					updatePlayerInGame(get(peer)?.id, true);
 					$peer?.updateStorage("matchIndex", $peer?.getStorage?.matchIndex + 1);
 					resetMultiplayerScores();
 					return;

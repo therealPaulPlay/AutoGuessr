@@ -7,7 +7,7 @@
 	let { images = [], description = "No description was provided.", descriptionFlag = false } = $props();
 
 	// Add www. to prevent 80ms long redirect
-	let processedImages = $derived.by(() => {
+	const processedImages = $derived.by(() => {
 		return images.map((url) => {
 			if (url.startsWith("https://") && !url.startsWith("https://www.")) {
 				return "https://www." + url.slice("https://".length);
@@ -111,6 +111,7 @@
 	let touchStartY = 0;
 	let touchEndX = 0;
 	let touchEndY = 0;
+
 	function handleTouchStart(event) {
 		if (event.touches.length > 1) return;
 		touchStartX = event.touches[0].clientX;
@@ -169,9 +170,9 @@
 			<!-- Updated the image src to use the processedImages array -->
 			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_missing_attribute -->
 			<img
 				src={processedImages?.[$currentCarouselIndex]}
-				alt=" "
 				bind:this={$imgElement}
 				onload={() => {
 					resetZoom();

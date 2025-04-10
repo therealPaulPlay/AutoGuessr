@@ -88,20 +88,19 @@ async function initPeer() {
 			});
 		}
 
+		if (JSON.stringify(get(playersInGame)) !== JSON.stringify(getInGamePlayers())) {
+			playersInGame.set(getInGamePlayers());
+		}
+
 		if (get(currentMatchIndex) != storage?.matchIndex && storage?.questionsIds?.length !== 0) {
 			currentMatchIndex.set(storage?.matchIndex);
 			multiplayerPopup.set(false);
-			goto("/game");
+			(get(playersInGame)?.length > 0) ? goto("/game") : goto("/game/end");
 		}
 
 		const playerInfo = getPlayerInfo(get(peer).id);
 		if (playerInfo && get(inGame) !== playerInfo?.inGame) {
 			inGame.set(playerInfo?.inGame);
-		}
-
-		const currentInGame = get(playersInGame);
-		if (JSON.stringify(currentInGame) !== JSON.stringify(getInGamePlayers())) {
-			playersInGame.set(getInGamePlayers());
 		}
 
 		if (maxRound(storage?.players) >= storage?.questionsIds?.length - 3 && get(peer)?.isHost) {
@@ -150,13 +149,12 @@ export async function host() {
 }
 
 async function checkQuestionsArray(playersArray, questionsArray) {
-	// Insure the function runs only for host, that way we don't have this function run multiple times for each peer
-	if (!get(peer).isHost) return;
+	if (!get(peer).isHost) return; // Run only for host to prevent multiple runs
 
 	const questionMargin = 3;
 	const currentMaxRound = maxRound(playersArray);
-	// if the difference between the current max round and questions array
-	// is higher than the question margin then it'll return
+	/* if the difference between the current max round and questions array
+	is higher than the question margin then it'll return */
 	if (questionsArray.length > currentMaxRound + questionMargin) return;
 
 	let availableIndecies = await getTotalCarDataAmount();
@@ -173,9 +171,7 @@ async function checkQuestionsArray(playersArray, questionsArray) {
 function maxScore(array) {
 	let maxScore = 0;
 	for (const item of array) {
-		if (item.score > maxScore) {
-			maxScore = item.score;
-		}
+		if (item.score > maxScore) maxScore = item.score;
 	}
 	return maxScore;
 }
@@ -183,19 +179,14 @@ function maxScore(array) {
 function maxRound(array) {
 	let maxRound = 0;
 	for (const item of array) {
-		if (item.round > maxRound) {
-			maxRound = item.score;
-		}
+		if (item.round > maxRound) maxRound = item.score;
 	}
 	return maxRound;
 }
 
 export function getPlayerInfo(id) {
 	try {
-		if (!get(peer)) return null;
-
-		// Find the player object with the matching id
-		return get(peer).getStorage?.players?.find((obj) => obj.id === id) || null;
+		return get(peer)?.getStorage?.players?.find((obj) => obj.id === id) || null; // Find the player object with the matching id
 	} catch (error) {
 		console.error("Error occurred in getPlayerInfo function:", error);
 		throw error; // Re-throw the error for other unexpected issues
@@ -218,7 +209,7 @@ export function updatePlayerInGame(playerId, newValue) {
 }
 
 export function getInGamePlayers() {
-	return get(peer).getStorage.players.filter((player) => player.inGame);
+	return get(peer)?.getStorage?.players?.filter((player) => player.inGame);
 }
 
 export function resetMultiplayerScores() {
@@ -244,25 +235,16 @@ export function resetMultiplayerScores() {
 
 export function getPlayerWithHighestScore() {
 	try {
-		if (!get(peer)) return null;
-
-		const players = get(peer).getStorage.players;
-		if (!Array.isArray(players)) {
-			console.error("Players is not an array");
-			return null;
-		}
-
-		if (players.length === 0) {
-			console.log("No players found");
+		const players = get(peer)?.getStorage?.players;
+		if (!Array.isArray(players) || !players?.length) {
+			console.error("Players is not an array or no players found");
 			return null;
 		}
 
 		// Find player with highest score
 		let highestScoringPlayer = players[0];
 		for (const player of players) {
-			if (player.score > highestScoringPlayer.score) {
-				highestScoringPlayer = player;
-			}
+			if (player.score > highestScoringPlayer.score) highestScoringPlayer = player;
 		}
 
 		return highestScoringPlayer;
@@ -273,12 +255,9 @@ export function getPlayerWithHighestScore() {
 }
 
 function getPlayerName() {
-	if (get(username) !== "Guest" && get(username)) {
-		return get(username);
-	}
+	if (get(username) !== "Guest" && get(username)) return get(username);
 
 	const adjectives = [
-		"Dark",
 		"Mystic",
 		"Silent",
 		"Frozen",
@@ -287,7 +266,6 @@ function getPlayerName() {
 		"Blazing",
 		"Thunder",
 		"Savage",
-		"Fallen",
 		"Raging",
 		"Divine",
 		"Infernal",
@@ -299,13 +277,11 @@ function getPlayerName() {
 		"Assassin",
 		"Mage",
 		"Dragon",
-		"Reaper",
 		"Samurai",
 		"Warden",
 		"Titan",
 		"Ranger",
 		"Nomad",
-		"Gladiator",
 		"Phoenix",
 		"Wraith",
 	];
