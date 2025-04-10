@@ -21,10 +21,10 @@ import { multiplayerPopup } from "$lib/stores/uiStore";
 export async function handleJoinRoom(roomId) {
 	try {
 		if (!get(peer)) await initPeer();
-		await get(peer).joinRoom(`autoguessr_${roomId.toLowerCase()}`);
+		await get(peer)?.joinRoom(`autoguessr_${roomId.toLowerCase()}`);
 		multiplayerFlag.set(true);
 	} catch (error) {
-		displayError("Failed to join: " + error.message);
+		console.error("Failed to join:", error);
 	}
 }
 
@@ -98,7 +98,7 @@ async function initPeer() {
 			(get(playersInGame)?.length > 0) ? goto("/game") : goto("/game/end");
 		}
 
-		const playerInfo = getPlayerInfo(get(peer).id);
+		const playerInfo = getPlayerInfo(get(peer)?.id);
 		if (playerInfo && get(inGame) !== playerInfo?.inGame) {
 			inGame.set(playerInfo?.inGame);
 		}
@@ -120,7 +120,7 @@ async function initPeer() {
 	// For peer: When peer connects/discconects from host
 	get(peer).onEvent("outgoingPeerDisconnected", (disconnectedPeerId) => {
 		const currentPlayerInfo = getPlayerInfo(disconnectedPeerId);
-		get(peer).updateStorageArray("players", "remove-matching", currentPlayerInfo);
+		get(peer)?.updateStorageArray("players", "remove-matching", currentPlayerInfo);
 	});
 
 	await get(peer).init();
@@ -132,9 +132,9 @@ export async function host() {
 
 		const name = getPlayerName();
 		const diff = get(difficulty);
-		const code = await get(peer).createRoom({
+		const code = await get(peer)?.createRoom({
 			matchIndex: 0,
-			players: [{ id: get(peer).id, score: 0, round: 0, inGame: false, name }],
+			players: [{ id: get(peer)?.id, score: 0, round: 0, inGame: false, name }],
 			gameInProgress: false,
 			gameRestarted: false,
 			difficulty: diff,
@@ -149,7 +149,7 @@ export async function host() {
 }
 
 async function checkQuestionsArray(playersArray, questionsArray) {
-	if (!get(peer).isHost) return; // Run only for host to prevent multiple runs
+	if (!get(peer)?.isHost) return; // Run only for host to prevent multiple runs
 
 	const questionMargin = 3;
 	const currentMaxRound = maxRound(playersArray);
@@ -165,7 +165,7 @@ async function checkQuestionsArray(playersArray, questionsArray) {
 	}
 
 	let newQuestionArray = [...questionsArray, ...addedQuestions];
-	get(peer).updateStorage("questionsIds", newQuestionArray);
+	get(peer)?.updateStorage("questionsIds", newQuestionArray);
 }
 
 function maxScore(array) {
@@ -213,8 +213,8 @@ export function getInGamePlayers() {
 }
 
 export function resetMultiplayerScores() {
-	if (get(peer).isHost) {
-		const playersArray = get(peer).getStorage.players;
+	if (get(peer)?.isHost) {
+		const playersArray = get(peer)?.getStorage.players;
 		let updatedPlayers = [];
 
 		if (Array.isArray(playersArray)) {
@@ -226,7 +226,7 @@ export function resetMultiplayerScores() {
 			}));
 
 			// Update the storage in a single operation
-			get(peer).updateStorage("players", updatedPlayers);
+			get(peer)?.updateStorage("players", updatedPlayers);
 		} else {
 			console.error("players.array is not an array or does not exist.");
 		}

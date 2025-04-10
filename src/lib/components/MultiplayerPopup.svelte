@@ -236,7 +236,7 @@
 							</div>
 						</div>
 					{/if}
-					<div class="flex gap-5 w-[80%] mt-3">
+					<div class="flex gap-5 w-60 mt-3">
 						<div class="w-1/4">
 							<Button
 								customClasses="!w-full"
@@ -310,7 +310,7 @@
 							</p>
 						</div>
 					{/if}
-					<div class="flex gap-5 w-[80%] mt-4">
+					<div class="flex gap-5 w-60 mt-4">
 						<div class="w-1/4">
 							<Button
 								customClasses="!w-full"

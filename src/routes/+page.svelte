@@ -112,8 +112,8 @@
 							$multiplayerCurrentScreen = "main";
 						}}
 					>
-						<div class="flex flex-row items-center justify-between w-full px-2">
-							<span class="text-white font-semibold text-3xl mr-10">Multiplayer</span>
+						<div class="flex flex-row items-center justify-between w-full px-1.5">
+							<span class="text-white font-semibold text-3xl mr-3 md:mr-5 text-nowrap ellipsis">Play together</span>
 							<img src="/assets/svg/group.svg" alt="" style:width="3rem" />
 						</div>
 					</Button>
@@ -130,8 +130,8 @@
 					shadowHeight="0.5rem"
 					onclick={() => goto("/auto-cards")}
 				>
-					<div class="flex flex-row items-center justify-between w-full px-2">
-						<span class="text-white font-semibold text-3xl mr-5">AutoCards</span>
+					<div class="flex flex-row items-center justify-between w-full px-1.5">
+						<span class="text-white font-semibold text-3xl mr-3 md:mr-5 text-nowrap ellipsis">AutoCards</span>
 						<img src="/assets/svg/autocards icon.svg" alt="" style:height="2.2rem" />
 					</div>
 				</Button>

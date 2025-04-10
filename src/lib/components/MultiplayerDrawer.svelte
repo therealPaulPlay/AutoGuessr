@@ -23,9 +23,9 @@
 		drawerElement.style.right = multiplayerDrawerFlag ? "1rem" : "-100%";
 		buttonElement.style.left = drawerClicked ? "0.625rem" : "0px";
 
-		gsap.to(".arrow-icon", { rotate: multiplayerDrawerFlag ? 180 : 0, duration: 0.4 });
-		Flip.from(drawerState, { duration: 0.5, ease: "power3.inOut" });
-		Flip.from(buttonState, { duration: 0.5, ease: "power3.inOut" });
+		gsap.to(".arrow-icon", { rotate: multiplayerDrawerFlag ? 180 : 0, duration: 0.2 });
+		Flip.from(drawerState, { duration: 0.3 });
+		Flip.from(buttonState, { duration: 0.3 });
 	}
 
 	$effect(() => {

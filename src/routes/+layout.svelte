@@ -159,7 +159,7 @@
 				</Button>
 			</div>
 		</div>
-		<div class="flex flex-row items-center">
+		<div class="flex flex-row items-center max-sm:hidden">
 			<Button
 				color="var(--default-button)"
 				bgcolor="var(--default-button-dark)"

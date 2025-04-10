@@ -83,7 +83,7 @@
 
 	$effect(() => {
 		if ($multiplayerFlag) {
-			title = $playersInGame.length ? "On Going..." : `${getPlayerWithHighestScore().name} won!`;
+			title = $playersInGame.length ? "Ongoing..." : `${getPlayerWithHighestScore().name} won!`;
 		} else title = "Game Over!";
 	});
 </script>
