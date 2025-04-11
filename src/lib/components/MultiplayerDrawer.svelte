@@ -39,7 +39,7 @@
 	bind:this={drawerElement}
 >
 	<div
-		class="button-element absolute top-1/2 -translate-y-1/2 -z-10 rounded-l-2xl left-0 -translate-x-full bg-defaultShadow p-2.5"
+		class="button-element absolute top-1/2 -translate-y-1/2 -z-10 rounded-l-2xl left-0 -translate-x-full bg-defaultShadow p-2.5 pointer-events-auto"
 		bind:this={buttonElement}
 	>
 		<Button buttonHeight="7rem" buttonWidth="3rem" onclick={handleDrawerToggle}>
@@ -48,7 +48,7 @@
 			</div>
 		</Button>
 	</div>
-	<div class="w-full h-full bg-tanLight p-2.5 rounded-lg">
+	<div class="w-full h-full bg-tanLight p-2.5 rounded-lg pointer-events-auto">
 		<div class="bg-white w-full max-h-96 rounded-md px-2 overflow-x-hidden overflow-y-auto no-last-border">
 			{#each [{ id: -1 }, ...$currentPlayers] as element, index (element.id)}
 				<!-- Flip animation works in Firefox but not in chrome for some reason. Maybe try GSAP? -->
