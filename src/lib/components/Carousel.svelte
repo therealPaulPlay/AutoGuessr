@@ -170,7 +170,6 @@
 			<!-- Updated the image src to use the processedImages array -->
 			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
-			<!-- svelte-ignore a11y_missing_attribute -->
 			<img
 				src={processedImages?.[$currentCarouselIndex]}
 				bind:this={$imgElement}
@@ -183,6 +182,7 @@
 				}}
 				onwheel={handleWheel}
 				tabindex="0"
+				alt=" "
 				role="button"
 				class="absolute h-full w-full z-[5] cursor-crosshair rounded-lg transition ease-in-out {imageFit
 					? 'object-contain'
