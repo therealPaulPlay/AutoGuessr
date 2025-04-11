@@ -24,7 +24,7 @@
 			settingsPopup.set(false);
 		}}
 	>
-		<div class="overflow-y-auto max-h-[50dvh]">
+		<div class="overflow-y-auto max-h-[50dvh] text-black">
 			<div class="h-4/6 w-full p-4 flex flex-col gap-5 max-h-4/6">
 				<!-- Volume Slider -->
 				<div class="flex items-center gap-10 justify-between">

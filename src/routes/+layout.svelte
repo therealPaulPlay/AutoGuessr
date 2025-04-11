@@ -6,7 +6,7 @@
 	import { isAuthenticated, username } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { base } from "$app/paths";
-	import { settingsPopup, signupPopup, accountPopup, leavePopup } from "$lib/stores/uiStore";
+	import { settingsPopup, signupPopup, accountPopup, leavePopup, howToPlayPopup } from "$lib/stores/uiStore";
 	import { displayError } from "$lib/utils/displayError";
 	import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
 	import { User, TriangleAlert, Scan, UserPlus } from "lucide-svelte";
@@ -25,6 +25,9 @@
 	import { Howl, Howler } from "howler";
 	import { gameVolume, music } from "$lib/stores/gameStore";
 	import CreditsPopup from "$lib/components/CreditsPopup.svelte";
+	import MultiplayerPopup from "$lib/components/MultiplayerPopup.svelte";
+	import { inGame, multiplayerFlag } from "$lib/stores/multiplayerStore";
+	import { leaveMultiplayerRoom } from "$lib/utils/multiplayer";
 
 	let { children } = $props();
 
@@ -34,6 +37,7 @@
 		if (leavePopupUrls.includes($page.url.pathname)) {
 			$leavePopup = true;
 		} else {
+			if ($multiplayerFlag) leaveMultiplayerRoom();
 			goto("/");
 		}
 	}
@@ -75,6 +79,13 @@
 			});
 		} catch (error) {
 			console.error("Error loading the Playlight SDK:", error);
+		}
+	});
+
+	onMount(() => {
+		if (!localStorage.getItem("hasVisited")) {
+			localStorage.setItem("hasVisited", "true");
+			$howToPlayPopup = true;
 		}
 	});
 </script>
@@ -148,7 +159,7 @@
 				</Button>
 			</div>
 		</div>
-		<div class="flex flex-row items-center">
+		<div class="flex flex-row items-center max-sm:hidden">
 			<Button
 				color="var(--default-button)"
 				bgcolor="var(--default-button-dark)"
@@ -187,3 +198,4 @@
 <Analytics />
 <ResultPopup />
 <CreditsPopup />
+<MultiplayerPopup />
