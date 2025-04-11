@@ -9,6 +9,7 @@ export const leavePopup = writable(false);
 export const howToPlayPopup = writable(false);
 export const resultPopup = writable(false);
 export const creditsPopup = writable(false);
+export const multiplayerPopup = writable(false);
 
 // Texts
 export const errorText = writable("");

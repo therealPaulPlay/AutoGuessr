@@ -14,6 +14,8 @@
 	import { cardDraw, calculateRarity } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";
 	import { Howl } from "howler";
+	import { multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
+	import { updatePlayerInGame } from "$lib/utils/multiplayer";
 	gsap.registerPlugin(Flip);
 
 	let cardInfo = $state();
@@ -235,6 +237,9 @@
 						shadowHeight="0.5rem"
 						onclick={() => {
 							goto("/game/end");
+							if ($multiplayerFlag) {
+								updatePlayerInGame($peer?.id, false);
+							}
 						}}
 					>
 						<span class="text-white font-semibold text-3xl">Summary</span>

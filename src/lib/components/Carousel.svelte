@@ -7,7 +7,7 @@
 	let { images = [], description = "No description was provided.", descriptionFlag = false } = $props();
 
 	// Add www. to prevent 80ms long redirect
-	let processedImages = $derived.by(() => {
+	const processedImages = $derived.by(() => {
 		return images.map((url) => {
 			if (url.startsWith("https://") && !url.startsWith("https://www.")) {
 				return "https://www." + url.slice("https://".length);
@@ -86,7 +86,7 @@
 			resetZoom();
 			if ($currentCarouselIndex + 1 - processedImages?.length) {
 				const preloadedImage = new Image();
-				preloadedImage.src = processedImages?.[$currentCarouselIndex + 1];
+				preloadedImage.src = processedImages?.[$currentCarouselIndex + 1] || "/assets/img/example/cardcar.png";
 			}
 		}
 	}
@@ -102,7 +102,7 @@
 	$effect(() => {
 		if ($currentCarouselIndex == 0) {
 			const preloadedImage = new Image();
-			preloadedImage.src = processedImages?.[$currentCarouselIndex + 1];
+			preloadedImage.src = processedImages?.[$currentCarouselIndex + 1] || "/assets/img/example/cardcar.png";
 		}
 	});
 
@@ -111,6 +111,7 @@
 	let touchStartY = 0;
 	let touchEndX = 0;
 	let touchEndY = 0;
+
 	function handleTouchStart(event) {
 		if (event.touches.length > 1) return;
 		touchStartX = event.touches[0].clientX;
@@ -144,7 +145,7 @@
 	ontouchstart={handleTouchStart}
 	ontouchmove={handleTouchMove}
 	ontouchend={handleTouchEnd}
-	class="flex w-full h-full relative rounded-2xl border-white border-8 bg-white overflow-hidden"
+	class="flex w-full h-full relative rounded-2xl border-white border-[10px] bg-white overflow-hidden"
 >
 	<div class="relative w-full h-full flex items-center rounded-lg min-h-96">
 		{#if !descriptionFlag}
@@ -160,7 +161,7 @@
 					</button>
 				</div>
 			</div>
-			<div class="absolute -bottom-1 -right-1 p-2 bg-white rounded-tl-lg font-medium text-base text-orange z-10">
+			<div class="absolute -bottom-1.5 -right-[5px] p-2 bg-white rounded-tl-lg font-medium text-base text-orange z-10">
 				<p class="text-lg">
 					{$currentCarouselIndex + 1} / {processedImages?.length}
 				</p>
@@ -169,9 +170,9 @@
 			<!-- Updated the image src to use the processedImages array -->
 			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
+			<!-- svelte-ignore a11y_missing_attribute -->
 			<img
 				src={processedImages?.[$currentCarouselIndex]}
-				alt=" "
 				bind:this={$imgElement}
 				onload={() => {
 					resetZoom();

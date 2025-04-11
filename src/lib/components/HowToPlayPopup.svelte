@@ -8,17 +8,17 @@
 {#if $howToPlayPopup}
 	<Popup tall={true} closeFunction={() => ($howToPlayPopup = false)}>
 		<div class="w-full text-green flex justify-center text-5xl font-bold mb-12">How to play</div>
-		<div class="h-full max-h-[50dvh] overflow-auto">
-			<h1 class="text-2xl font-semibold mb-2">Guess the price</h1>
+		<div class="h-full max-h-[50dvh] overflow-auto text-black">
+			<h1 class="text-2xl font-semibold mb-2">The goal</h1>
 			<p class="text-base">
-				You'll be shown a car listing, and your task is to guess its price. The closer your guess is to the actual
-				price, the more points you'll earn.
+				You are shown a car listing and your task is to guess its price. You start out with 3 lives (represented by a
+				traffic light) and it's your goal to survive for as long as possible.
 			</p>
-			<h1 class="text-2xl font-semibold mb-2 mt-8">Difficulties</h1>
+			<h1 class="text-2xl font-semibold mb-2 mt-8">Scores & Lives</h1>
 			<p class="text-base">
-				If your guess is in the <span class="text-greenDark font-semibold">Correct range</span>, you will get points and
-				not lose any lives. However, if you manage to land in the
-				<span class="text-green font-semibold">Reward range,</span> you will get an extra life!
+				If your guess is in the <span class="text-greenDark font-semibold">correct range</span>, your score 
+				increases by 1 and you don't lose any lives. However, if you manage to land in the
+				<span class="text-green font-semibold">reward range,</span> you get an extra life!
 			</p>
 			<div class="flex items-center gap-4 overflow-hidden mt-2 flex-wrap">
 				<div class="basis-1/4">

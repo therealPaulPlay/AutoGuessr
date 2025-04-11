@@ -9,6 +9,7 @@
 		buttonHeight = "3.25rem",
 		shadowHeight = "0.3rem",
 		onclick,
+		disabled = false,
 		border = false,
 		interactive = true,
 		customClasses,
@@ -42,6 +43,7 @@
 	style:width={buttonWidth || "fit-content"}
 	style:height={buttonHeight}
 	style:color={textColor}
+	style:opacity={disabled ? "50%" : ""}
 >
 	<button
 		bind:this={buttonElement}
@@ -55,6 +57,7 @@
 		ontouchstart={pressButtonDown}
 		ontouchend={shiftButtonUp}
 		ontouchcancel={shiftButtonUp}
+		{disabled}
 		onclick={() => {
 			new Howl({ src: ["/sounds/button_click.webm"] }).play();
 			onclick?.();

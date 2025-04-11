@@ -19,7 +19,6 @@
 		question,
 		guessResult,
 		totalCarAmount,
-		imgElement,
 		priceRange,
 	} from "$lib/stores/gameStore";
 	import { baseUrl } from "$lib/stores/apiConfigStore";
@@ -30,6 +29,9 @@
 	import { resultPopup } from "$lib/stores/uiStore";
 	import { getTotalCarDataAmount, goToNextQuestion, percentageDifference } from "$lib/utils/gameFunctions";
 	import { rewardFlag, penaltyFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
+	import MultiplayerDrawer from "$lib/components/MultiplayerDrawer.svelte";
+	import { currentPlayers, multiplayerFlag, peer } from "$lib/stores/multiplayerStore";
+	import { leaveMultiplayerRoom, updatePlayerInGame, updatePlayerScore } from "$lib/utils/multiplayer";
 
 	// Carousel controls
 	let descriptionFlag = $state(false);
@@ -52,7 +54,7 @@
 	}
 
 	function checkPlayerPerformance(percent) {
-		const rules = $difficultyRules[$difficulty];
+		const rules = $difficultyRules[$multiplayerFlag ? get(peer).getStorage.difficulty : $difficulty];
 		if (!rules) throw new Error("Invalid difficulty level.");
 
 		const [lowerBound, upperBound] = rules.correctTier;
@@ -60,6 +62,7 @@
 		if (percent <= upperBound) {
 			setPopupMessage("good");
 			$score++;
+			if ($multiplayerFlag) updatePlayerScore($peer?.id, $score);
 		}
 
 		if (percent <= lowerBound) {
@@ -106,6 +109,14 @@
 		}
 	});
 
+	$effect(() => {
+		if ($multiplayerFlag && $currentPlayers?.length <= 1) {
+			goto("/");
+			leaveMultiplayerRoom();
+			displayError("Room closed because all other players have left.");
+		}
+	});
+
 	onDestroy(() => {
 		clearInterval(blinkInterval);
 	});
@@ -115,9 +126,10 @@
 		lives.set(4);
 		score.set(0);
 		currentCarouselIndex.set(0);
-		const img = get(imgElement);
-		if (img) img.src = "";
 		$gameRounds = [];
+		$question = {};
+
+		if ($multiplayerFlag) updatePlayerInGame(get(peer)?.id, true);
 
 		$totalCarAmount = await getTotalCarDataAmount();
 		goToNextQuestion(false); // Don't save last question to history (false)
@@ -167,7 +179,7 @@
 			<div class="md:w-2/3 w-full basis-4/6">
 				<Carousel images={$question.images} description={$question.description} {descriptionFlag} />
 			</div>
-			<div class="basis-2/6 min-w-64 rounded-2xl bg-white w-full flex flex-col min-h-full gap-2 p-2 overflow-auto">
+			<div class="basis-2/6 min-w-64 rounded-2xl bg-white w-full flex flex-col min-h-full gap-2.5 p-2.5 overflow-auto">
 				{#each $question.stats as stat}
 					<Stat icon={stat.icon} text={stat.text} />
 				{/each}
@@ -186,7 +198,7 @@
 	<div class="flex flex-row-reverse justify-center md:gap-10 max-md:flex-col max-md:w-full max-md:items-end">
 		<!-- Lives -->
 		<div class="lives z-[1] max-md:translate-y-1/4 max-md:mr-10">
-			<img src="/assets/svg/traffic_{$livesImage}.svg" alt="lives" class="w-52 max-md:w-40 flex content-end" />
+			<img src="/assets/svg/traffic_{$livesImage || 0}.svg" alt="lives" class="w-52 max-md:w-40 flex content-end" />
 		</div>
 		<div class="p-2.5 rounded-t-2xl md:max-w-3xl max-md:w-full flex z-[2] pointer-events-auto bg-defaultShadow">
 			<div class="flex grow gap-2.5 text-white w-full">
@@ -209,6 +221,13 @@
 		</div>
 	</div>
 </div>
+
+<!-- Multiplayer drawer -->
+{#if $multiplayerFlag}
+	<div class="fixed right-0 max-w-[70%] top-1/2 -translate-y-1/2 z-50">
+		<MultiplayerDrawer />
+	</div>
+{/if}
 
 <style>
 	.check-align-vertical {
