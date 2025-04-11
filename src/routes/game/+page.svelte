@@ -62,7 +62,7 @@
 		if (percent <= upperBound) {
 			setPopupMessage("good");
 			$score++;
-			if ($multiplayerFlag) updatePlayerScore($peer.id, $score);
+			if ($multiplayerFlag) updatePlayerScore($peer?.id, $score);
 		}
 
 		if (percent <= lowerBound) {

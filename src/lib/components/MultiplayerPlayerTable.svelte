@@ -10,7 +10,7 @@
 		{#each array as element}
 			<div
 				class="w-full py-1 text-center text-black truncate border-b-2 border-black/10"
-				style:font-weight={element.id == $peer.id ? 600 : ""}
+				style:font-weight={element.id == $peer?.id ? 500 : ""}
 			>
 				{getPlayerInfo(element.id)?.name}
 			</div>

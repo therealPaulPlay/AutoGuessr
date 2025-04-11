@@ -103,7 +103,8 @@ async function initPeer() {
 			inGame.set(playerInfo?.inGame);
 		}
 
-		if (maxRound(storage?.players) >= storage?.questionsIds?.length - 3 && get(peer)?.isHost) {
+		const questionMargin = 3;
+		if (maxRound(storage?.players) > storage?.questionsIds?.length - questionMargin && get(peer)?.isHost) {
 			await checkQuestionsArray(storage?.players, storage?.questionsIds);
 		}
 
@@ -149,23 +150,11 @@ export async function host() {
 }
 
 async function checkQuestionsArray(playersArray, questionsArray) {
-	if (!get(peer)?.isHost) return; // Run only for host to prevent multiple runs
-
-	const questionMargin = 3;
-	const currentMaxRound = maxRound(playersArray);
-	/* if the difference between the current max round and questions array
-	is higher than the question margin then it'll return */
-	if (questionsArray.length > currentMaxRound + questionMargin) return;
-
 	let availableIndecies = await getTotalCarDataAmount();
 	let addedQuestions = [];
 
-	for (let i = 0; i < questionMargin; i++) {
-		addedQuestions.push(Math.floor(Math.random() * availableIndecies));
-	}
-
-	let newQuestionArray = [...questionsArray, ...addedQuestions];
-	get(peer)?.updateStorage("questionsIds", newQuestionArray);
+	const newQuestion = Math.floor(Math.random() * availableIndecies);
+	get(peer)?.updateStorageArray("questionsIds", "add", newQuestion);
 }
 
 function maxScore(array) {

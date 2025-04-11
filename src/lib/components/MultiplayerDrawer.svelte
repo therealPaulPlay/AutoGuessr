@@ -55,7 +55,7 @@
 				<div
 					animate:flip={{}}
 					class="w-full md:min-w-64 flex justify-between p-2.5 text-center text-base text-black truncate border-b-[3px] border-tanDark"
-					style:font-weight={element.id == $peer.id ? 600 : ""}
+					style:font-weight={element.id == $peer?.id ? 600 : ""}
 				>
 					{#if index == 0}
 						<div class="flex w-full justify-between overflow-clip text-black">

@@ -96,7 +96,7 @@
 
 <content class="flex-fix flex-col w-full h-full" bind:this={mainContent}>
 	<div class="flex flex-fix flex-col w-full overflow-y-auto max-w-2xl">
-		<h1 class="text-7xl max-md:text-5xl font-bold text-wrap text-orange mb-6 text-center">{title}</h1>
+		<h1 class="text-7xl max-md:text-5xl font-bold text-orange mb-6 text-center px-4 truncate min-h-14 text-nowrap md:min-h-24 max-w-full">{title}</h1>
 		<div class="mb-12 text-center w-4/5 text-base">
 			<div class="rounded-xl bg-tanMedium w-fit px-2 mx-auto mb-2 no-capture">
 				<p>Tip: {$score < 5 ? "Get 5 correct guesses to draw a card!" : "Higher scores result in more rare cards!"}</p>
@@ -127,16 +127,16 @@
 					<tbody class="no-last-border">
 						{#each $currentPlayers as player}
 							<tr class="text-center row bg-white border-b-[3px] border-tanDark">
-								<td class="max-w-56 truncate">{player.name}</td>
-								<td class="inline-flex items-center"
+								<td class="max-w-56 truncate" style:font-weight={player.id == $peer?.id ? 500 : ""}>{player.name}</td>
+								<td class="inline-flex items-center" style:font-weight={player.id == $peer?.id ? 500 : ""}
 									>{player.round}
 									{#if !player?.inGame}
-										<span class="px-1">
+										<span class="px-1" style:font-weight={player.id == $peer?.id ? 500 : ""}>
 											<Skull strokeWidth={2} size={18} color={"var(--black)"} />
 										</span>
 									{/if}
 								</td>
-								<td>{player.score}</td>
+								<td style:font-weight={player.id == $peer?.id ? 500 : ""}>{player.score}</td>
 							</tr>
 						{/each}
 					</tbody>
