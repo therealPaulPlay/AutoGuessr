@@ -136,8 +136,6 @@ export async function host() {
 		const code = await get(peer)?.createRoom({
 			matchIndex: 0,
 			players: [{ id: get(peer)?.id, score: 0, round: 0, inGame: false, name }],
-			gameInProgress: false,
-			gameRestarted: false,
 			difficulty: diff,
 			questionsIds: [],
 		});

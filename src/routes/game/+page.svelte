@@ -54,7 +54,7 @@
 	}
 
 	function checkPlayerPerformance(percent) {
-		const rules = $difficultyRules[$multiplayerFlag ? get(peer).getStorage.difficulty : $difficulty];
+		const rules = $difficultyRules[$multiplayerFlag ? get(peer)?.getStorage?.difficulty : $difficulty];
 		if (!rules) throw new Error("Invalid difficulty level.");
 
 		const [lowerBound, upperBound] = rules.correctTier;

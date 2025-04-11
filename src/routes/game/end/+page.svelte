@@ -181,7 +181,7 @@
 		</p>
 	</div>
 	<div class="flex gap-5 flex-wrap justify-center items-center no-capture my-4">
-		<!-- TODO: The peer.isHost is not reactive, maybe put into an effect (?) -->
+		<!-- The peer.isHost is not reactive, maybe put into an effect (?) -->
 		<Button
 			buttonHeight="4rem"
 			buttonWidth={innerWidth >= 768 ? "14rem" : "4rem"}
@@ -194,7 +194,6 @@
 					playAgainClicked = true;
 					let startQuestions = await generateNewQuestions();
 					$peer?.updateStorage("questionsIds", startQuestions);
-					$peer?.updateStorage("gameInProgress", true);
 					updatePlayerInGame(get(peer)?.id, true);
 					$peer?.updateStorage("matchIndex", $peer?.getStorage?.matchIndex + 1);
 					resetMultiplayerScores();
