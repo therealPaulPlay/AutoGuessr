@@ -245,32 +245,25 @@ function getPlayerName() {
 	if (get(username) !== "Guest" && get(username)) return get(username);
 
 	const adjectives = [
-		"Mystic",
-		"Silent",
-		"Frozen",
-		"Iron",
-		"Shadow",
-		"Blazing",
-		"Thunder",
-		"Savage",
-		"Raging",
-		"Divine",
-		"Infernal",
+		"Fast",
+		"Hot",
+		"Red",
+		"Dark",
+		"Cool",
+		"Raw",
+		"Mad",
+		"Low",
 	];
 
 	const nouns = [
-		"Wolf",
-		"Knight",
-		"Assassin",
-		"Mage",
-		"Dragon",
-		"Samurai",
-		"Warden",
-		"Titan",
-		"Ranger",
-		"Nomad",
-		"Phoenix",
-		"Wraith",
+		"GT",
+		"Zed",
+		"Rex",
+		"Drift",
+		"Ride",
+		"V8",
+		"Fuel",
+		"Dash",
 	];
 
 	const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
