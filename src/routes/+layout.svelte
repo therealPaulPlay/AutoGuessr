@@ -76,6 +76,9 @@
 				button: {
 					visible: false,
 				},
+				exitIntent: {
+					immediate: true,
+				},
 			});
 		} catch (error) {
 			console.error("Error loading the Playlight SDK:", error);
