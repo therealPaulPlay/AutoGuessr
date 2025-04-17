@@ -6,8 +6,7 @@
 </script>
 
 {#if $howToPlayPopup}
-	<Popup tall={true} closeFunction={() => ($howToPlayPopup = false)}>
-		<div class="w-full text-green flex justify-center text-5xl font-bold mb-12">How to play</div>
+	<Popup tall={true} closeFunction={() => ($howToPlayPopup = false)} title="How to play">
 		<div class="h-full max-h-[50dvh] overflow-auto text-black">
 			<h1 class="text-2xl font-semibold mb-2">The goal</h1>
 			<p class="text-base">
