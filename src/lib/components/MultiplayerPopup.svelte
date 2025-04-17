@@ -145,8 +145,7 @@
 	>
 		<div class="pt-6 flex flex-col justify-center items-center">
 			{#if $multiplayerCurrentScreen === "main"}
-				<span class="text-3xl font-semibold text-black mb-8">Do you want to...</span>
-				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center">
+				<div class="gap-1 md:gap-4 flex flex-col md:flex-row items-center mt-8">
 					<Button
 						color="var(--green-button)"
 						bgcolor="var(--green-button-dark)"
@@ -248,7 +247,7 @@
 									$multiplayerCurrentScreen = "main";
 								}}
 							>
-								<ArrowLeft strokeWidth={4} size={28} />
+								<ArrowLeft strokeWidth={4} size={24} />
 							</Button>
 						</div>
 						<div class="w-3/4">
