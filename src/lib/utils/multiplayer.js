@@ -104,10 +104,10 @@ async function initPeer() {
 		}
 
 		const questionMargin = 3;
-		if (maxRound(storage?.players) > storage?.questionsIds?.length - questionMargin && get(peer)?.isHost) {
-			await checkQuestionsArray(storage?.players, storage?.questionsIds);
+		if (maxRound(storage?.players) > (storage?.questionsIds?.length - questionMargin) && get(peer)?.isHost) {
+			await addQuestions();
 		}
-
+		
 		if (JSON.stringify(get(multiplayerQuestionsList)) !== JSON.stringify(storage?.questionsIds)) {
 			multiplayerQuestionsList.set(storage?.questionsIds);
 		}
@@ -147,7 +147,7 @@ export async function host() {
 	}
 }
 
-async function checkQuestionsArray(playersArray, questionsArray) {
+async function addQuestions() {
 	let availableIndecies = await getTotalCarDataAmount();
 	let addedQuestions = [];
 
