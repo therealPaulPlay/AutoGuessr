@@ -17,7 +17,7 @@ export async function addExperience(addAmount) {
     }
 
     try {
-        const response = await fetchWithErrorHandling(get(accountUrl) + "/accounts/update/experience", {
+        const response = await fetchWithErrorHandling(get(accountUrl) + "/accounts/update/add-experience", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export async function addExperience(addAmount) {
             },
             body: JSON.stringify({
                 id: localStorage.getItem("id"),
-                experience: Number(get(experience)) + Number(addAmount)
+                experience: Number(addAmount)
             })
         });
 
