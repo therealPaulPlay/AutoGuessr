@@ -166,7 +166,7 @@ function maxScore(array) {
 function maxRound(array) {
 	let maxRound = 0;
 	for (const item of array) {
-		if (item.round > maxRound) maxRound = item.score;
+		if (item.round > maxRound) maxRound = item.round;
 	}
 	return maxRound;
 }
