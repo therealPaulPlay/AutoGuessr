@@ -87,7 +87,7 @@ function getValueRange(value) {
 
 const SCORE_DRAW_THRESHOLD = 5;
 
-export function goToNextQuestion(saveHistory = true) {
+export async function goToNextQuestion(saveHistory = true) {
 	if (saveHistory) addLastQuestionToRoundLog();
 
 	// Resets
@@ -131,17 +131,15 @@ export function goToNextQuestion(saveHistory = true) {
 		updatePlayerRound(get(peer)?.id, currentRound + 1);
 
 		let newQuestionIndex = get(peer)?.getStorage?.questionsIds[currentRound];
-		setCurrentQuestion(newQuestionIndex);
-		return;
+		await setCurrentQuestion(newQuestionIndex); // Fetch new car question
+	} else {
+		// Find a new index (that isn't in the history)
+		let newIndex;
+		do {
+			newIndex = Math.floor(Math.random() * get(totalCarAmount));
+		} while (history.includes(newIndex));
+		await setCurrentQuestion(newIndex); // Fetch new car question
 	}
-
-	// Find a new index (that isn't in the history)
-	let newIndex;
-	do {
-		newIndex = Math.floor(Math.random() * get(totalCarAmount));
-	} while (history.includes(newIndex));
-
-	setCurrentQuestion(newIndex); // Fetch new car question
 }
 
 function addLastQuestionToRoundLog() {
