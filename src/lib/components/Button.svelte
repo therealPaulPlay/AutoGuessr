@@ -68,8 +68,8 @@
 	<!-- Shadow -->
 	<div
 		class="rounded-lg absolute w-full box-border {border ? 'border-white border-4' : ''}"
-		style="height: calc(100% - {shadowHeight}"
 		style:background-color={bgcolor}
 		style:margin-top={shadowHeight}
+		style:height={`calc(100% - ${shadowHeight})`}
 	></div>
 </div>
