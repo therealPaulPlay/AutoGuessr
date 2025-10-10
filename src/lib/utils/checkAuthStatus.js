@@ -35,7 +35,7 @@ export async function checkAuthenticationStatus() {
 
         if (user) {
             experience.set(user?.experience);
-            username.set(user?.userName);
+            username.set(user?.username);
         }
     } else {
         isAuthenticated.set(false);
