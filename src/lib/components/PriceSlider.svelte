@@ -3,10 +3,9 @@
 	let { sliderMin = 0, sliderMax = 500_000, guessValue = $bindable(sliderMin), children } = $props();
 
 	const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
 	let restrictedGuess = $derived.by(() => {
-		if(guessValue < sliderMin) {
-			return guessValue;
-		}
+		if (guessValue < sliderMin) return guessValue;
 		return clamp(guessValue, sliderMin, sliderMax);
 	});
 
@@ -21,10 +20,6 @@
 		guessValue = restrictedGuess;
 	});
 
-	function formatedGuess() {
-		return "$" + restrictedGuess.toLocaleString();
-	}
-
 	function playCoinClick() {
 		const now = Date.now();
 		if (now - lastSoundTime >= MIN_SOUND_GAP) {
@@ -37,10 +32,6 @@
 		const allowedKeys = ["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab", "Home", "End"];
 		if (allowedKeys.includes(e.key)) return;
 		if (!e.key.match(/^[0-9]$/)) e.preventDefault(); // For other keys, only allow numbers
-	}
-
-	function selectAllText(e) {
-		e.target.select();
 	}
 
 	let inputFocused = $state(false);
@@ -69,18 +60,19 @@
 		<span
 			class="w-full h-full bg-transparent text-center custom-vertical-align {inputFocused
 				? 'text-white'
-				: ''} transition">{formatedGuess()}</span
+				: ''} transition">{"$" + restrictedGuess.toLocaleString()}</span
 		>
 		<input
 			type="number"
 			maxlength="8"
 			bind:value={guessValue}
 			onchange={() => {
-				formatedGuess();
 				playCoinClick();
 			}}
 			onkeydown={preventNonNumericalInput}
-			onclick={selectAllText}
+			onclick={(e) => {
+				e.target.select();
+			}}
 			onfocus={() => {
 				inputFocused = true;
 			}}

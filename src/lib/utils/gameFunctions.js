@@ -91,7 +91,6 @@ export async function goToNextQuestion(saveHistory = true) {
 	if (saveHistory) addLastQuestionToRoundLog();
 
 	// Resets
-	guessResult.set(0);
 	rewardFlag.set(false);
 	penaltyFlag.set(false);
 	resultPopup.set(false);

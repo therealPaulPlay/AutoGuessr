@@ -52,8 +52,7 @@ async function initPeer() {
 		new PlayPeer(peerId, {
 			config: {
 				iceServers: [
-					{ urls: "stun:stun.l.google.com:19302" },
-					{ urls: "turn:freestun.net:3478", username: "free", credential: "free" }, // For production, use fastturn, or a different turn server
+					{ urls: "stun:stun.l.google.com:19302" }
 				],
 			},
 		}),
@@ -107,7 +106,7 @@ async function initPeer() {
 		if (maxRound(storage?.players) > (storage?.questionsIds?.length - questionMargin) && get(peer)?.isHost) {
 			await addQuestions();
 		}
-		
+
 		if (JSON.stringify(get(multiplayerQuestionsList)) !== JSON.stringify(storage?.questionsIds)) {
 			multiplayerQuestionsList.set(storage?.questionsIds);
 		}

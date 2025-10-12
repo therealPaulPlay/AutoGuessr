@@ -20,6 +20,12 @@
 	class="fixed top-0 bottom-0 left-0 right-0 z-[99] popup-background flex justify-center items-center"
 	style:z-index={z}
 	transition:fade={{ duration: 150 }}
+	onclick={() => closeFunction?.()}
+	onkeydown={(e) => {
+		if (e.key === 'Escape') closeFunction?.();
+	}}
+	role="button"
+	tabindex="0"
 >
 	<div
 		class="rounded-xl w-[95%] max-size relative {minimalPadding ? 'p-2' : 'p-8'} {small ? 'overflow-auto' : ''}"
@@ -27,6 +33,10 @@
 		style:max-width={small ? "550px" : ""}
 		style:background-color={color}
 		transition:scale={{ start: 0.9, duration: 200, easing: cubicOut }}
+		onclick={(e) => e.stopPropagation()}
+		onkeydown={(e) => e.stopPropagation()}
+		role="dialog"
+		tabindex="-1"
 	>
 		{#if showCloseButton}
 			<div

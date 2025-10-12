@@ -50,7 +50,7 @@
 	async function handleCreateRoom() {
 		if (!$roomId) {
 			const code = await host();
-			$roomId = code.replaceAll("autoguessr_", "");
+			$roomId = code?.replaceAll("autoguessr_", "");
 		}
 	}
 
