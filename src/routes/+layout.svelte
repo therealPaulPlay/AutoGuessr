@@ -13,7 +13,6 @@
 	import { onMount } from "svelte";
 	import SignupPopup from "$lib/components/SignupPopup.svelte";
 	import AccountPopup from "$lib/components/AccountPopup.svelte";
-	import PriceSlider from "$lib/components/PriceSlider.svelte";
 	import Toggle from "$lib/components/Toggle.svelte";
 	import SettingsPopup from "$lib/components/SettingsPopup.svelte";
 	import LeavePopup from "$lib/components/LeavePopup.svelte";
