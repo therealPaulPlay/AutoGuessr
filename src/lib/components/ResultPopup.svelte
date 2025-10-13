@@ -47,7 +47,7 @@
 </script>
 
 {#if $resultPopup}
-	<Popup closeFunction={goToNextQuestion} showCloseButton={false}>
+	<Popup closeFunction={goToNextQuestion} showCloseButton={false} closeOnClickOut={false}>
 		{#if $penaltyFlag || $rewardFlag}
 			<div in:fly|global={{ y: 50, delay: 250 }} class="lives absolute z-[-1] right-0 -top-28">
 				<img src="/assets/svg/traffic_{$livesImage || 0}.svg" alt="lives" class="h-24 flex content-end" />

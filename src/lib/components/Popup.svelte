@@ -13,18 +13,19 @@
 		small = false,
 		minimalPadding = false,
 		showCloseButton = true,
+		closeOnClickOut = true,
 	} = $props();
 </script>
 
+<!-- svelte-ignore a11y_click_events_have_key_events -->
 <div
 	class="fixed top-0 bottom-0 left-0 right-0 z-[99] popup-background flex justify-center items-center"
 	style:z-index={z}
 	transition:fade={{ duration: 150 }}
-	onclick={() => closeFunction?.()}
-	onkeydown={(e) => {
-		if (e.key === 'Escape') closeFunction?.();
+	onclick={() => {
+		if (closeOnClickOut) closeFunction?.();
 	}}
-	role="button"
+	role="menu"
 	tabindex="0"
 >
 	<div
@@ -53,7 +54,9 @@
 				</Button>
 			</div>
 		{/if}
-		<h1 class="absolute mt-5 mb-10 text-3xl text-black font-semibold w-3/4 overflow-hidden text-nowrap text-ellipsis py-1">
+		<h1
+			class="absolute mt-5 mb-10 text-3xl text-black font-semibold w-3/4 overflow-hidden text-nowrap text-ellipsis py-1"
+		>
 			{title}
 		</h1>
 		<div
