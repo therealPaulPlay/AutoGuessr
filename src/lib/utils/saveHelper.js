@@ -45,7 +45,16 @@ export async function saveStorage() {
 export async function getSave() {
     if (get(isAuthenticated) && localStorage.getItem("id") != null) {
         try {
-            const response = await fetchWithErrorHandling(get(accountUrl) + "/autoguessr/get-save/" + localStorage.getItem("id"));
+            const response = await fetchWithErrorHandling(get(accountUrl) + "/autoguessr/get-save", {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem("bearer")}`
+                },
+                body: JSON.stringify({
+                    id: localStorage.getItem("id"),
+                })
+            });
             const data = await response.json();
             highscore.set(data?.highscore || 0);
             userCards.set(data?.userCards || []);
