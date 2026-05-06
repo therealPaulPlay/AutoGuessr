@@ -30,7 +30,7 @@
 	let answerBarPos = $state(0);
 	let guessBarPos = $state(0);
 
-	let difference = percentageDifference > 90 ? 90 : percentageDifference;
+	let difference = $derived(percentageDifference > 90 ? 90 : percentageDifference);
 	let differenceThreshold = 2;
 
 	function scrollToAnswer() {

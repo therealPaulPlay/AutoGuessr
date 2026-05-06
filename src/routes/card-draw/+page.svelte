@@ -9,7 +9,6 @@
 	import Card from "$lib/components/Card.svelte";
 	import Flip from "gsap/dist/Flip";
 	import { score, drawCardFlag } from "$lib/stores/gameStore";
-	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { cardDraw, calculateRarity } from "$lib/utils/cardDraw";
 	import { saveAutocard } from "$lib/utils/handleAutocards";

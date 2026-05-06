@@ -1,4 +1,4 @@
-import { userCards } from "$lib/stores/accountStore";
+import { userCards } from "$lib/stores/storageStore";
 import { get } from "svelte/store";
 import { saveStorage } from "./saveHelper";
 

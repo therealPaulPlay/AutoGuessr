@@ -1,7 +1,7 @@
 <script>
 	import { onMount, onDestroy } from "svelte";
 	import Card from "$lib/components/Card.svelte";
-	import { isAuthenticated, userCards } from "$lib/stores/accountStore";
+	import { userCards } from "$lib/stores/storageStore";
 	import { get } from "svelte/store";
 	import { getCardCarList } from "$lib/utils/getCardCarList";
 	import { browser } from "$app/environment";
@@ -53,14 +53,6 @@
 <svelte:head>
 	<title>AutoCards</title>
 </svelte:head>
-
-{#if !$isAuthenticated}
-	<div
-		class="rounded-xl bg-tanMedium w-fit p-0.5 px-2 mx-auto fixed bottom-4 left-0 right-0 text-nowrap text-center max-w-[90%] text-base max-sm:hidden"
-	>
-		<p class="text-ellipsis overflow-hidden text-black">Sign in to sync your cards across devices!</p>
-	</div>
-{/if}
 
 <content class="flex h-[80vh] items-center relative">
 	<div

@@ -3,16 +3,12 @@
 	import Button from "$lib/components/Button.svelte";
 	import Popup from "$lib/components/Popup.svelte";
 	import { page } from "$app/stores";
-	import { isAuthenticated, username } from "$lib/stores/accountStore";
 	import { goto } from "$app/navigation";
 	import { base } from "$app/paths";
-	import { settingsPopup, signupPopup, accountPopup, leavePopup, howToPlayPopup } from "$lib/stores/uiStore";
+	import { settingsPopup, leavePopup, howToPlayPopup } from "$lib/stores/uiStore";
 	import { displayError } from "$lib/utils/displayError";
-	import { checkAuthenticationStatus } from "$lib/utils/checkAuthStatus";
 	import { User, TriangleAlert, Scan, UserPlus } from "lucide-svelte";
 	import { onMount } from "svelte";
-	import SignupPopup from "$lib/components/SignupPopup.svelte";
-	import AccountPopup from "$lib/components/AccountPopup.svelte";
 	import Toggle from "$lib/components/Toggle.svelte";
 	import SettingsPopup from "$lib/components/SettingsPopup.svelte";
 	import LeavePopup from "$lib/components/LeavePopup.svelte";
@@ -40,11 +36,6 @@
 			goto("/");
 		}
 	}
-
-	// Authenticate
-	onMount(() => {
-		checkAuthenticationStatus();
-	});
 
 	// Sounds and Music
 	onMount(() => {
@@ -111,31 +102,6 @@
 	</div>
 	<!-- Right side -->
 	<div class="flex flex-row relative gap-3">
-		<!-- Username/level -->
-		<div class="flex items-center rounded-lg transition {$isAuthenticated ? 'bg-white' : ''}">
-			{#if $isAuthenticated}
-				<div class="p-3 flex items-center" in:scale>
-					<button
-						class="flex items-center justify-center mr-4 transition hover:opacity-75
-                ml-2"
-						onclick={() => {
-							accountPopup.set(true);
-						}}
-					>
-						<span class="text-xl z-10 text-white"><User strokeWidth={2} /></span>
-						<image class="absolute w-9 h-9" src="/assets/svg/level.svg" alt="level"></image>
-					</button>
-					<div class="text-xl max-md:max-w-16 md:max-w-30 truncate">{$username}</div>
-				</div>
-			{:else}
-				<Button
-					buttonWidth="3.25rem"
-					onclick={() => {
-						signupPopup.set(true);
-					}}><img src="/assets/svg/sign_up.svg" alt="sign up" style:width="1.5rem" /></Button
-				>
-			{/if}
-		</div>
 		<div class="flex flex-row items-center">
 			<div class="md:visible max-md:hidden">
 				<Button
@@ -195,8 +161,6 @@
 <LeavePopup />
 <HowToPlayPopup />
 <ErrorPopup />
-<SignupPopup />
-<AccountPopup />
 <Analytics />
 <ResultPopup />
 <CreditsPopup />

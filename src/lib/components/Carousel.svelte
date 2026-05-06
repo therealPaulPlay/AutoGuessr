@@ -142,6 +142,8 @@
 
 <div
 	bind:this={container}
+	role="region"
+	aria-label="Image carousel"
 	ontouchstart={handleTouchStart}
 	ontouchmove={handleTouchMove}
 	ontouchend={handleTouchEnd}
