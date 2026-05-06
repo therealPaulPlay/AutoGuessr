@@ -13,7 +13,6 @@ import {
 import { get } from "svelte/store";
 import { difficulty, totalCarAmount } from "$lib/stores/gameStore";
 import { getTotalCarDataAmount } from "./gameFunctions";
-import { username } from "$lib/stores/accountStore";
 import { displayError } from "./displayError";
 import { goto } from "$app/navigation";
 import { multiplayerPopup } from "$lib/stores/uiStore";
@@ -241,8 +240,6 @@ export function getPlayerWithHighestScore() {
 }
 
 function getPlayerName() {
-	if (get(username) !== "Guest" && get(username)) return get(username);
-
 	const adjectives = [
 		"Fast",
 		"Hot",

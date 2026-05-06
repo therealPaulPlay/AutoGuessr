@@ -16,7 +16,7 @@
 		children,
 	} = $props();
 
-	let calculatedButtonHeight = "calc(100% - " + shadowHeight + ")";
+	let calculatedButtonHeight = $derived("calc(100% - " + shadowHeight + ")");
 	let buttonStyle = $state();
 	let buttonElement;
 

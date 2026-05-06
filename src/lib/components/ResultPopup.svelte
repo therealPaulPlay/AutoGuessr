@@ -7,9 +7,8 @@
 	import { resultPopup } from "$lib/stores/uiStore";
 	import { penaltyFlag, rewardFlag, blinkingFlag, livesImage, popupMessage } from "$lib/stores/resultPopupStore";
 	import { guessResult, question, score } from "$lib/stores/gameStore";
-	import { percentageDifference, goToNextQuestion, pointCalculation } from "$lib/utils/gameFunctions";
+	import { percentageDifference, goToNextQuestion } from "$lib/utils/gameFunctions";
 	import { onMount, onDestroy } from "svelte";
-	import { isAuthenticated } from "$lib/stores/accountStore";
 	import { playClickingSound } from "$lib/utils/playClickingSound";
 	import { get } from "svelte/store";
 
@@ -65,11 +64,6 @@
 					Your guess of <span class="text-orange font-semibold">${$guessResult.toLocaleString()}</span>
 					was off by
 					<span class="text-orange font-semibold">{percentageDifference().toFixed(2)}%</span>.
-					{#if $isAuthenticated}
-						You get <span class="text-green font-semibold">{pointCalculation(true)} experience.</span>
-					{:else}
-						Sign in to earn <span class="text-green font-semibold">experience.</span>
-					{/if}
 				</p>
 			</div>
 			<div class="w-full h-14 mt-14">
@@ -81,7 +75,9 @@
 			</div>
 			<div in:fly={{ x: -50, delay: 1500 }} class="mt-10">
 				<div class="flex w-full justify-center p-3">
-					<span class="relative text-base text-orange font-semibold bg-tanLight px-2 py-1 rounded-lg min-w-28 text-center">
+					<span
+						class="relative text-base text-orange font-semibold bg-tanLight px-2 py-1 rounded-lg min-w-28 text-center"
+					>
 						Score: {animatedScore}
 						{#if showPlusOne && !$penaltyFlag}
 							<span in:fly={{ y: 20 }} out:fly={{ x: -20 }} class="absolute -right-8 text-orange font-bold">+1</span>

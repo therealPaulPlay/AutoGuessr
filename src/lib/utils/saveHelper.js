@@ -1,10 +1,5 @@
-import { highscore, isAuthenticated, userCards } from "$lib/stores/accountStore";
-import { browser } from "$app/environment";
+import { highscore, userCards } from "$lib/stores/storageStore";
 import { get } from "svelte/store";
-import { storage } from "three/tsl";
-import { fetchWithErrorHandling } from "./fetch";
-import { displayError } from "./displayError";
-import { accountUrl } from "$lib/stores/apiConfigStore";
 
 export async function saveStorage() {
     const storageObject = {
@@ -19,56 +14,9 @@ export async function saveStorage() {
     } catch (error) {
         console.error("Error occured stringifying autoguessr save:", error);
     }
-
-    // Save to database
-    if (get(isAuthenticated) && localStorage.getItem("id") != null) {
-        try {
-            const response = await fetchWithErrorHandling(get(accountUrl) + "/autoguessr/save", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("bearer")}`
-                },
-                body: JSON.stringify({
-                    id: localStorage.getItem("id"),
-                    save: storageObject
-                })
-            });
-
-        } catch (error) {
-            console.error('Error occurred during storage save:', error);
-            displayError('Error occurred during storage save: ' + error);
-        }
-    }
 }
 
 export async function getSave() {
-    if (get(isAuthenticated) && localStorage.getItem("id") != null) {
-        try {
-            const response = await fetchWithErrorHandling(get(accountUrl) + "/autoguessr/get-save", {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem("bearer")}`
-                },
-                body: JSON.stringify({
-                    id: localStorage.getItem("id"),
-                })
-            });
-            const data = await response.json();
-            highscore.set(data?.highscore || 0);
-            userCards.set(data?.userCards || []);
-        } catch (error) {
-            console.error('Error occurred getting save:', error);
-            displayError('Error occurred getting save: ' + error);
-            getLocalSave();
-        }
-    } else {
-        getLocalSave();
-    }
-}
-
-function getLocalSave() {
     let storageSave = localStorage.getItem("autoguessr_save");
     if (!storageSave) return;
 

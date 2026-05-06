@@ -18,8 +18,7 @@ import { displayError } from "$lib/utils/displayError";
 import { milesToKilometers } from "$lib/utils/milesToKm";
 import { baseUrl } from "$lib/stores/apiConfigStore";
 import { goto } from "$app/navigation";
-import { addExperience } from "./addExp";
-import { isAuthenticated, highscore, experience } from "$lib/stores/accountStore";
+import { highscore } from "$lib/stores/storageStore";
 import { saveStorage } from "./saveHelper";
 import { inGame, multiplayerFlag, multiplayerQuestionsList, peer } from "$lib/stores/multiplayerStore";
 import { getPlayerInfo, updatePlayerInGame, updatePlayerRound, updatePlayerScore } from "./multiplayer";
@@ -179,7 +178,7 @@ export function percentageDifference() {
 const MAX_POINTS = 500;
 
 // Calculate points and optionally add them as XP
-export function pointCalculation(addXP = false) {
+function pointCalculation() {
 	let points;
 	let difference = percentageDifference();
 
@@ -188,9 +187,6 @@ export function pointCalculation(addXP = false) {
 	} else {
 		points = Math.round(((100 - difference) / 100) * MAX_POINTS);
 	}
-
-	// Add experience if authenticated + addXP + points !== 0
-	if (addXP == true && get(isAuthenticated) && points) addExperience(points);
 
 	return points;
 }

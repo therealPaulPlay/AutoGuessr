@@ -2,7 +2,7 @@
 	import { get } from "svelte/store";
 	import { goto } from "$app/navigation";
 	import { score, gameRounds } from "$lib/stores/gameStore";
-	import { highscore } from "$lib/stores/accountStore";
+	import { highscore } from "$lib/stores/storageStore";
 	import { Home, Share, Repeat, LoaderCircle, Skull } from "lucide-svelte";
 	import Button from "$lib/components/Button.svelte";
 	import html2canvas from "html2canvas";
