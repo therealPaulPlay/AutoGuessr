@@ -1,97 +1,87 @@
 <script>
-  import { onMount } from "svelte";
-  import { page } from "$app/stores";
-  import { AlertCircle } from "lucide-svelte";
-  import Button from "./Button.svelte";
-  import { slide } from "svelte/transition";
+	import { onMount } from "svelte";
+	import { page } from "$app/stores";
+	import { AlertCircle } from "lucide-svelte";
+	import Button from "./Button.svelte";
+	import { slide } from "svelte/transition";
 
-  let showBanner = $state(false);
-  let cookieConsent = false;
+	const GA_ID = "G-BXJL38P1X3";
 
-  // Instead of a banner, if one CMP already exists (e.g. for Ads), use TFC instead to listen to the consent from there
-  // window["gtag_enable_tcf_support"] = true;
+	let showBanner = $state(false);
 
-  onMount(() => {
-    // Check if the user has already accepted cookies
-    const consent = localStorage.getItem("cookieConsent");
+	function gtag() {
+		window.dataLayer = window.dataLayer || [];
+		dataLayer.push(arguments);
+	}
 
-    if (consent) {
-      cookieConsent = true;
-      loadGoogleAnalytics(true);
-    } else {
-      showBanner = true;
-      loadGoogleAnalytics(false);
-    }
-  });
+	onMount(() => {
+		// Check if the user has already accepted cookies
+		const consent = localStorage.getItem("cookieConsent");
 
-  function loadGoogleAnalytics(hasConsent) {
-    try {
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      const id = "G-BXJL38P1X3";
+		if (consent === "true") loadGoogleAnalytics(true);
+		else if (consent === "false") loadGoogleAnalytics(false);
+		else {
+			loadGoogleAnalytics(false);
+			showBanner = true;
+		}
+	});
 
-      gtag("js", new Date());
-      gtag("config", id, {
-        page_title: document.title,
-        page_path: $page.url.pathname,
-        cookie_domain: location.hostname,
-        cookie_flags: "SameSite=None; Secure",
-        // Deny data collection by default
-        ad_storage: "denied",
-        ad_personalization: "denied",
-        ad_user_data: "denied",
-        analytics_storage: "denied",
-      });
+	function loadGoogleAnalytics(hasConsent) {
+		try {
+			setConsent(hasConsent, false); // Set consent before running gtag("js")
+			gtag("js", new Date());
+			gtag("config", GA_ID, {
+				page_title: document.title,
+				page_path: $page.url.pathname,
+				cookie_domain: $page.url.hostname,
+				cookie_flags: "SameSite=None; Secure",
+			});
+		} catch (error) {
+			console.error("Error loading Google Analytics:", error);
+		}
+	}
 
-      // Grant permissions if the user has accepted
-      if (hasConsent) {
-        gtag("config", id, {
-          ad_storage: "granted",
-          ad_personalization: "granted",
-          ad_user_data: "granted",
-          analytics_storage: "granted",
-        });
-      }
-    } catch (error) {
-      console.error("Error loading Google Analytics:", error);
-    }
-  }
+	function setConsent(hasConsent, isUpdate = false) {
+		const consentState = hasConsent ? "granted" : "denied";
+		gtag("consent", isUpdate ? "update" : "default", {
+			ad_storage: consentState,
+			ad_personalization: consentState,
+			ad_user_data: consentState,
+			analytics_storage: consentState,
+		});
+	}
 
-  function handleAccept() {
-    cookieConsent = true;
-    localStorage.setItem("cookieConsent", "true");
-    loadGoogleAnalytics(true);
-    showBanner = false;
-  }
+	function handleAccept() {
+		localStorage.setItem("cookieConsent", "true");
+		showBanner = false;
+		setConsent(true, true);
+	}
 
-  function handleDeny() {
-    cookieConsent = false;
-    localStorage.setItem("cookieConsent", "false");
-    showBanner = false;
-  }
+	function handleDeny() {
+		localStorage.setItem("cookieConsent", "false");
+		showBanner = false;
+	}
 </script>
 
 <svelte:head>
-  <script src="https://www.googletagmanager.com/gtag/js?id=G-DXD64B7ZDX" async></script>
+	<script src="https://www.googletagmanager.com/gtag/js?id={GA_ID}" async></script>
 </svelte:head>
 
 {#if showBanner}
-  <div
-    role="alert"
-    class="fixed w-fit m-4 bottom-0 bg-tanDark right-0 z-50 p-4 rounded-lg flex flex-col gap-3 max-w-96"
-    transition:slide
-  >
-    <div class="flex flex-wrap gap-2 bg-tanLight p-2 rounded-md">
-      <span class="text-wrap"
-        >This website uses cookies according to its <a href="/legal" class="underline">privacy policy</a>.</span
-      >
-    </div>
+	<div
+		role="alert"
+		class="fixed w-fit m-4 bottom-0 bg-tanDark right-0 z-50 p-4 rounded-lg flex flex-col gap-3 max-w-96"
+		transition:slide
+	>
+		<div class="flex flex-wrap gap-2 bg-tanLight p-2 rounded-md">
+			<span class="text-wrap"
+				>This website uses cookies according to its <a href="/legal" class="underline">privacy policy</a>.</span
+			>
+		</div>
 
-    <div class="flex flex-wrap gap-3">
-      <Button onclick={handleAccept} color="var(--green-button)" bgcolor="var(--green-button-dark)">Accept</Button>
-      <Button onclick={handleDeny}>Only essential</Button>
-    </div>
-  </div>
+		<div class="flex flex-wrap gap-3">
+			<Button onclick={handleAccept} color="var(--green-button)" bgcolor="var(--green-button-dark)">Accept</Button>
+			<Button onclick={handleDeny}>Only essential</Button>
+		</div>
+	</div>
 {/if}
