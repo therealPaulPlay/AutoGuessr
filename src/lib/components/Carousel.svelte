@@ -1,24 +1,37 @@
 <script>
 	import { onMount } from "svelte";
-	import { currentCarouselIndex, imgElement } from "$lib/stores/gameStore";
+	import { currentCarouselIndex } from "$lib/stores/gameStore";
 	import { Howl } from "howler";
 	import { formatSellerDescription } from "$lib/utils/formatDescription";
 	import MapDisplay from "./MapDisplay.svelte";
-	let { images = [], description = "No description was provided.", descriptionFlag = false } = $props();
+	let { images, description = null, descriptionFlag = false } = $props();
 
-	// Add www. to prevent 80ms long redirect
-	const processedImages = $derived.by(() => {
-		return images.map((url) => {
-			if (url.startsWith("https://") && !url.startsWith("https://www.")) {
-				return "https://www." + url.slice("https://".length);
-			}
-			return url;
-		});
-	});
+	// Upgrade http (blocked as mixed content), and add www. on auto.dev to skip an 80ms redirect
+	const processedImages = $derived(
+		(images ?? []).map((url) =>
+			url.replace(/^http:/, "https:").replace(/^https:\/\/auto\.dev\//, "https://www.auto.dev/"),
+		),
+	);
+	const currentImage = $derived(processedImages[$currentCarouselIndex]);
 
 	// References and state
 	let container; // The main container for sizing
+	let imgEl = $state();
+	let loadState = $state("loading"); // "loading" | "loaded" | "error"
 	let imageFit = $state(false); // Toggles object-fit between cover and contain
+
+	// Reset per image, checking completeness because a cached image fires no load event
+	$effect(() => {
+		if (!currentImage) loadState = images ? "error" : "loading";
+		else if (imgEl?.complete && imgEl.currentSrc) loadState = imgEl.naturalWidth > 0 ? "loaded" : "error";
+		else loadState = "loading";
+	});
+
+	// Preload the next image so navigating feels instant
+	$effect(() => {
+		const next = processedImages[$currentCarouselIndex + 1];
+		if (next) new Image().src = next;
+	});
 
 	// Zoom state
 	let scale = $state(1);
@@ -78,33 +91,14 @@
 	}
 
 	// Navigate Carousel
-	function next() {
-		if (processedImages?.length > 1) {
-			if ($imgElement) $imgElement.src = ""; // clear current image
-			$currentCarouselIndex = ($currentCarouselIndex + 1) % processedImages?.length;
-			new Howl({ src: ["/sounds/short_click.webm"] }).play();
-			resetZoom();
-			if ($currentCarouselIndex + 1 - processedImages?.length) {
-				const preloadedImage = new Image();
-				preloadedImage.src = processedImages?.[$currentCarouselIndex + 1] || "/assets/img/example/cardcar.png";
-			}
-		}
+	function step(direction) {
+		if (processedImages.length <= 1) return;
+		$currentCarouselIndex = ($currentCarouselIndex + direction + processedImages.length) % processedImages.length;
+		new Howl({ src: ["/sounds/short_click.webm"] }).play();
+		resetZoom();
 	}
-	function prev() {
-		if (processedImages?.length > 1) {
-			if ($imgElement) $imgElement.src = "";
-			$currentCarouselIndex = ($currentCarouselIndex - 1 + processedImages?.length) % processedImages?.length;
-			new Howl({ src: ["/sounds/short_click.webm"] }).play();
-			resetZoom();
-		}
-	}
-
-	$effect(() => {
-		if ($currentCarouselIndex == 0) {
-			const preloadedImage = new Image();
-			preloadedImage.src = processedImages?.[$currentCarouselIndex + 1] || "/assets/img/example/cardcar.png";
-		}
-	});
+	const next = () => step(1);
+	const prev = () => step(-1);
 
 	// Swipe Handling for Mobile
 	let touchStartX = 0;
@@ -165,7 +159,7 @@
 			</div>
 			<div class="absolute -bottom-1.5 -right-[5px] p-2 bg-white rounded-tl-lg font-medium text-base text-orange z-10">
 				<p class="text-lg">
-					{$currentCarouselIndex + 1} / {processedImages?.length}
+					{processedImages.length ? $currentCarouselIndex + 1 : 0} / {processedImages.length}
 				</p>
 			</div>
 
@@ -173,12 +167,14 @@
 			<!-- svelte-ignore a11y_no_noninteractive_element_to_interactive_role -->
 			<!-- svelte-ignore a11y_click_events_have_key_events -->
 			<img
-				src={processedImages?.[$currentCarouselIndex]}
-				bind:this={$imgElement}
+				src={currentImage}
+				bind:this={imgEl}
 				onload={() => {
+					loadState = "loaded";
 					resetZoom();
 					updateContainerSize();
 				}}
+				onerror={() => (loadState = "error")}
 				onclick={() => {
 					imageFit = !imageFit;
 				}}
@@ -189,19 +185,22 @@
 				class="absolute h-full w-full z-[5] cursor-crosshair rounded-lg transition ease-in-out {imageFit
 					? 'object-contain'
 					: 'object-cover'}"
+				class:opacity-0={loadState !== "loaded"}
 				style="transform: translate({translateX}px, {translateY}px) scale({scale});"
 			/>
 
-			<p class="text-orange text-xl absolute top-0 bottom-0 left-0 right-0 flex justify-center items-center z-[4]">
-				Loading...
-			</p>
+			{#if loadState !== "loaded"}
+				<p class="text-orange text-xl absolute inset-0 flex justify-center items-center z-[6] pointer-events-none">
+					{loadState === "error" ? "Failed to load." : "Loading..."}
+				</p>
+			{/if}
 		{:else}
 			<!-- Description view -->
 			<div class="h-full w-full overflow-auto p-5">
-				<p class="text-black text-lg text-justify">
-					{@html formatSellerDescription(description.text)}
-				</p>
-				{#if description.vendorURL && description.vendorURL !== "N/A"}
+				<div class="text-black text-lg text-justify">
+					{@html formatSellerDescription(description?.text)}
+				</div>
+				{#if description?.vendorURL && description.vendorURL !== "N/A"}
 					<a
 						href={(() => {
 							try {
@@ -221,7 +220,7 @@
 						Visit the seller's website
 					</a>
 				{/if}
-				{#if description.coordinates}
+				{#if description?.coordinates}
 					<div class="rounded-lg overflow-clip mt-5">
 						<MapDisplay coordinates={description.coordinates} />
 					</div>
