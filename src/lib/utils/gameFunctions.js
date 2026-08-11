@@ -7,7 +7,6 @@ import {
 	gameRounds,
 	totalCarAmount,
 	score,
-	imgElement,
 	drawCardFlag,
 	priceRange,
 } from "$lib/stores/gameStore";
@@ -94,7 +93,7 @@ export async function goToNextQuestion(saveHistory = true) {
 	penaltyFlag.set(false);
 	resultPopup.set(false);
 	currentCarouselIndex.set(0);
-	if (get(imgElement)) get(imgElement).src = "";
+	question.update((value) => ({ ...value, images: undefined })); // Carousel shows Loading while the next car is fetched
 
 	// Game over
 	if (get(lives) <= 1) {
