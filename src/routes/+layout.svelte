@@ -62,14 +62,7 @@
 		try {
 			const module = await import("https://sdk.playlight.dev/playlight-sdk.es.js");
 			playlightSDK = module.default;
-			await playlightSDK.init({
-				button: {
-					visible: false,
-				},
-				exitIntent: {
-					immediate: true,
-				},
-			});
+			await playlightSDK.init();
 		} catch (error) {
 			console.error("Error loading the Playlight SDK:", error);
 		}
