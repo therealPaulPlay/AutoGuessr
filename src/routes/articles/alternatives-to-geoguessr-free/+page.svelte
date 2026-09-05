@@ -40,7 +40,7 @@
 			tagline: "The duels-first option",
 			paragraphs: [
 				"WorldGuessr is best understood as a duels game, which it excels at. One-on-one matches are clearly the main focus, and if quick head-to-head rounds are what you're after, it's a solid pick. Singleplayer follows the traditional 5-round format, there's one daily challenge, and the map library is very large. One fun detail: you can use colorful names, which gives lobbies a bit of personality.",
-				"There are slight catches. The main menu has ads, and a signup popup appears when you arrive. The game is a little light on features — no moderation tools for room hosts and no way to see which players have guessed already. A plus is the unranked duels feature, which allows for practicing just for fun.",
+				"There are slight catches. The main menu has ads, with a unit shown during gameplay as well, and a signup popup appears when you arrive. The game is a little light on features — no moderation tools for room hosts and no way to see which players have guessed already. A plus is the unranked duels feature, which allows for practicing just for fun.",
 			],
 			bestFor: "Players who mostly want fast duels and a big map pool, and who can live with the lighter feature set.",
 		},
