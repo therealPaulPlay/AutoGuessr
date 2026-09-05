@@ -50,7 +50,7 @@
 		});
 
 		$effect(() => {
-			$music ? backgroundMusic.play() : backgroundMusic.pause();
+			$music && !$page.url.pathname.startsWith("/articles") ? backgroundMusic.play() : backgroundMusic.pause();
 			if (!$music) localStorage.setItem("autoguessr_music", "off");
 			if ($music) localStorage.removeItem("autoguessr_music");
 		});
