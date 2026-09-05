@@ -14,6 +14,11 @@ export function formatSellerDescription(text) {
 
 	return text
 		.replace(/\r\n?/g, "\n")
+		.replace(/<(script|style)\b[\s\S]*?<\/\1\s*>/gi, "")
+		.replace(/<br\s*\/?>|<\/(p|div|h[1-6]|li|ul|ol)\s*>/gi, "\n")
+		.replace(/<\/?[a-zA-Z][^>]*>/g, "")
+		.replace(/&nbsp;/gi, " ")
+		.replace(/&amp;/gi, "&")
 		.split(/\n+|[ \t]{2,}/)
 		.map((paragraph) => paragraph.trim().replace(/\s+/g, " "))
 		.filter(Boolean)
