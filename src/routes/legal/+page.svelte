@@ -20,7 +20,7 @@
 			>.
 		</p>
 		<p>
-			Terms of use: For the Terms of use, please refer to <a
+			Terms of use: For the terms of use, please refer to <a
 				href="https://paulplay.studio/terms-of-use"
 				target="_blank"
 				class="underline">this page</a
