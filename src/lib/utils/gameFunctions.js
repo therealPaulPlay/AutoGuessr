@@ -42,7 +42,12 @@ async function setCurrentQuestion(questionIndex) {
 
 		get(question).id = questionIndex;
 		get(question).answer = data.price;
-		get(question).images = data.photos;
+		// Remove size parameter to load image in highest resolution
+		get(question).images = data.photos?.map((photo) => {
+			const url = new URL(photo);
+			url.searchParams.delete("width");
+			return url.toString();
+		});
 		get(question).description = {};
 		get(question).description.text = data.description;
 		get(question).description.coordinates = data.coordinates;
