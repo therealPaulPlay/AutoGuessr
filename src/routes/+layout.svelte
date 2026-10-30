@@ -69,7 +69,7 @@
 	});
 
 	onMount(() => {
-		if (!localStorage.getItem("hasVisited")) {
+		if (!localStorage.getItem("hasVisited") && !$page.url.pathname.startsWith("/articles")) {
 			localStorage.setItem("hasVisited", "true");
 			$howToPlayPopup = true;
 		}
